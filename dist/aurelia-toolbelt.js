@@ -2,211 +2,271 @@
 FuseBox.pkg("aurelia-toolbelt", {}, function(___scope___){
 ___scope___.file("components/bootstrap/alert/abt-alert-link.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <a href=\"${href}\" tabindex=\"${disabled===true ? -1 : tabIndex }\" disabled.bind=\"disabled\" class=\"alert-link\">\n    <slot>\n    </slot>\n  </a>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <a href=\"${href}\" tabindex=\"${disabled===true ? -1 : tabIndex }\" disabled.bind=\"disabled\" class=\"alert-link\">\r\n    <slot>\r\n    </slot>\r\n  </a>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/alert/abt-alert.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"alert\" class=\"alert alert-${color} ${dismissible == true ? 'alert-dismissible' : ''} ${animate ? 'fade show':''\" role=\"alert\">\n    <slot>\n\n    </slot>\n    <button if.bind=\"dismissible == true\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div ref=\"alert\" class=\"alert alert-${color} ${dismissible == true ? 'alert-dismissible' : ''} ${animate ? 'fade show':''\" role=\"alert\">\r\n    <slot>\r\n\r\n    </slot>\r\n    <button if.bind=\"dismissible == true\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/badge/abt-badge.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <span class=\"badge ${isPill ? 'badge-pill' : ''} badge-${color}\">\n    <slot></slot>\n  </span>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <span class=\"badge ${isPill ? 'badge-pill' : ''} badge-${color}\">\r\n    <slot></slot>\r\n  </span>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/breadcrumb/abt-breadcrumb.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <nav aria-label=\"breadcrumb\">\n    <ol class=\"breadcrumb\">\n      <li repeat.for=\"item of items\" class=\"breadcrumb-item ${$last ? 'active':''}\" aria-current=\"${$last? 'page':''}\">\n        <span if.bind=\"$last\">\n          ${item.title}\n        </span>\n        <a if.bind=\"!$last\" href=\"${item.url || '#'}\">\n          ${item.title}\n        </a>\n      </li>\n    </ol>\n  </nav>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <nav aria-label=\"breadcrumb\">\r\n    <ol class=\"breadcrumb\">\r\n      <li repeat.for=\"item of items\" class=\"breadcrumb-item ${$last ? 'active':''}\" aria-current=\"${$last? 'page':''}\">\r\n        <span if.bind=\"$last\">\r\n          ${item.title}\r\n        </span>\r\n        <a if.bind=\"!$last\" href=\"${item.url || '#'}\">\r\n          ${item.title}\r\n        </a>\r\n      </li>\r\n    </ol>\r\n  </nav>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/button/abt-button-group.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"btn-group ${class} btn-group-${size} ${isVertical?'btn-group-vertical':''}\" role=\"group\" aria-label=\"${label}\">\n\n    <slot>\n\n    </slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n  <div class=\"btn-group ${class} btn-group-${size} ${isVertical?'btn-group-vertical':''}\" role=\"group\" aria-label=\"${label}\">\r\n\r\n    <slot>\r\n\r\n    </slot>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/button/abt-button.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"./abt-button.css\"></require>\n\n  <button id=\"${id}\" role=\"button\" type=\"${type}\" disabled.bind=\"disabled || isBusy\" class=\"abt-button btn btn-${isOutlined? 'outline-' : ''}${color} btn-${size} ${isBlockLevel?'btn-block':''} \"\n     css=\"${style}\" click.delegate=\"onClick($event,$this)\">\n    <span show.bind=\"isBusy\">\n      <slot name=\"loading\">\n        <!-- <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\n        </i> -->\n      </slot>\n    </span>\n    <slot>\n    </slot>\n\n  </button>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"./abt-button.css\"></require>\r\n\r\n  <button id=\"${id}\" role=\"button\" type=\"${type}\" disabled.bind=\"disabled || isBusy\" class=\"abt-button btn btn-${isOutlined? 'outline-' : ''}${color} btn-${size} ${isBlockLevel?'btn-block':''} \"\r\n     css=\"${style}\" click.delegate=\"onClick($event,$this)\">\r\n    <span show.bind=\"isBusy\">\r\n      <slot name=\"loading\">\r\n        <!-- <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\r\n        </i> -->\r\n      </slot>\r\n    </span>\r\n    <slot>\r\n    </slot>\r\n\r\n  </button>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/button/abt-link-button.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <a id=\"${id}\" href=\"${href}\" role=\"button\" tabindex=\"${disabled===true ? -1 : tabIndex }\" disabled.bind=\"disabled\" class=\"btn btn-${isOutlined? 'outline-' : ''}${color} btn-${size} ${isBlockLevel?'btn-block':''} \">\n    <slot>\n    </slot>\n  </a>\n\n</template>\n"
+module.exports.default =  "<template>\r\n  <a id=\"${id}\" href=\"${href}\" role=\"button\" tabindex=\"${disabled===true ? -1 : tabIndex }\" disabled.bind=\"disabled\" class=\"btn btn-${isOutlined? 'outline-' : ''}${color} btn-${size} ${isBlockLevel?'btn-block':''} \">\r\n    <slot>\r\n    </slot>\r\n  </a>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/button/abt-toolbar.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <div class=\"btn-toolbar ${class}\" role=\"toolbar\" aria-label=\"${label} \">\n    <slot>\n\n    </slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <div class=\"btn-toolbar ${class}\" role=\"toolbar\" aria-label=\"${label} \">\r\n    <slot>\r\n\r\n    </slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-body.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-body ${class}\" css=\"${style}\">\n\n  <slot>\n  </slot>\n  \n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\" class=\"card-body ${class}\" css=\"${style}\">\r\n\r\n  <slot>\r\n  </slot>\r\n  \r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-columns.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class, style\" class=\"card-columns ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template bindable=\"class, style\" class=\"card-columns ${class}\" css=\"${style}\">\r\n  <slot></slot>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-deck.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class, style\" class=\"card-deck ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template bindable=\"class, style\" class=\"card-deck ${class}\" css=\"${style}\">\r\n  <slot></slot>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-footer.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-footer  ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n\n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\" class=\"card-footer  ${class}\" css=\"${style}\">\r\n\r\n  <slot>\r\n\r\n  </slot>\r\n\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-group.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class, style\" class=\"card-group ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template bindable=\"class, style\" class=\"card-group ${class}\" css=\"${style}\">\r\n  <slot></slot>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-header.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-header  ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\" class=\"card-header  ${class}\" css=\"${style}\">\r\n\r\n  <slot>\r\n\r\n  </slot>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-image-overlay.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"card-img-overlay ${class}\" css=\"${style}\" bindable=\"class,style\">\n    <slot></slot>\n</template>"
+module.exports.default =  "<template class=\"card-img-overlay ${class}\" css=\"${style}\" bindable=\"class,style\">\r\n    <slot></slot>\r\n</template>"
 });
 ___scope___.file("components/bootstrap/card/abt-card-image.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n    <img class=\"{cssClass} ${class}\" css=\"${style}\" src.bind=\"src\" alt=\"${alt}\">\n    \n</template>"
+module.exports.default =  "<template>\r\n\r\n    <img class=\"{cssClass} ${class}\" css=\"${style}\" src.bind=\"src\" alt=\"${alt}\">\r\n    \r\n</template>"
 });
 ___scope___.file("components/bootstrap/card/abt-card-subtitle.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-subtitle ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\" class=\"card-subtitle ${class}\" css=\"${style}\">\r\n\r\n  <slot>\r\n\r\n  </slot>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-text.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\">\n    <p class=\"card-text ${class}\" css=\"${style}\">\n        <slot>\n        </slot>\n    </p>\n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\">\r\n    <p class=\"card-text ${class}\" css=\"${style}\">\r\n        <slot>\r\n        </slot>\r\n    </p>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-title.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-title ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\" class=\"card-title ${class}\" css=\"${style}\">\r\n\r\n  <slot>\r\n\r\n  </slot>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "\n<template bindable=\"class,style\" class=\"card ${class}\" css=\"${style}\">\n\n  <slot>\n  </slot>\n  \n</template>\n"
+module.exports.default =  "\r\n<template bindable=\"class,style\" class=\"card ${class}\" css=\"${style}\">\r\n\r\n  <slot>\r\n  </slot>\r\n  \r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel-html-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  <div ref=\"carouselItem\" class=\"carousel-item\">\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n  <div ref=\"carouselItem\" class=\"carousel-item\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel-image-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  <div ref=\"carouselItem\" class=\"carousel-item\">\n    <img class=\"${class}\" src=\"${src}\" alt=\"${alt}\" />\n    <div class=\"carousel-caption d-none d-md-block\">\n      <slot></slot>\n    </div>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n  <div ref=\"carouselItem\" class=\"carousel-item\">\r\n    <img class=\"${class}\" src=\"${src}\" alt=\"${alt}\" />\r\n    <div class=\"carousel-caption d-none d-md-block\">\r\n      <slot></slot>\r\n    </div>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref='carousel' aut-uuid class=\"carousel slide\" data-ride=\"carousel\">\n    <ol show.bind=\"showIndicator\" class=\"carousel-indicators\">\n    </ol>\n    <div class=\"carousel-inner\">\n      <slot></slot>\n    </div>\n    <a show.bind=\"prevControl\" class=\"carousel-control-prev\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"prev\">\n      <span class=\"${prevControlClass}\" aria-hidden=\"true\" />\n      <span class=\"sr-only\">${prevControlTitle}</span>\n    </a>\n    <a show.bind=\"nextControl\" class=\"carousel-control-next\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"next\">\n      <span class=\"${nextControlClass}\" aria-hidden=\"true\" />\n      <span class=\"sr-only\">${nextControlTitle}</span>\n    </a>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div ref='carousel' aut-uuid class=\"carousel slide\" data-ride=\"carousel\">\r\n    <ol show.bind=\"showIndicator\" class=\"carousel-indicators\">\r\n    </ol>\r\n    <div class=\"carousel-inner\">\r\n      <slot></slot>\r\n    </div>\r\n    <a show.bind=\"prevControl\" class=\"carousel-control-prev\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"prev\">\r\n      <span class=\"${prevControlClass}\" aria-hidden=\"true\" />\r\n      <span class=\"sr-only\">${prevControlTitle}</span>\r\n    </a>\r\n    <a show.bind=\"nextControl\" class=\"carousel-control-next\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"next\">\r\n      <span class=\"${nextControlClass}\" aria-hidden=\"true\" />\r\n      <span class=\"sr-only\">${nextControlTitle}</span>\r\n    </a>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/collapse/abt-accordion-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  \n    <abt-card>\n      <abt-card-header class=\"abt-accordion-item\" ref=\"myLink\" style=\"cursor: pointer\">\n        <a href=\"#\" click.delegate=\"onAnchorClick($event)\">\n          ${title}\n        </a>\n      </abt-card-header>\n\n      <abt-collapse class=\"${active ? 'show' : ''}\" controlled-by.bind=\"myLink\">\n        <slot></slot>\n      </abt-collapse>\n    </abt-card>\n  \n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n  \r\n    <abt-card>\r\n      <abt-card-header class=\"abt-accordion-item\" ref=\"myLink\" style=\"cursor: pointer\">\r\n        <a href=\"#\" click.delegate=\"onAnchorClick($event)\">\r\n          ${title}\r\n        </a>\r\n      </abt-card-header>\r\n\r\n      <abt-collapse class=\"${active ? 'show' : ''}\" controlled-by.bind=\"myLink\">\r\n        <slot></slot>\r\n      </abt-collapse>\r\n    </abt-card>\r\n  \r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/collapse/abt-accordion.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  <div class=\"abt-accordion ${class}\" role=\"tablist\" css=\"${style}\" aut-uuid ref=\"accordion\">\n    <slot></slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n  <div class=\"abt-accordion ${class}\" role=\"tablist\" css=\"${style}\" aut-uuid ref=\"accordion\">\r\n    <slot></slot>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/collapse/abt-collapse.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <div ref=\"collapse\" aut-uuid class=\"collapse ${class}\" css=\"${style}\">\n   <slot></slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n\r\n  <div ref=\"collapse\" aut-uuid class=\"collapse ${class}\" css=\"${style}\">\r\n   <slot></slot>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown-divider.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"dropdown-divider\"></div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div class=\"dropdown-divider\"></div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown-header.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <h6 class=\"dropdown-header\">\n    <slot></slot>\n  </h6>\n</template>\n"
+module.exports.default =  "<template>\r\n  <h6 class=\"dropdown-header\">\r\n    <slot></slot>\r\n  </h6>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"item\" class=\"dropdown-item ${disabled===true? 'disabled': ''}\" click.delegate=\"onClick()\">\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div ref=\"item\" class=\"dropdown-item ${disabled===true? 'disabled': ''}\" click.delegate=\"onClick()\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <div aut-uuid class=\"btn-group ${class} ${placementClass}\" css=\"${style}\">\n    <button if.bind=\"isSplit\" type=\"button\" class=\"btn btn-${color} btn-${size}\" click.delegate=\"onClicked($event)\" disabled.bind=\"disabled || isBusy\">\n      <span show.bind=\"isBusy\">\n        <slot name=\"loading\">\n          <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\n          </i>\n        </slot>\n      </span>\n      <span>${title}</span>\n    </button>\n    <button type=\"button\" class=\"btn btn-${color} btn-${size} ${placementClass} dropdown-toggle dropdown-toggle-split\"  data-offset=\"${offset}\" data-flip=\"${flip}\" data-boundary=\"${boundary}\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n      aria-expanded=\"false\" disabled.bind=\"disabled || isBusy\">\n      <span class=\"${isSplit?'sr-only':''}\">${title}</span>\n    </button>\n    <div class=\"dropdown-menu ${isRightAligned ? 'dropdown-menu-right' : ''}\">\n      <slot>\n\n      </slot>\n    </div>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n\r\n  <div aut-uuid class=\"btn-group ${class} ${placementClass}\" css=\"${style}\">\r\n    <button if.bind=\"isSplit\" type=\"button\" class=\"btn btn-${color} btn-${size}\" click.delegate=\"onClicked($event)\" disabled.bind=\"disabled || isBusy\">\r\n      <span show.bind=\"isBusy\">\r\n        <slot name=\"loading\">\r\n          <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\r\n          </i>\r\n        </slot>\r\n      </span>\r\n      <span>${title}</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-${color} btn-${size} ${placementClass} dropdown-toggle dropdown-toggle-split\"  data-offset=\"${offset}\" data-flip=\"${flip}\" data-boundary=\"${boundary}\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\r\n      aria-expanded=\"false\" disabled.bind=\"disabled || isBusy\">\r\n      <span class=\"${isSplit?'sr-only':''}\">${title}</span>\r\n    </button>\r\n    <div class=\"dropdown-menu ${isRightAligned ? 'dropdown-menu-right' : ''}\">\r\n      <slot>\r\n\r\n      </slot>\r\n    </div>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/float-input/abt-float-input.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"./abt-float-input.css\"></require>\n\n  <label ref=\"floatInputLabel\">\n    <input ref=\"floatInput\" class=\"${class}\" css=\"${style}\" type=\"${type}\" placeholder=\"${placeholder}\" />\n    <span>\n      <slot></slot>\n    </span>\n  </label>\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"./abt-float-input.css\"></require>\r\n\r\n  <label ref=\"floatInputLabel\">\r\n    <input ref=\"floatInput\" class=\"${class}\" css=\"${style}\" type=\"${type}\" placeholder=\"${placeholder}\" />\r\n    <span>\r\n      <slot></slot>\r\n    </span>\r\n  </label>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-append.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n    <div class=\"input-group-append ${class}\" css=\"${style}\">\r\n      <slot></slot>\r\n    </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-prepend.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div class=\"input-group-prepend ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-text.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div class=\"input-group-text ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </div>\r\n\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div ref=\"inputGroup\" class=\"input-group ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/jumbotron/abt-jumbotron.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"jumbotron ${isFluid? 'jumbotron-fluid':''}\">\n    <slot>\n    </slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div class=\"jumbotron ${isFluid? 'jumbotron-fluid':''}\">\r\n    <slot>\r\n    </slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"listGroupItemTmpl\">\n    <a href=\"${href}\" ref=\"listGroupItem\" click.delegate=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''} ${style}\" class=\"list-group-item list-group-item-action list-group-item-${color} ${class}\">\n        <slot></slot>\n    </a>\n</template>\n"
+module.exports.default =  "<template ref=\"listGroupItemTmpl\">\r\n  <a href=\"${href}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''} ${style}\"\r\n    class=\"list-group-item list-group-item-action ${class}\">\r\n    <slot></slot>\r\n  </a>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n    <div css=\"${style}\" class=\"list-group ${class}\">\n        <slot></slot>\n    </div>\n</template>"
+module.exports.default =  "<template>\r\n    <div id=\"${id}\" css=\"${style}\" class=\"list-group ${class}\">\r\n        <slot></slot>\r\n    </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/modal/abt-modal-body.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div class=\"modal-body\">\r\n    <slot>\r\n\r\n    </slot>\r\n  </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/modal/abt-modal-footer.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div class=\"modal-footer\">\r\n    <slot>\r\n    </slot>\r\n  </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/modal/abt-modal-header.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div class=\"modal-header\" ref=\"header\">\r\n    <slot>\r\n    </slot>\r\n    <button show.bind=\"dismissible\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/modal/abt-modal-title.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n\r\n  <span class=\"modal-title\">\r\n    <slot>\r\n\r\n    </slot>\r\n  </span>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/modal/abt-modal.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n\r\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\r\n  <div ref=\"modal\" class=\"modal ${animate ? 'fade' : ''} ${class}\" data-abt-dismissible=\"${dismissible}\" aut-uuid css=\"${style}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"fill-later\"\r\n    aria-hidden=\"true\">\r\n    <div class=\"modal-dialog ${centered ? ' modal-dialog-centered' : ''} modal-${size}\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n          <slot>\r\n          </slot>\r\n        </div>\r\n      </div>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-brand.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <a class=\"navbar-brand ${class}\" css=\"${style}\" href=\"${href}\">\n    <slot></slot>\n  </a>\n  \n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <a class=\"navbar-brand ${class}\" css=\"${style}\" click.delegate=\"onClick($event)\" href=\"${href}\">\r\n    <slot></slot>\r\n  </a>\r\n  \r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-collapser.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n    <div ref=\"navbarCollapse\" class=\"abt-navbar-collapser collapse navbar-collapse ${class}\" css='${style}'' aut-uuid>\r\n        <slot></slot>\r\n    </div>\r\n</template>"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-dropdown-divider.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"dropdown-divider\"></div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n  <div class=\"dropdown-divider\"></div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-dropdown-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <a class=\"dropdown-item\" class=\"${class}\" css=\"${style}\" click.delegate=\"onClick($event)\" href=\"${href}\">\n    <slot></slot>\n  </a>\n</template>\n"
+module.exports.default =  "<template>\r\n  <a class=\"dropdown-item\" class=\"${class}\" css=\"${style}\" click.delegate=\"onClick($event)\" href=\"${href}\">\r\n    <slot></slot>\r\n  </a>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-dropdown-mega-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"navbar-megamenu-content\">\n    <div class=\"row\">\n      <slot></slot>\n    </div>\n  </div>\n</template>"
+module.exports.default =  "<template ref=\"navbarMegamenu\">\r\n  <div class=\"navbar-megamenu-content ${class}\" css='${style}'>\r\n    <div class=\"row\">\r\n      <slot></slot>\r\n    </div>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-dropdown.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"navDropDown\">\n  <li ref=\"navListDropDown\" class=\"nav-item dropdown\">\n    <a ref=\"navLinkDropDown\" class=\"nav-link dropdown-toggle\" href=\"${href}\" aut-uuid role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n      aria-expanded=\"false\">\n      ${title}\n    </a>\n    <div class=\"dropdown-menu\" aria-labelledby=\"${navLinkDropDown.id}\">\n      <slot></slot>\n    </div>\n  </li>\n</template>\n"
+module.exports.default =  "<template ref=\"navDropDown\">\r\n  <li ref=\"navListDropDown\" class=\"abt-navbar-dropdown nav-item dropdown\">\r\n    <a  ref=\"navLinkDropDown\" class=\"abt-navbar-dropdown-link nav-link dropdown-toggle ${linkClass}\" css=\"${linkStyle}\" click.delegate=\"onClick($event)\" href=\"${href}\" aut-uuid role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\r\n      aria-expanded=\"false\">\r\n      ${title}\r\n    </a>\r\n    <div class=\"dropdown-menu ${dropdownClass}\" css=\"${dropdownStyle}\" aria-labelledby=\"${navLinkDropDown.id}\">\r\n      <slot></slot>\r\n    </div>\r\n  </li>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-link.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"navItem\">\n  <li ref=\"navItemList\" class=\"nav-item ${class}\" css=\"${style}\">\n    <a ref=\"navItemLink\" class=\"nav-link\" click.delegate=\"onClick($event)\" href=\"${href}\">\n      <slot></slot>\n    </a>\n  </li>\n</template>\n"
+module.exports.default =  "<template ref=\"navItem\">\r\n  <li class=\"nav-item ${class}\" css=\"${style}\">\r\n    <a ref=\"navItemLink\" class=\"nav-link ${linkClass}\" css=\"${linkStyle}\" click.delegate=\"onClick($event)\" href=\"${href}\">\r\n      <slot></slot>\r\n    </a>\r\n  </li>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-nav.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <ul class=\"navbar-nav ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </ul>\r\n</template>"
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-text.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <span ref=\"navbarText\" class=\"navbar-text ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </span>\r\n</template>"
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-toggler.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <button class=\"abt-navbar-toggler navbar-toggler\" type=\"button\" data-toggle=\"collapse\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"${togglerIconClass}\">\r\n      <slot></slot>\r\n    </span>\r\n  </button>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"./navbar-megamenu.css\"></require>\n  <nav ref='navbar' class=\"navbar navbar-megamenu ${class}\" css=\"${style}\">\n    <button show.bind=\"toggler\" class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#${navbarCollapse.id}\"\n      aria-controls=\"${navbarCollapse.id}\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"${togglerIconClass}\"></span>\n    </button>\n    <div ref=\"navbarCollapse\" class=\"collapse navbar-collapse\">\n      <ul class=\"navbar-nav mr-auto\">\n        <slot></slot>\n      </ul>\n    </div>\n  </nav>\n</template>\n"
+module.exports.default =  "<template>\r\n  <require from=\"./navbar-megamenu.css\"></require>\r\n  <nav ref='navbar' class=\"navbar navbar-megamenu ${class} ${placement}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </nav>\r\n</template>"
 });
 ___scope___.file("components/bootstrap/navs/abt-nav-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <a ref=\"tab_header\" class=\"nav-link nav-item ${class} ${isActive || selected ? 'active' : '' } ${isDisabled? 'disabled':''}\"\n    href=\"${href}\" css=\"${style}\">\n    ${title}\n  </a>\n\n\n  <div ref=\"tab_body\" class=\"tab-pane ${selected ? 'active' : ''}\" role=\"tab-panel\">\n    <slot></slot>\n  </div>\n\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <a ref=\"tab_header\" class=\"nav-link nav-item ${class} ${isActive || selected ? 'active' : '' } ${isDisabled? 'disabled':''}\"\r\n    href=\"${href}\" css=\"${style}\">\r\n    ${title}\r\n  </a>\r\n\r\n\r\n  <div ref=\"tab_body\" class=\"tab-pane ${selected ? 'active' : ''}\" role=\"tab-panel\">\r\n    <slot></slot>\r\n  </div>\r\n\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/navs/abt-navs.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <nav class=\"nav ${bePills ? 'nav-pills' : ''} ${class} ${beVertical ? 'flex-column' : ''} ${beTab ? 'nav-tabs' : ''} ${filled ? 'nav-fill' : ''} ${justified ? 'nav-justified' : ''}\"\n    css=\"${style}\">\n    <slot></slot>\n  </nav>\n\n  <div class=\"tab-content\">\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <nav class=\"nav ${bePills ? 'nav-pills' : ''} ${class} ${beVertical ? 'flex-column' : ''} ${beTab ? 'nav-tabs' : ''} ${filled ? 'nav-fill' : ''} ${justified ? 'nav-justified' : ''}\"\r\n    css=\"${style}\">\r\n    <slot></slot>\r\n  </nav>\r\n\r\n  <div class=\"tab-content\">\r\n  </div>\r\n\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/pagination/abt-pagination.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>  <input type=\"number\" name=\"quantity\" min=\"1\" max=\"5\">\r\n\r\n    <nav aria-label=\"Page navigation example\">\r\n        <ul class=\"pagination\">\r\n            <li class=\"page-item\">\r\n                <a class=\"page-link\" href=\"#\" aria-label=\"Previous\">\r\n                    <span aria-hidden=\"true\">&laquo;</span>\r\n                    <span class=\"sr-only\">Previous</span>\r\n                </a>\r\n            </li>\r\n            <li class=\"page-item\">\r\n                <a class=\"page-link\" href=\"#\">1</a>\r\n            </li>\r\n            <li class=\"page-item\">\r\n                <a class=\"page-link\" href=\"#\">2</a>\r\n            </li>\r\n            <li class=\"page-item\">\r\n                <a class=\"page-link\" href=\"#\">3</a>\r\n            </li>\r\n            <li class=\"page-item\">\r\n                <a class=\"page-link\" href=\"#\" aria-label=\"Next\">\r\n                    <span aria-hidden=\"true\">&raquo;</span>\r\n                    <span class=\"sr-only\">Next</span>\r\n                </a>\r\n            </li>\r\n        </ul>\r\n    </nav>\r\n</template>"
 });
 ___scope___.file("components/bootstrap/password/abt-password.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"${groupClass}\">\n    <span if.bind=\"txtPassword.value.length>0\" ref=\"passwordSpan\" css=\"${passwordStyle}\" class=\"${passwordClass}\" id=\"basic-addon1\">${passwordTitle}</span>\n    <input ref='txtPassword' css=\"${textStyle}\" style=\"border-color: none !important;box-shadow: none !important;-webkit-box-shadow: none !important;outline: none !important;\"\n      type=\"password\" value.bind=\"text\" class=\"form-control\" id='password' aria-describedby=\"basic-addon1\">\n    <span if.bind=\"showPassword\" class=\"input-group-btn\">\n      <button class=\"btn btn-secondary\" click.delegate=\"passwordVisibility()\" style=\"border-color: none !important;box-shadow: none !important;-webkit-box-shadow: none !important;outline: none !important;cursor: pointer;\"\n        type=\"button\">\n        <i ref='icon' class=\"fa fa-eye-slash\"></i>\n      </button>\n    </span>\n  </div>\n</template>"
+module.exports.default =  "<template>\r\n  <div class=\"${groupClass}\">\r\n    <span if.bind=\"txtPassword.value.length>0\" ref=\"passwordSpan\" css=\"${passwordStyle}\" class=\"${passwordClass}\" id=\"basic-addon1\">${passwordTitle}</span>\r\n    <input ref='txtPassword' css=\"${textStyle}\" style=\"border-color: none !important;box-shadow: none !important;-webkit-box-shadow: none !important;outline: none !important;\"\r\n      type=\"password\" value.bind=\"text\" class=\"form-control\" id='password' aria-describedby=\"basic-addon1\">\r\n    <span if.bind=\"showPassword\" class=\"input-group-btn\">\r\n      <button class=\"btn btn-secondary\" click.delegate=\"passwordVisibility()\" style=\"border-color: none !important;box-shadow: none !important;-webkit-box-shadow: none !important;outline: none !important;cursor: pointer;\"\r\n        type=\"button\">\r\n        <i ref='icon' class=\"fa fa-eye-slash\"></i>\r\n      </button>\r\n    </span>\r\n  </div>\r\n</template>"
 });
 ___scope___.file("components/bootstrap/popover/abt-popover.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"popover\">\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div ref=\"popover\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress-bar.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style,value,min,max\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\" aria-valuemax=\"${max}\"\n  class=\"progress-bar ${isAnimated?'progress-bar-animated':''} ${isStriped?'progress-bar-striped':''} bg-${color} ${class}\"\n  role=\"progressbar\" css=\"width:${value}%;${style}\">\n  <slot>\n    <slot>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div  ref=\"progressbar\" class=\"progress-bar ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} bg-${colorClass}\"\r\n    aut-uuid role=\"progressbar\" css=\"width: ${value}%;\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\" aria-valuemax=\"${max}\">\r\n    <slot>\r\n      <slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"progress ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div class=\"progress ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
+});
+___scope___.file("components/bootstrap/scrollspy/abt-scrollspy-item.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\r\n  <div class=\"${class}\" css=\"${style}\" id=\"${id}\">\r\n    <slot>\r\n      \r\n    </slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/scrollspy/abt-scrollspy.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"spy\" data-spy=\"scroll\" class=\"${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div ref=\"spy\" data-spy=\"scroll\" data-target=\"#${target}\" data-offset=\"${offset}\" class=\"${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template click.trigger=\"changed()\" class=\"aut-toggle\">\n  <require from=\"./abt-toggle.css\"></require>\n  <label class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onStyle}\" data-offstyle=\"${offStyle}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
+module.exports.default =  "<template class=\"aut-toggle\">\r\n  <require from=\"./abt-toggle.css\"></require>\r\n  <label click.delegate=\"onChanged()\"  class=\"checkbox-inline\">\r\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onStyle}\" data-offstyle=\"${offStyle}\"\r\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\r\n    <slot></slot>\r\n  </label>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n    <option value=\"${value}\" class=\"${class}\" css=\"${style}\">\n        <slot></slot>\n      </option>\n</template>\n"
+module.exports.default =  "<template>\r\n    <option value=\"${value}\" class=\"${class}\" css=\"${style}\">\r\n        <slot></slot>\r\n      </option>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css\"></require>\n  <select ref='tokenize' class=\"${class}\" css=\"${style}\" multiple>\n  </select>\n  <slot></slot>\n</template>"
+module.exports.default =  "<template>\r\n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css\"></require>\r\n  <select ref='tokenize' class=\"${class}\" css=\"${style}\" multiple>\r\n  </select>\r\n  <slot></slot>\r\n</template>"
 });
 ___scope___.file("components/bootstrap/tooltip/abt-tooltip.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"tooltip\">\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <div ref=\"tooltip\">\r\n    <slot></slot>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/bootstrap/touchspin/abt-touchspin.html", function(exports, require, module, __filename, __dirname){
 
@@ -214,23 +274,23 @@ module.exports.default =  "<template></template>"
 });
 ___scope___.file("components/jquery/block-ui/aut-block-ui.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n    <require from=\"./aut-block-ui.css\"></require>\n\n    <div ref=\"content\">\n        <slot></slot>\n    </div>\n</template>"
+module.exports.default =  "<template>\r\n\r\n    <require from=\"./aut-block-ui.css\"></require>\r\n\r\n    <div ref=\"content\">\r\n        <slot></slot>\r\n    </div>\r\n</template>"
 });
 ___scope___.file("components/jquery/lazy-image/aut-lazy-image.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <img if.bind=\"backgroundMode === true\" class=\"lazy ${lazy}\" css=\"${style}\" data-src=\"${url}\" />\n  <div else class=\"lazy ${lazy}\" css=\"${style}\" data-src=\"${url}\"></div>\n</template>\n"
+module.exports.default =  "<template>\r\n  <img if.bind=\"backgroundMode === true\" class=\"lazy ${lazy}\" css=\"${style}\" data-src=\"${url}\" />\r\n  <div else class=\"lazy ${lazy}\" css=\"${style}\" data-src=\"${url}\"></div>\r\n</template>\r\n"
 });
 ___scope___.file("components/jquery/metis-menu/aut-metis-menu-group.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <li class=\"${active ? 'active' : '' } ${groupClass}\">\n    <a href=\"#\" aria-expanded=\"${active}\">\n      <span class=\"${iconClass}\"></span>\n      <span>${text}</span>\n      <span class=\"${showArrow ? arrowClass : ''}\"></span>\n    </a>\n    <ul class=\"${active ? 'in' : ''}\" aria-expanded=\"${active}\">\n      <slot></slot>\n    </ul>\n  </li>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <li class=\"${active ? 'active' : '' } ${groupClass}\">\r\n    <a href=\"#\" aria-expanded=\"${active}\">\r\n      <span class=\"${iconClass}\"></span>\r\n      <span>${text}</span>\r\n      <span class=\"${showArrow ? arrowClass : ''}\"></span>\r\n    </a>\r\n    <ul class=\"${active ? 'in' : ''}\" aria-expanded=\"${active}\">\r\n      <slot></slot>\r\n    </ul>\r\n  </li>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/jquery/metis-menu/aut-metis-menu-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <li>\n    <a class=\"aut-metis-menu-item-link\" aria-expanded=\"false\" href=\"${href ? href : '#'}\">\n      <slot></slot>\n    </a>\n  </li>\n</template>\n"
+module.exports.default =  "<template>\r\n  <li>\r\n    <a class=\"aut-metis-menu-item-link\" aria-expanded=\"false\" href=\"${href ? href : '#'}\">\r\n      <slot></slot>\r\n    </a>\r\n  </li>\r\n</template>\r\n"
 });
 ___scope___.file("components/jquery/metis-menu/aut-metis-menu.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"metismenu/dist/metismenu.css\"></require>\n\n  <ul ref=\"metismenu\" class=\"metismenu ${class}\" css=\"${style}\">\n    <slot></slot>\n  </ul>\n  \n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"metismenu/dist/metismenu.css\"></require>\r\n\r\n  <ul ref=\"metismenu\" class=\"metismenu ${class}\" css=\"${style}\">\r\n    <slot></slot>\r\n  </ul>\r\n  \r\n</template>\r\n"
 });
 ___scope___.file("components/jquery/news-ticker/aut-news-ticker.html", function(exports, require, module, __filename, __dirname){
 
@@ -238,31 +298,31 @@ module.exports.default =  "<template></template>"
 });
 ___scope___.file("components/purejs/clock/aut-clock.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"./aut-clock.css\"></require>\n  <require from=\"../../../value-converters/purejs/datetime/moment-vc\"></require>\n  <!-- text-shadow: 0 0 20px ${shadowColor}, 0 0 20px rgba(10, 175, 230, 0); -->\n\n  <div class=\"clock\" css=\"color: ${color};\">\n    <slot if.bind=\"showDate\" name=\"date\">\n      <p if.bind=\"showDate\" class=\"date\" css=\"font-size: ${fontSize/2}px;\">${value|date:dateFormat:locale}</p>\n    </slot>\n    <slot if.bind=\"showTime\" name=\"time\">\n      <p if.bind=\"showTime\" class=\"time\" css=\"font-size: ${fontSize}px;\">${value|time:be24Hours}</p>\n    </slot>\n    <slot if.bind=\"showText\" name=\"text\">\n      <p if.bind=\"showText\" class=\"text\" css=\"font-size: ${fontSize/3}px;\">${text}</p>\n    </slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"./aut-clock.css\"></require>\r\n  <require from=\"../../../value-converters/purejs/datetime/moment-vc\"></require>\r\n  <!-- text-shadow: 0 0 20px ${shadowColor}, 0 0 20px rgba(10, 175, 230, 0); -->\r\n\r\n  <div class=\"clock\" css=\"color: ${color};\">\r\n    <slot if.bind=\"showDate\" name=\"date\">\r\n      <p if.bind=\"showDate\" class=\"date\" css=\"font-size: ${fontSize/2}px;\">${value|date:dateFormat:locale}</p>\r\n    </slot>\r\n    <slot if.bind=\"showTime\" name=\"time\">\r\n      <p if.bind=\"showTime\" class=\"time\" css=\"font-size: ${fontSize}px;\">${value|time:be24Hours}</p>\r\n    </slot>\r\n    <slot if.bind=\"showText\" name=\"text\">\r\n      <p if.bind=\"showText\" class=\"text\" css=\"font-size: ${fontSize/3}px;\">${text}</p>\r\n    </slot>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/purejs/mark-down/aut-mark-down.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../bootstrap/toggle/abt-toggle\"></require>\n  <require from=\"../../../value-converters/purejs/mark-down/markdown-vc\"></require>\n  <require from=\"../../bootstrap/button/abt-button\"></require>\n\n  <!-- <require from=\"../../bootstrap/card/abt-card.html\"></require>\n  <require from=\"../../bootstrap/card/abt-card-body.html\"></require> -->\n\n  <abt-card>\n    <abt-card-header if.bind=\"showToolBar\">\n\n      <abt-button size=\"sm\" color=\"secondary\" click.call=\"srcChanged()\">\n        <span slot=\"loading\">\n          <i class=\"fa fa-refresh fa-spin\"></i>\n        </span>\n\n        Reload\n\n      </abt-button>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button click.delegate=\"addText('# ')\" type=\"button\" class=\"btn btn-outline-primary\">h1</button>\n        <button click.delegate=\"addText('## ')\" type=\"button\" class=\"btn btn-outline-primary\">h2</button>\n        <button click.delegate=\"addText('### ')\" type=\"button\" class=\"btn btn-outline-primary\">h3</button>\n        <button click.delegate=\"addText('#### ')\" type=\"button\" class=\"btn btn-outline-primary\">h4</button>\n        <button click.delegate=\"addText('##### ')\" type=\"button\" class=\"btn btn-outline-primary\">h5</button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('****', 2)\">\n          <b>Bold</b>\n        </button>\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('__', 1)\">\n          <em>Italic</em>\n        </button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-button outline click.call=\"addText('[]()', 1)\">\n          <b>Link</b>\n        </abt-button>\n        <abt-button outline click.call=\"addText('![]()', 4)\">\n          <em>Image</em>\n        </abt-button>\n      </div>\n\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-toggle size=\"mini\" checked.bind=\"showPreview\">\n          Preview\n        </abt-toggle>\n        <abt-toggle size=\"mini\" checked.bind=\"showEditor\">\n          Editor\n        </abt-toggle>\n      </div>\n    </abt-card-header>\n    <abt-card-body if.bind=\"showEditor === true\" style=\"border-left: 3px solid maroon !important;\">\n\n      <textarea ref=\"editor\" class=\"editor\" style=\"\n                  width: 98%;\n                  border: 0px;\n                  min-height: 400px;\" value.bind=\"myText\">\n      </textarea>\n\n    </abt-card-body>\n    <abt-card-footer if.bind=\"showPreview === true\" style=\"min-height: 400px;\">\n      <div ref=\"preview\" innerhtml.bind=\"myText | md & debounce:1000\">\n      </div>\n    </abt-card-footer>\n  </abt-card>\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from=\"../../bootstrap/toggle/abt-toggle\"></require>\r\n  <require from=\"../../../value-converters/purejs/mark-down/markdown-vc\"></require>\r\n  <require from=\"../../bootstrap/button/abt-button\"></require>\r\n\r\n  <!-- <require from=\"../../bootstrap/card/abt-card.html\"></require>\r\n  <require from=\"../../bootstrap/card/abt-card-body.html\"></require> -->\r\n\r\n  <abt-card class=\"mt-3 mb-4\">\r\n    <abt-card-header if.bind=\"showToolBar\">\r\n\r\n      <abt-button size=\"sm\" color=\"secondary\" click.call=\"srcChanged()\">\r\n        <span slot=\"loading\">\r\n          <i class=\"fa fa-refresh fa-spin\"></i>\r\n        </span>\r\n\r\n        Reload\r\n\r\n      </abt-button>\r\n\r\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n        <button click.delegate=\"addText('# ')\" type=\"button\" class=\"btn btn-outline-primary\">h1</button>\r\n        <button click.delegate=\"addText('## ')\" type=\"button\" class=\"btn btn-outline-primary\">h2</button>\r\n        <button click.delegate=\"addText('### ')\" type=\"button\" class=\"btn btn-outline-primary\">h3</button>\r\n        <button click.delegate=\"addText('#### ')\" type=\"button\" class=\"btn btn-outline-primary\">h4</button>\r\n        <button click.delegate=\"addText('##### ')\" type=\"button\" class=\"btn btn-outline-primary\">h5</button>\r\n      </div>\r\n\r\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('****', 2)\">\r\n          <b>Bold</b>\r\n        </button>\r\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('__', 1)\">\r\n          <em>Italic</em>\r\n        </button>\r\n      </div>\r\n\r\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n        <abt-button outline click.call=\"addText('[]()', 1)\">\r\n          <b>Link</b>\r\n        </abt-button>\r\n        <abt-button outline click.call=\"addText('![]()', 4)\">\r\n          <em>Image</em>\r\n        </abt-button>\r\n      </div>\r\n\r\n\r\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\r\n        <abt-toggle size=\"mini\" checked.bind=\"showPreview\">\r\n          Preview\r\n        </abt-toggle>\r\n        <abt-toggle size=\"mini\" checked.bind=\"showEditor\">\r\n          Editor\r\n        </abt-toggle>\r\n      </div>\r\n    </abt-card-header>\r\n    <abt-card-body if.bind=\"showEditor === true\" style=\"border-left: 3px solid maroon !important;\">\r\n\r\n      <textarea ref=\"editor\" class=\"editor\" style=\"\r\n                  width: 98%;\r\n                  border: 0px;\r\n                  min-height: 400px;\" value.bind=\"myText\">\r\n      </textarea>\r\n\r\n    </abt-card-body>\r\n    <abt-card-footer if.bind=\"showPreview === true\" style=\"min-height: 100px; border-left:4px solid #753B85;\">\r\n      <div ref=\"preview\" innerhtml.bind=\"myText | md & debounce:200\">\r\n      </div>\r\n    </abt-card-footer>\r\n\r\n    <div show.bind=\"false\" ref=\"slotContainer\" style=\"visibility: hidden\">\r\n      <slot></slot>\r\n    </div>\r\n\r\n  </abt-card>\r\n</template>\r\n"
 });
 ___scope___.file("components/purejs/microlink/aut-microlink.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div style=\"width: 1px\">\n    <a class=\"micro-link ${class}\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n      <slot></slot>\n    </a>\n  </div>\n</template>"
+module.exports.default =  "<template>\r\n  <div style=\"width: 1px\">\r\n    <a class=\"micro-link ${class}\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\r\n    </a>\r\n  </div>\r\n</template>\r\n"
 });
 ___scope___.file("components/purejs/pretty/aut-checkbox.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\n\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\n    <input type=\"${isCheckBox ? 'checkbox' : 'radio'}\" name.bind=\"name\" checked.bind=\"state\" change.delegate=\"changed()\" disabled.bind=\"disabled\"\n    />\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\n      <label>\n        <slot></slot>\n      </label>\n    </div>\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\n      <label>\n        ${offLabel}\n      </label>\n    </div>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\r\n\r\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\r\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\r\n    <input type=\"${isCheckBox ? 'checkbox' : 'radio'}\" name.bind=\"name\" checked.bind=\"state\" change.delegate=\"changed()\" disabled.bind=\"disabled\"\r\n    />\r\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\r\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\r\n      <label>\r\n        <slot></slot>\r\n      </label>\r\n    </div>\r\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\r\n      <label>\r\n        ${offLabel}\r\n      </label>\r\n    </div>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/purejs/pretty/aut-radio.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\n\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\n    <input ref=\"radioButton\" type=\"radio\" name.bind=\"name\" disabled.bind=\"disabled\" change.delegate=\"changed()\" />\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\n      <label>\n        <slot></slot>\n      </label>\n    </div>\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\n      <label>\n        ${offLabel}\n      </label>\n    </div>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\r\n\r\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\r\n\r\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\r\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\r\n    <input ref=\"radioButton\" type=\"radio\" name.bind=\"name\" disabled.bind=\"disabled\" change.delegate=\"changed()\" />\r\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\r\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\r\n      <label>\r\n        <slot></slot>\r\n      </label>\r\n    </div>\r\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\r\n      <label>\r\n        ${offLabel}\r\n      </label>\r\n    </div>\r\n  </div>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/purejs/scrollup/aut-scrollup.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  \n    <require from=\"./aut-scrollup.css\"></require>\n    \n\n    <button id=\"aut-scrollup-button\" click.delegate=\"goToUp()\" css=\"${style}\" class=\"aut-scrollup ${class}\">\n      <slot>\n          <i class=\"fa fa-arrow-up fa-2x\" aria-hidden=\"true\"></i>\n      </slot>\n    </button>\n\n\n\n\n</template>\n"
+module.exports.default =  "<template>\r\n  \r\n    <require from=\"./aut-scrollup.css\"></require>\r\n    \r\n\r\n    <button id=\"aut-scrollup-button\" click.delegate=\"goToUp()\" css=\"${style}\" class=\"aut-scrollup ${class}\">\r\n      <slot>\r\n          <i class=\"fa fa-arrow-up fa-2x\" aria-hidden=\"true\"></i>\r\n      </slot>\r\n    </button>\r\n\r\n\r\n\r\n\r\n</template>\r\n"
 });
 ___scope___.file("components/purejs/star-rate/aut-star-rate.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template css=\"cursor:${readOnly === true ? 'auto' : 'pointer'}; color:${color};\" mouseleave.trigger=\"mouseLeft()\">\n\n    <require from=\"./aut-star-rate.css\"></require>\n\n\n    <i if.bind=\"!rtl\" \n        class=\"${$index > fixedPoint ? emptyStar : $index < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStar && fixedPoint == $index ) ? halfStar : emptyStar}\" \n        repeat.for=\"$index of maxRate\" \n        \n        mousemove.delegate=\"mouseMove($event,$index)\"\n            click.delegate=\"setRate($index)\">\n    </i>\n\n\n    <i if.bind=\"rtl\" class=\"aut-star-rtl ${maxRate-$index-1 > fixedPoint ? emptyStar : maxRate-$index-1 < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStar && fixedPoint == maxRate-$index-1 ) ? halfStar : emptyStar}\"\n         repeat.for=\"$index of maxRate\"\n          \n          mousemove.delegate=\"mouseMove($event,maxRate-$index-1)\"\n        click.delegate=\"setRate(maxRate-$index-1)\">\n    </i>\n\n</template>\n"
+module.exports.default =  "<template css=\"cursor:${readOnly === true ? 'auto' : 'pointer'}; color:${color};\" mouseleave.trigger=\"mouseLeft()\">\r\n\r\n    <require from=\"./aut-star-rate.css\"></require>\r\n\r\n\r\n    <i if.bind=\"!rtl\" \r\n        class=\"${$index > fixedPoint ? emptyStar : $index < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStar && fixedPoint == $index ) ? halfStar : emptyStar}\" \r\n        repeat.for=\"$index of maxRate\" \r\n        \r\n        mousemove.delegate=\"mouseMove($event,$index)\"\r\n            click.delegate=\"setRate($index)\">\r\n    </i>\r\n\r\n\r\n    <i if.bind=\"rtl\" class=\"aut-star-rtl ${maxRate-$index-1 > fixedPoint ? emptyStar : maxRate-$index-1 < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStar && fixedPoint == maxRate-$index-1 ) ? halfStar : emptyStar}\"\r\n         repeat.for=\"$index of maxRate\"\r\n          \r\n          mousemove.delegate=\"mouseMove($event,maxRate-$index-1)\"\r\n        click.delegate=\"setRate(maxRate-$index-1)\">\r\n    </i>\r\n\r\n</template>\r\n"
 });
 ___scope___.file("binding-behaviours/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -1469,7 +1529,7 @@ var BootstrapCollapse = (function () {
             this.setControllerProperties(this.controlledBy);
             return true;
         }
-        else if (Array.isArray(this.controlledBy)) {
+        else if (this.controlledBy && Array.isArray(this.controlledBy)) {
             var counter = this.controlledBy.length;
             while (counter--) {
                 var controller = this.controlledBy[counter];
@@ -1477,6 +1537,9 @@ var BootstrapCollapse = (function () {
             }
         }
         return true;
+    };
+    BootstrapCollapse.prototype.detached = function () {
+        $(this.collapse).collapse('dispose');
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
@@ -1992,8 +2055,12 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/card/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/collapse/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/dropdown/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/inputgroup/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/modal/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/navbar/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/navs/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/password/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/pagination/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/progressbar/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/scrollspy/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/toggle/index'))
@@ -2003,8 +2070,188 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/tooltip/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/popover/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/carousel/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/listgroup/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/navbar/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/listgroup/index'));
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-append.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapInputGroupAppendCustomElement = (function () {
+    function BootstrapInputGroupAppendCustomElement() {
+        this.class = '';
+        this.style = '';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupAppendCustomElement.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupAppendCustomElement.prototype, "style", void 0);
+    BootstrapInputGroupAppendCustomElement = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-inputgroup-append')
+    ], BootstrapInputGroupAppendCustomElement);
+    return BootstrapInputGroupAppendCustomElement;
+}());
+exports.BootstrapInputGroupAppendCustomElement = BootstrapInputGroupAppendCustomElement;
+//# sourceMappingURL=abt-inputgroup-append.js.map
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-prepend.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapInputGroupPrependCustomElement = (function () {
+    function BootstrapInputGroupPrependCustomElement() {
+        this.class = '';
+        this.style = '';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupPrependCustomElement.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupPrependCustomElement.prototype, "style", void 0);
+    BootstrapInputGroupPrependCustomElement = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-inputgroup-prepend')
+    ], BootstrapInputGroupPrependCustomElement);
+    return BootstrapInputGroupPrependCustomElement;
+}());
+exports.BootstrapInputGroupPrependCustomElement = BootstrapInputGroupPrependCustomElement;
+//# sourceMappingURL=abt-inputgroup-prepend.js.map
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-text.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapInputGroupTextCustomElement = (function () {
+    function BootstrapInputGroupTextCustomElement() {
+        this.class = '';
+        this.style = '';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupTextCustomElement.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupTextCustomElement.prototype, "style", void 0);
+    BootstrapInputGroupTextCustomElement = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-inputgroup-text')
+    ], BootstrapInputGroupTextCustomElement);
+    return BootstrapInputGroupTextCustomElement;
+}());
+exports.BootstrapInputGroupTextCustomElement = BootstrapInputGroupTextCustomElement;
+//# sourceMappingURL=abt-inputgroup-text.js.map
+});
+___scope___.file("components/bootstrap/inputgroup/abt-inputgroup.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapInputGroupCustomElement = (function () {
+    function BootstrapInputGroupCustomElement() {
+        this.class = '';
+        this.style = '';
+        this.size = 'md';
+    }
+    BootstrapInputGroupCustomElement.prototype.attached = function () {
+        if (this.size === 'sm' || this.size === 'lg') {
+            if (this.size === 'sm') {
+                this.inputGroup.classList.add('input-group-sm');
+            }
+            if (this.size === 'lg') {
+                this.inputGroup.classList.add('input-group-lg');
+            }
+        }
+        else {
+            this.inputGroup.classList.remove('input-group-sm');
+            this.inputGroup.classList.remove('input-group-lg');
+        }
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupCustomElement.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupCustomElement.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapInputGroupCustomElement.prototype, "size", void 0);
+    BootstrapInputGroupCustomElement = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-inputgroup')
+    ], BootstrapInputGroupCustomElement);
+    return BootstrapInputGroupCustomElement;
+}());
+exports.BootstrapInputGroupCustomElement = BootstrapInputGroupCustomElement;
+//# sourceMappingURL=abt-inputgroup.js.map
+});
+___scope___.file("components/bootstrap/inputgroup/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./abt-inputgroup"));
+__export(require("./abt-inputgroup-append"));
+__export(require("./abt-inputgroup-prepend"));
+__export(require("./abt-inputgroup-text"));
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./abt-inputgroup'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-inputgroup-append'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-inputgroup-prepend'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-inputgroup-text')
+    ]);
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -2090,11 +2337,18 @@ var ListGroupItemCustomElement = (function () {
         else {
             $(this.listGroupItem).addClass('abt-listgroup-item-disabled');
         }
+        if (this.color) {
+            this.listGroupItem.classList.add("list-group-item-" + this.color);
+        }
     };
     ListGroupItemCustomElement.prototype.onClick = function (event) {
-        event.preventDefault();
         if (this.click) {
             this.click({ event: event });
+            return false;
+        }
+        else {
+            console.log('Works');
+            return true;
         }
     };
     __decorate([
@@ -2145,6 +2399,10 @@ var ListGroupCustomElement = (function () {
         this.style = '';
     }
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], ListGroupCustomElement.prototype, "id", void 0);
+    __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], ListGroupCustomElement.prototype, "style", void 0);
@@ -2177,6 +2435,309 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
+___scope___.file("components/bootstrap/modal/abt-modal-body.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapModalBody = (function () {
+    function BootstrapModalBody() {
+    }
+    BootstrapModalBody = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-modal-body')
+    ], BootstrapModalBody);
+    return BootstrapModalBody;
+}());
+exports.BootstrapModalBody = BootstrapModalBody;
+//# sourceMappingURL=abt-modal-body.js.map
+});
+___scope___.file("components/bootstrap/modal/abt-modal-footer.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapModalFooter = (function () {
+    function BootstrapModalFooter() {
+    }
+    BootstrapModalFooter = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-modal-footer')
+    ], BootstrapModalFooter);
+    return BootstrapModalFooter;
+}());
+exports.BootstrapModalFooter = BootstrapModalFooter;
+//# sourceMappingURL=abt-modal-footer.js.map
+});
+___scope___.file("components/bootstrap/modal/abt-modal-header.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapModalHeader = (function () {
+    function BootstrapModalHeader() {
+        this.dismissible = false;
+    }
+    BootstrapModalHeader.prototype.afterAttached = function () {
+        var x = this.header.parentElement.parentElement.parentElement.getAttribute('data-abt-dismissible');
+        this.dismissible = x === 'true';
+    };
+    BootstrapModalHeader = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-modal-header')
+    ], BootstrapModalHeader);
+    return BootstrapModalHeader;
+}());
+exports.BootstrapModalHeader = BootstrapModalHeader;
+//# sourceMappingURL=abt-modal-header.js.map
+});
+___scope___.file("components/bootstrap/modal/abt-modal-title.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapModalTitle = (function () {
+    function BootstrapModalTitle() {
+    }
+    BootstrapModalTitle = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-modal-title')
+    ], BootstrapModalTitle);
+    return BootstrapModalTitle;
+}());
+exports.BootstrapModalTitle = BootstrapModalTitle;
+//# sourceMappingURL=abt-modal-title.js.map
+});
+___scope___.file("components/bootstrap/modal/abt-modal.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+require("jquery");
+var BootstrapModal = (function () {
+    function BootstrapModal(element) {
+        this.element = element;
+        this.class = '';
+        this.style = '';
+        this.size = 'md';
+        this.animate = true;
+        this.dismissible = true;
+        this.centered = false;
+        this.visible = false;
+        this.backdrop = true;
+        this.keyboard = true;
+        this.focus = true;
+    }
+    BootstrapModal.prototype.setOpenerProperties = function (open) {
+        var isString = typeof open === 'string';
+        var opener;
+        if (isString) {
+            opener = document.getElementById(open);
+        }
+        else {
+            opener = open;
+        }
+        var id = this.modal.id;
+        opener.setAttribute('data-toggle', 'modal');
+        opener.setAttribute('data-target', "#" + id);
+    };
+    BootstrapModal.prototype.setEvents = function () {
+        var _this = this;
+        if (this.bsShow) {
+            $(this.modal).on('show.bs.modal', function (e) {
+                if (_this.bsShow) {
+                    _this.bsShow({ relatedTarget: e.relatedTarget });
+                }
+            });
+        }
+        if (this.bsShown) {
+            $(this.modal).on('shown.bs.modal', function () {
+                if (_this.bsShown) {
+                    _this.bsShown();
+                }
+            });
+        }
+        if (this.bsHide) {
+            $(this.modal).on('hide.bs.modal', function () {
+                if (_this.bsHide) {
+                    _this.bsHide();
+                }
+            });
+        }
+        if (this.bsHidden) {
+            $(this.modal).on('hidden.bs.modal', function () {
+                if (_this.bsHidden) {
+                    _this.bsHidden();
+                }
+            });
+        }
+    };
+    BootstrapModal.prototype.visibleChanged = function (newValue) {
+        var nv = Boolean(newValue);
+        if (nv) {
+            $(this.modal).modal('show');
+            return;
+        }
+        $(this.modal).modal('hide');
+    };
+    BootstrapModal.prototype.afterAttached = function () {
+        var _this = this;
+        this.animate = this.animate === true || this.animate === 'true';
+        this.centered = this.centered === true || this.centered === 'true';
+        this.dismissible = this.dismissible === true || this.dismissible === 'true';
+        this.backdrop = this.backdrop === true || this.backdrop === 'true';
+        this.keyboard = this.keyboard === true || this.keyboard === 'true';
+        this.focus = this.focus === true || this.focus === 'true';
+        this.setEvents();
+        if (this.openBy) {
+            this.setOpenerProperties(this.openBy);
+        }
+        else if (this.visible !== undefined) {
+            this.visibleChanged(this.visible);
+            $(this.modal).on('hide.bs.modal', function () {
+                _this.visible = false;
+            });
+        }
+        else {
+            throw Error("The 'abt-modal' should have either 'open-by' or 'visible'  attribute");
+        }
+        $(this.modal).modal({
+            backdrop: this.backdrop,
+            keyboard: this.keyboard,
+            focus: this.focus,
+            show: false
+        });
+    };
+    BootstrapModal.prototype.detached = function () {
+        $(this.modal).off('show.bs.modal');
+        $(this.modal).off('shown.bs.modal');
+        $(this.modal).off('hide.bs.modal');
+        $(this.modal).off('hidden.bs.modal');
+        $(this.modal).modal('dispose');
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModal.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModal.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModal.prototype, "size", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "animate", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "dismissible", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "centered", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "visible", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "backdrop", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "keyboard", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "focus", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "bsShow", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "bsShown", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "bsHide", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "bsHidden", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "openBy", void 0);
+    BootstrapModal = __decorate([
+        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-modal'),
+        __metadata("design:paramtypes", [Object])
+    ], BootstrapModal);
+    return BootstrapModal;
+}());
+exports.BootstrapModal = BootstrapModal;
+//# sourceMappingURL=abt-modal.js.map
+});
+___scope___.file("components/bootstrap/modal/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./abt-modal"));
+__export(require("./abt-modal-title"));
+__export(require("./abt-modal-header"));
+__export(require("./abt-modal-body"));
+__export(require("./abt-modal-footer"));
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./abt-modal'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-modal-header'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-modal-title'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-modal-body'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-modal-footer')
+    ]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
 ___scope___.file("components/bootstrap/navbar/abt-navbar-brand.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2195,6 +2756,12 @@ var BootstrapNavBarBrand = (function () {
     function BootstrapNavBarBrand() {
         this.href = '#';
     }
+    BootstrapNavBarBrand.prototype.onClick = function (event) {
+        event.preventDefault();
+        if (this.click) {
+            this.click({ event: event });
+        }
+    };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -2203,6 +2770,10 @@ var BootstrapNavBarBrand = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapNavBarBrand.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapNavBarBrand.prototype, "click", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -2216,6 +2787,43 @@ var BootstrapNavBarBrand = (function () {
 }());
 exports.BootstrapNavBarBrand = BootstrapNavBarBrand;
 //# sourceMappingURL=abt-navbar-brand.js.map
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-collapser.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var BootstrapNavBarCollapser = (function () {
+    function BootstrapNavBarCollapser() {
+        this.class = '';
+        this.style = '';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarCollapser.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarCollapser.prototype, "style", void 0);
+    BootstrapNavBarCollapser = __decorate([
+        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.containerless(),
+        aurelia_templating_1.customElement('abt-navbar-collapser')
+    ], BootstrapNavBarCollapser);
+    return BootstrapNavBarCollapser;
+}());
+exports.BootstrapNavBarCollapser = BootstrapNavBarCollapser;
+//# sourceMappingURL=abt-navbar-collapser.js.map
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-dropdown-divider.js", function(exports, require, module, __filename, __dirname){
 
@@ -2306,14 +2914,9 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_templating_1 = require("aurelia-templating");
 var BootstrapNavBarDropDownMegaItem = (function () {
     function BootstrapNavBarDropDownMegaItem() {
-        this.href = '#';
+        this.class = '';
+        this.style = '';
     }
-    BootstrapNavBarDropDownMegaItem.prototype.onClick = function (event) {
-        event.preventDefault();
-        if (this.click) {
-            this.click({ event: event });
-        }
-    };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -2322,14 +2925,6 @@ var BootstrapNavBarDropDownMegaItem = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapNavBarDropDownMegaItem.prototype, "style", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], BootstrapNavBarDropDownMegaItem.prototype, "href", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], BootstrapNavBarDropDownMegaItem.prototype, "click", void 0);
     BootstrapNavBarDropDownMegaItem = __decorate([
         aurelia_framework_1.inject(Element),
         aurelia_framework_1.containerless(),
@@ -2356,6 +2951,10 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_templating_1 = require("aurelia-templating");
 var BootstrapNavBarDropDown = (function () {
     function BootstrapNavBarDropDown() {
+        this.linkClass = '';
+        this.linkStyle = '';
+        this.dropdownClass = '';
+        this.dropdownStyle = '';
     }
     BootstrapNavBarDropDown.prototype.attached = function () {
         var isMegaMenuFullWidth = this.navDropDown.hasAttribute('fullwidth');
@@ -2363,10 +2962,36 @@ var BootstrapNavBarDropDown = (function () {
             this.navListDropDown.classList.add('navbar-megamenu-fullwidth');
         }
     };
+    BootstrapNavBarDropDown.prototype.onClick = function (event) {
+        event.preventDefault();
+        if (this.click) {
+            this.click({ event: event });
+        }
+    };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapNavBarDropDown.prototype, "title", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapNavBarDropDown.prototype, "click", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarDropDown.prototype, "linkClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarDropDown.prototype, "linkStyle", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarDropDown.prototype, "dropdownClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarDropDown.prototype, "dropdownStyle", void 0);
     BootstrapNavBarDropDown = __decorate([
         aurelia_framework_1.inject(Element),
         aurelia_framework_1.containerless(),
@@ -2394,6 +3019,8 @@ var aurelia_templating_1 = require("aurelia-templating");
 var BootstrapNavBarLink = (function () {
     function BootstrapNavBarLink() {
         this.href = '#';
+        this.linkClass = '';
+        this.linkStyle = '';
     }
     BootstrapNavBarLink.prototype.afterAttached = function () {
         var isActive = this.navItem.hasAttribute('active');
@@ -2424,6 +3051,14 @@ var BootstrapNavBarLink = (function () {
         __metadata("design:type", String)
     ], BootstrapNavBarLink.prototype, "href", void 0);
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarLink.prototype, "linkClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarLink.prototype, "linkStyle", void 0);
+    __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], BootstrapNavBarLink.prototype, "click", void 0);
@@ -2436,6 +3071,106 @@ var BootstrapNavBarLink = (function () {
 }());
 exports.BootstrapNavBarLink = BootstrapNavBarLink;
 //# sourceMappingURL=abt-navbar-link.js.map
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-nav.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var BootstrapNavBarNav = (function () {
+    function BootstrapNavBarNav() {
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarNav.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarNav.prototype, "style", void 0);
+    BootstrapNavBarNav = __decorate([
+        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.containerless(),
+        aurelia_templating_1.customElement('abt-navbar-nav')
+    ], BootstrapNavBarNav);
+    return BootstrapNavBarNav;
+}());
+exports.BootstrapNavBarNav = BootstrapNavBarNav;
+//# sourceMappingURL=abt-navbar-nav.js.map
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-text.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var BootstrapNavBarText = (function () {
+    function BootstrapNavBarText() {
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarText.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarText.prototype, "style", void 0);
+    BootstrapNavBarText = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_templating_1.customElement('abt-navbar-text')
+    ], BootstrapNavBarText);
+    return BootstrapNavBarText;
+}());
+exports.BootstrapNavBarText = BootstrapNavBarText;
+//# sourceMappingURL=abt-navbar-text.js.map
+});
+___scope___.file("components/bootstrap/navbar/abt-navbar-toggler.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var BootstrapNavBarToggler = (function () {
+    function BootstrapNavBarToggler() {
+        this.togglerIconClass = 'navbar-toggler-icon';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavBarToggler.prototype, "togglerIconClass", void 0);
+    BootstrapNavBarToggler = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_templating_1.customElement('abt-navbar-toggler')
+    ], BootstrapNavBarToggler);
+    return BootstrapNavBarToggler;
+}());
+exports.BootstrapNavBarToggler = BootstrapNavBarToggler;
+//# sourceMappingURL=abt-navbar-toggler.js.map
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar.js", function(exports, require, module, __filename, __dirname){
 
@@ -2455,23 +3190,20 @@ var BootstrapNavBar = (function () {
     function BootstrapNavBar() {
         this.colorClass = 'light';
         this.backgroundColorClass = 'light';
-        this.expandSize = 'sm';
-        this.toggler = true;
-        this.togglerIconClass = 'navbar-toggler-icon';
+        this.expandSize = 'lg';
+        this.placement = '';
     }
     BootstrapNavBar.prototype.afterAttached = function () {
         this.navbar.classList.add("navbar-" + this.colorClass);
         this.navbar.classList.add("bg-" + this.backgroundColorClass);
-        if (this.expandSize !== 'none') {
+        if (this.expandSize !== '') {
             this.navbar.classList.add("navbar-expand-" + this.expandSize);
         }
-        var hasMultipleBrands = this.brand.length > 1;
-        if (hasMultipleBrands) {
-            throw Error('You cannot have multiple instances of [abt-navbar-brand] component, please check your DOM');
-        }
-        if (this.brand.length === 1) {
-            var brandCtrl = this.brand[0];
-            this.navbar.insertBefore(brandCtrl, this.navbar.firstChild);
+        var navbarToggler = this.navbar.querySelector('.abt-navbar-toggler');
+        var navbarCollapser = this.navbar.querySelector('.abt-navbar-collapser');
+        if (navbarToggler && navbarCollapser) {
+            navbarToggler.setAttribute('data-target', "#" + navbarCollapser.id);
+            navbarToggler.setAttribute('aria-controls', "" + navbarCollapser.id);
         }
     };
     __decorate([
@@ -2496,16 +3228,12 @@ var BootstrapNavBar = (function () {
     ], BootstrapNavBar.prototype, "expandSize", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
-    ], BootstrapNavBar.prototype, "toggler", void 0);
+        __metadata("design:type", String)
+    ], BootstrapNavBar.prototype, "placement", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], BootstrapNavBar.prototype, "togglerIconClass", void 0);
-    __decorate([
-        aurelia_framework_1.children('.navbar-brand'),
-        __metadata("design:type", Object)
-    ], BootstrapNavBar.prototype, "brand", void 0);
+        __metadata("design:type", Array)
+    ], BootstrapNavBar.prototype, "controllBy", void 0);
     BootstrapNavBar = __decorate([
         aurelia_framework_1.inject(Element),
         aurelia_templating_1.customElement('abt-navbar')
@@ -2528,7 +3256,11 @@ __export(require("./abt-navbar-link"));
 __export(require("./abt-navbar-dropdown"));
 __export(require("./abt-navbar-dropdown-item"));
 __export(require("./abt-navbar-dropdown-divider"));
+__export(require("./abt-navbar-toggler"));
+__export(require("./abt-navbar-text"));
 __export(require("./abt-navbar-dropdown-mega-item"));
+__export(require("./abt-navbar-collapser"));
+__export(require("./abt-navbar-nav"));
 function configure(config) {
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar')]);
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-brand')]);
@@ -2536,7 +3268,11 @@ function configure(config) {
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-dropdown')]);
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-dropdown-item')]);
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-dropdown-divider')]);
+    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-toggler')]);
+    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-text')]);
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-dropdown-mega-item')]);
+    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-collapser')]);
+    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-navbar-nav')]);
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -2749,6 +3485,45 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
+___scope___.file("components/bootstrap/pagination/abt-pagination.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapPaginationCustomElement = (function () {
+    function BootstrapPaginationCustomElement() {
+    }
+    BootstrapPaginationCustomElement = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.customElement('abt-pagination')
+    ], BootstrapPaginationCustomElement);
+    return BootstrapPaginationCustomElement;
+}());
+exports.BootstrapPaginationCustomElement = BootstrapPaginationCustomElement;
+//# sourceMappingURL=abt-pagination.js.map
+});
+___scope___.file("components/bootstrap/pagination/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./abt-pagination"));
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./abt-pagination')
+    ]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
 ___scope___.file("components/bootstrap/password/abt-password.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2812,7 +3587,7 @@ var PasswordCustomElement = (function () {
         return html;
     };
     PasswordCustomElement.prototype.textChanged = function (value) {
-        var cls = 'input-group-addon visible-md-* visible-lg-* ';
+        var cls = 'input-group-prepend visible-md-* visible-lg-* ';
         this.passwordClass = cls;
         var option = [];
         var scoreSetting = {};
@@ -2856,7 +3631,7 @@ var PasswordCustomElement = (function () {
                 this.passwordStyle = '';
             }
             else {
-                this.passwordStyle = 'color:white;background-color:' + this.color + ';border-bottom:3px solid '
+                this.passwordStyle = 'padding:0.4rem;color:white;background-color:' + this.color + ';border-bottom:3px solid '
                     + this.color + ';border-right:2px solid ' + this.color + ';';
                 this.textStyle = 'border-bottom:3px solid ' + this.color;
             }
@@ -3094,42 +3869,153 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapProgressBar = (function () {
-    function BootstrapProgressBar(element) {
-        this.element = element;
+    function BootstrapProgressBar() {
         this.color = '';
+        this.colorClass = '';
+        this.secondaryColor = '';
+        this.value = '';
+        this.min = '';
+        this.max = '';
+        this.animated = false;
+        this.striped = false;
         this.isAnimated = false;
         this.isStriped = false;
     }
-    BootstrapProgressBar.prototype.attached = function () {
-        this.isAnimated = this.element.hasAttribute('animated');
-        this.isStriped = this.element.hasAttribute('striped');
+    BootstrapProgressBar.prototype.afterAttached = function () {
+        if (this.color && this.secondaryColor) {
+            aurelia_framework_1.DOM.injectStyles("\n      #" + this.progressbar.id + "\n      {\n      background: -webkit-gradient(linear, left top, right top, from(" + this.color + "),to(" + this.secondaryColor + ")) !important;\n      background: -webkit-linear-gradient(left, " + this.color + " 0%," + this.secondaryColor + " 100%) !important;\n      background: -o-linear-gradient(left, " + this.color + " 0%," + this.secondaryColor + " 100%) !important;\n      background: linear-gradient(left, " + this.color + " 0%," + this.secondaryColor + " 100%) !important;\n      }\n      ");
+        }
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", String)
     ], BootstrapProgressBar.prototype, "color", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgressBar.prototype, "colorClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgressBar.prototype, "secondaryColor", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgressBar.prototype, "value", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgressBar.prototype, "min", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgressBar.prototype, "max", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Boolean)
+    ], BootstrapProgressBar.prototype, "animated", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Boolean)
+    ], BootstrapProgressBar.prototype, "striped", void 0);
     BootstrapProgressBar = __decorate([
-        aurelia_framework_1.inject(Element),
         aurelia_framework_1.customElement('abt-progress-bar'),
-        __metadata("design:paramtypes", [Object])
+        aurelia_framework_1.containerless()
     ], BootstrapProgressBar);
     return BootstrapProgressBar;
 }());
 exports.BootstrapProgressBar = BootstrapProgressBar;
 //# sourceMappingURL=abt-progress-bar.js.map
 });
-___scope___.file("components/bootstrap/progressbar/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/bootstrap/progressbar/abt-progress.js", function(exports, require, module, __filename, __dirname){
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapProgress = (function () {
+    function BootstrapProgress() {
+        this.color = '';
+        this.style = '';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgress.prototype, "color", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapProgress.prototype, "style", void 0);
+    BootstrapProgress = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-progress')
+    ], BootstrapProgress);
+    return BootstrapProgress;
+}());
+exports.BootstrapProgress = BootstrapProgress;
+//# sourceMappingURL=abt-progress.js.map
+});
+___scope___.file("components/bootstrap/progressbar/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./abt-progress"));
+__export(require("./abt-progress-bar"));
 function configure(config) {
     config.globalResources([
-        aurelia_framework_1.PLATFORM.moduleName('./abt-progress.html'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-progress'),
         aurelia_framework_1.PLATFORM.moduleName('./abt-progress-bar')
     ]);
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
+});
+___scope___.file("components/bootstrap/scrollspy/abt-scrollspy-item.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapScrollspyItem = (function () {
+    function BootstrapScrollspyItem() {
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapScrollspyItem.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapScrollspyItem.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapScrollspyItem.prototype, "id", void 0);
+    BootstrapScrollspyItem = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-scrollspy-item')
+    ], BootstrapScrollspyItem);
+    return BootstrapScrollspyItem;
+}());
+exports.BootstrapScrollspyItem = BootstrapScrollspyItem;
+//# sourceMappingURL=abt-scrollspy-item.js.map
 });
 ___scope___.file("components/bootstrap/scrollspy/abt-scrollspy.js", function(exports, require, module, __filename, __dirname){
 
@@ -3148,10 +4034,19 @@ var $ = require("jquery");
 var BootstrapScrollSpy = (function () {
     function BootstrapScrollSpy(element) {
         this.element = element;
+        this.offset = 10;
+        this.onBody = false;
     }
     BootstrapScrollSpy.prototype.afterAttached = function () {
         var _this = this;
-        $(this.spy).scrollspy({ target: this.target[0] === '#' ? this.target : "#" + this.target, offset: 1 });
+        this.onBody = Boolean(this.onBody);
+        this.offset = Number(this.offset);
+        if (!this.onBody) {
+            $(this.spy).scrollspy({ target: this.target[0] === '#' ? this.target : "#" + this.target, offset: this.offset });
+        }
+        else {
+            $('body').scrollspy({ target: this.target[0] === '#' ? this.target : "#" + this.target, offset: this.offset });
+        }
         if (this.bsScrollspy) {
             $(this.spy).on('activate.bs.scrollspy', function () {
                 if (_this.bsScrollspy) {
@@ -3168,6 +4063,10 @@ var BootstrapScrollSpy = (function () {
         __metadata("design:type", String)
     ], BootstrapScrollSpy.prototype, "target", void 0);
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Number)
+    ], BootstrapScrollSpy.prototype, "offset", void 0);
+    __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapScrollSpy.prototype, "class", void 0);
@@ -3179,6 +4078,10 @@ var BootstrapScrollSpy = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], BootstrapScrollSpy.prototype, "bsScrollspy", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapScrollSpy.prototype, "onBody", void 0);
     BootstrapScrollSpy = __decorate([
         aurelia_framework_1.inject(Element),
         aurelia_framework_1.containerless(),
@@ -3198,8 +4101,12 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 __export(require("./abt-scrollspy"));
+__export(require("./abt-scrollspy-item"));
 function configure(config) {
-    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-scrollspy')]);
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./abt-scrollspy'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-scrollspy-item')
+    ]);
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -3245,7 +4152,7 @@ var BootstrapToggleCustomElement = (function () {
             }
         }
     };
-    BootstrapToggleCustomElement.prototype.changed = function () {
+    BootstrapToggleCustomElement.prototype.onChanged = function () {
         if (this.disabled) {
             return;
         }
@@ -4582,11 +5489,14 @@ var MarkDownItCustomElement = (function () {
         this.http = http;
         this.isLoading = false;
         this.myText = '';
-        this.showToolBar = true;
-        this.showPreview = false;
-        this.showEditor = true;
+        this.showToolBar = false;
+        this.showPreview = true;
+        this.showEditor = false;
         this.src = '';
     }
+    MarkDownItCustomElement.prototype.afterAttached = function () {
+        this.myText = this.slotContainer.innerHTML.replace('<!--slot-->', '').trim();
+    };
     MarkDownItCustomElement.prototype.srcChanged = function (newValue) {
         var _this = this;
         this.isLoading = true;
@@ -5496,11 +6406,11 @@ var MaskedInputCustomAttribute = (function () {
         im.mask(this.element);
     };
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime, primaryProperty: true }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay, primaryProperty: true }),
         __metadata("design:type", Object)
     ], MaskedInputCustomAttribute.prototype, "mask", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Object)
     ], MaskedInputCustomAttribute.prototype, "regex", void 0);
     MaskedInputCustomAttribute = __decorate([
@@ -5604,7 +6514,6 @@ __export(require("./services/bootstrap/bootstrap-typography-service"));
 __export(require("./services/jquery/toastr/toastr-service-options"));
 __export(require("./services/jquery/toastr/toastr-service"));
 __export(require("./services/misc/common-css-service"));
-__export(require("./services/purejs/zenscroll/zenscroll-service"));
 function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/binding-behaviours/index'))
@@ -5773,6 +6682,91 @@ var CommonCssService = (function () {
 exports.CommonCssService = CommonCssService;
 //# sourceMappingURL=common-css-service.js.map
 });
+___scope___.file("services/bootstrap/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function configure() {
+    console.log('no service container set here[aurelia-toolbelt/services/bootstrap/index].');
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("services/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+function configure(config) {
+    config
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/bootstrap/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/jquery/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/misc/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/purejs/index'));
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("services/jquery/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+function configure(config) {
+    config
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/jquery/toastr/index'));
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("services/jquery/toastr/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var toastr_service_1 = require("./toastr-service");
+var toastr = require("toastr");
+function configure(config, toastrOption) {
+    var trs = new toastr_service_1.ToastrService(toastr);
+    if (toastrOption) {
+        config.container.registerSingleton(toastr_service_1.ToastrService, function () {
+            toastr.options.closeButton = true;
+            toastr.options.progressBar = toastrOption.progressBar;
+            toastr.options.preventDuplicates = toastrOption.preventDuplicates;
+            toastr.options.positionClass = toastrOption.positionClass;
+            return trs;
+        });
+    }
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("services/misc/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function configure() {
+    console.log('no service container set here[aurelia-toolbelt/services/misc/index].');
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("services/purejs/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function configure(config) {
+    console.log(config);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("services/purejs/zenscroll/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var zenscroll_service_1 = require("./zenscroll-service");
+var zenscroll = require("zenscroll");
+function configure(config) {
+    config.container.registerSingleton(zenscroll_service_1.ZenscrollService, function () {
+        return zenscroll;
+    });
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
 ___scope___.file("services/purejs/zenscroll/zenscroll-service.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -5861,93 +6855,6 @@ var ZenscrollService = (function () {
 }());
 exports.ZenscrollService = ZenscrollService;
 //# sourceMappingURL=zenscroll-service.js.map
-});
-___scope___.file("services/bootstrap/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function configure() {
-    console.log('no service container set here[aurelia-toolbelt/services/bootstrap/index].');
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("services/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-function configure(config) {
-    config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/bootstrap/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/jquery/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/misc/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/purejs/index'));
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("services/jquery/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-function configure(config) {
-    config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/jquery/toastr/index'));
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("services/jquery/toastr/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var toastr_service_1 = require("./toastr-service");
-var toastr = require("toastr");
-function configure(config, toastrOption) {
-    var trs = new toastr_service_1.ToastrService(toastr);
-    if (toastrOption) {
-        config.container.registerSingleton(toastr_service_1.ToastrService, function () {
-            toastr.options.closeButton = true;
-            toastr.options.progressBar = toastrOption.progressBar;
-            toastr.options.preventDuplicates = toastrOption.preventDuplicates;
-            toastr.options.positionClass = toastrOption.positionClass;
-            return trs;
-        });
-    }
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("services/misc/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function configure() {
-    console.log('no service container set here[aurelia-toolbelt/services/misc/index].');
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("services/purejs/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-function configure(config) {
-    config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/purejs/zenscroll/index'));
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("services/purejs/zenscroll/index.js", function(exports, require, module, __filename, __dirname){
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var zenscroll_service_1 = require("./zenscroll-service");
-var zenscroll = require("zenscroll");
-function configure(config) {
-    config.container.registerSingleton(zenscroll_service_1.ZenscrollService, function () {
-        return zenscroll;
-    });
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
 });
 ___scope___.file("utilities/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -8676,35 +9583,35 @@ exports.UrlEncodeValueConverter = UrlEncodeValueConverter;
 });
 ___scope___.file("components/bootstrap/button/abt-button.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = "abt-button>button {\n  cursor: pointer;\n}\n\n.abt-button {\n  cursor: pointer;\n}\n"
+module.exports = "abt-button>button {\r\n  cursor: pointer;\r\n}\r\n\r\n.abt-button {\r\n  cursor: pointer;\r\n}\r\n"
 });
 ___scope___.file("components/bootstrap/float-input/abt-float-input.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".has-float-label-sm {\n  display: block;\n  position: relative;\n}\n\n.has-float-label-sm label, .has-float-label-sm>span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  cursor: text;\n  font-size: 75%;\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n  top: -.5em;\n  left: 0.75rem;\n  z-index: 3;\n  line-height: 1;\n  padding: 0 1px;\n  color :  black !important;\n}\n\n.has-float-label-sm label::after, .has-float-label-sm>span::after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  background: white;\n  height: 2px;\n  top: 50%;\n  left: -.2em;\n  right: -.2em;\n  z-index: -1;\n}\n\n.has-float-label-sm .form-control::-webkit-input-placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-sm .form-control::-moz-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-sm .form-control:-ms-input-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-sm .form-control::placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-sm .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)::placeholder {\n  opacity: 0;\n}\n\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)+* {\n  font-size: 90% !important;\n  opacity: .5 !important;\n  top: .5em !important;\n  color :  black !important;\n}\n\n.input-group .has-float-label-sm {\n  -webkit-box-flex: 1;\n  -webkit-flex-grow: 1;\n  -ms-flex-positive: 1;\n  flex-grow: 1;\n  margin-bottom: 0;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n  -ms-flex-direction: column;\n  flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n  -ms-flex-pack: center;\n  justify-content: center;\n}\n\n.input-group .has-float-label-sm .form-control {\n  width: 100%;\n  border-radius: 0.25rem;\n}\n\n.input-group .has-float-label-sm:not(:last-child), .input-group .has-float-label-sm:not(:last-child) .form-control {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n  border-right: 0;\n}\n\n.input-group .has-float-label-sm:not(:first-child), .input-group .has-float-label-sm:not(:first-child) .form-control {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n.has-float-label-md {\n  display: block;\n  position: relative;\n}\n\n.has-float-label-md label, .has-float-label-md>span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  cursor: text;\n  font-size: 75%;\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n  top: -.5em;\n  left: 0.75rem;\n  z-index: 3;\n  line-height: 1;\n  padding: 0 1px;\n  color :  black !important;\n}\n\n.has-float-label-md label::after, .has-float-label-md>span::after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  background: white;\n  height: 2px;\n  top: 50%;\n  left: -.2em;\n  right: -.2em;\n  z-index: -1;\n}\n\n.has-float-label-md .form-control::-webkit-input-placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-md .form-control::-moz-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-md .form-control:-ms-input-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-md .form-control::placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-md .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-md .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-md .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-md .form-control:placeholder-shown:not(:focus)::placeholder {\n  opacity: 0;\n}\n\n.has-float-label-md .form-control:placeholder-shown:not(:focus)+* {\n    font-size: 100% !important;\n  opacity: .5 !important;\n  top: 0.7em !important;\n  color :  black !important;\n}\n\n.input-group .has-float-label-md {\n  -webkit-box-flex: 1;\n  -webkit-flex-grow: 1;\n  -ms-flex-positive: 1;\n  flex-grow: 1;\n  margin-bottom: 0;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n  -ms-flex-direction: column;\n  flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n  -ms-flex-pack: center;\n  justify-content: center;\n}\n\n.input-group .has-float-label-md .form-control {\n  width: 100%;\n  border-radius: 0.25rem;\n}\n\n.input-group .has-float-label-md:not(:last-child), .input-group .has-float-label-md:not(:last-child) .form-control {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n  border-right: 0;\n}\n\n.input-group .has-float-label-md:not(:first-child), .input-group .has-float-label-md:not(:first-child) .form-control {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n\n.has-float-label-lg {\n  display: block;\n  position: relative;\n}\n\n.has-float-label-lg label, .has-float-label-lg>span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  cursor: text;\n  font-size: 75%;\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n  top: -.5em;\n  left: 0.75rem;\n  z-index: 3;\n  line-height: 1;\n  padding: 0 1px;\n  color :  black !important;\n}\n\n.has-float-label-lg label::after, .has-float-label-lg>span::after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  background: white;\n  height: 2px;\n  top: 50%;\n  left: -.2em;\n  right: -.2em;\n  z-index: -1;\n}\n\n.has-float-label-lg .form-control::-webkit-input-placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control::-moz-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control:-ms-input-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control::placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)+* {\n  font-size: 120% !important;\n  opacity: .5 !important;\n  top: .7em !important;\n  color :  black !important;\n}\n\n.input-group .has-float-label-lg {\n  -webkit-box-flex: 1;\n  -webkit-flex-grow: 1;\n  -ms-flex-positive: 1;\n  flex-grow: 1;\n  margin-bottom: 0;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n  -ms-flex-direction: column;\n  flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n  -ms-flex-pack: center;\n  justify-content: center;\n}\n\n.input-group .has-float-label-lg .form-control {\n  width: 100%;\n  border-radius: 0.25rem;\n}\n\n.input-group .has-float-label-lg:not(:last-child), .input-group .has-float-label-lg:not(:last-child) .form-control {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n  border-right: 0;\n}\n\n.input-group .has-float-label-lg:not(:first-child), .input-group .has-float-label-lg:not(:first-child) .form-control {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n.has-float-label-lg {\n  display: block;\n  position: relative;\n}\n\n.has-float-label-lg label, .has-float-label-lg>span {\n  position: absolute;\n  left: 0;\n  top: 0;\n  cursor: text;\n  font-size: 75%;\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n  top: -.5em;\n  left: 0.75rem;\n  z-index: 3;\n  line-height: 1;\n  padding: 0 1px;\n  color :  black !important;\n}\n\n.has-float-label-lg label::after, .has-float-label-lg>span::after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  background: white;\n  height: 2px;\n  top: 50%;\n  left: -.2em;\n  right: -.2em;\n  z-index: -1;\n}\n\n.has-float-label-lg .form-control::-webkit-input-placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control::-moz-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control:-ms-input-placeholder {\n  opacity: 1;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control::placeholder {\n  opacity: 1;\n  -webkit-transition: all .2s;\n  transition: all .2s;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::placeholder {\n  opacity: 0;\n}\n\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)+* {\n  font-size: 120% !important;\n  opacity: .5 !important;\n  top: .7em !important;\n  color :  black !important;\n}\n\n.input-group .has-float-label-lg {\n  -webkit-box-flex: 1;\n  -webkit-flex-grow: 1;\n  -ms-flex-positive: 1;\n  flex-grow: 1;\n  margin-bottom: 0;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n  -ms-flex-direction: column;\n  flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n  -ms-flex-pack: center;\n  justify-content: center;\n}\n\n.input-group .has-float-label-lg .form-control {\n  width: 100%;\n  border-radius: 0.25rem;\n}\n\n.input-group .has-float-label-lg:not(:last-child), .input-group .has-float-label-lg:not(:last-child) .form-control {\n  border-bottom-right-radius: 0;\n  border-top-right-radius: 0;\n  border-right: 0;\n}\n\n.input-group .has-float-label-lg:not(:first-child), .input-group .has-float-label-lg:not(:first-child) .form-control {\n  border-bottom-left-radius: 0;\n  border-top-left-radius: 0;\n}\n\n"
+module.exports = ".has-float-label-sm {\r\n  display: block;\r\n  position: relative;\r\n}\r\n\r\n.has-float-label-sm label, .has-float-label-sm>span {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  cursor: text;\r\n  font-size: 75%;\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n  top: -.5em;\r\n  left: 0.75rem;\r\n  z-index: 3;\r\n  line-height: 1;\r\n  padding: 0 1px;\r\n  color :  black !important;\r\n}\r\n\r\n.has-float-label-sm label::after, .has-float-label-sm>span::after {\r\n  content: \" \";\r\n  display: block;\r\n  position: absolute;\r\n  background: white;\r\n  height: 2px;\r\n  top: 50%;\r\n  left: -.2em;\r\n  right: -.2em;\r\n  z-index: -1;\r\n}\r\n\r\n.has-float-label-sm .form-control::-webkit-input-placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-sm .form-control::-moz-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-sm .form-control:-ms-input-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-sm .form-control::placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-sm .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)::placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-sm .form-control:placeholder-shown:not(:focus)+* {\r\n  font-size: 90% !important;\r\n  opacity: .5 !important;\r\n  top: .5em !important;\r\n  color :  black !important;\r\n}\r\n\r\n.input-group .has-float-label-sm {\r\n  -webkit-box-flex: 1;\r\n  -webkit-flex-grow: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  margin-bottom: 0;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n  -ms-flex-direction: column;\r\n  flex-direction: column;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n  -ms-flex-pack: center;\r\n  justify-content: center;\r\n}\r\n\r\n.input-group .has-float-label-sm .form-control {\r\n  width: 100%;\r\n  border-radius: 0.25rem;\r\n}\r\n\r\n.input-group .has-float-label-sm:not(:last-child), .input-group .has-float-label-sm:not(:last-child) .form-control {\r\n  border-bottom-right-radius: 0;\r\n  border-top-right-radius: 0;\r\n  border-right: 0;\r\n}\r\n\r\n.input-group .has-float-label-sm:not(:first-child), .input-group .has-float-label-sm:not(:first-child) .form-control {\r\n  border-bottom-left-radius: 0;\r\n  border-top-left-radius: 0;\r\n}\r\n\r\n.has-float-label-md {\r\n  display: block;\r\n  position: relative;\r\n}\r\n\r\n.has-float-label-md label, .has-float-label-md>span {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  cursor: text;\r\n  font-size: 75%;\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n  top: -.5em;\r\n  left: 0.75rem;\r\n  z-index: 3;\r\n  line-height: 1;\r\n  padding: 0 1px;\r\n  color :  black !important;\r\n}\r\n\r\n.has-float-label-md label::after, .has-float-label-md>span::after {\r\n  content: \" \";\r\n  display: block;\r\n  position: absolute;\r\n  background: white;\r\n  height: 2px;\r\n  top: 50%;\r\n  left: -.2em;\r\n  right: -.2em;\r\n  z-index: -1;\r\n}\r\n\r\n.has-float-label-md .form-control::-webkit-input-placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-md .form-control::-moz-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-md .form-control:-ms-input-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-md .form-control::placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-md .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-md .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-md .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-md .form-control:placeholder-shown:not(:focus)::placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-md .form-control:placeholder-shown:not(:focus)+* {\r\n    font-size: 100% !important;\r\n  opacity: .5 !important;\r\n  top: 0.7em !important;\r\n  color :  black !important;\r\n}\r\n\r\n.input-group .has-float-label-md {\r\n  -webkit-box-flex: 1;\r\n  -webkit-flex-grow: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  margin-bottom: 0;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n  -ms-flex-direction: column;\r\n  flex-direction: column;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n  -ms-flex-pack: center;\r\n  justify-content: center;\r\n}\r\n\r\n.input-group .has-float-label-md .form-control {\r\n  width: 100%;\r\n  border-radius: 0.25rem;\r\n}\r\n\r\n.input-group .has-float-label-md:not(:last-child), .input-group .has-float-label-md:not(:last-child) .form-control {\r\n  border-bottom-right-radius: 0;\r\n  border-top-right-radius: 0;\r\n  border-right: 0;\r\n}\r\n\r\n.input-group .has-float-label-md:not(:first-child), .input-group .has-float-label-md:not(:first-child) .form-control {\r\n  border-bottom-left-radius: 0;\r\n  border-top-left-radius: 0;\r\n}\r\n\r\n\r\n.has-float-label-lg {\r\n  display: block;\r\n  position: relative;\r\n}\r\n\r\n.has-float-label-lg label, .has-float-label-lg>span {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  cursor: text;\r\n  font-size: 75%;\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n  top: -.5em;\r\n  left: 0.75rem;\r\n  z-index: 3;\r\n  line-height: 1;\r\n  padding: 0 1px;\r\n  color :  black !important;\r\n}\r\n\r\n.has-float-label-lg label::after, .has-float-label-lg>span::after {\r\n  content: \" \";\r\n  display: block;\r\n  position: absolute;\r\n  background: white;\r\n  height: 2px;\r\n  top: 50%;\r\n  left: -.2em;\r\n  right: -.2em;\r\n  z-index: -1;\r\n}\r\n\r\n.has-float-label-lg .form-control::-webkit-input-placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control::-moz-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control:-ms-input-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control::placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)+* {\r\n  font-size: 120% !important;\r\n  opacity: .5 !important;\r\n  top: .7em !important;\r\n  color :  black !important;\r\n}\r\n\r\n.input-group .has-float-label-lg {\r\n  -webkit-box-flex: 1;\r\n  -webkit-flex-grow: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  margin-bottom: 0;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n  -ms-flex-direction: column;\r\n  flex-direction: column;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n  -ms-flex-pack: center;\r\n  justify-content: center;\r\n}\r\n\r\n.input-group .has-float-label-lg .form-control {\r\n  width: 100%;\r\n  border-radius: 0.25rem;\r\n}\r\n\r\n.input-group .has-float-label-lg:not(:last-child), .input-group .has-float-label-lg:not(:last-child) .form-control {\r\n  border-bottom-right-radius: 0;\r\n  border-top-right-radius: 0;\r\n  border-right: 0;\r\n}\r\n\r\n.input-group .has-float-label-lg:not(:first-child), .input-group .has-float-label-lg:not(:first-child) .form-control {\r\n  border-bottom-left-radius: 0;\r\n  border-top-left-radius: 0;\r\n}\r\n.has-float-label-lg {\r\n  display: block;\r\n  position: relative;\r\n}\r\n\r\n.has-float-label-lg label, .has-float-label-lg>span {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  cursor: text;\r\n  font-size: 75%;\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n  top: -.5em;\r\n  left: 0.75rem;\r\n  z-index: 3;\r\n  line-height: 1;\r\n  padding: 0 1px;\r\n  color :  black !important;\r\n}\r\n\r\n.has-float-label-lg label::after, .has-float-label-lg>span::after {\r\n  content: \" \";\r\n  display: block;\r\n  position: absolute;\r\n  background: white;\r\n  height: 2px;\r\n  top: 50%;\r\n  left: -.2em;\r\n  right: -.2em;\r\n  z-index: -1;\r\n}\r\n\r\n.has-float-label-lg .form-control::-webkit-input-placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control::-moz-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control:-ms-input-placeholder {\r\n  opacity: 1;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control::placeholder {\r\n  opacity: 1;\r\n  -webkit-transition: all .2s;\r\n  transition: all .2s;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::-moz-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus):-ms-input-placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)::placeholder {\r\n  opacity: 0;\r\n}\r\n\r\n.has-float-label-lg .form-control:placeholder-shown:not(:focus)+* {\r\n  font-size: 120% !important;\r\n  opacity: .5 !important;\r\n  top: .7em !important;\r\n  color :  black !important;\r\n}\r\n\r\n.input-group .has-float-label-lg {\r\n  -webkit-box-flex: 1;\r\n  -webkit-flex-grow: 1;\r\n  -ms-flex-positive: 1;\r\n  flex-grow: 1;\r\n  margin-bottom: 0;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n  -ms-flex-direction: column;\r\n  flex-direction: column;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n  -ms-flex-pack: center;\r\n  justify-content: center;\r\n}\r\n\r\n.input-group .has-float-label-lg .form-control {\r\n  width: 100%;\r\n  border-radius: 0.25rem;\r\n}\r\n\r\n.input-group .has-float-label-lg:not(:last-child), .input-group .has-float-label-lg:not(:last-child) .form-control {\r\n  border-bottom-right-radius: 0;\r\n  border-top-right-radius: 0;\r\n  border-right: 0;\r\n}\r\n\r\n.input-group .has-float-label-lg:not(:first-child), .input-group .has-float-label-lg:not(:first-child) .form-control {\r\n  border-bottom-left-radius: 0;\r\n  border-top-left-radius: 0;\r\n}\r\n\r\n"
 });
 ___scope___.file("components/bootstrap/navbar/navbar-megamenu.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".navbar-megamenu .nav,\n.navbar-megamenu .collapse,\n.navbar-megamenu .dropup,\n.navbar-megamenu .dropdown {\n    position: static;\n}\n.navbar-megamenu .container {\n    position: relative;\n}\n.navbar-megamenu .dropdown-menu {\n    left: auto;\n}\n.navbar-megamenu .navbar-megamenu-content {\n    padding: 20px 30px;\n}\n.navbar-megamenu .dropdown.navbar-megamenu-fullwidth .dropdown-menu {\n    left: 0;\n    right: 0;\n}\n"
+module.exports = ".navbar-megamenu .nav,\r\n.navbar-megamenu .collapse,\r\n.navbar-megamenu .dropup,\r\n.navbar-megamenu .dropdown {\r\n    position: static;\r\n}\r\n.navbar-megamenu .container {\r\n    position: relative;\r\n}\r\n.navbar-megamenu .dropdown-menu {\r\n    left: auto;\r\n}\r\n.navbar-megamenu .navbar-megamenu-content {\r\n    padding: 20px 30px;\r\n}\r\n.navbar-megamenu .dropdown.navbar-megamenu-fullwidth .dropdown-menu {\r\n    left: 0;\r\n    right: 0;\r\n}\r\n"
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = "/*! ========================================================================\n * Bootstrap Toggle: bootstrap-toggle.css v2.2.0\n * http://www.bootstraptoggle.com\n * ========================================================================\n * Copyright 2014 Min Hur, The New York Times Company\n * Licensed under MIT\n * ======================================================================== */\n\n.checkbox label .toggle, .checkbox-inline .toggle {\n    margin-left: 0px;\n    margin-right: 3px;\n}\n\n.toggle {\n    position: relative;\n    overflow: hidden;\n}\n\n.toggle input[type=\"checkbox\"] {\n    display: none;\n}\n\n.toggle-group {\n    position: absolute;\n    width: 200%;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    transition: left 0.35s;\n    -webkit-transition: left 0.35s;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n}\n\n.toggle.off .toggle-group {\n    left: -100%;\n}\n\n.toggle-on {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    right: 50%;\n    margin: 0;\n    border: 0;\n    border-radius: 0;\n}\n\n.toggle-off {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 50%;\n    right: 0;\n    margin: 0;\n    border: 0;\n    border-radius: 0;\n}\n\n.toggle-handle {\n    position: relative;\n    margin: 0 auto;\n    padding-top: 0px;\n    padding-bottom: 0px;\n    height: 100%;\n    width: 0px;\n    border-width: 0 1px;\n}\n\n.toggle.btn {\n    min-width: 59px;\n    min-height: 34px;\n}\n\n.toggle-on.btn {\n    padding-right: 24px;\n}\n\n.toggle-off.btn {\n    padding-left: 24px;\n}\n\n.toggle.btn-lg {\n    min-width: 79px;\n    min-height: 45px;\n}\n\n.toggle-on.btn-lg {\n    padding-right: 31px;\n}\n\n.toggle-off.btn-lg {\n    padding-left: 31px;\n}\n\n.toggle-handle.btn-lg {\n    width: 40px;\n}\n\n.toggle.btn-sm {\n    min-width: 50px;\n    min-height: 30px;\n}\n\n.toggle-on.btn-sm {\n    padding-right: 20px;\n}\n\n.toggle-off.btn-sm {\n    padding-left: 20px;\n}\n\n.toggle.btn-xs {\n    min-width: 35px;\n    min-height: 22px;\n}\n\n.toggle-on.btn-xs {\n    padding-right: 12px;\n}\n\n.toggle-off.btn-xs {\n    padding-left: 12px;\n}\n\n/* Toolbelt Styles */\n\n.toggle-on, .toggle-off, .checkbox-inline, .checkbox label .toggle, .checkbox-inline .toggle {\n    cursor: pointer\n}\n\n/*  **************************************************  */"
+module.exports = "/*! ========================================================================\r\n * Bootstrap Toggle: bootstrap-toggle.css v2.2.0\r\n * http://www.bootstraptoggle.com\r\n * ========================================================================\r\n * Copyright 2014 Min Hur, The New York Times Company\r\n * Licensed under MIT\r\n * ======================================================================== */\r\n\r\n.checkbox label .toggle, .checkbox-inline .toggle {\r\n    margin-left: 0px;\r\n    margin-right: 3px;\r\n}\r\n\r\n.toggle {\r\n    position: relative;\r\n    overflow: hidden;\r\n}\r\n\r\n.toggle input[type=\"checkbox\"] {\r\n    display: none;\r\n}\r\n\r\n.toggle-group {\r\n    position: absolute;\r\n    width: 200%;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    transition: left 0.35s;\r\n    -webkit-transition: left 0.35s;\r\n    -moz-user-select: none;\r\n    -webkit-user-select: none;\r\n}\r\n\r\n.toggle.off .toggle-group {\r\n    left: -100%;\r\n}\r\n\r\n.toggle-on {\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    right: 50%;\r\n    margin: 0;\r\n    border: 0;\r\n    border-radius: 0;\r\n}\r\n\r\n.toggle-off {\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 50%;\r\n    right: 0;\r\n    margin: 0;\r\n    border: 0;\r\n    border-radius: 0;\r\n}\r\n\r\n.toggle-handle {\r\n    position: relative;\r\n    margin: 0 auto;\r\n    padding-top: 0px;\r\n    padding-bottom: 0px;\r\n    height: 100%;\r\n    width: 0px;\r\n    border-width: 0 1px;\r\n}\r\n\r\n.toggle.btn {\r\n    min-width: 59px;\r\n    min-height: 34px;\r\n}\r\n\r\n.toggle-on.btn {\r\n    padding-right: 24px;\r\n}\r\n\r\n.toggle-off.btn {\r\n    padding-left: 24px;\r\n}\r\n\r\n.toggle.btn-lg {\r\n    min-width: 79px;\r\n    min-height: 45px;\r\n}\r\n\r\n.toggle-on.btn-lg {\r\n    padding-right: 31px;\r\n}\r\n\r\n.toggle-off.btn-lg {\r\n    padding-left: 31px;\r\n}\r\n\r\n.toggle-handle.btn-lg {\r\n    width: 40px;\r\n}\r\n\r\n.toggle.btn-sm {\r\n    min-width: 50px;\r\n    min-height: 30px;\r\n}\r\n\r\n.toggle-on.btn-sm {\r\n    padding-right: 20px;\r\n}\r\n\r\n.toggle-off.btn-sm {\r\n    padding-left: 20px;\r\n}\r\n\r\n.toggle.btn-xs {\r\n    min-width: 35px;\r\n    min-height: 22px;\r\n}\r\n\r\n.toggle-on.btn-xs {\r\n    padding-right: 12px;\r\n}\r\n\r\n.toggle-off.btn-xs {\r\n    padding-left: 12px;\r\n}\r\n\r\n/* Toolbelt Styles */\r\n\r\n.toggle-on, .toggle-off, .checkbox-inline, .checkbox label .toggle, .checkbox-inline .toggle {\r\n    cursor: pointer\r\n}\r\n\r\n/*  **************************************************  */"
 });
 ___scope___.file("components/jquery/block-ui/aut-block-ui.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = "/* http://tobiasahlin.com/spinkit/ */\n\n\n/* 2 */\n\n.double-bounce {\n    width: 40px;\n    height: 40px;\n    position: relative;\n    margin: 100px auto;\n}\n\n.double-bounce1,\n.double-bounce2 {\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    background-color: #333;\n    opacity: 0.6;\n    position: absolute;\n    top: 0;\n    left: 0;\n    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;\n    animation: sk-bounce 2.0s infinite ease-in-out;\n}\n\n.double-bounce2 {\n    -webkit-animation-delay: -1.0s;\n    animation-delay: -1.0s;\n}\n\n@-webkit-keyframes sk-bounce {\n    0%,\n    100% {\n        -webkit-transform: scale(0.0)\n    }\n    50% {\n        -webkit-transform: scale(1.0)\n    }\n}\n\n@keyframes sk-bounce {\n    0%,\n    100% {\n        transform: scale(0.0);\n        -webkit-transform: scale(0.0);\n    }\n    50% {\n        transform: scale(1.0);\n        -webkit-transform: scale(1.0);\n    }\n}\n\n*/\n/* 3 */\n\n.rectangle {\n    margin: 100px auto;\n    width: 50px;\n    height: 40px;\n    text-align: center;\n    font-size: 10px;\n}\n\n.rectangle>div {\n    background-color: #333;\n    height: 100%;\n    width: 6px;\n    display: inline-block;\n    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;\n    animation: sk-stretchdelay 1.2s infinite ease-in-out;\n}\n\n.rectangle .rect2 {\n    -webkit-animation-delay: -1.1s;\n    animation-delay: -1.1s;\n}\n\n.rectangle .rect3 {\n    -webkit-animation-delay: -1.0s;\n    animation-delay: -1.0s;\n}\n\n.rectangle .rect4 {\n    -webkit-animation-delay: -0.9s;\n    animation-delay: -0.9s;\n}\n\n.rectangle .rect5 {\n    -webkit-animation-delay: -0.8s;\n    animation-delay: -0.8s;\n}\n\n@-webkit-keyframes sk-stretchdelay {\n    0%,\n    40%,\n    100% {\n        -webkit-transform: scaleY(0.4)\n    }\n    20% {\n        -webkit-transform: scaleY(1.0)\n    }\n}\n\n@keyframes sk-stretchdelay {\n    0%,\n    40%,\n    100% {\n        transform: scaleY(0.4);\n        -webkit-transform: scaleY(0.4);\n    }\n    20% {\n        transform: scaleY(1.0);\n        -webkit-transform: scaleY(1.0);\n    }\n}\n\n*/\n/* 7 */\n\n.bounce {\n    margin: 100px auto 0;\n    width: 70px;\n    text-align: center;\n}\n\n.bounce>div {\n    width: 18px;\n    height: 18px;\n    background-color: #333;\n    border-radius: 100%;\n    display: inline-block;\n    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n    animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n\n.bounce .bounce1 {\n    -webkit-animation-delay: -0.32s;\n    animation-delay: -0.32s;\n}\n\n.bounce .bounce2 {\n    -webkit-animation-delay: -0.16s;\n    animation-delay: -0.16s;\n}\n\n@-webkit-keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0)\n    }\n    40% {\n        -webkit-transform: scale(1.0)\n    }\n}\n\n@keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0);\n        transform: scale(0);\n    }\n    40% {\n        -webkit-transform: scale(1.0);\n        transform: scale(1.0);\n    }\n}\n\n*/\n/* 9 */\n\n.sk-cube-grid {\n    width: 40px;\n    height: 40px;\n    margin: 100px auto;\n}\n\n.sk-cube-grid .sk-cube {\n    width: 33%;\n    height: 33%;\n    background-color: #333;\n    float: left;\n    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\n    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\n}\n\n.sk-cube-grid .sk-cube1 {\n    -webkit-animation-delay: 0.2s;\n    animation-delay: 0.2s;\n}\n\n.sk-cube-grid .sk-cube2 {\n    -webkit-animation-delay: 0.3s;\n    animation-delay: 0.3s;\n}\n\n.sk-cube-grid .sk-cube3 {\n    -webkit-animation-delay: 0.4s;\n    animation-delay: 0.4s;\n}\n\n.sk-cube-grid .sk-cube4 {\n    -webkit-animation-delay: 0.1s;\n    animation-delay: 0.1s;\n}\n\n.sk-cube-grid .sk-cube5 {\n    -webkit-animation-delay: 0.2s;\n    animation-delay: 0.2s;\n}\n\n.sk-cube-grid .sk-cube6 {\n    -webkit-animation-delay: 0.3s;\n    animation-delay: 0.3s;\n}\n\n.sk-cube-grid .sk-cube7 {\n    -webkit-animation-delay: 0s;\n    animation-delay: 0s;\n}\n\n.sk-cube-grid .sk-cube8 {\n    -webkit-animation-delay: 0.1s;\n    animation-delay: 0.1s;\n}\n\n.sk-cube-grid .sk-cube9 {\n    -webkit-animation-delay: 0.2s;\n    animation-delay: 0.2s;\n}\n\n@-webkit-keyframes sk-cubeGridScaleDelay {\n    0%,\n    70%,\n    100% {\n        -webkit-transform: scale3D(1, 1, 1);\n        transform: scale3D(1, 1, 1);\n    }\n    35% {\n        -webkit-transform: scale3D(0, 0, 1);\n        transform: scale3D(0, 0, 1);\n    }\n}\n\n@keyframes sk-cubeGridScaleDelay {\n    0%,\n    70%,\n    100% {\n        -webkit-transform: scale3D(1, 1, 1);\n        transform: scale3D(1, 1, 1);\n    }\n    35% {\n        -webkit-transform: scale3D(0, 0, 1);\n        transform: scale3D(0, 0, 1);\n    }\n}\n\n*/\n/* 10 */\n\n.sk-fading-circle {\n    margin: 100px auto;\n    width: 40px;\n    height: 40px;\n    position: relative;\n}\n\n.sk-fading-circle .sk-circle {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    left: 0;\n    top: 0;\n}\n\n.sk-fading-circle .sk-circle:before {\n    content: '';\n    display: block;\n    margin: 0 auto;\n    width: 15%;\n    height: 15%;\n    background-color: #333;\n    border-radius: 100%;\n    -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\n    animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\n}\n\n.sk-fading-circle .sk-circle2 {\n    -webkit-transform: rotate(30deg);\n    -ms-transform: rotate(30deg);\n    transform: rotate(30deg);\n}\n\n.sk-fading-circle .sk-circle3 {\n    -webkit-transform: rotate(60deg);\n    -ms-transform: rotate(60deg);\n    transform: rotate(60deg);\n}\n\n.sk-fading-circle .sk-circle4 {\n    -webkit-transform: rotate(90deg);\n    -ms-transform: rotate(90deg);\n    transform: rotate(90deg);\n}\n\n.sk-fading-circle .sk-circle5 {\n    -webkit-transform: rotate(120deg);\n    -ms-transform: rotate(120deg);\n    transform: rotate(120deg);\n}\n\n.sk-fading-circle .sk-circle6 {\n    -webkit-transform: rotate(150deg);\n    -ms-transform: rotate(150deg);\n    transform: rotate(150deg);\n}\n\n.sk-fading-circle .sk-circle7 {\n    -webkit-transform: rotate(180deg);\n    -ms-transform: rotate(180deg);\n    transform: rotate(180deg);\n}\n\n.sk-fading-circle .sk-circle8 {\n    -webkit-transform: rotate(210deg);\n    -ms-transform: rotate(210deg);\n    transform: rotate(210deg);\n}\n\n.sk-fading-circle .sk-circle9 {\n    -webkit-transform: rotate(240deg);\n    -ms-transform: rotate(240deg);\n    transform: rotate(240deg);\n}\n\n.sk-fading-circle .sk-circle10 {\n    -webkit-transform: rotate(270deg);\n    -ms-transform: rotate(270deg);\n    transform: rotate(270deg);\n}\n\n.sk-fading-circle .sk-circle11 {\n    -webkit-transform: rotate(300deg);\n    -ms-transform: rotate(300deg);\n    transform: rotate(300deg);\n}\n\n.sk-fading-circle .sk-circle12 {\n    -webkit-transform: rotate(330deg);\n    -ms-transform: rotate(330deg);\n    transform: rotate(330deg);\n}\n\n.sk-fading-circle .sk-circle2:before {\n    -webkit-animation-delay: -1.1s;\n    animation-delay: -1.1s;\n}\n\n.sk-fading-circle .sk-circle3:before {\n    -webkit-animation-delay: -1s;\n    animation-delay: -1s;\n}\n\n.sk-fading-circle .sk-circle4:before {\n    -webkit-animation-delay: -0.9s;\n    animation-delay: -0.9s;\n}\n\n.sk-fading-circle .sk-circle5:before {\n    -webkit-animation-delay: -0.8s;\n    animation-delay: -0.8s;\n}\n\n.sk-fading-circle .sk-circle6:before {\n    -webkit-animation-delay: -0.7s;\n    animation-delay: -0.7s;\n}\n\n.sk-fading-circle .sk-circle7:before {\n    -webkit-animation-delay: -0.6s;\n    animation-delay: -0.6s;\n}\n\n.sk-fading-circle .sk-circle8:before {\n    -webkit-animation-delay: -0.5s;\n    animation-delay: -0.5s;\n}\n\n.sk-fading-circle .sk-circle9:before {\n    -webkit-animation-delay: -0.4s;\n    animation-delay: -0.4s;\n}\n\n.sk-fading-circle .sk-circle10:before {\n    -webkit-animation-delay: -0.3s;\n    animation-delay: -0.3s;\n}\n\n.sk-fading-circle .sk-circle11:before {\n    -webkit-animation-delay: -0.2s;\n    animation-delay: -0.2s;\n}\n\n.sk-fading-circle .sk-circle12:before {\n    -webkit-animation-delay: -0.1s;\n    animation-delay: -0.1s;\n}\n\n@-webkit-keyframes sk-circleFadeDelay {\n    0%,\n    39%,\n    100% {\n        opacity: 0;\n    }\n    40% {\n        opacity: 1;\n    }\n}\n\n@keyframes sk-circleFadeDelay {\n    0%,\n    39%,\n    100% {\n        opacity: 0;\n    }\n    40% {\n        opacity: 1;\n    }\n}"
+module.exports = "/* http://tobiasahlin.com/spinkit/ */\r\n\r\n\r\n/* 2 */\r\n\r\n.double-bounce {\r\n    width: 40px;\r\n    height: 40px;\r\n    position: relative;\r\n    margin: 100px auto;\r\n}\r\n\r\n.double-bounce1,\r\n.double-bounce2 {\r\n    width: 100%;\r\n    height: 100%;\r\n    border-radius: 50%;\r\n    background-color: #333;\r\n    opacity: 0.6;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;\r\n    animation: sk-bounce 2.0s infinite ease-in-out;\r\n}\r\n\r\n.double-bounce2 {\r\n    -webkit-animation-delay: -1.0s;\r\n    animation-delay: -1.0s;\r\n}\r\n\r\n@-webkit-keyframes sk-bounce {\r\n    0%,\r\n    100% {\r\n        -webkit-transform: scale(0.0)\r\n    }\r\n    50% {\r\n        -webkit-transform: scale(1.0)\r\n    }\r\n}\r\n\r\n@keyframes sk-bounce {\r\n    0%,\r\n    100% {\r\n        transform: scale(0.0);\r\n        -webkit-transform: scale(0.0);\r\n    }\r\n    50% {\r\n        transform: scale(1.0);\r\n        -webkit-transform: scale(1.0);\r\n    }\r\n}\r\n\r\n*/\r\n/* 3 */\r\n\r\n.rectangle {\r\n    margin: 100px auto;\r\n    width: 50px;\r\n    height: 40px;\r\n    text-align: center;\r\n    font-size: 10px;\r\n}\r\n\r\n.rectangle>div {\r\n    background-color: #333;\r\n    height: 100%;\r\n    width: 6px;\r\n    display: inline-block;\r\n    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;\r\n    animation: sk-stretchdelay 1.2s infinite ease-in-out;\r\n}\r\n\r\n.rectangle .rect2 {\r\n    -webkit-animation-delay: -1.1s;\r\n    animation-delay: -1.1s;\r\n}\r\n\r\n.rectangle .rect3 {\r\n    -webkit-animation-delay: -1.0s;\r\n    animation-delay: -1.0s;\r\n}\r\n\r\n.rectangle .rect4 {\r\n    -webkit-animation-delay: -0.9s;\r\n    animation-delay: -0.9s;\r\n}\r\n\r\n.rectangle .rect5 {\r\n    -webkit-animation-delay: -0.8s;\r\n    animation-delay: -0.8s;\r\n}\r\n\r\n@-webkit-keyframes sk-stretchdelay {\r\n    0%,\r\n    40%,\r\n    100% {\r\n        -webkit-transform: scaleY(0.4)\r\n    }\r\n    20% {\r\n        -webkit-transform: scaleY(1.0)\r\n    }\r\n}\r\n\r\n@keyframes sk-stretchdelay {\r\n    0%,\r\n    40%,\r\n    100% {\r\n        transform: scaleY(0.4);\r\n        -webkit-transform: scaleY(0.4);\r\n    }\r\n    20% {\r\n        transform: scaleY(1.0);\r\n        -webkit-transform: scaleY(1.0);\r\n    }\r\n}\r\n\r\n*/\r\n/* 7 */\r\n\r\n.bounce {\r\n    margin: 100px auto 0;\r\n    width: 70px;\r\n    text-align: center;\r\n}\r\n\r\n.bounce>div {\r\n    width: 18px;\r\n    height: 18px;\r\n    background-color: #333;\r\n    border-radius: 100%;\r\n    display: inline-block;\r\n    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\r\n    animation: sk-bouncedelay 1.4s infinite ease-in-out both;\r\n}\r\n\r\n.bounce .bounce1 {\r\n    -webkit-animation-delay: -0.32s;\r\n    animation-delay: -0.32s;\r\n}\r\n\r\n.bounce .bounce2 {\r\n    -webkit-animation-delay: -0.16s;\r\n    animation-delay: -0.16s;\r\n}\r\n\r\n@-webkit-keyframes sk-bouncedelay {\r\n    0%,\r\n    80%,\r\n    100% {\r\n        -webkit-transform: scale(0)\r\n    }\r\n    40% {\r\n        -webkit-transform: scale(1.0)\r\n    }\r\n}\r\n\r\n@keyframes sk-bouncedelay {\r\n    0%,\r\n    80%,\r\n    100% {\r\n        -webkit-transform: scale(0);\r\n        transform: scale(0);\r\n    }\r\n    40% {\r\n        -webkit-transform: scale(1.0);\r\n        transform: scale(1.0);\r\n    }\r\n}\r\n\r\n*/\r\n/* 9 */\r\n\r\n.sk-cube-grid {\r\n    width: 40px;\r\n    height: 40px;\r\n    margin: 100px auto;\r\n}\r\n\r\n.sk-cube-grid .sk-cube {\r\n    width: 33%;\r\n    height: 33%;\r\n    background-color: #333;\r\n    float: left;\r\n    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\r\n    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\r\n}\r\n\r\n.sk-cube-grid .sk-cube1 {\r\n    -webkit-animation-delay: 0.2s;\r\n    animation-delay: 0.2s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube2 {\r\n    -webkit-animation-delay: 0.3s;\r\n    animation-delay: 0.3s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube3 {\r\n    -webkit-animation-delay: 0.4s;\r\n    animation-delay: 0.4s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube4 {\r\n    -webkit-animation-delay: 0.1s;\r\n    animation-delay: 0.1s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube5 {\r\n    -webkit-animation-delay: 0.2s;\r\n    animation-delay: 0.2s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube6 {\r\n    -webkit-animation-delay: 0.3s;\r\n    animation-delay: 0.3s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube7 {\r\n    -webkit-animation-delay: 0s;\r\n    animation-delay: 0s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube8 {\r\n    -webkit-animation-delay: 0.1s;\r\n    animation-delay: 0.1s;\r\n}\r\n\r\n.sk-cube-grid .sk-cube9 {\r\n    -webkit-animation-delay: 0.2s;\r\n    animation-delay: 0.2s;\r\n}\r\n\r\n@-webkit-keyframes sk-cubeGridScaleDelay {\r\n    0%,\r\n    70%,\r\n    100% {\r\n        -webkit-transform: scale3D(1, 1, 1);\r\n        transform: scale3D(1, 1, 1);\r\n    }\r\n    35% {\r\n        -webkit-transform: scale3D(0, 0, 1);\r\n        transform: scale3D(0, 0, 1);\r\n    }\r\n}\r\n\r\n@keyframes sk-cubeGridScaleDelay {\r\n    0%,\r\n    70%,\r\n    100% {\r\n        -webkit-transform: scale3D(1, 1, 1);\r\n        transform: scale3D(1, 1, 1);\r\n    }\r\n    35% {\r\n        -webkit-transform: scale3D(0, 0, 1);\r\n        transform: scale3D(0, 0, 1);\r\n    }\r\n}\r\n\r\n*/\r\n/* 10 */\r\n\r\n.sk-fading-circle {\r\n    margin: 100px auto;\r\n    width: 40px;\r\n    height: 40px;\r\n    position: relative;\r\n}\r\n\r\n.sk-fading-circle .sk-circle {\r\n    width: 100%;\r\n    height: 100%;\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.sk-fading-circle .sk-circle:before {\r\n    content: '';\r\n    display: block;\r\n    margin: 0 auto;\r\n    width: 15%;\r\n    height: 15%;\r\n    background-color: #333;\r\n    border-radius: 100%;\r\n    -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\r\n    animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\r\n}\r\n\r\n.sk-fading-circle .sk-circle2 {\r\n    -webkit-transform: rotate(30deg);\r\n    -ms-transform: rotate(30deg);\r\n    transform: rotate(30deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle3 {\r\n    -webkit-transform: rotate(60deg);\r\n    -ms-transform: rotate(60deg);\r\n    transform: rotate(60deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle4 {\r\n    -webkit-transform: rotate(90deg);\r\n    -ms-transform: rotate(90deg);\r\n    transform: rotate(90deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle5 {\r\n    -webkit-transform: rotate(120deg);\r\n    -ms-transform: rotate(120deg);\r\n    transform: rotate(120deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle6 {\r\n    -webkit-transform: rotate(150deg);\r\n    -ms-transform: rotate(150deg);\r\n    transform: rotate(150deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle7 {\r\n    -webkit-transform: rotate(180deg);\r\n    -ms-transform: rotate(180deg);\r\n    transform: rotate(180deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle8 {\r\n    -webkit-transform: rotate(210deg);\r\n    -ms-transform: rotate(210deg);\r\n    transform: rotate(210deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle9 {\r\n    -webkit-transform: rotate(240deg);\r\n    -ms-transform: rotate(240deg);\r\n    transform: rotate(240deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle10 {\r\n    -webkit-transform: rotate(270deg);\r\n    -ms-transform: rotate(270deg);\r\n    transform: rotate(270deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle11 {\r\n    -webkit-transform: rotate(300deg);\r\n    -ms-transform: rotate(300deg);\r\n    transform: rotate(300deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle12 {\r\n    -webkit-transform: rotate(330deg);\r\n    -ms-transform: rotate(330deg);\r\n    transform: rotate(330deg);\r\n}\r\n\r\n.sk-fading-circle .sk-circle2:before {\r\n    -webkit-animation-delay: -1.1s;\r\n    animation-delay: -1.1s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle3:before {\r\n    -webkit-animation-delay: -1s;\r\n    animation-delay: -1s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle4:before {\r\n    -webkit-animation-delay: -0.9s;\r\n    animation-delay: -0.9s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle5:before {\r\n    -webkit-animation-delay: -0.8s;\r\n    animation-delay: -0.8s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle6:before {\r\n    -webkit-animation-delay: -0.7s;\r\n    animation-delay: -0.7s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle7:before {\r\n    -webkit-animation-delay: -0.6s;\r\n    animation-delay: -0.6s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle8:before {\r\n    -webkit-animation-delay: -0.5s;\r\n    animation-delay: -0.5s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle9:before {\r\n    -webkit-animation-delay: -0.4s;\r\n    animation-delay: -0.4s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle10:before {\r\n    -webkit-animation-delay: -0.3s;\r\n    animation-delay: -0.3s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle11:before {\r\n    -webkit-animation-delay: -0.2s;\r\n    animation-delay: -0.2s;\r\n}\r\n\r\n.sk-fading-circle .sk-circle12:before {\r\n    -webkit-animation-delay: -0.1s;\r\n    animation-delay: -0.1s;\r\n}\r\n\r\n@-webkit-keyframes sk-circleFadeDelay {\r\n    0%,\r\n    39%,\r\n    100% {\r\n        opacity: 0;\r\n    }\r\n    40% {\r\n        opacity: 1;\r\n    }\r\n}\r\n\r\n@keyframes sk-circleFadeDelay {\r\n    0%,\r\n    39%,\r\n    100% {\r\n        opacity: 0;\r\n    }\r\n    40% {\r\n        opacity: 1;\r\n    }\r\n}"
 });
 ___scope___.file("components/purejs/clock/aut-clock.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".clock {\n    font-family: 'Share Tech Mono', monospace;\n    text-align: center;\n    -webkit-transform: translate(-50%, -50%);\n    transform: translate(-50%, -50%);\n    -webkit-touch-callout: none;\n    /* iOS Safari */\n    -webkit-user-select: none;\n    /* Safari */\n    -khtml-user-select: none;\n    /* Konqueror HTML */\n    -moz-user-select: none;\n    /* Firefox */\n    -ms-user-select: none;\n    /* Internet Explorer/Edge */\n    user-select: none;\n    /* Non-prefixed version, currently */\n}\n\n.clock>p {\n    margin: 0;\n    padding: 0;\n}\n\n.clock .time {\n    letter-spacing: 0.05em;\n}\n\n.clock .date {\n    letter-spacing: 0.1em;\n    padding-bottom: 5px;\n}\n\n.clock .text {\n    letter-spacing: 0.1em;\n    padding: 10px 0 0;\n}"
+module.exports = ".clock {\r\n    font-family: 'Share Tech Mono', monospace;\r\n    text-align: center;\r\n    -webkit-transform: translate(-50%, -50%);\r\n    transform: translate(-50%, -50%);\r\n    -webkit-touch-callout: none;\r\n    /* iOS Safari */\r\n    -webkit-user-select: none;\r\n    /* Safari */\r\n    -khtml-user-select: none;\r\n    /* Konqueror HTML */\r\n    -moz-user-select: none;\r\n    /* Firefox */\r\n    -ms-user-select: none;\r\n    /* Internet Explorer/Edge */\r\n    user-select: none;\r\n    /* Non-prefixed version, currently */\r\n}\r\n\r\n.clock>p {\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n.clock .time {\r\n    letter-spacing: 0.05em;\r\n}\r\n\r\n.clock .date {\r\n    letter-spacing: 0.1em;\r\n    padding-bottom: 5px;\r\n}\r\n\r\n.clock .text {\r\n    letter-spacing: 0.1em;\r\n    padding: 10px 0 0;\r\n}"
 });
 ___scope___.file("components/purejs/scrollup/aut-scrollup.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".aut-scrollup {\n  display: none;\n  position: fixed;\n  bottom: 20px;\n  right: 30px;\n  width:50px;\n  height:50px;\n  z-index: 9999;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  padding: 0px;\n  border-radius: 50%;\n}\n"
+module.exports = ".aut-scrollup {\r\n  display: none;\r\n  position: fixed;\r\n  bottom: 20px;\r\n  right: 30px;\r\n  width:50px;\r\n  height:50px;\r\n  z-index: 9999999;\r\n  border: none;\r\n  outline: none;\r\n  cursor: pointer;\r\n  padding: 0px;\r\n  border-radius: 50%;\r\n}\r\n"
 });
 ___scope___.file("components/purejs/star-rate/aut-star-rate.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".aut-star {\n  display: inline-block;\n  position: relative;\n  width: 1.1em;\n}\n\n.aut-empty-star:before,\n.aut-empty-star~.au-empty-star:before {\n  content: \"\\2606\";\n  /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  oulined star: \\272E = &#10030; */\n  position: absolute;\n}\n\n.aut-full-star:before,\n.aut-full-star~.au-full-star:before {\n  content: \"\\2605\";\n  /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  oulined star: \\272E = &#10030; */\n  position: absolute;\n}\n\n.aut-star-rtl {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);\n  -webkit-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n"
+module.exports = ".aut-star {\r\n  display: inline-block;\r\n  position: relative;\r\n  width: 1.1em;\r\n}\r\n\r\n.aut-empty-star:before,\r\n.aut-empty-star~.au-empty-star:before {\r\n  content: \"\\2606\";\r\n  /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  oulined star: \\272E = &#10030; */\r\n  position: absolute;\r\n}\r\n\r\n.aut-full-star:before,\r\n.aut-full-star~.au-full-star:before {\r\n  content: \"\\2605\";\r\n  /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  oulined star: \\272E = &#10030; */\r\n  position: absolute;\r\n}\r\n\r\n.aut-star-rtl {\r\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);\r\n  -webkit-transform: scale(-1, 1);\r\n  -ms-transform: scale(-1, 1);\r\n  transform: scale(-1, 1);\r\n}\r\n"
 });
 return ___scope___.entry = "index.js";
 });
