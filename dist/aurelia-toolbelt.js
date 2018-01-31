@@ -230,7 +230,7 @@ module.exports.default =  "<template ref=\"paginationTemplate\">\n  <require fro
 });
 ___scope___.file("components/bootstrap/password/abt-password.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"./abt-password.css\"></require>\n  <abt-inputgroup>\n    <input ref='txtPassword' css=\"${inputStyle}\" type=\"password\" value.bind=\"text\" class=\"form-control abt-password-input ${inputClass}\">\n    <abt-inputgroup-append if.bind=\"passwordVisibility\">\n      <button ref='btnPassword' class=\"btn btn-secondary abt-password-button ${buttonClass}\" click.delegate=\"passwordVisibilityToggle()\"\n        css=\"${buttonStyle}\" type=\"button\">\n        <i ref='iconPassword' class=\"${hideIcon}\"></i>\n      </button>\n    </abt-inputgroup-append>\n  </abt-inputgroup>\n  <abt-progress if.bind=\"showProgressBar\" height=\"${progressBarHeight}\">\n    <abt-progress-bar color-type=\"${progressBarClass}\" color=\"${progressBarColor}\" value=\"${progressBarValue}\" min=\"0\" max=\"100\"></abt-progress-bar>\n  </abt-progress>\n</template>"
+module.exports.default =  "<template ref=\"passwordTemplate\">\n  <require from=\"./abt-password.css\"></require>\n  <require from=\"../inputgroup/abt-inputgroup\"></require>\n  <require from=\"../inputgroup/abt-inputgroup-append\"></require>\n  <require from=\"../progressbar/abt-progress\"></require>\n  <require from=\"../progressbar/abt-progress-bar\"></require>\n  <abt-inputgroup size=\"${size}\">\n    <input ref='txtPassword' css=\"${inputStyle}\" type=\"password\" value.bind=\"text\" class=\"form-control abt-password-input ${inputClass}\">\n    <abt-inputgroup-append if.bind=\"passwordVisibility\">\n      <button ref='btnPassword' class=\"btn btn-${buttonColor} abt-password-button ${buttonClass}\" click.delegate=\"passwordVisibilityToggle()\"\n        css=\"${buttonStyle}\" type=\"button\">\n        <i ref='iconPassword' class=\"${hideIcon}\"></i>\n      </button>\n    </abt-inputgroup-append>\n  </abt-inputgroup>\n  <abt-progress if.bind=\"showProgressBar\" height=\"${progressBarHeight}\">\n    <abt-progress-bar type.bind=\"progressBarClass\" color.bind=\"progressBarColor\" value=\"${progressBarValue}\" min=\"0\" max=\"100\">${percentValue}</abt-progress-bar>\n  </abt-progress>\n  <div id=\"abt-password-errors-list\" ref=\"errorsList\" if.bind=\"!showTooltip\"></div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/popover/abt-popover.html", function(exports, require, module, __filename, __dirname){
 
@@ -238,7 +238,7 @@ module.exports.default =  "<template ref=\"popoverTemplate\">\n  <div ref=\"popo
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress-bar.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"progressbarTemplate\">\n  <div aut-uuid ref=\"progressbar\" class=\"progress-bar ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} ${class}\"\n    role=\"progressbar\" css=\"width: ${value}%; ${style}\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\" aria-valuemax=\"${max}\">\n    <slot>\n      <slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template ref=\"progressbarTemplate\">\n  <div aut-uuid ref=\"progressbar\" class=\"progress-bar ${type? 'bg-'+type : ''} ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} ${class}\"\n    role=\"progressbar\" css=\"width: ${value}%; ${color ? 'background:' + color : ''} ${style}\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\" aria-valuemax=\"${max}\">\n    <slot>\n      <slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress.html", function(exports, require, module, __filename, __dirname){
 
@@ -254,7 +254,7 @@ module.exports.default =  "<template>\n  <div ref=\"spy\" data-spy=\"scroll\" da
 });
 ___scope___.file("components/bootstrap/star-rate/abt-star-rate.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"text-${type}\" css=\"cursor:${readOnly === true ? 'auto' : 'pointer'}; color:${color};\" mouseleave.trigger=\"mouseLeft()\">\n\n  <require from=\"./abt-star-rate.css\"></require>\n\n\n  <i class=\"abt-star-rate ${$index > fixedPoint ? emptyStar : $index < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStar && fixedPoint == $index ) ? halfStar : emptyStar}\"\n    repeat.for=\"$index of maxRate\" mousemove.delegate=\"mouseMove($event,$index)\" click.delegate=\"setRate($index)\">\n  </i>\n\n\n  <i if.bind=\"rtl\" class=\"abt-star-rate abt-star-rtl ${maxRate-$index-1 > fixedPoint ? emptyStar : maxRate-$index-1 < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStar && fixedPoint == maxRate-$index-1 ) ? halfStar : emptyStar}\"\n         repeat.for=\"$index of maxRate\"\n          \n          mousemove.delegate=\"mouseMove($event,maxRate-$index-1)\"\n        click.delegate=\"setRate(maxRate-$index-1)\">\n  </i>\n\n</template>\n"
+module.exports.default =  "<template class=\"text-${type} star-${type} ${class}\" css=\"cursor:${disabled ? 'auto' : 'pointer'};  ${color ? 'color:' + color + ' !important;' : ''} ${style}\" mouseleave.trigger=\"mouseLeft()\">\n\n  <require from=\"./abt-star-rate.css\"></require>\n\n\n  <i if.bind=\"!rtl\" class=\"abt-star-rate ${$index > fixedPoint ? emptyStar : $index < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStarClass && fixedPoint == $index ) ? halfStarClass : emptyStar}\"\n    repeat.for=\"$index of maxRate\" mousemove.delegate=\"mouseMove($event,$index)\" click.delegate=\"setRate($index)\">\n  </i>\n  <!-- <span mouseover.delegate=\"mouseLeft()\"> -->\n    <slot></slot>\n  <!-- </span> -->\n  <i if.bind=\"rtl\" class=\"abt-star-rate abt-star-rtl ${maxRate-$index-1 > fixedPoint ? emptyStar : maxRate-$index-1 < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStarClass && fixedPoint == maxRate-$index-1 ) ? halfStarClass : emptyStar}\"\n         repeat.for=\"$index of maxRate\"\n          \n          mousemove.delegate=\"mouseMove($event,maxRate-$index-1)\"\n        click.delegate=\"setRate(maxRate-$index-1)\">\n  </i>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.html", function(exports, require, module, __filename, __dirname){
 
@@ -310,7 +310,7 @@ module.exports.default =  "<template>\n\n  <require from=\"../../bootstrap/toggl
 });
 ___scope___.file("components/purejs/microlink/aut-microlink.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div style=\"width: 1px\">\n    <a class=\"micro-link ${class}\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n    </a>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div style=\"width: 1px\" class=\"${class}\">\n    <a class=\"micro-link aut-microlink\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n    </a>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/purejs/pretty/aut-checkbox.html", function(exports, require, module, __filename, __dirname){
 
@@ -2040,7 +2040,14 @@ exports.BootstrapDropDown = BootstrapDropDown;
 });
 ___scope___.file("utilities/purejs/uuid.js", function(exports, require, module, __filename, __dirname){
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
 var Uuid = (function () {
     function Uuid() {
     }
@@ -2053,6 +2060,9 @@ var Uuid = (function () {
     Uuid.prototype.Uuidv4ForId = function () {
         return 'aut_uuid_' + this.uuidv4().replace(new RegExp('-', 'g'), '');
     };
+    Uuid = __decorate([
+        aurelia_framework_1.singleton()
+    ], Uuid);
     return Uuid;
 }());
 exports.Uuid = Uuid;
@@ -2091,8 +2101,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+var cssMinifier_1 = require("../../../utilities/purejs/cssMinifier");
 var BootstrapFloatInput = (function () {
-    function BootstrapFloatInput() {
+    function BootstrapFloatInput(cssMinifier) {
+        this.cssMinifier = cssMinifier;
         this.placeholder = null;
         this.placeholderFontSize = null;
         this.labelFontSize = null;
@@ -2134,7 +2146,9 @@ var BootstrapFloatInput = (function () {
         }
         if (this.floatInput.classList.contains('form-control')) {
             this.floatInputLabel.classList.add('has-float-label');
-            aurelia_framework_1.DOM.injectStyles("\n              #" + id + ".has-float-label .form-control:placeholder-shown:not(:focus) + * {\n                color : " + (this.placeholderColor || 'black') + " !important;\n                font-size: " + (this.placeholderFontSize || fontSize) + " !important;\n                opacity: " + (this.placeholderOpacity || '.5') + " !important;\n                top: " + (this.placeholderTop || top) + " !important;\n              }\n              #" + id + ".has-float-label label, #" + id + ".has-float-label > span\n              {\n                color : " + (this.labelColor || 'black') + " !important;\n                font-size: " + (this.labelFontSize || '75%') + " !important;\n              }");
+            var style = "\n                  #" + id + ".has-float-label .form-control:placeholder-shown:not(:focus) + * {\n                    color : " + (this.placeholderColor || 'black') + " !important;\n                    font-size: " + (this.placeholderFontSize || fontSize) + " !important;\n                    opacity: " + (this.placeholderOpacity || '.5') + " !important;\n                    top: " + (this.placeholderTop || top) + " !important;\n                  }\n                  #" + id + ".has-float-label label, #" + id + ".has-float-label > span\n                  {\n                    color : " + (this.labelColor || 'black') + " !important;\n                    font-size: " + (this.labelFontSize || '75%') + " !important;\n                  }";
+            var minify = this.cssMinifier.minify(style);
+            aurelia_framework_1.DOM.injectStyles(minify);
         }
     };
     __decorate([
@@ -2187,12 +2201,42 @@ var BootstrapFloatInput = (function () {
     ], BootstrapFloatInput.prototype, "placeholderColor", void 0);
     BootstrapFloatInput = __decorate([
         aurelia_framework_1.containerless(),
-        aurelia_framework_1.customElement('abt-float-input')
+        aurelia_framework_1.inject(cssMinifier_1.CssMinifier),
+        aurelia_framework_1.customElement('abt-float-input'),
+        __metadata("design:paramtypes", [typeof (_a = typeof cssMinifier_1.CssMinifier !== "undefined" && cssMinifier_1.CssMinifier) === "function" && _a || Object])
     ], BootstrapFloatInput);
     return BootstrapFloatInput;
+    var _a;
 }());
 exports.BootstrapFloatInput = BootstrapFloatInput;
 //# sourceMappingURL=abt-float-input.js.map
+});
+___scope___.file("utilities/purejs/cssMinifier.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var CleanCSS = require('clean-css');
+var CssMinifier = (function () {
+    function CssMinifier() {
+    }
+    CssMinifier.prototype.minify = function (text) {
+        var options = {};
+        var output = new CleanCSS(options).minify(text).styles;
+        return output;
+    };
+    CssMinifier = __decorate([
+        aurelia_framework_1.singleton()
+    ], CssMinifier);
+    return CssMinifier;
+}());
+exports.CssMinifier = CssMinifier;
+//# sourceMappingURL=cssMinifier.js.map
 });
 ___scope___.file("components/bootstrap/float-input/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -4147,26 +4191,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var jsTools_1 = require("./../../../utilities/purejs/jsTools");
 var password_meter_1 = require("password-meter");
 var aurelia_framework_1 = require("aurelia-framework");
 var PasswordCustomElement = (function () {
-    function PasswordCustomElement() {
+    function PasswordCustomElement(jsTools) {
+        this.jsTools = jsTools;
+        this.buttonColor = 'secondary';
         this.errorIcon = 'fa fa-times';
         this.showIcon = 'fa fa-eye';
         this.hideIcon = 'fa fa-eye-slash';
         this.progressBarHeight = '5px';
-        this.showTooltip = false;
+        this.errorDisplayType = 'none';
         this.showProgressBar = true;
         this.size = 'md';
+        this.showPercent = false;
         this.scoreRange = null;
         this.requirements = null;
         this.passwordVisibility = true;
         this.isInvisible = true;
         this.progressBarValue = 0;
+        this.percentValue = '';
         this.progressBarClass = null;
         this.progressBarColor = null;
     }
     PasswordCustomElement.prototype.afterAttached = function () {
+        this.showProgressBar = (this.showProgressBar === '' && this.passwordTemplate.hasAttribute('show-progress-bar')) || this.showProgressBar.toString() === 'true';
+        this.showPercent = (this.showPercent === '' && this.passwordTemplate.hasAttribute('show-percent')) || this.showPercent.toString() === 'true';
+        this.passwordVisibility = (this.passwordVisibility === '' && this.passwordTemplate.hasAttribute('password-visibility')) || this.passwordVisibility.toString() === 'true';
         var req = this.requirements;
         var range = this.getScoreRangeInfo(this.scoreRange);
         this.passwordMeter = new password_meter_1.PasswordMeter(req, range);
@@ -4245,26 +4297,75 @@ var PasswordCustomElement = (function () {
         };
     };
     PasswordCustomElement.prototype.textChanged = function (value) {
+        if (!this.scoreRange) {
+            throw Error("The 'score-range' property can not be null.");
+        }
+        if (!this.jsTools.isObject(this.scoreRange)) {
+            throw Error("The 'score-range' property must be an object.");
+        }
         var result = this.passwordMeter.getResult(value);
         var colorStatus = this.getColorInfo(this.scoreRange, result.status);
-        if (result.score >= 0) {
-            this.progressBarValue = result.percent;
-        }
-        else {
-            this.progressBarValue = 100;
-            colorStatus = this.getMinColorInfo(this.scoreRange);
-        }
         if (colorStatus) {
             if (colorStatus.isClass) {
-                this.progressBarClass = colorStatus.color;
+                this.progressBarClass = colorStatus.color.replace('.', '');
+                this.progressBarColor = null;
             }
             else {
+                this.progressBarClass = null;
                 this.progressBarColor = colorStatus.color;
+            }
+        }
+        if (result.score >= 0) {
+            this.progressBarValue = result.percent;
+            if (this.showPercent && result.score > 0) {
+                this.percentValue = result.percent + '%';
+            }
+        }
+        else {
+            this.percentValue = '';
+            this.progressBarValue = 100;
+            colorStatus = this.getMinColorInfo(this.scoreRange);
+            if (colorStatus.isClass) {
+                this.progressBarClass = colorStatus.color.replace('.', '');
+                this.progressBarColor = null;
+            }
+            else {
+                this.progressBarClass = null;
+                this.progressBarColor = colorStatus.color;
+            }
+        }
+        if (result.score < 0) {
+            this.percentValue = '';
+            if (this.errorDisplayType === 'tooltip') {
+                $(this.txtPassword).tooltip({
+                    'title': this.generateErrorsAsHtml(result.errors),
+                    'html': true,
+                    'animation': true,
+                    'placement': 'bottom',
+                    'template': '<div class="tooltip" role="tooltip"><div class="arrow"></div><div style="max-width: 350px;" class="tooltip-inner text-left text-nowrap"></div></div>'
+                });
+                this.errorsList.innerHTML = '';
+            }
+            else if (this.errorDisplayType === 'list') {
+                $(this.txtPassword).tooltip('dispose');
+                this.errorsList.innerHTML = this.generateErrorsAsHtml(result.errors);
+            }
+            else {
+                $(this.txtPassword).tooltip('dispose');
+                this.errorsList.innerHTML = '';
+            }
+        }
+        if (result.score === 0 || !result.errors) {
+            $(this.txtPassword).tooltip('dispose');
+            this.errorsList.innerHTML = '';
+            if (result.score === 0) {
+                this.percentValue = '';
             }
         }
         if (this.passwordChanged) {
             this.passwordChanged({
-                result: result
+                result: result,
+                colorStatus: colorStatus
             });
         }
     };
@@ -4287,6 +4388,10 @@ var PasswordCustomElement = (function () {
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
+    ], PasswordCustomElement.prototype, "buttonColor", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
     ], PasswordCustomElement.prototype, "errorIcon", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
@@ -4302,16 +4407,20 @@ var PasswordCustomElement = (function () {
     ], PasswordCustomElement.prototype, "progressBarHeight", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
-    ], PasswordCustomElement.prototype, "showTooltip", void 0);
+        __metadata("design:type", String)
+    ], PasswordCustomElement.prototype, "errorDisplayType", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], PasswordCustomElement.prototype, "showProgressBar", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], PasswordCustomElement.prototype, "size", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], PasswordCustomElement.prototype, "showPercent", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", String)
@@ -4326,19 +4435,82 @@ var PasswordCustomElement = (function () {
     ], PasswordCustomElement.prototype, "requirements", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], PasswordCustomElement.prototype, "passwordVisibility", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], PasswordCustomElement.prototype, "passwordChanged", void 0);
     PasswordCustomElement = __decorate([
-        aurelia_framework_1.customElement('abt-password')
+        aurelia_framework_1.inject(jsTools_1.JsTools),
+        aurelia_framework_1.customElement('abt-password'),
+        __metadata("design:paramtypes", [typeof (_a = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _a || Object])
     ], PasswordCustomElement);
     return PasswordCustomElement;
+    var _a;
 }());
 exports.PasswordCustomElement = PasswordCustomElement;
 //# sourceMappingURL=abt-password.js.map
+});
+___scope___.file("utilities/purejs/jsTools.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var JsTools = (function () {
+    function JsTools() {
+    }
+    JsTools.prototype.isString = function (value) {
+        return typeof value === 'string' || value instanceof String;
+    };
+    JsTools.prototype.isNumber = function (value) {
+        return typeof value === 'number' && isFinite(value);
+    };
+    JsTools.prototype.isArray = function (value) {
+        return value && typeof value === 'object' && value.constructor === Array;
+    };
+    JsTools.prototype.isFunction = function (value) {
+        return typeof value === 'function';
+    };
+    JsTools.prototype.isObject = function (value) {
+        return value && typeof value === 'object' && value.constructor === Object;
+    };
+    JsTools.prototype.isNull = function (value) {
+        return value === null;
+    };
+    JsTools.prototype.isUndefined = function (value) {
+        return typeof value === 'undefined';
+    };
+    JsTools.prototype.isBoolean = function (value) {
+        return typeof value === 'boolean';
+    };
+    JsTools.prototype.isRegExp = function (value) {
+        return value && typeof value === 'object' && value.constructor === RegExp;
+    };
+    JsTools.prototype.isError = function (value) {
+        return value instanceof Error && typeof value.message !== 'undefined';
+    };
+    JsTools.prototype.isDate = function (value) {
+        return value instanceof Date;
+    };
+    JsTools.prototype.isSymbol = function (value) {
+        return typeof value === 'symbol';
+    };
+    JsTools.prototype.jsonFormatter = function (value) {
+        return JSON.stringify(value, null, '\t');
+    };
+    JsTools = __decorate([
+        aurelia_framework_1.singleton()
+    ], JsTools);
+    return JsTools;
+}());
+exports.JsTools = JsTools;
+//# sourceMappingURL=jsTools.js.map
 });
 ___scope___.file("components/bootstrap/password/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -4568,16 +4740,18 @@ var BootstrapProgressBar = (function () {
         this.min = Number(this.min);
         this.max = Number(this.max);
         if (this.color && this.gradientColor) {
-            aurelia_framework_1.DOM.injectStyles("\n      #" + this.progressbar.id + "\n      {\n        background: -webkit-gradient(linear, left top, right top, from(" + this.color + "),to(" + this.gradientColor + ")) !important;\n        background: -webkit-linear-gradient(left, " + this.color + " 0%," + this.gradientColor + " 100%) !important;\n        background: -o-linear-gradient(left, " + this.color + " 0%," + this.gradientColor + " 100%) !important;\n        background: linear-gradient(left, " + this.color + " 0%," + this.gradientColor + " 100%) !important;\n      }\n      ");
+            this.gradientColorChanged(this.gradientColor);
         }
-        if (this.colorType) {
-            this.progressbar.classList.add("bg-" + this.colorType);
+    };
+    BootstrapProgressBar.prototype.gradientColorChanged = function (newValue) {
+        if (this.progressbar) {
+            aurelia_framework_1.DOM.injectStyles("\n      #" + this.progressbar.id + "\n      {\n        background: -webkit-gradient(linear, left top, right top, from(" + this.color + "),to(" + newValue + ")) !important;\n        background: -webkit-linear-gradient(left, " + this.color + " 0%," + newValue + " 100%) !important;\n        background: -o-linear-gradient(left, " + this.color + " 0%," + newValue + " 100%) !important;\n        background: linear-gradient(left, " + this.color + " 0%," + newValue + " 100%) !important;\n      }\n      ");
         }
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapProgressBar.prototype, "colorType", void 0);
+    ], BootstrapProgressBar.prototype, "type", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -4830,29 +5004,37 @@ var BootstrapStarRate = (function () {
         this.element = element;
         this.rtl = false;
         this.style = '';
+        this.class = '';
         this.type = 'primary';
+        this.color = null;
         this.maxRate = 5;
         this.disabled = false;
-        this.fullStar = 'abt-star abt-full-star';
-        this.halfStar = null;
-        this.emptyStar = 'abt-star abt-empty-star';
+        this.fullStar = 'fa fa-star';
+        this.emptyStar = 'fa fa-star-o';
+        this.halfStar = false;
         this.rate = 0;
         this.mouseRate = -1;
         this.showHalfStar = false;
+        this.halfStarClass = null;
     }
     BootstrapStarRate.prototype.bind = function () {
         var onlyDisabledAttribute = (this.disabled === '' && this.element.hasAttribute('read-only'));
         this.disabled = onlyDisabledAttribute || this.disabled.toString() === 'true';
         var onlyRTLAttribute = (this.rtl === '' && this.element.hasAttribute('rtl'));
         this.rtl = onlyRTLAttribute || this.rtl.toString() === 'true';
+        var onlyHalfStarAttribute = (this.halfStar === '' && this.element.hasAttribute('half-star'));
+        this.halfStar = onlyHalfStarAttribute || this.halfStar.toString() === 'true';
         this.maxRate = Number(this.maxRate);
         this.rate = Number(this.rate);
+    };
+    BootstrapStarRate.prototype.halfStarChanged = function (newValue) {
+        this.halfStarClass = newValue ? 'fa fa-star-half-o' : null;
     };
     BootstrapStarRate.prototype.mouseMove = function (event, index) {
         if (this.disabled) {
             return;
         }
-        if (this.halfStar) {
+        if (this.halfStarClass) {
             var calculatedIndex = this.rtl ? this.maxRate - index - 1 : index;
             var controlLeft = this.rtl ? this.icons[calculatedIndex].getBoundingClientRect().right : this.icons[calculatedIndex].getBoundingClientRect().left;
             var currentMousePosition = this.rtl ? controlLeft - event.clientX : event.clientX - controlLeft;
@@ -4905,13 +5087,21 @@ var BootstrapStarRate = (function () {
         __metadata("design:type", Object)
     ], BootstrapStarRate.prototype, "rtl", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapStarRate.prototype, "style", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapStarRate.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapStarRate.prototype, "type", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapStarRate.prototype, "color", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Number)
@@ -4926,12 +5116,12 @@ var BootstrapStarRate = (function () {
     ], BootstrapStarRate.prototype, "fullStar", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
-        __metadata("design:type", String)
-    ], BootstrapStarRate.prototype, "halfStar", void 0);
+        __metadata("design:type", Object)
+    ], BootstrapStarRate.prototype, "emptyStar", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
-    ], BootstrapStarRate.prototype, "emptyStar", void 0);
+    ], BootstrapStarRate.prototype, "halfStar", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Number)
@@ -6509,7 +6699,7 @@ var MicrolinkCustomElement = (function () {
     ], MicrolinkCustomElement.prototype, "url", void 0);
     MicrolinkCustomElement = __decorate([
         aurelia_framework_1.inject(Element),
-        aurelia_framework_1.customElement('aut-microlink'),
+        aurelia_framework_1.customElement('aut-micro-link'),
         __metadata("design:paramtypes", [Object])
     ], MicrolinkCustomElement);
     return MicrolinkCustomElement;
@@ -10370,11 +10560,11 @@ module.exports = ".abt-pagination\n{\n  -webkit-touch-callout: none; /* iOS Safa
 });
 ___scope___.file("components/bootstrap/password/abt-password.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".abt-password-input {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n}\n\n.abt-password-button {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n    cursor: pointer;\n}\n\n.abt-password-error {\n    color: red !important;\n    margin-right: 5px !important;\n}"
+module.exports = ".abt-password-input {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n}\n\n.abt-password-button {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n    cursor: pointer;\n}\n\n.abt-password-error {\n    color: red !important;\n    margin-right: 5px !important;\n}\n\n"
 });
 ___scope___.file("components/bootstrap/star-rate/abt-star-rate.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".abt-star-rate {\n  display: inline-block;\n  position: relative;\n  width: 1.0em;\n  cursor: pointer;\n}\n\n.abt-empty-star:before,\n.abt-empty-star~.abt-empty-star:before {\n  content: \"\\2606\";\n  /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  oulined star: \\272E = &#10030; */\n  position: absolute;\n}\n\n.abt-full-star:before,\n.abt-full-star~.abt-full-star:before {\n  content: \"\\2605\";\n  /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  oulined star: \\272E = &#10030; */\n  position: absolute;\n}\n\n.abt-star-rtl {\n  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);\n  -webkit-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n"
+module.exports = ".abt-star-rate {\n    display: inline-block;\n    position: relative;\n    width: 1.0em;\n}\n\n\n.abt-empty-star:before,\n.abt-empty-star~.abt-empty-star:before {\n    content: \"\\2606\";\n    /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  outlined star: \\272E = &#10030; */\n    position: absolute;\n    display: block;\n}\n\n.abt-full-star:before,\n.abt-full-star~.abt-full-star:before {\n    content: \"\\2605\";\n    /*full star : \\2605 = &#9733;  *******  empty star : \\2606 = &#9734;   ********  outlined star: \\272E = &#10030; */\n    position: absolute;\n    display: block;\n}\n\n.abt-star-rtl {\n    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);\n    -webkit-transform: scale(-1, 1);\n    -ms-transform: scale(-1, 1);\n    transform: scale(-1, 1);\n}\n"
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.css", function(exports, require, module, __filename, __dirname){
 
