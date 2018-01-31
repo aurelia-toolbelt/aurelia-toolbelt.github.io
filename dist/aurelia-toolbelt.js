@@ -230,7 +230,7 @@ module.exports.default =  "<template ref=\"paginationTemplate\">\n  <require fro
 });
 ___scope___.file("components/bootstrap/password/abt-password.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"passwordTemplate\">\n  <require from=\"./abt-password.css\"></require>\n  <require from=\"../inputgroup/abt-inputgroup\"></require>\n  <require from=\"../inputgroup/abt-inputgroup-append\"></require>\n  <require from=\"../progressbar/abt-progress\"></require>\n  <require from=\"../progressbar/abt-progress-bar\"></require>\n  <abt-inputgroup size=\"${size}\">\n    <input ref='txtPassword' css=\"${inputStyle}\" type=\"password\" value.bind=\"text\" class=\"form-control abt-password-input ${inputClass}\">\n    <abt-inputgroup-append if.bind=\"passwordVisibility\">\n      <button ref='btnPassword' class=\"btn btn-${buttonColor} abt-password-button ${buttonClass}\" click.delegate=\"passwordVisibilityToggle()\"\n        css=\"${buttonStyle}\" type=\"button\">\n        <i ref='iconPassword' class=\"${hideIcon}\"></i>\n      </button>\n    </abt-inputgroup-append>\n  </abt-inputgroup>\n  <abt-progress if.bind=\"showProgressBar\" height=\"${progressBarHeight}\">\n    <abt-progress-bar type.bind=\"progressBarClass\" color.bind=\"progressBarColor\" value=\"${progressBarValue}\" min=\"0\" max=\"100\">${percentValue}</abt-progress-bar>\n  </abt-progress>\n  <div id=\"abt-password-errors-list\" ref=\"errorsList\" if.bind=\"!showTooltip\"></div>\n</template>\n"
+module.exports.default =  "<template ref=\"passwordTemplate\">\n  <require from=\"./abt-password.css\"></require>\n  <require from=\"../inputgroup/abt-inputgroup\"></require>\n  <require from=\"../inputgroup/abt-inputgroup-append\"></require>\n  <require from=\"../progressbar/abt-progress\"></require>\n  <require from=\"../progressbar/abt-progress-bar\"></require>\n  <abt-inputgroup size=\"${size}\">\n    <input ref='txtPassword' css=\"${inputStyle}\" type=\"password\" value.bind=\"text\" class=\"form-control abt-password-input ${inputClass}\">\n    <abt-inputgroup-append if.bind=\"passwordVisibility\">\n      <button ref='btnPassword' class=\"btn btn-${buttonColorType} abt-password-button ${buttonClass}\" click.delegate=\"passwordVisibilityToggle()\"\n        css=\"${buttonStyle}\" type=\"button\">\n        <i ref='iconPassword' class=\"${isInvisible ? hidePasswordIcon : showPasswordIcon}\"></i>\n      </button>\n    </abt-inputgroup-append>\n  </abt-inputgroup>\n  <abt-progress if.bind=\"showProgressBar\" height=\"${progressBarHeight}\">\n    <abt-progress-bar type.bind=\"progressBarClass\" color.bind=\"progressBarColor\" value=\"${progressBarValue}\" min=\"0\" max=\"100\">${percentValue}</abt-progress-bar>\n  </abt-progress>\n  <div class=\"abt-password-errors-list\" ref=\"errorsList\" if.bind=\"!showTooltip\"></div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/popover/abt-popover.html", function(exports, require, module, __filename, __dirname){
 
@@ -4197,18 +4197,18 @@ var aurelia_framework_1 = require("aurelia-framework");
 var PasswordCustomElement = (function () {
     function PasswordCustomElement(jsTools) {
         this.jsTools = jsTools;
-        this.buttonColor = 'secondary';
+        this.buttonColorType = 'secondary';
         this.errorIcon = 'fa fa-times';
-        this.showIcon = 'fa fa-eye';
-        this.hideIcon = 'fa fa-eye-slash';
+        this.showPasswordIcon = 'fa fa-eye';
+        this.hidePasswordIcon = 'fa fa-eye-slash';
         this.progressBarHeight = '5px';
         this.errorDisplayType = 'none';
         this.showProgressBar = true;
         this.size = 'md';
         this.showPercent = false;
+        this.passwordVisibility = true;
         this.scoreRange = null;
         this.requirements = null;
-        this.passwordVisibility = true;
         this.isInvisible = true;
         this.progressBarValue = 0;
         this.percentValue = '';
@@ -4230,14 +4230,10 @@ var PasswordCustomElement = (function () {
         if (this.isInvisible) {
             this.isInvisible = false;
             $(this.txtPassword).attr('type', 'text');
-            this.iconPassword.classList.remove('fa-eye-slash');
-            this.iconPassword.classList.add('fa-eye');
         }
         else {
             this.isInvisible = true;
             $(this.txtPassword).attr('type', 'password');
-            this.iconPassword.classList.remove('fa-eye');
-            this.iconPassword.classList.add('fa-eye-slash');
         }
     };
     PasswordCustomElement.prototype.generateErrorsAsHtml = function (errors) {
@@ -4245,7 +4241,7 @@ var PasswordCustomElement = (function () {
         if (errors) {
             for (var index = 0; index < errors.length; index++) {
                 var element = errors[index];
-                html += "<div><i class=\"abt-password-error " + this.errorIcon + "\" aria-hidden=\"true\"></i>" + element + "</div>";
+                html += "<div class=\"abt-password-error-item\"><i class=\"abt-password-error-icon " + this.errorIcon + "\" aria-hidden=\"true\"></i>" + element + "</div>";
             }
         }
         return html;
@@ -4388,7 +4384,7 @@ var PasswordCustomElement = (function () {
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], PasswordCustomElement.prototype, "buttonColor", void 0);
+    ], PasswordCustomElement.prototype, "buttonColorType", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -4396,11 +4392,11 @@ var PasswordCustomElement = (function () {
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], PasswordCustomElement.prototype, "showIcon", void 0);
+    ], PasswordCustomElement.prototype, "showPasswordIcon", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], PasswordCustomElement.prototype, "hideIcon", void 0);
+    ], PasswordCustomElement.prototype, "hidePasswordIcon", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -4422,6 +4418,10 @@ var PasswordCustomElement = (function () {
         __metadata("design:type", Object)
     ], PasswordCustomElement.prototype, "showPercent", void 0);
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], PasswordCustomElement.prototype, "passwordVisibility", void 0);
+    __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", String)
     ], PasswordCustomElement.prototype, "text", void 0);
@@ -4433,10 +4433,6 @@ var PasswordCustomElement = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], PasswordCustomElement.prototype, "requirements", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], PasswordCustomElement.prototype, "passwordVisibility", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
@@ -10560,7 +10556,7 @@ module.exports = ".abt-pagination\n{\n  -webkit-touch-callout: none; /* iOS Safa
 });
 ___scope___.file("components/bootstrap/password/abt-password.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".abt-password-input {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n}\n\n.abt-password-button {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n    cursor: pointer;\n}\n\n.abt-password-error {\n    color: red !important;\n    margin-right: 5px !important;\n}\n\n"
+module.exports = ".abt-password-input {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n}\n\n.abt-password-button {\n    border-color: none !important;\n    box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    outline: none !important;\n    cursor: pointer;\n}\n\n.abt-password-error-icon {\n    color: red !important;\n    margin-right: 5px !important;\n}\n\n"
 });
 ___scope___.file("components/bootstrap/star-rate/abt-star-rate.css", function(exports, require, module, __filename, __dirname){
 
