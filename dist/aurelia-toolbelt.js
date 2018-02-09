@@ -10,7 +10,7 @@ module.exports.default =  "<template>\n\n  <a id=\"${id}\" href=\"${href}\" tabi
 });
 ___scope___.file("components/bootstrap/alert/abt-alert.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"alert\" class=\"alert alert-${type} ${dismissible == true ? 'alert-dismissible' : ''} ${animate ? 'fade show':''\" role=\"alert\">\n    <slot>\n\n    </slot>\n    <button if.bind=\"dismissible == true\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div ref=\"alert\" class=\"alert alert-${type} ${dismissible == true ? 'alert-dismissible' : ''} ${animate ? 'fade show':''} ${class}\" role=\"alert\" css=\"${style}\">\n    <slot>\n\n    </slot>\n    <button if.bind=\"dismissible == true\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/badge/abt-badge.html", function(exports, require, module, __filename, __dirname){
 
@@ -38,51 +38,55 @@ module.exports.default =  "<template>\n\n  <div id=\"${id}\" class=\"btn-toolbar
 });
 ___scope___.file("components/bootstrap/card/abt-card-body.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-body ${class}\" css=\"${style}\">\n\n  <slot>\n  </slot>\n  \n</template>\n"
+module.exports.default =  "<template>\n\n  <div class=\"card-body ${class}\" css=\"${style}\">\n    <slot>\n    </slot>\n  </div>\n  \n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-columns.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class, style\" class=\"card-columns ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template>\n  \n  <require from=\"./abt-card-columns.css\"></require>\n  \n  <div class=\"card-columns ${class}\" css=\"${style}\">\n\n    <slot></slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-deck.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class, style\" class=\"card-deck ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template>\n\n  <div class=\"card-deck ${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n  \n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-footer.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-footer  ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n\n</template>\n"
+module.exports.default =  "<template >\n\n  <div  class=\"card-footer  ${class}\" css=\"${style}\">\n    <slot>\n    </slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-group.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class, style\" class=\"card-group ${class}\" css=\"${style}\">\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template>\n\n  <div class=\"card-group ${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n  \n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-header.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-header  ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <div class=\"card-header  ${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-image-overlay.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"card-img-overlay ${class}\" css=\"${style}\" bindable=\"class,style\">\n    <slot></slot>\n</template>"
+module.exports.default =  "<template>\n\n  <div class=\"card-img-overlay ${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n  \n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-image.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n    <img class=\"{cssClass} ${class}\" css=\"${style}\" src.bind=\"src\" alt=\"${alt}\">\n    \n</template>"
+module.exports.default =  "<template>\n\n    <img class=\"${cssClass} ${class}\" css=\"${style}\" src.bind=\"src\" alt=\"${alt}\">\n    \n</template>\n"
+});
+___scope___.file("components/bootstrap/card/abt-card-link.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\n\n  <a class=\"card-link ${class}\" css=\"${style}\" target=\"${target}\" href=\"${href}\">\n    <slot>\n    </slot>\n  </a>\n  \n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-subtitle.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-subtitle ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <div  class=\"card-subtitle ${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-text.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\">\n    <p class=\"card-text ${class}\" css=\"${style}\">\n        <slot>\n        </slot>\n    </p>\n</template>\n"
+module.exports.default =  "<template>\n\n    <p class=\"card-text ${class}\" css=\"${style}\">\n        <slot>\n        </slot>\n    </p>\n    \n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card-title.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template bindable=\"class,style\" class=\"card-title ${class}\" css=\"${style}\">\n\n  <slot>\n\n  </slot>\n\n</template>\n"
+module.exports.default =  "<template bindable=\"class,style\">\n\n  <span class=\"card-title ${class}\" css=\"${style}\">\n    <slot></slot>\n  </span>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/card/abt-card.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "\n<template bindable=\"class,style\" class=\"card ${class}\" css=\"${style}\">\n\n  <slot>\n  </slot>\n  \n</template>\n"
+module.exports.default =  "<template>\n\n  <div class=\"card ${class}\" css=\"${width ? 'width:' + width : ''} ${style}\">\n    <slot>\n    </slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel-item.html", function(exports, require, module, __filename, __dirname){
 
@@ -94,7 +98,7 @@ module.exports.default =  "<template ref=\"carouselTemplate\">\n  <require from=
 });
 ___scope___.file("components/bootstrap/collapse/abt-accordion-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <abt-card>\n    <abt-card-header class=\"abt-accordion-item-header\" ref=\"myLink\" style=\"cursor: pointer\">\n      <a href=\"#\" click.delegate=\"onAnchorClick($event)\">\n        ${title}\n      </a>\n    </abt-card-header>\n\n    <abt-collapse class=\"${active ? 'show' : ''} abt-accordion-item-content\" controlled-by.bind=\"myLink\">\n      <slot></slot>\n    </abt-collapse>\n  </abt-card>\n\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <abt-card>\n    <div class=\"abt-accordion-item-header card-header\" ref=\"myLink\" style=\"cursor: pointer\">\n      <a href=\"#\" click.delegate=\"onAnchorClick($event)\">\n        ${title}\n      </a>\n    </div>\n\n    <abt-collapse class=\"${active ? 'show' : ''} abt-accordion-item-content\" controlled-by.bind=\"myLink\">\n      <slot></slot>\n    </abt-collapse>\n  </abt-card>\n\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/collapse/abt-accordion.html", function(exports, require, module, __filename, __dirname){
 
@@ -154,19 +158,19 @@ module.exports.default =  "<template ref=\"listGroupTemplate\">\n  <div ref=\"li
 });
 ___scope___.file("components/bootstrap/modal/abt-modal-body.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"modal-body\">\n    <slot>\n\n    </slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div class=\"modal-body container-fluid abt-modal-body ${class}\" css=\"${style}\">\n    <slot>\n\n    </slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/modal/abt-modal-footer.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"modal-footer\">\n    <slot>\n    </slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div class=\"modal-footer abt-modal-footer ${class}\" css=\"${style}\">\n    <slot>\n    </slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/modal/abt-modal-header.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"modal-header\" ref=\"header\">\n    <slot>\n    </slot>\n    <button show.bind=\"dismissible\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div class=\"modal-header abt-modal-header ${class}\" css=\"${style}\" ref=\"header\">\n    <slot>\n    </slot>\n    <button show.bind=\"dismissible\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/modal/abt-modal-title.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <span class=\"modal-title\">\n    <slot>\n\n    </slot>\n  </span>\n</template>\n"
+module.exports.default =  "<template>\n\n  <span class=\"modal-title abt-modal-title ${class}\" css=\"${style}\">\n    <slot>\n\n    </slot>\n  </span>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/modal/abt-modal.html", function(exports, require, module, __filename, __dirname){
 
@@ -218,11 +222,11 @@ module.exports.default =  "<template>\n  <require from=\"./navbar-megamenu.css\"
 });
 ___scope___.file("components/bootstrap/navs/abt-nav-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <a ref=\"tab_header\" class=\"nav-link nav-item ${class} ${isActive || selected ? 'active' : '' } ${isDisabled? 'disabled':''}\"\n    href=\"${href}\" css=\"${style}\">\n    ${title}\n  </a>\n\n\n  <div ref=\"tab_body\" class=\"tab-pane ${selected ? 'active' : ''}\" role=\"tab-panel\">\n    <slot></slot>\n  </div>\n\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <a ref=\"tab_header\" class=\"nav-link nav-item ${class} ${active ? 'active show' : '' } ${disabled? 'disabled':''}\"\n    href=\"${href ? href : '#'}\" css=\"${style}\">\n    ${title}\n  </a>\n\n\n  <div ref=\"tab_body\" class=\"tab-pane ${active ? 'active show' : ''} ${isFade ? 'fade' : ''}\" role=\"tab-panel\">\n    <slot></slot>\n  </div>\n\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/navs/abt-navs.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template role=\"tablist\">\n\n  <nav class=\"nav ${bePills ? 'nav-pills' : ''} ${class} ${beVertical ? 'flex-column' : ''} ${beTab ? 'nav-tabs' : ''} ${filled ? 'nav-fill' : ''} ${justified ? 'nav-justified' : ''}\"\n    css=\"${style}\">\n    <slot></slot>\n  </nav>\n\n  <div class=\"tab-content\">\n  </div>\n\n</template>\n"
+module.exports.default =  "<template role=\"tablist\" >\n\n\n  <div class=\"${vertical ? 'row' : ''}\">\n\n    \n    <div class=\"${vertical ? navsVerticalClass : ''}\">\n      <nav class=\"nav ${bePills ? 'nav-pills' : ''} ${navsClass} ${vertical ? 'flex-column' : ''} ${beTab ? 'nav-tabs' : ''} ${fill ? 'nav-fill' : ''} ${justify ? 'nav-justified' : ''}\"\n      aria-orientation=\"${vertical ? 'vertical' : 'horizontal'}\" css=\"${navsStyle}\">\n      <slot></slot>\n    </nav>\n  </div>\n  \n  \n  <div class=\"${vertical ? contentVerticalClass : ''}\">\n    <div class=\"tab-content ${contentClass}\" css=\"${contentStyle}\">\n    </div>\n  </div>\n</div>\n  \n</template>\n"
 });
 ___scope___.file("components/bootstrap/pagination/abt-pagination.html", function(exports, require, module, __filename, __dirname){
 
@@ -246,11 +250,11 @@ module.exports.default =  "<template>\n  <div id=\"${id}\" class=\"progress ${cl
 });
 ___scope___.file("components/bootstrap/scrollspy/abt-scrollspy-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div class=\"${class}\" css=\"${style}\" id=\"${id}\">\n    <slot>\n      \n    </slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div class=\"${class} abt-scrollspy-item\" css=\"${style}\" id=\"${id}\">\n    <slot>\n      \n    </slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/scrollspy/abt-scrollspy.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"spy\" data-spy=\"scroll\" data-target=\"#${target}\" data-offset=\"${offset}\" class=\"${class}\" css=\"${style}\">\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div ref=\"spy\" data-spy=\"scroll\" data-target=\"${target}\" data-offset=\"${offset}\" class=\"${class} abt-scrollspy\" css=\"${style}\">\n    <slot></slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/star-rate/abt-star-rate.html", function(exports, require, module, __filename, __dirname){
 
@@ -258,7 +262,7 @@ module.exports.default =  "<template class=\"text-${type} star-${type} ${class}\
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"aut-toggle\">\n  <require from=\"./abt-toggle.css\"></require>\n  <label click.delegate=\"onChanged()\"  class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onStyle}\" data-offstyle=\"${offStyle}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
+module.exports.default =  "<template class=\"abt-toggle ${class}\" css=\"${style}\">\n  <require from=\"./abt-toggle.css\"></require>\n  <label click.delegate=\"onChanged()\" class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onType}\" data-offstyle=\"${offType}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize-item.html", function(exports, require, module, __filename, __dirname){
 
@@ -266,7 +270,7 @@ module.exports.default =  "<template>\n    <option value=\"${value}\" class=\"${
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css\"></require>\n  <select ref='tokenize' class=\"${class}\" css=\"${style}\" multiple>\n  </select>\n  <slot></slot>\n</template>"
+module.exports.default =  "<template ref=\"tokenizeTemplate\">\n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css\"></require>\n  <select id=\"${id}\" ref='tokenize' class=\"${class}\" css=\"${style}\" multiple>\n  </select>\n  <slot></slot>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/tooltip/abt-tooltip.html", function(exports, require, module, __filename, __dirname){
 
@@ -278,7 +282,7 @@ module.exports.default =  "<template></template>"
 });
 ___scope___.file("components/jquery/block-ui/aut-block-ui.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n    <require from=\"./aut-block-ui.css\"></require>\n\n    <div ref=\"content\">\n        <slot></slot>\n    </div>\n</template>"
+module.exports.default =  "<template>\n\n    <require from=\"./aut-block-ui.css\"></require>\n\n    <div aut-uuid ref=\"content\">\n        <slot></slot>\n    </div>\n</template>"
 });
 ___scope___.file("components/jquery/lazy-image/aut-lazy-image.html", function(exports, require, module, __filename, __dirname){
 
@@ -310,7 +314,7 @@ module.exports.default =  "<template>\n\n  <require from=\"../../bootstrap/toggl
 });
 ___scope___.file("components/purejs/microlink/aut-microlink.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div style=\"width: 1px\" class=\"${class}\">\n    <a class=\"micro-link aut-microlink\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n    </a>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div style=\"width: 1px\" class=\"${class}\">\n    <a aut-uuid class=\"micro-link aut-microlink\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n    </a>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/purejs/pretty/aut-checkbox.html", function(exports, require, module, __filename, __dirname){
 
@@ -322,11 +326,11 @@ module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/p
 });
 ___scope___.file("components/purejs/raw-html/aut-raw-html.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <div ref=\"renderer\" textcontent.bind=\"content\">\n\n   \n\n  </div>\n  \n  <div ref=\"dummy\">\n    <slot>\n      \n    </slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <span ref=\"renderer\" textcontent.bind=\"content\">\n\n\n\n  </span>\n\n  <div ref=\"dummy\">\n    <slot>\n\n    </slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/purejs/scrollup/aut-scrollup.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  \n    <require from=\"./aut-scrollup.css\"></require>\n    \n\n    <button id=\"aut-scrollup-button\" click.delegate=\"goToUp()\" css=\"${style}\" class=\"aut-scrollup ${class}\">\n      <slot>\n          <i class=\"fa fa-arrow-up fa-2x\" aria-hidden=\"true\"></i>\n      </slot>\n    </button>\n\n\n\n\n</template>\n"
+module.exports.default =  "<template>\n    <style>\n        .aut-scrollup-noselect {\n            -webkit-touch-callout: none !important;\n            -webkit-user-select: none !important;\n            -khtml-user-select: none !important;\n            -moz-user-select: none !important;\n            -ms-user-select: none !important;\n            user-select: none !important;\n        }\n        .aut-scrollup-noselect:focus,\n        .aut-scrollup-noselect:active {\n            outline: none !important;\n            box-shadow: none !important;\n        }\n    </style>\n    <require from=\"./aut-scrollup.css\"></require>\n    <button ref='scrollupButton' aut-uuid click.delegate=\"goToUp()\" css=\"${style}\" class=\"aut-scrollup aut-scrollup-noselect ${class}\">\n        <slot>\n        </slot>\n    </button>\n</template>"
 });
 ___scope___.file("binding-behaviours/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -1092,6 +1096,251 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
+___scope___.file("components/bootstrap/card/abt-card-body.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardBody = (function () {
+    function BootstrapCardBody() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardBody.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardBody.prototype, "class", void 0);
+    BootstrapCardBody = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-body')
+    ], BootstrapCardBody);
+    return BootstrapCardBody;
+}());
+exports.BootstrapCardBody = BootstrapCardBody;
+//# sourceMappingURL=abt-card-body.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-columns.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardColumn = (function () {
+    function BootstrapCardColumn() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardColumn.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardColumn.prototype, "class", void 0);
+    BootstrapCardColumn = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-columns')
+    ], BootstrapCardColumn);
+    return BootstrapCardColumn;
+}());
+exports.BootstrapCardColumn = BootstrapCardColumn;
+//# sourceMappingURL=abt-card-columns.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-deck.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardDeck = (function () {
+    function BootstrapCardDeck() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardDeck.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardDeck.prototype, "class", void 0);
+    BootstrapCardDeck = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-deck')
+    ], BootstrapCardDeck);
+    return BootstrapCardDeck;
+}());
+exports.BootstrapCardDeck = BootstrapCardDeck;
+//# sourceMappingURL=abt-card-deck.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-footer.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardFooter = (function () {
+    function BootstrapCardFooter() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardFooter.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardFooter.prototype, "class", void 0);
+    BootstrapCardFooter = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-footer')
+    ], BootstrapCardFooter);
+    return BootstrapCardFooter;
+}());
+exports.BootstrapCardFooter = BootstrapCardFooter;
+//# sourceMappingURL=abt-card-footer.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-group.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardGroup = (function () {
+    function BootstrapCardGroup() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardGroup.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardGroup.prototype, "class", void 0);
+    BootstrapCardGroup = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-group')
+    ], BootstrapCardGroup);
+    return BootstrapCardGroup;
+}());
+exports.BootstrapCardGroup = BootstrapCardGroup;
+//# sourceMappingURL=abt-card-group.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-header.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardHeader = (function () {
+    function BootstrapCardHeader() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardHeader.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardHeader.prototype, "class", void 0);
+    BootstrapCardHeader = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-header')
+    ], BootstrapCardHeader);
+    return BootstrapCardHeader;
+}());
+exports.BootstrapCardHeader = BootstrapCardHeader;
+//# sourceMappingURL=abt-card-header.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-image-overlay.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardImageOverlay = (function () {
+    function BootstrapCardImageOverlay() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardImageOverlay.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardImageOverlay.prototype, "class", void 0);
+    BootstrapCardImageOverlay = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-image-overlay')
+    ], BootstrapCardImageOverlay);
+    return BootstrapCardImageOverlay;
+}());
+exports.BootstrapCardImageOverlay = BootstrapCardImageOverlay;
+//# sourceMappingURL=abt-card-image-overlay.js.map
+});
 ___scope___.file("components/bootstrap/card/abt-card-image.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1108,7 +1357,7 @@ var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapCardImage = (function () {
     function BootstrapCardImage(element) {
         this.element = element;
-        this.cssClass = 'card-image';
+        this.cssClass = 'card-img';
     }
     BootstrapCardImage.prototype.attached = function () {
         var beOnBottom = this.element.hasAttribute('bottom');
@@ -1117,18 +1366,18 @@ var BootstrapCardImage = (function () {
             var error = new Error("The [abt-card-image] should have either 'top' or 'bottom' attributes, and not both of them simultaneously.");
             throw error;
         }
-        this.cssClass = beOnBottom ? '-bottom' : beOnTop ? '-top' : '';
+        this.cssClass += beOnBottom ? '-bottom' : beOnTop ? '-top' : '';
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", String)
     ], BootstrapCardImage.prototype, "alt", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapCardImage.prototype, "style", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapCardImage.prototype, "class", void 0);
     __decorate([
@@ -1145,6 +1394,84 @@ var BootstrapCardImage = (function () {
 }());
 exports.BootstrapCardImage = BootstrapCardImage;
 //# sourceMappingURL=abt-card-image.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-link.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardLink = (function () {
+    function BootstrapCardLink() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardLink.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardLink.prototype, "class", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardLink.prototype, "href", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardLink.prototype, "target", void 0);
+    BootstrapCardLink = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-link')
+    ], BootstrapCardLink);
+    return BootstrapCardLink;
+}());
+exports.BootstrapCardLink = BootstrapCardLink;
+//# sourceMappingURL=abt-card-link.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card-subtitle.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardSubTitle = (function () {
+    function BootstrapCardSubTitle() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardSubTitle.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardSubTitle.prototype, "class", void 0);
+    BootstrapCardSubTitle = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-subtitle')
+    ], BootstrapCardSubTitle);
+    return BootstrapCardSubTitle;
+}());
+exports.BootstrapCardSubTitle = BootstrapCardSubTitle;
+//# sourceMappingURL=abt-card-subtitle.js.map
 });
 ___scope___.file("components/bootstrap/card/abt-card-text.js", function(exports, require, module, __filename, __dirname){
 
@@ -1168,24 +1495,114 @@ var BootstrapCardText = (function () {
 exports.BootstrapCardText = BootstrapCardText;
 //# sourceMappingURL=abt-card-text.js.map
 });
-___scope___.file("components/bootstrap/card/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/bootstrap/card/abt-card-title.js", function(exports, require, module, __filename, __dirname){
 
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCardTitle = (function () {
+    function BootstrapCardTitle() {
+    }
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardTitle.prototype, "style", void 0);
+    __decorate([
+        aurelia_templating_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCardTitle.prototype, "class", void 0);
+    BootstrapCardTitle = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('abt-card-title')
+    ], BootstrapCardTitle);
+    return BootstrapCardTitle;
+}());
+exports.BootstrapCardTitle = BootstrapCardTitle;
+//# sourceMappingURL=abt-card-title.js.map
+});
+___scope___.file("components/bootstrap/card/abt-card.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_binding_1 = require("aurelia-binding");
+var BootstrapCard = (function () {
+    function BootstrapCard() {
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCard.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCard.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_binding_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCard.prototype, "width", void 0);
+    BootstrapCard = __decorate([
+        aurelia_framework_1.customElement('abt-card'),
+        aurelia_framework_1.containerless()
+    ], BootstrapCard);
+    return BootstrapCard;
+}());
+exports.BootstrapCard = BootstrapCard;
+//# sourceMappingURL=abt-card.js.map
+});
+___scope___.file("components/bootstrap/card/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./abt-card-body"));
+__export(require("./abt-card-columns"));
+__export(require("./abt-card-deck"));
+__export(require("./abt-card-footer"));
+__export(require("./abt-card-group"));
+__export(require("./abt-card-header"));
+__export(require("./abt-card-image-overlay"));
+__export(require("./abt-card-image"));
+__export(require("./abt-card-subtitle"));
+__export(require("./abt-card-text"));
+__export(require("./abt-card-title"));
+__export(require("./abt-card"));
+__export(require("./abt-card-link"));
 function configure(config) {
     config.globalResources([
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-body.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-columns.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-deck.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-footer.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-group.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-header.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-image-overlay.html'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-body'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-columns'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-deck'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-footer'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-group'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-header'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-image-overlay'),
         aurelia_framework_1.PLATFORM.moduleName('./abt-card-image'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-subtitle.html'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-subtitle'),
         aurelia_framework_1.PLATFORM.moduleName('./abt-card-text'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card-title.html'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-card.html')
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-title'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-card-link')
     ]);
 }
 exports.configure = configure;
@@ -1203,8 +1620,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var sharedIndex_1 = require("./../../../utilities/purejs/sharedIndex");
 var aurelia_framework_1 = require("aurelia-framework");
-var shared_index_1 = require("./shared-index");
 var CarouselItemCustomElement = (function () {
     function CarouselItemCustomElement(element, sharedController) {
         this.element = element;
@@ -1234,10 +1651,10 @@ var CarouselItemCustomElement = (function () {
         __metadata("design:type", Object)
     ], CarouselItemCustomElement.prototype, "active", void 0);
     CarouselItemCustomElement = __decorate([
-        aurelia_framework_1.inject(Element, shared_index_1.SharedIndex),
+        aurelia_framework_1.inject(Element, sharedIndex_1.SharedIndex),
         aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-carousel-item'),
-        __metadata("design:paramtypes", [Object, typeof (_a = typeof shared_index_1.SharedIndex !== "undefined" && shared_index_1.SharedIndex) === "function" && _a || Object])
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof sharedIndex_1.SharedIndex !== "undefined" && sharedIndex_1.SharedIndex) === "function" && _a || Object])
     ], CarouselItemCustomElement);
     return CarouselItemCustomElement;
     var _a;
@@ -1245,7 +1662,7 @@ var CarouselItemCustomElement = (function () {
 exports.CarouselItemCustomElement = CarouselItemCustomElement;
 //# sourceMappingURL=abt-carousel-item.js.map
 });
-___scope___.file("components/bootstrap/carousel/shared-index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("utilities/purejs/sharedIndex.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1281,7 +1698,7 @@ var SharedIndex = (function () {
         this.dictionary = [];
     };
     SharedIndex.prototype.getId = function (id) {
-        return '_' + id.replace(new RegExp('-', 'g'), '');
+        return 'a' + id.replace(new RegExp('-', 'g'), '');
     };
     SharedIndex = __decorate([
         aurelia_framework_1.singleton()
@@ -1289,7 +1706,7 @@ var SharedIndex = (function () {
     return SharedIndex;
 }());
 exports.SharedIndex = SharedIndex;
-//# sourceMappingURL=shared-index.js.map
+//# sourceMappingURL=sharedIndex.js.map
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel.js", function(exports, require, module, __filename, __dirname){
 
@@ -1323,6 +1740,7 @@ var CarouselCustomElement = (function () {
     }
     CarouselCustomElement.prototype.afterAttached = function () {
         var _this = this;
+        this.interval = Number(this.interval);
         this.showNavigator = (this.navigator === '' && this.carouselTemplate.hasAttribute('navigator')) || this.navigator.toString() === 'true';
         this.showIndicator = (this.indicator === '' && this.carouselTemplate.hasAttribute('indicator')) || this.navigator.toString() === 'true';
         this.keyboard = (this.keyboard === '' && this.carouselTemplate.hasAttribute('keyboard')) || this.keyboard.toString() === 'true';
@@ -2148,7 +2566,7 @@ var BootstrapFloatInput = (function () {
             this.floatInputLabel.classList.add('has-float-label');
             var style = "\n                  #" + id + ".has-float-label .form-control:placeholder-shown:not(:focus) + * {\n                    color : " + (this.placeholderColor || 'black') + " !important;\n                    font-size: " + (this.placeholderFontSize || fontSize) + " !important;\n                    opacity: " + (this.placeholderOpacity || '.5') + " !important;\n                    top: " + (this.placeholderTop || top) + " !important;\n                  }\n                  #" + id + ".has-float-label label, #" + id + ".has-float-label > span\n                  {\n                    color : " + (this.labelColor || 'black') + " !important;\n                    font-size: " + (this.labelFontSize || '75%') + " !important;\n                  }";
             var minify = this.cssMinifier.minify(style);
-            aurelia_framework_1.DOM.injectStyles(minify);
+            aurelia_framework_1.DOM.injectStyles(minify, null, null, 's' + id);
         }
     };
     __decorate([
@@ -2225,9 +2643,9 @@ var CleanCSS = require('clean-css');
 var CssMinifier = (function () {
     function CssMinifier() {
     }
-    CssMinifier.prototype.minify = function (text) {
+    CssMinifier.prototype.minify = function (content) {
         var options = {};
-        var output = new CleanCSS(options).minify(text).styles;
+        var output = new CleanCSS(options).minify(content).styles;
         return output;
     };
     CssMinifier = __decorate([
@@ -2704,11 +3122,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapModalBody = (function () {
     function BootstrapModalBody() {
+        this.style = '';
+        this.class = '';
     }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalBody.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalBody.prototype, "class", void 0);
     BootstrapModalBody = __decorate([
         aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-modal-body')
@@ -2726,11 +3157,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapModalFooter = (function () {
     function BootstrapModalFooter() {
+        this.style = '';
+        this.class = '';
     }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalFooter.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalFooter.prototype, "class", void 0);
     BootstrapModalFooter = __decorate([
         aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-modal-footer')
@@ -2748,16 +3192,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapModalHeader = (function () {
     function BootstrapModalHeader() {
         this.dismissible = false;
+        this.style = '';
+        this.class = '';
     }
     BootstrapModalHeader.prototype.afterAttached = function () {
         var x = this.header.parentElement.parentElement.parentElement.getAttribute('data-abt-dismissible');
         this.dismissible = x === 'true';
     };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalHeader.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalHeader.prototype, "class", void 0);
     BootstrapModalHeader = __decorate([
         aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-modal-header')
@@ -2775,11 +3232,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapModalTitle = (function () {
     function BootstrapModalTitle() {
+        this.style = '';
+        this.class = '';
     }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalTitle.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapModalTitle.prototype, "class", void 0);
     BootstrapModalTitle = __decorate([
         aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-modal-title')
@@ -2802,7 +3272,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-require("jquery");
+var $ = require("jquery");
 var BootstrapModal = (function () {
     function BootstrapModal(element) {
         this.element = element;
@@ -2812,10 +3282,10 @@ var BootstrapModal = (function () {
         this.animate = true;
         this.dismissible = true;
         this.centered = false;
-        this.visible = false;
         this.backdrop = true;
         this.keyboard = true;
         this.focus = true;
+        this.visible = false;
     }
     BootstrapModal.prototype.setOpenerProperties = function (open) {
         var isString = typeof open === 'string';
@@ -2840,9 +3310,9 @@ var BootstrapModal = (function () {
             });
         }
         if (this.bsShown) {
-            $(this.modal).on('shown.bs.modal', function () {
+            $(this.modal).on('shown.bs.modal', function (e) {
                 if (_this.bsShown) {
-                    _this.bsShown();
+                    _this.bsShown({ relatedTarget: e.relatedTarget });
                 }
             });
         }
@@ -2888,7 +3358,7 @@ var BootstrapModal = (function () {
             });
         }
         else {
-            throw Error("The 'abt-modal' should have either 'open-by' or 'visible'  attribute");
+            throw Error("The 'abt-modal' should have either 'open-by' or 'visible' attribute");
         }
         $(this.modal).modal({
             backdrop: this.backdrop,
@@ -2902,7 +3372,9 @@ var BootstrapModal = (function () {
         $(this.modal).off('shown.bs.modal');
         $(this.modal).off('hide.bs.modal');
         $(this.modal).off('hidden.bs.modal');
+        $(this.modal).modal('hide');
         $(this.modal).modal('dispose');
+        $(this.modal).remove();
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
@@ -2917,7 +3389,7 @@ var BootstrapModal = (function () {
         __metadata("design:type", String)
     ], BootstrapModal.prototype, "size", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
     ], BootstrapModal.prototype, "animate", void 0);
     __decorate([
@@ -2925,13 +3397,9 @@ var BootstrapModal = (function () {
         __metadata("design:type", Object)
     ], BootstrapModal.prototype, "dismissible", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
     ], BootstrapModal.prototype, "centered", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
-        __metadata("design:type", Object)
-    ], BootstrapModal.prototype, "visible", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
@@ -2944,6 +3412,14 @@ var BootstrapModal = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
     ], BootstrapModal.prototype, "focus", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "openBy", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapModal.prototype, "visible", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
@@ -2960,10 +3436,6 @@ var BootstrapModal = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], BootstrapModal.prototype, "bsHidden", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
-        __metadata("design:type", Object)
-    ], BootstrapModal.prototype, "openBy", void 0);
     BootstrapModal = __decorate([
         aurelia_framework_1.inject(Element),
         aurelia_framework_1.containerless(),
@@ -3681,73 +4153,91 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 var uuid_1 = require("../../../utilities/purejs/uuid");
-var BootstrapNavLink = (function () {
-    function BootstrapNavLink(element, uuid) {
+var BootstrapNavItem = (function () {
+    function BootstrapNavItem(element, uuid) {
         this.uuid = uuid;
-        this.selected = null;
-        this.isActive = false;
-        this.isDisabled = false;
+        this.active = false;
+        this.disabled = false;
+        this.isFade = false;
         this.element = element;
     }
-    BootstrapNavLink.prototype.attached = function () {
-        var tab_daddy;
-        var tab_grandPa;
-        var isTheFirstChild = this.tab_header.parentElement.children.item(0) === this.tab_header;
-        this.selected = this.selected !== null ? Boolean(this.selected) : null;
-        this.isActive = this.selected !== null ? this.selected : this.element.hasAttribute('active');
-        this.isDisabled = this.element.hasAttribute('disabled');
-        tab_daddy = this.tab_header.parentElement;
-        tab_grandPa = tab_daddy.parentElement.children.item(1);
-        tab_daddy.removeChild(this.tab_body);
+    BootstrapNavItem.prototype.attached = function () {
+        var navComponent;
+        var navs;
+        var tab_content;
+        navs = this.tab_header.parentElement;
+        tab_content = navs.parentElement.parentElement.children.item(1).children.item(0);
+        var onlyActiveAttribute = (this.active === '' && this.element.hasAttribute('active'));
+        this.active = onlyActiveAttribute || this.active === 'true' || this.active === true;
+        var onlyDisabledAttribute = (this.disabled === '' && this.element.hasAttribute('disabled'));
+        this.disabled = onlyDisabledAttribute || this.disabled === 'true' || this.disabled === true;
+        navs.removeChild(this.tab_body);
         var id = this.element.hasAttribute('id') ? this.element.getAttribute('id') : this.uuid.Uuidv4ForId();
         if (this.tab_body.textContent.length > 8) {
+            navComponent = navs.parentElement.parentElement.parentElement;
             var tab_body_id = id + "-tab-body";
-            this.selected = isTheFirstChild;
-            var data_toggle = tab_daddy.parentElement.hasAttribute('tabs')
+            this.isFade =
+                navComponent.hasAttribute('fade') &&
+                    (navComponent.getAttribute('fade') === ''
+                        ||
+                            navComponent.getAttribute('fade') === 'true');
+            var isPill = navComponent.hasAttribute('pills') &&
+                (navComponent.getAttribute('pills') === ''
+                    ||
+                        navComponent.getAttribute('pills') === 'true');
+            var isTabs = navComponent.hasAttribute('tabs') &&
+                (navComponent.getAttribute('tabs') === ''
+                    ||
+                        navComponent.getAttribute('tabs') === 'true');
+            var data_toggle = isTabs
                 ? 'tab'
-                : tab_daddy.parentElement.hasAttribute('pills')
+                : isPill
                     ? 'pill'
                     : '';
             this.tab_header.setAttribute('data-toggle', data_toggle);
             this.tab_header.setAttribute('role', 'tab');
             this.tab_header.setAttribute('aria-controls', "" + tab_body_id);
-            this.tab_header.setAttribute('aria-selected', "" + (this.selected || isTheFirstChild));
+            this.tab_header.setAttribute('aria-selected', "" + this.active);
             this.tab_header.setAttribute('href', "#" + tab_body_id);
             this.tab_body.setAttribute('id', "" + tab_body_id);
             this.tab_body.setAttribute('aria-labelledby', "" + id);
-            tab_grandPa.appendChild(this.tab_body);
+            tab_content.appendChild(this.tab_body);
         }
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapNavLink.prototype, "class", void 0);
+    ], BootstrapNavItem.prototype, "class", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapNavLink.prototype, "style", void 0);
+    ], BootstrapNavItem.prototype, "style", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapNavLink.prototype, "href", void 0);
+    ], BootstrapNavItem.prototype, "href", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapNavLink.prototype, "title", void 0);
+    ], BootstrapNavItem.prototype, "title", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
-    ], BootstrapNavLink.prototype, "selected", void 0);
-    BootstrapNavLink = __decorate([
+    ], BootstrapNavItem.prototype, "active", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], BootstrapNavItem.prototype, "disabled", void 0);
+    BootstrapNavItem = __decorate([
         aurelia_framework_1.inject(Element, uuid_1.Uuid),
         aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-nav-item'),
         __metadata("design:paramtypes", [Object, typeof (_a = typeof uuid_1.Uuid !== "undefined" && uuid_1.Uuid) === "function" && _a || Object])
-    ], BootstrapNavLink);
-    return BootstrapNavLink;
+    ], BootstrapNavItem);
+    return BootstrapNavItem;
     var _a;
 }());
-exports.BootstrapNavLink = BootstrapNavLink;
+exports.BootstrapNavItem = BootstrapNavItem;
 //# sourceMappingURL=abt-nav-item.js.map
 });
 ___scope___.file("components/bootstrap/navs/abt-navs.js", function(exports, require, module, __filename, __dirname){
@@ -3768,29 +4258,40 @@ var $ = require("jquery");
 var BootstrapNavs = (function () {
     function BootstrapNavs(element) {
         this.element = element;
-        this.beTab = false;
-        this.filled = false;
+        this.navsVerticalClass = 'col-sm-3';
+        this.contentVerticalClass = 'col-sm-9';
+        this.tabs = false;
+        this.pills = false;
+        this.vertical = false;
+        this.justify = false;
+        this.fill = false;
+        this.beTab = true;
         this.bePills = false;
-        this.justified = false;
-        this.beVertical = false;
     }
     BootstrapNavs.prototype.afterAttached = function () {
-        this.beTab = this.element.hasAttribute('tabs');
-        this.filled = this.element.hasAttribute('fill');
-        this.bePills = this.element.hasAttribute('pills');
-        this.justified = this.element.hasAttribute('justified');
-        this.beVertical = this.element.hasAttribute('vertical');
-        if (this.justified && this.filled) {
-            var error = new Error("The [abt-navs] should have either 'fill' or 'justified' attributes, and not both of them simultaneously.");
+        var onlyPillsAttribute = (this.pills === '' && this.element.hasAttribute('pills'));
+        this.pills = onlyPillsAttribute || this.pills.toString() === 'true';
+        var onlyTabsAttribute = (this.tabs === '' && this.element.hasAttribute('tabs'));
+        this.tabs = onlyTabsAttribute || this.tabs.toString() === 'true';
+        var onlyVerticalAttribute = (this.vertical === '' && this.element.hasAttribute('vertical'));
+        this.vertical = onlyVerticalAttribute || this.vertical.toString() === 'true';
+        var onlyJustifiedAttribute = (this.justify === '' && this.element.hasAttribute('justify'));
+        this.justify = onlyJustifiedAttribute || this.justify.toString() === 'true';
+        var onlyFillAttribute = (this.fill === '' && this.element.hasAttribute('fill'));
+        this.fill = onlyFillAttribute || this.fill.toString() === 'true';
+        this.beTab = this.tabs;
+        this.bePills = this.pills;
+        if (this.justify && this.fill) {
+            var error = new Error("The [abt-navs] should have either 'fill' or 'justify' attributes, and not both of them simultaneously.");
             throw error;
         }
-        var children = this.element.children.item(0).getElementsByTagName('a');
+        var children = this.element.children.item(0).children.item(0).getElementsByTagName('a');
         $(children).tab();
         this.handle_events();
     };
     BootstrapNavs.prototype.handle_events = function () {
         var _this = this;
-        var children = this.element.children.item(0).getElementsByTagName('a');
+        var children = this.element.children.item(0).children.item(0).getElementsByTagName('a');
         if (this.bsShow) {
             $(children).on('show.bs.tab', function (event) {
                 if (_this.bsShow) {
@@ -3821,7 +4322,7 @@ var BootstrapNavs = (function () {
         }
     };
     BootstrapNavs.prototype.detached = function () {
-        var children = this.element.children.item(0).getElementsByTagName('a');
+        var children = this.element.children.item(0).children.item(0).getElementsByTagName('a');
         $(children).off('show.bs.tab');
         $(children).off('shown.bs.tab');
         $(children).off('hide.bs.tab');
@@ -3831,11 +4332,27 @@ var BootstrapNavs = (function () {
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapNavs.prototype, "class", void 0);
+    ], BootstrapNavs.prototype, "navsVerticalClass", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
-    ], BootstrapNavs.prototype, "style", void 0);
+    ], BootstrapNavs.prototype, "contentVerticalClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavs.prototype, "navsClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavs.prototype, "navsStyle", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavs.prototype, "contentClass", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapNavs.prototype, "contentStyle", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
@@ -3852,6 +4369,26 @@ var BootstrapNavs = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
     ], BootstrapNavs.prototype, "bsHidden", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapNavs.prototype, "tabs", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapNavs.prototype, "pills", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapNavs.prototype, "vertical", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapNavs.prototype, "justify", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapNavs.prototype, "fill", void 0);
     BootstrapNavs = __decorate([
         aurelia_framework_1.inject(Element),
         aurelia_templating_1.customElement('abt-navs'),
@@ -4476,6 +5013,14 @@ var JsTools = (function () {
     JsTools.prototype.isObject = function (value) {
         return value && typeof value === 'object' && value.constructor === Object;
     };
+    JsTools.prototype.isEmpty = function (value) {
+        for (var key in value) {
+            if (value.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+        return true;
+    };
     JsTools.prototype.isNull = function (value) {
         return value === null;
     };
@@ -4499,6 +5044,23 @@ var JsTools = (function () {
     };
     JsTools.prototype.jsonFormatter = function (value) {
         return JSON.stringify(value, null, '\t');
+    };
+    JsTools.prototype.isUrl = function (value) {
+        if (!this.isString(value)) {
+            return false;
+        }
+        var pattern = new RegExp('^((https?:)?\\/\\/)?' +
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+            '((\\d{1,3}\\.){3}\\d{1,3}))' +
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+            '(\\?[;&a-z\\d%_.~+=-]*)?' +
+            '(\\#[-a-z\\d_]*)?$', 'i');
+        if (!pattern.test(value)) {
+            return false;
+        }
+        else {
+            return true;
+        }
     };
     JsTools = __decorate([
         aurelia_framework_1.singleton()
@@ -4555,6 +5117,7 @@ var BootstrapPopoverCustomElement = (function () {
         var _this = this;
         this.parentElement = this.popover.parentElement;
         var slotContent = this.html ? this.popover.innerHTML : this.popover.textContent;
+        this.offset = Number(this.offset);
         this.animation = (this.animation === '' && this.popoverTemplate.hasAttribute('animation')) || this.animation.toString() === 'true';
         this.container = (this.container === '' && this.popoverTemplate.hasAttribute('container')) || this.container.toString() === 'true';
         this.html = (this.html === '' && this.popoverTemplate.hasAttribute('html')) || this.html.toString() === 'true';
@@ -5190,12 +5753,14 @@ var BootstrapToggleCustomElement = (function () {
         this.bindingEngine = bindingEngine;
         this.on = 'On';
         this.off = 'Off';
-        this.onStyle = 'primary';
-        this.offStyle = 'secondary';
+        this.onType = 'primary';
+        this.offType = 'secondary';
         this.css = '';
         this.size = 'normal';
         this.width = null;
         this.height = null;
+        this.class = '';
+        this.style = '';
         this.disabled = false;
         this.rtl = false;
         this.subscription = null;
@@ -5258,10 +5823,10 @@ var BootstrapToggleCustomElement = (function () {
             state = index !== -1;
         }
         if (state) {
-            this.checkbox.setAttribute('checked', true);
+            $(this.checkbox).prop('checked', true).change();
         }
         else {
-            this.checkbox.removeAttribute('checked');
+            $(this.checkbox).prop('checked', false).change();
         }
     };
     BootstrapToggleCustomElement.prototype.attached = function () {
@@ -5269,14 +5834,17 @@ var BootstrapToggleCustomElement = (function () {
             on: this.on,
             off: this.off,
             size: this.size,
-            onstyle: this.onStyle,
-            offstyle: this.offStyle,
+            onstyle: this.onType,
+            offstyle: this.offType,
             width: this.width,
             height: this.height
         });
     };
     BootstrapToggleCustomElement.prototype.bind = function () {
-        this.disabled = this.disabled === true || this.disabled === 'true' || this.disabled === 'disabled';
+        this.disabled = (this.disabled === '' && this.element.hasAttribute('disabled')) || (this.disabled && this.disabled.toString() === 'true');
+        if (!Array.isArray(this.checked)) {
+            this.checked = (this.checked === '' && this.element.hasAttribute('checked')) || (this.checked && this.checked.toString() === 'true');
+        }
         this.disabledChanged(this.disabled);
         this.synchronizeView(this.checked);
     };
@@ -5300,11 +5868,11 @@ var BootstrapToggleCustomElement = (function () {
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", String)
-    ], BootstrapToggleCustomElement.prototype, "onStyle", void 0);
+    ], BootstrapToggleCustomElement.prototype, "onType", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", String)
-    ], BootstrapToggleCustomElement.prototype, "offStyle", void 0);
+    ], BootstrapToggleCustomElement.prototype, "offType", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", String)
@@ -5321,6 +5889,14 @@ var BootstrapToggleCustomElement = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Number)
     ], BootstrapToggleCustomElement.prototype, "height", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapToggleCustomElement.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapToggleCustomElement.prototype, "style", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
@@ -5425,27 +6001,210 @@ var aurelia_framework_1 = require("aurelia-framework");
 require("jquery");
 require("aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css");
 require("aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.js");
+var jsTools_1 = require("../../../utilities/purejs/jsTools");
 var BootstrapTokenizeCustomElement = (function () {
-    function BootstrapTokenizeCustomElement(element) {
+    function BootstrapTokenizeCustomElement(element, jsTools, bindingEngine) {
         this.element = element;
-        this.dataSource = 'select';
+        this.jsTools = jsTools;
+        this.bindingEngine = bindingEngine;
+        this.id = null;
         this.debounce = 0;
         this.delimiter = [','];
-        this.placeholder = false;
+        this.placeholder = null;
         this.tokensMaxItems = 0;
         this.tokensAllowCustom = false;
         this.dropdownMaxItems = 10;
         this.searchMinLength = 0;
         this.searchFromStart = true;
         this.searchHighlight = true;
+        this.showOnClick = false;
         this.displayNoResultsMessage = false;
         this.noResultsMessageText = 'No results matched "%s"';
         this.zIndexMargin = 500;
         this.tabIndex = 0;
     }
-    BootstrapTokenizeCustomElement.prototype.attached = function () {
+    BootstrapTokenizeCustomElement.prototype.bind = function () {
+        var _this = this;
+        if (this.selectedTokens) {
+            this.subscription = this.bindingEngine.collectionObserver(this.selectedTokens)
+                .subscribe(function (x) {
+                var item = x[0];
+                if (item) {
+                    if (item.removed.length) {
+                        var removed = item.removed;
+                        for (var index = 0; index < removed.length; index++) {
+                            $(_this.tokenize).trigger('tokenize:tokens:remove', removed[index].value);
+                        }
+                    }
+                    else {
+                        $(_this.tokenize).trigger('tokenize:tokens:add', [_this.selectedTokens[item.index].value,
+                            _this.selectedTokens[item.index].text, _this.selectedTokens[item.index].force || true]);
+                    }
+                }
+            });
+        }
+    };
+    BootstrapTokenizeCustomElement.prototype.detached = function () {
+        this.subscription = null;
+    };
+    BootstrapTokenizeCustomElement.prototype.afterAttached = function () {
+        var _this = this;
+        if (this.id) {
+            this.tokenizeTemplate.setAttribute('id', "abt-tokenize-" + this.id);
+        }
+        this.debounce = Number(this.debounce);
+        this.tokensAllowCustom = (this.tokensAllowCustom === '' && this.tokenizeTemplate.hasAttribute('tokens-allow-custom'))
+            || this.tokensAllowCustom.toString() === 'true';
+        this.dropdownMaxItems = Number(this.dropdownMaxItems) <= 0 ? 0 : (Number(this.dropdownMaxItems) - 1);
+        this.searchMinLength = Number(this.searchMinLength);
+        this.searchFromStart = (this.searchFromStart === '' && this.tokenizeTemplate.hasAttribute('search-from-start'))
+            || this.searchFromStart.toString() === 'true';
+        this.searchHighlight = (this.searchHighlight === '' && this.tokenizeTemplate.hasAttribute('search-highlight'))
+            || this.searchHighlight.toString() === 'true';
+        this.showOnClick = (this.showOnClick === '' && this.tokenizeTemplate.hasAttribute('show-on-click'))
+            || this.showOnClick.toString() === 'true';
+        this.displayNoResultsMessage = (this.displayNoResultsMessage === '' && this.tokenizeTemplate.hasAttribute('display-no-results-message'))
+            || this.displayNoResultsMessage.toString() === 'true';
+        this.zIndexMargin = Number(this.zIndexMargin);
+        this.tabIndex = Number(this.tabIndex);
+        this.tokensMaxItems = Number(this.tokensMaxItems) || 0;
+        $(this.tokenize).on('tokenize:load', function () {
+            if (_this.load) {
+                _this.load();
+            }
+        });
+        $(this.tokenize).on('tokenize:clear', function () {
+            if (_this.clear) {
+                _this.clear();
+            }
+        });
+        $(this.tokenize).on('tokenize:remap', function () {
+            if (_this.remap) {
+                _this.remap();
+            }
+        });
+        $(this.tokenize).on('tokenize:select', function () {
+            if (_this.select) {
+                _this.select();
+            }
+        });
+        $(this.tokenize).on('tokenize:deselect', function () {
+            if (_this.deselect) {
+                _this.deselect();
+            }
+        });
+        $(this.tokenize).on('tokenize:search', function (e, value) {
+            if (_this.search) {
+                _this.search({ e: e, value: value });
+            }
+        });
+        $(this.tokenize).on('tokenize:paste', function () {
+            if (_this.paste) {
+                _this.paste();
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:up', function () {
+            if (_this.dropdownUp) {
+                _this.dropdownUp();
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:down', function () {
+            if (_this.dropdownDown) {
+                _this.dropdownDown();
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:clear', function () {
+            if (_this.dropdownClear) {
+                _this.dropdownClear();
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:show', function () {
+            if (_this.dropdownShow) {
+                _this.dropdownShow();
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:hide', function () {
+            if (_this.dropdownHide) {
+                _this.dropdownHide();
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:fill', function (e, items) {
+            if (_this.dropdownFill) {
+                _this.dropdownFill({ e: e, items: items });
+            }
+        });
+        $(this.tokenize).on('tokenize:dropdown:itemAdd', function (e, item) {
+            if (_this.dropdownItemAdd) {
+                _this.dropdownItemAdd({ e: e, item: item });
+            }
+        });
+        $(this.tokenize).on('tokenize:keypress', function (e, routedEvent) {
+            if (_this.keypress) {
+                _this.keypress({ e: e, routedEvent: routedEvent });
+            }
+        });
+        $(this.tokenize).on('tokenize:keydown', function (e, routedEvent) {
+            if (_this.keydown) {
+                _this.keydown({ e: e, routedEvent: routedEvent });
+            }
+        });
+        $(this.tokenize).on('tokenize:keyup', function (e, routedEvent) {
+            if (_this.keyup) {
+                _this.keyup({ e: e, routedEvent: routedEvent });
+            }
+        });
+        $(this.tokenize).on('tokenize:tokens:reorder', function () {
+            if (_this.reorder) {
+                _this.reorder();
+            }
+        });
+        $(this.tokenize).on('tokenize:tokens:add', function (e, value, text, force) {
+            if (_this.selectedTokens) {
+                var found = _this.selectedTokens.findIndex(function (x) { return x.value === value; }) > -1;
+                if (!found) {
+                    _this.selectedTokens.push({ text: text, value: value });
+                }
+            }
+            if (_this.add) {
+                _this.add({ e: e, value: value, text: text, force: force });
+            }
+        });
+        $(this.tokenize).on('tokenize:tokens:remove', function (e, value) {
+            if (_this.selectedTokens) {
+                var index = _this.selectedTokens.findIndex(function (x) { return x.value === value; });
+                if (index > -1) {
+                    _this.selectedTokens.splice(index, 1);
+                }
+            }
+            if (_this.remove) {
+                _this.remove({ e: e, value: value });
+            }
+        });
+        var ds = null;
+        if (this.options) {
+            var index = this.options.length;
+            while (index--) {
+                this.options[index].innerHTML = this.options[index].innerHTML.trim();
+                this.tokenize.appendChild(this.options[index]);
+            }
+            ds = 'select';
+        }
+        if (!this.options && this.jsTools.isString(this.dataSource)) {
+            ds = this.dataSource;
+        }
+        if (this.jsTools.isFunction(this.dataSource)) {
+            ds = null;
+        }
         $(this.tokenize).tokenize2({
-            dataSource: this.dataSource,
+            dataSource: ds != null ? ds : function (term, object) {
+                var items = [];
+                var filterd = _this.dataSource({ term: term });
+                $.each(filterd, function (_k, v) {
+                    items.push(v);
+                });
+                var data = [items];
+                object.trigger('tokenize:dropdown:fill', data);
+            },
             debounce: this.debounce,
             delimiter: this.delimiter,
             placeholder: this.placeholder,
@@ -5460,14 +6219,16 @@ var BootstrapTokenizeCustomElement = (function () {
             zIndexMargin: this.zIndexMargin,
             tabIndex: this.tabIndex
         });
-    };
-    BootstrapTokenizeCustomElement.prototype.afterAttached = function () {
-        var index = this.options.length;
-        while (index--) {
-            this.options[index].innerHTML = this.options[index].innerHTML.trim();
-            this.tokenize.appendChild(this.options[index]);
+        if (this.showOnClick) {
+            $(this.tokenize).on('tokenize:select', function (e, routedEvent) {
+                $(_this.tokenize).trigger('tokenize:search', '');
+            });
         }
     };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapTokenizeCustomElement.prototype, "id", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
@@ -5478,11 +6239,7 @@ var BootstrapTokenizeCustomElement = (function () {
     ], BootstrapTokenizeCustomElement.prototype, "style", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], BootstrapTokenizeCustomElement.prototype, "dataSource", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "debounce", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
@@ -5490,35 +6247,39 @@ var BootstrapTokenizeCustomElement = (function () {
     ], BootstrapTokenizeCustomElement.prototype, "delimiter", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", String)
     ], BootstrapTokenizeCustomElement.prototype, "placeholder", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "tokensMaxItems", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "tokensAllowCustom", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "dropdownMaxItems", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "searchMinLength", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "searchFromStart", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "searchHighlight", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "showOnClick", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "displayNoResultsMessage", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
@@ -5526,22 +6287,111 @@ var BootstrapTokenizeCustomElement = (function () {
     ], BootstrapTokenizeCustomElement.prototype, "noResultsMessageText", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "zIndexMargin", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
+        __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "tabIndex", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dataSource", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "selectedTokens", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "load", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "clear", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "remap", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "select", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "deselect", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "search", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "paste", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownUp", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownDown", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownClear", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownShow", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownHide", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownFill", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "dropdownItemAdd", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "keypress", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "keydown", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "keyup", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "reorder", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "add", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapTokenizeCustomElement.prototype, "remove", void 0);
     __decorate([
         aurelia_framework_1.children('option'),
         __metadata("design:type", Object)
     ], BootstrapTokenizeCustomElement.prototype, "options", void 0);
     BootstrapTokenizeCustomElement = __decorate([
-        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.inject(Element, jsTools_1.JsTools, aurelia_framework_1.BindingEngine),
         aurelia_framework_1.customElement('abt-tokenize'),
-        __metadata("design:paramtypes", [Object])
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _a || Object, typeof (_b = typeof aurelia_framework_1.BindingEngine !== "undefined" && aurelia_framework_1.BindingEngine) === "function" && _b || Object])
     ], BootstrapTokenizeCustomElement);
     return BootstrapTokenizeCustomElement;
+    var _a, _b;
 }());
 exports.BootstrapTokenizeCustomElement = BootstrapTokenizeCustomElement;
 //# sourceMappingURL=abt-tokenize.js.map
@@ -5596,6 +6446,7 @@ var BootstrapTooltipCustomElement = (function () {
         var _this = this;
         this.parentElement = this.tooltip.parentElement;
         var slotContent = this.html ? this.tooltip.innerHTML : this.tooltip.textContent;
+        this.offset = Number(this.offset);
         this.animation = (this.animation === '' && this.tooltip.hasAttribute('animation')) || this.animation.toString() === 'true';
         this.container = (this.container === '' && this.tooltip.hasAttribute('container')) || this.container.toString() === 'true';
         this.html = (this.html === '' && this.tooltip.hasAttribute('html')) || this.html.toString() === 'true';
@@ -5796,10 +6647,10 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/jquery/block-ui/aut-block-ui-options.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/jquery/block-ui/aut-block-ui-option.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
-//# sourceMappingURL=aut-block-ui-options.js.map
+//# sourceMappingURL=aut-block-ui-option.js.map
 });
 ___scope___.file("components/jquery/block-ui/aut-block-ui.js", function(exports, require, module, __filename, __dirname){
 
@@ -5813,30 +6664,59 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var SharedOptions_1 = require("./SharedOptions");
+var jsTools_1 = require("./../../../utilities/purejs/jsTools");
+var cssMinifier_1 = require("./../../../utilities/purejs/cssMinifier");
 var aurelia_framework_1 = require("aurelia-framework");
 var $ = require("jquery");
 require("aureliatoolbelt-thirdparty/jquery.blockUI/jquery.blockUI.js");
-var aut_block_ui_options_1 = require("./aut-block-ui-options");
+var aut_block_ui_option_1 = require("./aut-block-ui-option");
 var JQueryBlockUI = (function () {
-    function JQueryBlockUI(element, option) {
+    function JQueryBlockUI(element, option, cssMinifier, jsTools, sharedOptions) {
         this.element = element;
         this.option = option;
+        this.cssMinifier = cssMinifier;
+        this.jsTools = jsTools;
+        this.sharedOptions = sharedOptions;
+        this.settings = null;
         this.block = false;
-        this.title = null;
-        this.message = null;
-        this.spinnerType = 'bounce';
-        this.spinnerColor = null;
-        this.spinnerSize = null;
+        this.blockPage = false;
         this.spinnerMessage = null;
+        this.defaultOption = {};
+        this.allOptions = {};
+        this.id = '';
     }
-    JQueryBlockUI.prototype.attached = function () {
-        $.blockUI.defaults.allowBodyStretch = this.option.allowBodyStretch || true;
-        $.blockUI.defaults.draggable = this.option.draggable || true;
-        $.blockUI.defaults.css = this.option.css || {
-            padding: 0,
-            margin: 0,
+    JQueryBlockUI.prototype.hasContent = function () {
+        var slot = this.content.innerHTML.replace('<!--slot-->', '').trim();
+        if (slot.length > 0) {
+            return true;
+        }
+        return false;
+    };
+    JQueryBlockUI.prototype.afterAttached = function () {
+        this.id = this.content.id;
+        this.elementId = "#" + this.id;
+        if (this.blockPage && this.hasContent()) {
+            throw Error('You can not use the [aut-block-ui] with [block-page] property, while you have defined a content inside it.');
+        }
+        this.setDefaultOption();
+        this.defaultOption.blockMsgClass += " m" + this.id;
+        this.sharedOptions.setOption(this.id, {
+            id: this.id,
+            settings: this.settings || {},
+            option: this.option || {},
+            default: this.defaultOption
+        });
+        this.blockChanged(this.block);
+        this.blockPageChanged(this.blockPage);
+    };
+    JQueryBlockUI.prototype.setDefaultOption = function () {
+        this.defaultOption.allowBodyStretch = true;
+        this.defaultOption.css = {
+            padding: '0',
+            margin: '0',
             width: '30%',
-            top: '40%',
+            top: '45%',
             left: '35%',
             textAlign: 'center',
             color: '#000',
@@ -5844,122 +6724,198 @@ var JQueryBlockUI = (function () {
             backgroundColor: '#fff',
             cursor: 'wait'
         };
-        $.blockUI.defaults.overlayCSS = this.option.overlayCSS || {
+        this.defaultOption.overlayCss = {
             backgroundColor: '#000',
             opacity: 0.6,
             cursor: 'wait'
         };
-        $.blockUI.defaults.cursorReset = this.option.cursorReset || 'default';
-        $.blockUI.defaults.iframeSrc = this.option.iframeSrc || (/^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank');
-        $.blockUI.defaults.forceIframe = this.option.forceIframe || false;
-        $.blockUI.defaults.baseZ = this.option.baseZ || 1000;
-        $.blockUI.defaults.centerX = this.option.centerX || true;
-        $.blockUI.defaults.centerY = this.option.centerY || true;
-        $.blockUI.defaults.bindEvents = this.option.bindEvents || true;
-        $.blockUI.defaults.constrainTabKey = this.option.constrainTabKey || true;
-        $.blockUI.defaults.fadeIn = this.option.fadeIn || 200;
-        $.blockUI.defaults.fadeOut = this.option.fadeOut || 400;
-        $.blockUI.defaults.timeout = this.option.timeout || 0;
-        $.blockUI.defaults.showOverlay = this.option.showOverlay || true;
-        $.blockUI.defaults.focusInput = this.option.focusInput || true;
-        $.blockUI.defaults.onBlock = this.option.onBlock || null;
-        $.blockUI.defaults.onUnblock = this.option.onUnblock || null;
-        $.blockUI.defaults.quirksmodeOffsetHack = this.option.quirksmodeOffsetHack || 4;
-        $.blockUI.defaults.blockMsgClass = this.option.blockMsgClass || 'blockMsg';
-        $.blockUI.defaults.ignoreIfBlocked = this.option.ignoreIfBlocked || false;
-        this.blockChanged(this.block);
+        this.defaultOption.cursorReset = 'default';
+        this.defaultOption.iframeSrc = (/^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank');
+        this.defaultOption.forceIframe = false;
+        this.defaultOption.baseZ = 1020;
+        this.defaultOption.centerX = true;
+        this.defaultOption.centerY = true;
+        this.defaultOption.bindEvents = true;
+        this.defaultOption.constrainTabKey = true;
+        this.defaultOption.fadeIn = 200;
+        this.defaultOption.fadeOut = 400;
+        this.defaultOption.timeout = 0;
+        this.defaultOption.showOverlay = true;
+        this.defaultOption.focusInput = true;
+        this.defaultOption.quirksmodeOffsetHack = 4;
+        this.defaultOption.blockMsgClass = 'blockMsg';
+        this.defaultOption.ignoreIfBlocked = false;
+        this.defaultOption.message = '<h1>Please wait...</h1>';
+        this.defaultOption.useSpinner = true;
     };
-    JQueryBlockUI.prototype.bind = function () {
-        if (this.spinnerType === 'bounce') {
-            aurelia_framework_1.DOM.injectStyles(" .blockElement\n            {\n              width: " + (this.spinnerSize * 3 || 36) + "px !important;\n            }\n            .bounce > div {\n              width: " + (this.spinnerSize || 12) + "px;\n              height: " + (this.spinnerSize || 12) + "px;\n              background-color: " + (this.spinnerColor || '#92459B') + ";\n            }");
-            this.spinnerMessage = '<div class="bounce"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>';
+    JQueryBlockUI.prototype.setSpinnerStyle = function (id, option) {
+        var unit = this.getSizeUnit(option.spinnerSize);
+        var size = this.getSize(option.spinnerSize);
+        var bsVariant = ['.primary', '.secondary', '.success', '.danger', '.warning', '.info', '.light', '.dark'];
+        var isClass = false;
+        var spinnerBgColor = '';
+        if (option.spinnerColor) {
+            isClass = option.spinnerColor.indexOf('.') > -1;
+            if (isClass) {
+                if (bsVariant.indexOf(option.spinnerColor) > -1) {
+                    spinnerBgColor = 'bg-' + option.spinnerColor.replace('.', '');
+                }
+                else {
+                    spinnerBgColor = option.spinnerColor.replace('.', '');
+                }
+            }
+            else {
+                spinnerBgColor = "background-color: " + (option.spinnerColor || '#92459B') + " !important";
+            }
         }
-        if (this.spinnerType === 'doubleBounce') {
-            aurelia_framework_1.DOM.injectStyles(".double-bounce {\n      width: " + (this.spinnerSize || 15) + "px !important;\n      height: " + (this.spinnerSize || 15) + "px !important;\n      text-align: center;\n      position: relative;\n    }\n    .blockElement\n    {\n      width: " + (this.spinnerSize || 15) + "px !important;\n      height: " + (this.spinnerSize || 15) + "px !important;\n    }\n    .double-bounce1, .double-bounce2 {\n      width: 100%;\n      height: 100%;\n      border-radius: 50%;\n      background-color:  " + (this.spinnerColor || '#92459B') + ";\n      opacity: 0.6;\n      position: absolute;\n      top: 0;\n      left: 0;\n      -webkit-animation: sk-bounce 2.0s infinite ease-in-out;\n      animation: sk-bounce 2.0s infinite ease-in-out;\n    }\n\n    .double-bounce2 {\n      -webkit-animation-delay: -1.0s;\n      animation-delay: -1.0s;\n    }\n\n    @-webkit-keyframes sk-bounce {\n      0%, 100% { -webkit-transform: scale(0.0) }\n      50% { -webkit-transform: scale(1.0) }\n    }\n\n    @keyframes sk-bounce {\n      0%, 100% {\n        transform: scale(0.0);\n        -webkit-transform: scale(0.0);\n      } 50% {\n        transform: scale(1.0);\n        -webkit-transform: scale(1.0);\n      }\n    }");
-            this.spinnerMessage = '<div class="double-bounce"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>';
+        else {
+            spinnerBgColor = 'bg-primary';
+            isClass = true;
         }
-        if (this.spinnerType === 'rectangle') {
-            aurelia_framework_1.DOM.injectStyles(".rectangle {\n      width: " + (this.spinnerSize != null ? (this.spinnerSize + 10) : 40) + "px;\n      height: " + (this.spinnerSize || 30) + "px;\n      text-align: center;\n      font-size: 10px;\n    }\n    .blockElement\n    {\n      width: " + (this.spinnerSize != null ? (this.spinnerSize + 10) : 40) + "px !important;\n      height: " + (this.spinnerSize || 30) + "px !important;\n    }\n    .rectangle > div {\n      background-color: " + (this.spinnerColor || '#92459B') + ";\n      height: 100%;\n      width: 6px;\n      display: inline-block;\n      -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;\n      animation: sk-stretchdelay 1.2s infinite ease-in-out;\n    }\n\n    .rectangle .rect2 {\n      -webkit-animation-delay: -1.1s;\n      animation-delay: -1.1s;\n    }\n\n    .rectangle .rect3 {\n      -webkit-animation-delay: -1.0s;\n      animation-delay: -1.0s;\n    }\n\n    .rectangle .rect4 {\n      -webkit-animation-delay: -0.9s;\n      animation-delay: -0.9s;\n    }\n\n    .rectangle .rect5 {\n      -webkit-animation-delay: -0.8s;\n      animation-delay: -0.8s;\n    }\n\n    @-webkit-keyframes sk-stretchdelay {\n      0%, 40%, 100% { -webkit-transform: scaleY(0.4) }\n      20% { -webkit-transform: scaleY(1.0) }\n    }\n\n    @keyframes sk-stretchdelay {\n      0%, 40%, 100% {\n        transform: scaleY(0.4);\n        -webkit-transform: scaleY(0.4);\n      }  20% {\n        transform: scaleY(1.0);\n        -webkit-transform: scaleY(1.0);\n      }\n    }");
-            this.spinnerMessage = "<div class=\"rectangle\"><div class=\"rect1\"></div><div class=\"rect2\"></div><div class=\"rect3\"></div><div class=\"rect4\">\n          </div><div class=\"rect5\"></div></div>";
-        }
-        if (this.spinnerType === 'cubeGrid') {
-            aurelia_framework_1.DOM.injectStyles(".sk-cube-grid {\n              width: " + (this.spinnerSize || 20) + "px;\n              height: " + (this.spinnerSize || 20) + "px;\n            }\n            .blockElement\n            {\n              width: " + (this.spinnerSize || 20) + "px !important;\n              height: " + (this.spinnerSize || 20) + "px !important;\n            }\n            .sk-cube-grid .sk-cube {\n              width: 33%;\n              height: 33%;\n              background-color: " + (this.spinnerColor || '#92459B') + ";\n              float: left;\n              -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\n                      animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\n            }\n            .sk-cube-grid .sk-cube1 {\n              -webkit-animation-delay: 0.2s;\n                      animation-delay: 0.2s; }\n            .sk-cube-grid .sk-cube2 {\n              -webkit-animation-delay: 0.3s;\n                      animation-delay: 0.3s; }\n            .sk-cube-grid .sk-cube3 {\n              -webkit-animation-delay: 0.4s;\n                      animation-delay: 0.4s; }\n            .sk-cube-grid .sk-cube4 {\n              -webkit-animation-delay: 0.1s;\n                      animation-delay: 0.1s; }\n            .sk-cube-grid .sk-cube5 {\n              -webkit-animation-delay: 0.2s;\n                      animation-delay: 0.2s; }\n            .sk-cube-grid .sk-cube6 {\n              -webkit-animation-delay: 0.3s;\n                      animation-delay: 0.3s; }\n            .sk-cube-grid .sk-cube7 {\n              -webkit-animation-delay: 0s;\n                      animation-delay: 0s; }\n            .sk-cube-grid .sk-cube8 {\n              -webkit-animation-delay: 0.1s;\n                      animation-delay: 0.1s; }\n            .sk-cube-grid .sk-cube9 {\n              -webkit-animation-delay: 0.2s;\n                      animation-delay: 0.2s; }\n            @-webkit-keyframes sk-cubeGridScaleDelay {\n              0%, 70%, 100% {\n                -webkit-transform: scale3D(1, 1, 1);\n                        transform: scale3D(1, 1, 1);\n              } 35% {\n                -webkit-transform: scale3D(0, 0, 1);\n                        transform: scale3D(0, 0, 1);\n              }\n            }\n            @keyframes sk-cubeGridScaleDelay {\n              0%, 70%, 100% {\n                -webkit-transform: scale3D(1, 1, 1);\n                        transform: scale3D(1, 1, 1);\n              } 35% {\n                -webkit-transform: scale3D(0, 0, 1);\n                        transform: scale3D(0, 0, 1);\n              }\n            }");
-            this.spinnerMessage = "<div class=\"sk-cube-grid\"><div class=\"sk-cube sk-cube1\">\n          </div><div class=\"sk-cube sk-cube2\"></div><div class=\"sk-cube sk-cube3\"></div><div class=\"sk-cube sk-cube4\"></div>\n          <div class=\"sk-cube sk-cube5\"></div><div class=\"sk-cube sk-cube6\"></div><div class=\"sk-cube sk-cube7\"></div><div class=\"sk-cube sk-cube8\">\n          </div><div class=\"sk-cube sk-cube9\"></div></div>";
-        }
-        if (this.spinnerType === 'fadingCircle') {
-            aurelia_framework_1.DOM.injectStyles(".sk-fading-circle {\n              width: " + (this.spinnerSize || 20) + "px;\n              height: " + (this.spinnerSize || 20) + "px;\n              position: relative;\n            }\n            .blockElement\n            {\n              width: " + (this.spinnerSize || 20) + "px !important;\n              height: " + (this.spinnerSize || 20) + "px !important;\n            }\n            .sk-fading-circle .sk-circle {\n              width: 100%;\n              height: 100%;\n              position: absolute;\n              left: 0;\n              top: 0;\n            }\n            .sk-fading-circle .sk-circle:before {\n              content: '';\n              display: block;\n              margin: 0 auto;\n              width: 15%;\n              height: 15%;\n              background-color: " + (this.spinnerColor || '#92459B') + ";\n              border-radius: 100%;\n              -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\n                      animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\n            }\n            .sk-fading-circle .sk-circle2 {\n              -webkit-transform: rotate(30deg);\n                  -ms-transform: rotate(30deg);\n                      transform: rotate(30deg);\n            }\n            .sk-fading-circle .sk-circle3 {\n              -webkit-transform: rotate(60deg);\n                  -ms-transform: rotate(60deg);\n                      transform: rotate(60deg);\n            }\n            .sk-fading-circle .sk-circle4 {\n              -webkit-transform: rotate(90deg);\n                  -ms-transform: rotate(90deg);\n                      transform: rotate(90deg);\n            }\n            .sk-fading-circle .sk-circle5 {\n              -webkit-transform: rotate(120deg);\n                  -ms-transform: rotate(120deg);\n                      transform: rotate(120deg);\n            }\n            .sk-fading-circle .sk-circle6 {\n              -webkit-transform: rotate(150deg);\n                  -ms-transform: rotate(150deg);\n                      transform: rotate(150deg);\n            }\n            .sk-fading-circle .sk-circle7 {\n              -webkit-transform: rotate(180deg);\n                  -ms-transform: rotate(180deg);\n                      transform: rotate(180deg);\n            }\n            .sk-fading-circle .sk-circle8 {\n              -webkit-transform: rotate(210deg);\n                  -ms-transform: rotate(210deg);\n                      transform: rotate(210deg);\n            }\n            .sk-fading-circle .sk-circle9 {\n              -webkit-transform: rotate(240deg);\n                  -ms-transform: rotate(240deg);\n                      transform: rotate(240deg);\n            }\n            .sk-fading-circle .sk-circle10 {\n              -webkit-transform: rotate(270deg);\n                  -ms-transform: rotate(270deg);\n                      transform: rotate(270deg);\n            }\n            .sk-fading-circle .sk-circle11 {\n              -webkit-transform: rotate(300deg);\n                  -ms-transform: rotate(300deg);\n                      transform: rotate(300deg);\n            }\n            .sk-fading-circle .sk-circle12 {\n              -webkit-transform: rotate(330deg);\n                  -ms-transform: rotate(330deg);\n                      transform: rotate(330deg);\n            }\n            .sk-fading-circle .sk-circle2:before {\n              -webkit-animation-delay: -1.1s;\n                      animation-delay: -1.1s;\n            }\n            .sk-fading-circle .sk-circle3:before {\n              -webkit-animation-delay: -1s;\n                      animation-delay: -1s;\n            }\n            .sk-fading-circle .sk-circle4:before {\n              -webkit-animation-delay: -0.9s;\n                      animation-delay: -0.9s;\n            }\n            .sk-fading-circle .sk-circle5:before {\n              -webkit-animation-delay: -0.8s;\n                      animation-delay: -0.8s;\n            }\n            .sk-fading-circle .sk-circle6:before {\n              -webkit-animation-delay: -0.7s;\n                      animation-delay: -0.7s;\n            }\n            .sk-fading-circle .sk-circle7:before {\n              -webkit-animation-delay: -0.6s;\n                      animation-delay: -0.6s;\n            }\n            .sk-fading-circle .sk-circle8:before {\n              -webkit-animation-delay: -0.5s;\n                      animation-delay: -0.5s;\n            }\n            .sk-fading-circle .sk-circle9:before {\n              -webkit-animation-delay: -0.4s;\n                      animation-delay: -0.4s;\n            }\n            .sk-fading-circle .sk-circle10:before {\n              -webkit-animation-delay: -0.3s;\n                      animation-delay: -0.3s;\n            }\n            .sk-fading-circle .sk-circle11:before {\n              -webkit-animation-delay: -0.2s;\n                      animation-delay: -0.2s;\n            }\n            .sk-fading-circle .sk-circle12:before {\n              -webkit-animation-delay: -0.1s;\n                      animation-delay: -0.1s;\n            }\n            @-webkit-keyframes sk-circleFadeDelay {\n              0%, 39%, 100% { opacity: 0; }\n              40% { opacity: 1; }\n            }\n            @keyframes sk-circleFadeDelay {\n              0%, 39%, 100% { opacity: 0; }\n              40% { opacity: 1; }\n            }");
-            this.spinnerMessage = "<div class=\"sk-fading-circle\"><div class=\"sk-circle1 sk-circle\"></div><div class=\"sk-circle2 sk-circle\"></div>\n          <div class=\"sk-circle3 sk-circle\"></div><div class=\"sk-circle4 sk-circle\"></div><div class=\"sk-circle5 sk-circle\"></div>\n          <div class=\"sk-circle6 sk-circle\"></div><div class=\"sk-circle7 sk-circle\"></div><div class=\"sk-circle8 sk-circle\"></div>\n          <div class=\"sk-circle9 sk-circle\"></div><div class=\"sk-circle10 sk-circle\"></div><div class=\"sk-circle11 sk-circle\">\n          </div><div class=\"sk-circle12 sk-circle\"></div></div>";
-        }
+        var minify = "\n    .blockElement." + ('m' + id) + "{\n      z-index: " + option.baseZ + " !important;\n    }\n    .blockPage." + ('m' + id) + "{\n      z-index: " + option.baseZ + " !important;\n    }\n    ." + ('b' + id) + " {\n      width: " + size + unit + " !important;\n      height: " + size + unit + " !important;\n      " + (!isClass ? spinnerBgColor : '') + "\n    }";
+        aurelia_framework_1.DOM.injectStyles(this.cssMinifier.minify(minify), null, null, 's' + id);
+        this.spinnerMessage = "<div class=\"bounce\"><div class=\"bounce1 " + (isClass ? spinnerBgColor : '') + " " + ('b' + id) + "\"></div><div class=\"bounce2 " + (isClass ? spinnerBgColor : '') + " " + ('b' + id) + "\"></div><div class=\"bounce3 " + (isClass ? spinnerBgColor : '') + " " + ('b' + id) + "\"></div></div>";
     };
     JQueryBlockUI.prototype.blockChanged = function (isBlocked) {
         var _this = this;
-        var option = {};
-        if (this.message == null || this.message.length < 0) {
-            option = {
-                css: {
-                    border: 'none',
-                    backgroundColor: 'transparent'
-                },
-                message: this.spinnerMessage,
-                overlayCSS: {
-                    backgroundColor: '#F7F7F7'
-                }
-            };
+        var option;
+        var merged = this.sharedOptions.getOption(this.id);
+        if (merged) {
+            option = Object.assign({}, merged.default, merged.option, merged.settings);
         }
-        else {
-            option = {
-                message: this.message
+        if (!this.jsTools.isEmpty(option) && option.useSpinner) {
+            this.setSpinnerStyle(this.id, option);
+            option.css = {
+                border: 'none',
+                backgroundColor: 'transparent'
+            };
+            option.message = this.spinnerMessage;
+            option.overlayCSS = {
+                backgroundColor: '#EEEEEE'
             };
         }
         if (isBlocked) {
-            $(this.content).block(option);
-            this.element.classList.add('block-ui-content');
+            $(this.elementId).block(option);
+            this.element.classList.add('aut-block-ui-content');
             $(window).resize(function () {
-                if (_this.element.classList.contains('block-ui-content')) {
-                    $(_this.content).block(option);
+                if (_this.element.classList.contains('aut-block-ui-content')) {
+                    $(_this.elementId).block(option);
                 }
             });
         }
         else {
-            $(this.content).unblock();
-            this.element.classList.remove('block-ui-content');
+            $(this.elementId).unblock();
+            this.element.classList.remove('aut-block-ui-content');
         }
+    };
+    JQueryBlockUI.prototype.blockPageChanged = function (isBlocked) {
+        if (this.blockPage && this.hasContent()) {
+            throw Error('You can not use the [aut-block-ui] with [block-page] property, while you have defined a content inside it.');
+        }
+        var option;
+        var merged = this.sharedOptions.getOption(this.id);
+        if (merged) {
+            option = Object.assign({}, merged.default, merged.option, merged.settings);
+        }
+        if (!this.jsTools.isEmpty(option) && option.useSpinner) {
+            this.setSpinnerStyle(this.id, option);
+            option.css = {
+                border: 'none',
+                backgroundColor: 'transparent'
+            };
+            option.message = this.spinnerMessage;
+            option.overlayCSS = {
+                backgroundColor: '#EEEEEE'
+            };
+        }
+        if (isBlocked) {
+            $.blockUI(option);
+        }
+        else {
+            $.unblockUI();
+        }
+    };
+    JQueryBlockUI.prototype.getSizeUnit = function (text) {
+        if (!text) {
+            return 'px';
+        }
+        var unit = text.replace(/[0-9]/g, '').replace('.', '');
+        if (unit === '') {
+            unit = 'px';
+        }
+        return unit;
+    };
+    JQueryBlockUI.prototype.getSize = function (text) {
+        if (!text) {
+            return 12;
+        }
+        var unit = this.getSizeUnit(text);
+        var size = Number(text.replace(unit, '').trim());
+        return size;
+    };
+    JQueryBlockUI.prototype.detached = function () {
+        $.unblockUI();
+        $(this.content).unblock();
+        this.sharedOptions.dispose();
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", typeof (_a = typeof aut_block_ui_option_1.IAutBlockUIOption !== "undefined" && aut_block_ui_option_1.IAutBlockUIOption) === "function" && _a || Object)
+    ], JQueryBlockUI.prototype, "settings", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], JQueryBlockUI.prototype, "block", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], JQueryBlockUI.prototype, "title", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], JQueryBlockUI.prototype, "message", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", typeof (_a = typeof aut_block_ui_options_1.SpinnerType !== "undefined" && aut_block_ui_options_1.SpinnerType) === "function" && _a || Object)
-    ], JQueryBlockUI.prototype, "spinnerType", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], JQueryBlockUI.prototype, "spinnerColor", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Number)
-    ], JQueryBlockUI.prototype, "spinnerSize", void 0);
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], JQueryBlockUI.prototype, "blockPage", void 0);
     JQueryBlockUI = __decorate([
-        aurelia_framework_1.transient(),
         aurelia_framework_1.customElement('aut-block-ui'),
-        aurelia_framework_1.inject(Element, 'aut-block-ui-option'),
-        __metadata("design:paramtypes", [Object, typeof (_b = typeof aut_block_ui_options_1.IAutBlockUIOptions !== "undefined" && aut_block_ui_options_1.IAutBlockUIOptions) === "function" && _b || Object])
+        aurelia_framework_1.inject(Element, 'aut-block-ui-option', cssMinifier_1.CssMinifier, jsTools_1.JsTools, SharedOptions_1.SharedOptions),
+        __metadata("design:paramtypes", [Object, typeof (_b = typeof aut_block_ui_option_1.IAutBlockUIOption !== "undefined" && aut_block_ui_option_1.IAutBlockUIOption) === "function" && _b || Object, typeof (_c = typeof cssMinifier_1.CssMinifier !== "undefined" && cssMinifier_1.CssMinifier) === "function" && _c || Object, typeof (_d = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _d || Object, typeof (_e = typeof SharedOptions_1.SharedOptions !== "undefined" && SharedOptions_1.SharedOptions) === "function" && _e || Object])
     ], JQueryBlockUI);
     return JQueryBlockUI;
-    var _a, _b;
+    var _a, _b, _c, _d, _e;
 }());
 exports.JQueryBlockUI = JQueryBlockUI;
 //# sourceMappingURL=aut-block-ui.js.map
+});
+___scope___.file("components/jquery/block-ui/SharedOptions.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
+var SharedOptions = (function () {
+    function SharedOptions() {
+        this.allOptions = {};
+    }
+    SharedOptions.prototype.getOption = function (id) {
+        return this.allOptions[id];
+    };
+    SharedOptions.prototype.setOption = function (id, obj) {
+        this.allOptions[id] = {
+            id: id,
+            settings: obj.settings,
+            option: obj.option,
+            default: obj.default
+        };
+    };
+    SharedOptions.prototype.dispose = function () {
+        this.allOptions = {};
+    };
+    SharedOptions = __decorate([
+        aurelia_dependency_injection_1.singleton()
+    ], SharedOptions);
+    return SharedOptions;
+}());
+exports.SharedOptions = SharedOptions;
+//# sourceMappingURL=SharedOptions.js.map
 });
 ___scope___.file("components/jquery/block-ui/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -5975,6 +6931,42 @@ function configure(config, option) {
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
+});
+___scope___.file("components/jquery/block-ui/sharedOptions.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
+var SharedOptions = (function () {
+    function SharedOptions() {
+        this.allOptions = {};
+    }
+    SharedOptions.prototype.getOption = function (id) {
+        return this.allOptions[id];
+    };
+    SharedOptions.prototype.setOption = function (id, obj) {
+        this.allOptions[id] = {
+            id: id,
+            settings: obj.settings,
+            option: obj.option,
+            default: obj.default
+        };
+    };
+    SharedOptions.prototype.dispose = function () {
+        this.allOptions = {};
+    };
+    SharedOptions = __decorate([
+        aurelia_dependency_injection_1.singleton()
+    ], SharedOptions);
+    return SharedOptions;
+}());
+exports.SharedOptions = SharedOptions;
+//# sourceMappingURL=sharedOptions.js.map
 });
 ___scope___.file("components/jquery/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -6664,39 +7656,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var microlink = require('aureliatoolbelt-thirdparty/microlink/microlink.js');
 var aurelia_framework_1 = require("aurelia-framework");
 var MicrolinkCustomElement = (function () {
-    function MicrolinkCustomElement(element) {
-        this.element = element;
+    function MicrolinkCustomElement() {
         this.class = '';
         this.round = true;
         this.url = null;
     }
-    MicrolinkCustomElement.prototype.generateUniqueId = function () {
-        var auTargetId = '_' + this.element.attributes.getNamedItem('au-target-id').value;
-        var auTargetIdChild = '_' + this.microlink.attributes.getNamedItem('au-target-id').value;
-        var id = auTargetId + auTargetIdChild;
-        return id;
-    };
-    MicrolinkCustomElement.prototype.attached = function () {
-        var id = this.generateUniqueId();
-        this.microlink.setAttribute('id', id);
-        microlink("#" + id, { round: this.round });
+    MicrolinkCustomElement.prototype.afterAttached = function () {
+        microlink("#" + this.microlink.id, { round: this.round });
     };
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], MicrolinkCustomElement.prototype, "class", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Boolean)
     ], MicrolinkCustomElement.prototype, "round", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], MicrolinkCustomElement.prototype, "url", void 0);
     MicrolinkCustomElement = __decorate([
         aurelia_framework_1.inject(Element),
-        aurelia_framework_1.customElement('aut-micro-link'),
-        __metadata("design:paramtypes", [Object])
+        aurelia_framework_1.customElement('aut-micro-link')
     ], MicrolinkCustomElement);
     return MicrolinkCustomElement;
 }());
@@ -7226,17 +8208,31 @@ var ScrollUpCustomElement = (function () {
         this.threshold = 150;
     }
     ScrollUpCustomElement.prototype.checkScrollTop = function () {
-        var elem = document.getElementById('aut-scrollup-button');
+        if (this.threshold <= 0) {
+            this.threshold = 0;
+        }
         if (document.body.scrollTop > this.threshold || document.documentElement.scrollTop > this.threshold) {
-            elem.style.display = 'block';
+            this.scrollupButton.style.display = 'block';
+            if (this.shownScrollUp) {
+                this.shownScrollUp();
+            }
         }
         else {
-            elem.style.display = 'none';
+            this.scrollupButton.style.display = 'none';
+            if (this.hideScrollUp) {
+                this.hideScrollUp();
+            }
         }
     };
     ScrollUpCustomElement.prototype.goToUp = function () {
+        if (this.beforeScrollUp) {
+            this.beforeScrollUp();
+        }
         if (!document.body.scroll) {
             window.scrollTo(0, 0);
+            if (this.afterScrollUp) {
+                this.afterScrollUp();
+            }
             return;
         }
         document.body.scroll({
@@ -7249,27 +8245,43 @@ var ScrollUpCustomElement = (function () {
             left: 0,
             behavior: 'smooth'
         });
+        if (this.afterScrollUp) {
+            this.afterScrollUp();
+        }
     };
     ScrollUpCustomElement.prototype.attached = function () {
         var _this = this;
-        var isMultipleInstanceAvailable = document.getElementsByClassName('aut-scrollup').length > 1;
-        if (isMultipleInstanceAvailable) {
-            throw Error('You cannot have multiple instances of [aut-scrollup] component, please check your DOM');
-        }
+        this.threshold = Number(this.threshold);
         window.onscroll = function () { return _this.checkScrollTop(); };
     };
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], ScrollUpCustomElement.prototype, "class", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], ScrollUpCustomElement.prototype, "style", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
-        __metadata("design:type", Number)
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
     ], ScrollUpCustomElement.prototype, "threshold", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], ScrollUpCustomElement.prototype, "beforeScrollUp", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], ScrollUpCustomElement.prototype, "afterScrollUp", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], ScrollUpCustomElement.prototype, "shownScrollUp", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], ScrollUpCustomElement.prototype, "hideScrollUp", void 0);
     ScrollUpCustomElement = __decorate([
         aurelia_framework_1.customElement('aut-scrollup')
     ], ScrollUpCustomElement);
@@ -7325,6 +8337,99 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
+___scope___.file("custom-attributes/purejs/id/aut-id-group.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var uuid_1 = require("../../../utilities/purejs/uuid");
+var UuidCustomAttribute = (function () {
+    function UuidCustomAttribute(element, idgeneratorV4) {
+        this.element = element;
+        this.idgeneratorV4 = idgeneratorV4;
+    }
+    UuidCustomAttribute.prototype.bind = function () {
+        if (this.value) {
+            this.element.setAttribute(this.value, 'data-aut-id-group');
+        }
+        else {
+            this.element.setAttribute(this.idgeneratorV4.Uuidv4ForId(), 'data-aut-id-group');
+        }
+    };
+    UuidCustomAttribute = __decorate([
+        aurelia_framework_1.inject(Element, uuid_1.Uuid),
+        aurelia_framework_1.customAttribute('aut-id-group'),
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof uuid_1.Uuid !== "undefined" && uuid_1.Uuid) === "function" && _a || Object])
+    ], UuidCustomAttribute);
+    return UuidCustomAttribute;
+    var _a;
+}());
+exports.UuidCustomAttribute = UuidCustomAttribute;
+//# sourceMappingURL=aut-id-group.js.map
+});
+___scope___.file("custom-attributes/purejs/id/aut-id.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var sharedIndex_1 = require("./../../../utilities/purejs/sharedIndex");
+var aurelia_framework_1 = require("aurelia-framework");
+var uuid_1 = require("../../../utilities/purejs/uuid");
+var IdCustomAttribute = (function () {
+    function IdCustomAttribute(element, sharedIndex, idgeneratorV4) {
+        this.element = element;
+        this.sharedIndex = sharedIndex;
+        this.idgeneratorV4 = idgeneratorV4;
+    }
+    IdCustomAttribute.prototype.bind = function () {
+        var uuid = this.idgeneratorV4.Uuidv4ForId();
+        var group = this.element.getAttribute('data-aut-id-group');
+        if (!group) {
+            this.element.setAttribute(uuid, 'data-aut-id-group');
+            group = uuid;
+        }
+        this.id = 'a' + this.sharedIndex.getAndIncrement(group);
+        this.element.id = this.id;
+    };
+    IdCustomAttribute = __decorate([
+        aurelia_framework_1.inject(Element, sharedIndex_1.SharedIndex, uuid_1.Uuid),
+        aurelia_framework_1.customAttribute('aut-id'),
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof sharedIndex_1.SharedIndex !== "undefined" && sharedIndex_1.SharedIndex) === "function" && _a || Object, typeof (_b = typeof uuid_1.Uuid !== "undefined" && uuid_1.Uuid) === "function" && _b || Object])
+    ], IdCustomAttribute);
+    return IdCustomAttribute;
+    var _a, _b;
+}());
+exports.IdCustomAttribute = IdCustomAttribute;
+//# sourceMappingURL=aut-id.js.map
+});
+___scope___.file("custom-attributes/purejs/id/index.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./aut-id'),
+        aurelia_framework_1.PLATFORM.moduleName('./aut-id-group')
+    ]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
 ___scope___.file("custom-attributes/purejs/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -7332,7 +8437,8 @@ var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/masked/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/uuid/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/uuid/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/id/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -7414,7 +8520,7 @@ var UuidCustomAttribute = (function () {
         this.idgeneratorV4 = idgeneratorV4;
     }
     UuidCustomAttribute.prototype.bind = function () {
-        this.id = 'aut_uuid_' + this.idgeneratorV4.uuidv4().replace(new RegExp('-', 'g'), '');
+        this.id = 'a' + this.idgeneratorV4.uuidv4().replace(new RegExp('-', 'g'), '');
         if (this.value) {
             this.element.setAttribute(this.value, this.id);
         }
@@ -10526,6 +11632,10 @@ ___scope___.file("components/bootstrap/button/abt-button.css", function(exports,
 
 module.exports = "abt-button>button {\n  cursor: pointer;\n}\n\n.abt-button {\n  cursor: pointer;\n}\n\n.abt-button[disabled] {\n  cursor: auto;\n}\n"
 });
+___scope___.file("components/bootstrap/card/abt-card-columns.css", function(exports, require, module, __filename, __dirname){
+
+module.exports = ".card-columns {\n    display: inline-block !important;\n    column-break-inside: avoid !important;\n  }"
+});
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown-item.css", function(exports, require, module, __filename, __dirname){
 
 module.exports = ".abt-dropdown-item {\n    cursor: pointer;\n    -webkit-touch-callout: none;\n    /* iOS Safari */\n    -webkit-user-select: none;\n    /* Safari */\n    -khtml-user-select: none;\n    /* Konqueror HTML */\n    -moz-user-select: none;\n    /* Firefox */\n    -ms-user-select: none;\n    /* Internet Explorer/Edge */\n    user-select: none;\n    /* Non-prefixed version, currently supported by Chrome and Opera */\n}\n\n.abt-dropdown-item .disabled {\n    cursor: auto;\n}\n"
@@ -10568,7 +11678,7 @@ module.exports = "/*! ==========================================================
 });
 ___scope___.file("components/jquery/block-ui/aut-block-ui.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = "/* http://tobiasahlin.com/spinkit/ */\n\n\n/* 2 */\n\n.double-bounce {\n    width: 40px;\n    height: 40px;\n    position: relative;\n    margin: 100px auto;\n}\n\n.double-bounce1,\n.double-bounce2 {\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    background-color: #333;\n    opacity: 0.6;\n    position: absolute;\n    top: 0;\n    left: 0;\n    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;\n    animation: sk-bounce 2.0s infinite ease-in-out;\n}\n\n.double-bounce2 {\n    -webkit-animation-delay: -1.0s;\n    animation-delay: -1.0s;\n}\n\n@-webkit-keyframes sk-bounce {\n    0%,\n    100% {\n        -webkit-transform: scale(0.0)\n    }\n    50% {\n        -webkit-transform: scale(1.0)\n    }\n}\n\n@keyframes sk-bounce {\n    0%,\n    100% {\n        transform: scale(0.0);\n        -webkit-transform: scale(0.0);\n    }\n    50% {\n        transform: scale(1.0);\n        -webkit-transform: scale(1.0);\n    }\n}\n\n*/\n/* 3 */\n\n.rectangle {\n    margin: 100px auto;\n    width: 50px;\n    height: 40px;\n    text-align: center;\n    font-size: 10px;\n}\n\n.rectangle>div {\n    background-color: #333;\n    height: 100%;\n    width: 6px;\n    display: inline-block;\n    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;\n    animation: sk-stretchdelay 1.2s infinite ease-in-out;\n}\n\n.rectangle .rect2 {\n    -webkit-animation-delay: -1.1s;\n    animation-delay: -1.1s;\n}\n\n.rectangle .rect3 {\n    -webkit-animation-delay: -1.0s;\n    animation-delay: -1.0s;\n}\n\n.rectangle .rect4 {\n    -webkit-animation-delay: -0.9s;\n    animation-delay: -0.9s;\n}\n\n.rectangle .rect5 {\n    -webkit-animation-delay: -0.8s;\n    animation-delay: -0.8s;\n}\n\n@-webkit-keyframes sk-stretchdelay {\n    0%,\n    40%,\n    100% {\n        -webkit-transform: scaleY(0.4)\n    }\n    20% {\n        -webkit-transform: scaleY(1.0)\n    }\n}\n\n@keyframes sk-stretchdelay {\n    0%,\n    40%,\n    100% {\n        transform: scaleY(0.4);\n        -webkit-transform: scaleY(0.4);\n    }\n    20% {\n        transform: scaleY(1.0);\n        -webkit-transform: scaleY(1.0);\n    }\n}\n\n*/\n/* 7 */\n\n.bounce {\n    margin: 100px auto 0;\n    width: 70px;\n    text-align: center;\n}\n\n.bounce>div {\n    width: 18px;\n    height: 18px;\n    background-color: #333;\n    border-radius: 100%;\n    display: inline-block;\n    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n    animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n\n.bounce .bounce1 {\n    -webkit-animation-delay: -0.32s;\n    animation-delay: -0.32s;\n}\n\n.bounce .bounce2 {\n    -webkit-animation-delay: -0.16s;\n    animation-delay: -0.16s;\n}\n\n@-webkit-keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0)\n    }\n    40% {\n        -webkit-transform: scale(1.0)\n    }\n}\n\n@keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0);\n        transform: scale(0);\n    }\n    40% {\n        -webkit-transform: scale(1.0);\n        transform: scale(1.0);\n    }\n}\n\n*/\n/* 9 */\n\n.sk-cube-grid {\n    width: 40px;\n    height: 40px;\n    margin: 100px auto;\n}\n\n.sk-cube-grid .sk-cube {\n    width: 33%;\n    height: 33%;\n    background-color: #333;\n    float: left;\n    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\n    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;\n}\n\n.sk-cube-grid .sk-cube1 {\n    -webkit-animation-delay: 0.2s;\n    animation-delay: 0.2s;\n}\n\n.sk-cube-grid .sk-cube2 {\n    -webkit-animation-delay: 0.3s;\n    animation-delay: 0.3s;\n}\n\n.sk-cube-grid .sk-cube3 {\n    -webkit-animation-delay: 0.4s;\n    animation-delay: 0.4s;\n}\n\n.sk-cube-grid .sk-cube4 {\n    -webkit-animation-delay: 0.1s;\n    animation-delay: 0.1s;\n}\n\n.sk-cube-grid .sk-cube5 {\n    -webkit-animation-delay: 0.2s;\n    animation-delay: 0.2s;\n}\n\n.sk-cube-grid .sk-cube6 {\n    -webkit-animation-delay: 0.3s;\n    animation-delay: 0.3s;\n}\n\n.sk-cube-grid .sk-cube7 {\n    -webkit-animation-delay: 0s;\n    animation-delay: 0s;\n}\n\n.sk-cube-grid .sk-cube8 {\n    -webkit-animation-delay: 0.1s;\n    animation-delay: 0.1s;\n}\n\n.sk-cube-grid .sk-cube9 {\n    -webkit-animation-delay: 0.2s;\n    animation-delay: 0.2s;\n}\n\n@-webkit-keyframes sk-cubeGridScaleDelay {\n    0%,\n    70%,\n    100% {\n        -webkit-transform: scale3D(1, 1, 1);\n        transform: scale3D(1, 1, 1);\n    }\n    35% {\n        -webkit-transform: scale3D(0, 0, 1);\n        transform: scale3D(0, 0, 1);\n    }\n}\n\n@keyframes sk-cubeGridScaleDelay {\n    0%,\n    70%,\n    100% {\n        -webkit-transform: scale3D(1, 1, 1);\n        transform: scale3D(1, 1, 1);\n    }\n    35% {\n        -webkit-transform: scale3D(0, 0, 1);\n        transform: scale3D(0, 0, 1);\n    }\n}\n\n*/\n/* 10 */\n\n.sk-fading-circle {\n    margin: 100px auto;\n    width: 40px;\n    height: 40px;\n    position: relative;\n}\n\n.sk-fading-circle .sk-circle {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    left: 0;\n    top: 0;\n}\n\n.sk-fading-circle .sk-circle:before {\n    content: '';\n    display: block;\n    margin: 0 auto;\n    width: 15%;\n    height: 15%;\n    background-color: #333;\n    border-radius: 100%;\n    -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\n    animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;\n}\n\n.sk-fading-circle .sk-circle2 {\n    -webkit-transform: rotate(30deg);\n    -ms-transform: rotate(30deg);\n    transform: rotate(30deg);\n}\n\n.sk-fading-circle .sk-circle3 {\n    -webkit-transform: rotate(60deg);\n    -ms-transform: rotate(60deg);\n    transform: rotate(60deg);\n}\n\n.sk-fading-circle .sk-circle4 {\n    -webkit-transform: rotate(90deg);\n    -ms-transform: rotate(90deg);\n    transform: rotate(90deg);\n}\n\n.sk-fading-circle .sk-circle5 {\n    -webkit-transform: rotate(120deg);\n    -ms-transform: rotate(120deg);\n    transform: rotate(120deg);\n}\n\n.sk-fading-circle .sk-circle6 {\n    -webkit-transform: rotate(150deg);\n    -ms-transform: rotate(150deg);\n    transform: rotate(150deg);\n}\n\n.sk-fading-circle .sk-circle7 {\n    -webkit-transform: rotate(180deg);\n    -ms-transform: rotate(180deg);\n    transform: rotate(180deg);\n}\n\n.sk-fading-circle .sk-circle8 {\n    -webkit-transform: rotate(210deg);\n    -ms-transform: rotate(210deg);\n    transform: rotate(210deg);\n}\n\n.sk-fading-circle .sk-circle9 {\n    -webkit-transform: rotate(240deg);\n    -ms-transform: rotate(240deg);\n    transform: rotate(240deg);\n}\n\n.sk-fading-circle .sk-circle10 {\n    -webkit-transform: rotate(270deg);\n    -ms-transform: rotate(270deg);\n    transform: rotate(270deg);\n}\n\n.sk-fading-circle .sk-circle11 {\n    -webkit-transform: rotate(300deg);\n    -ms-transform: rotate(300deg);\n    transform: rotate(300deg);\n}\n\n.sk-fading-circle .sk-circle12 {\n    -webkit-transform: rotate(330deg);\n    -ms-transform: rotate(330deg);\n    transform: rotate(330deg);\n}\n\n.sk-fading-circle .sk-circle2:before {\n    -webkit-animation-delay: -1.1s;\n    animation-delay: -1.1s;\n}\n\n.sk-fading-circle .sk-circle3:before {\n    -webkit-animation-delay: -1s;\n    animation-delay: -1s;\n}\n\n.sk-fading-circle .sk-circle4:before {\n    -webkit-animation-delay: -0.9s;\n    animation-delay: -0.9s;\n}\n\n.sk-fading-circle .sk-circle5:before {\n    -webkit-animation-delay: -0.8s;\n    animation-delay: -0.8s;\n}\n\n.sk-fading-circle .sk-circle6:before {\n    -webkit-animation-delay: -0.7s;\n    animation-delay: -0.7s;\n}\n\n.sk-fading-circle .sk-circle7:before {\n    -webkit-animation-delay: -0.6s;\n    animation-delay: -0.6s;\n}\n\n.sk-fading-circle .sk-circle8:before {\n    -webkit-animation-delay: -0.5s;\n    animation-delay: -0.5s;\n}\n\n.sk-fading-circle .sk-circle9:before {\n    -webkit-animation-delay: -0.4s;\n    animation-delay: -0.4s;\n}\n\n.sk-fading-circle .sk-circle10:before {\n    -webkit-animation-delay: -0.3s;\n    animation-delay: -0.3s;\n}\n\n.sk-fading-circle .sk-circle11:before {\n    -webkit-animation-delay: -0.2s;\n    animation-delay: -0.2s;\n}\n\n.sk-fading-circle .sk-circle12:before {\n    -webkit-animation-delay: -0.1s;\n    animation-delay: -0.1s;\n}\n\n@-webkit-keyframes sk-circleFadeDelay {\n    0%,\n    39%,\n    100% {\n        opacity: 0;\n    }\n    40% {\n        opacity: 1;\n    }\n}\n\n@keyframes sk-circleFadeDelay {\n    0%,\n    39%,\n    100% {\n        opacity: 0;\n    }\n    40% {\n        opacity: 1;\n    }\n}"
+module.exports = "/* http://tobiasahlin.com/spinkit/ */\n\n.bounce {\n    text-align: center;    \n}\n\n.bounce>div {\n    width: 18px;\n    height: 18px;\n    background-color: #333;\n    border-radius: 100%;\n    display: inline-block;\n    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n    animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n\n.bounce .bounce1 {\n    -webkit-animation-delay: -0.32s;\n    animation-delay: -0.32s;\n}\n\n.bounce .bounce2 {\n    -webkit-animation-delay: -0.16s;\n    animation-delay: -0.16s;\n}\n\n@-webkit-keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0)\n    }\n    40% {\n        -webkit-transform: scale(1.0)\n    }\n}\n\n@keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0);\n        transform: scale(0);\n    }\n    40% {\n        -webkit-transform: scale(1.0);\n        transform: scale(1.0);\n    }\n}\n\n"
 });
 ___scope___.file("components/purejs/clock/aut-clock.css", function(exports, require, module, __filename, __dirname){
 
