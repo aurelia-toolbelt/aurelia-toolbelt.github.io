@@ -90,23 +90,23 @@ module.exports.default =  "<template>\n\n  <div class=\"card ${class}\" css=\"${
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"carouselItemTemplate\">\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  <div ref=\"carouselItem\" class=\"carousel-item\">\n    <slot></slot>\n    <div class=\"carousel-caption\">\n      <slot name=\"caption\"></slot>\n    </div>\n  </div>\n</template>\n"
+module.exports.default =  "<template ref=\"carouselItemTemplate\">\n  <!-- <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require> -->\n  <div ref=\"carouselItem\" class=\"carousel-item\">\n    <slot></slot>\n    <div class=\"carousel-caption\">\n      <slot name=\"caption\"></slot>\n    </div>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/carousel/abt-carousel.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"carouselTemplate\">\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <div ref='carousel' aut-uuid class=\"carousel slide\" data-ride=\"carousel\">\n    <ol show.bind=\"showIndicator\" class=\"carousel-indicators\">\n    </ol>\n    <div class=\"carousel-inner\">\n      <slot></slot>\n    </div>\n    <a show.bind=\"showNavigator\" class=\"carousel-control-prev\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"prev\">\n      <span class=\"${prevIcon}\" aria-hidden=\"true\" />\n      <span class=\"sr-only\">${prevTitle}</span>\n    </a>\n    <a show.bind=\"showNavigator\" class=\"carousel-control-next\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"next\">\n      <span class=\"${nextIcon}\" aria-hidden=\"true\" />\n      <span class=\"sr-only\">${nextTitle}</span>\n    </a>\n  </div>\n</template>"
+module.exports.default =  "<template ref=\"carouselTemplate\">\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <div ref='carousel' aut-uuid class=\"carousel slide\" data-ride=\"carousel\">\n    <ol show.bind=\"showIndicator\" class=\"carousel-indicators\">\n    </ol>\n    <div class=\"carousel-inner\">\n      <slot></slot>\n    </div>\n    <a show.bind=\"showNavigator\" class=\"carousel-control-prev\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"prev\">\n      <span class=\"${prevIcon}\" aria-hidden=\"true\" />\n      <span class=\"sr-only\">${prevTitle}</span>\n    </a>\n    <a show.bind=\"showNavigator\" class=\"carousel-control-next\" href=\"#${carousel.id}\" role=\"button\" data-slide=\"next\">\n      <span class=\"${nextIcon}\" aria-hidden=\"true\" />\n      <span class=\"sr-only\">${nextTitle}</span>\n    </a>\n  </div>\n</template>"
 });
 ___scope___.file("components/bootstrap/collapse/abt-accordion-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <abt-card>\n    <div class=\"abt-accordion-item-header card-header\" ref=\"myLink\" style=\"cursor: pointer\">\n      <a href=\"#\" click.delegate=\"onAnchorClick($event)\">\n        ${title}\n      </a>\n    </div>\n\n    <abt-collapse class=\"${active ? 'show' : ''} abt-accordion-item-content\" controlled-by.bind=\"myLink\">\n      <slot></slot>\n    </abt-collapse>\n  </abt-card>\n\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <!-- <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require> -->\n  <!-- <require from='./abt-collapse'></require> -->\n  <abt-card>\n    <div class=\"abt-accordion-item-header card-header\" ref=\"myLink\" style=\"cursor: pointer\">\n      <a href=\"#\" click.delegate=\"onAnchorClick($event)\">\n        ${title}\n      </a>\n    </div>\n\n    <abt-collapse class=\"${active ? 'show' : ''} abt-accordion-item-content\" controlled-by.bind=\"myLink\">\n      <slot></slot>\n    </abt-collapse>\n  </abt-card>\n\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/collapse/abt-accordion.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  <div class=\"abt-accordion ${class}\" role=\"tablist\" css=\"${style}\" aut-uuid ref=\"accordion\">\n    <slot></slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n  <div class=\"abt-accordion ${class}\" role=\"tablist\" css=\"${style}\" aut-uuid ref=\"accordion\">\n    <slot></slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/collapse/abt-collapse.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <div ref=\"collapse\" aut-uuid class=\"collapse ${class} abt-collapse\" css=\"${style}\">\n    <slot></slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <div ref=\"collapse\" aut-uuid class=\"collapse ${class} abt-collapse\" css=\"${style}\">\n    <slot></slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown-divider.html", function(exports, require, module, __filename, __dirname){
 
@@ -122,11 +122,11 @@ module.exports.default =  "<template>\n\n  <require from=\"./abt-dropdown-item.c
 });
 ___scope___.file("components/bootstrap/dropdown/abt-dropdown.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n\n  <div id=\"sample\" class=\"btn-group ${class} ${placementClass} abt-dropdown\" css=\"${style}\">\n    <button if.bind=\"split\" type=\"button\" class=\"btn btn-${type} btn-${size}\" click.delegate=\"onClicked($event)\" disabled.bind=\"disabled || isBusy\">\n      <span show.bind=\"isBusy\">\n        <slot name=\"loading\">\n          <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\n          </i>\n        </slot>\n      </span>\n      <span>${title}</span>\n    </button>\n    <button ref=\"dropdown\" type=\"button\" class=\"btn btn-${type} btn-${size} ${placementClass} dropdown-toggle dropdown-toggle-split\"\n      data-offset=\"${offset}\" data-flip=\"${flip}\" data-boundary=\"${boundary}\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"\n      disabled.bind=\"disabled || isBusy\">\n      <span class=\"${split?'sr-only':''}\">${title}</span>\n    </button>\n    <div class=\"dropdown-menu ${alignRight ? 'dropdown-menu-right' : ''} ${menuClass} abt-dropdown-menu\" css=\"${menuStyle}\">\n      <slot>\n\n      </slot>\n    </div>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n\n  <!-- <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require> -->\n\n  <div id=\"sample\" class=\"btn-group ${class} ${placementClass} abt-dropdown\" css=\"${style}\">\n    <button if.bind=\"split\" type=\"button\" class=\"btn btn-${type} btn-${size}\" click.delegate=\"onClicked($event)\" disabled.bind=\"disabled || isBusy\">\n      <span show.bind=\"isBusy\">\n        <slot name=\"loading\">\n          <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\n          </i>\n        </slot>\n      </span>\n      <span>${title}</span>\n    </button>\n    <button ref=\"dropdown\" type=\"button\" class=\"btn btn-${type} btn-${size} ${placementClass} dropdown-toggle dropdown-toggle-split\"\n      data-offset=\"${offset}\" data-flip=\"${flip}\" data-boundary=\"${boundary}\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"\n      disabled.bind=\"disabled || isBusy\">\n      <span class=\"${split?'sr-only':''}\">${title}</span>\n    </button>\n    <div class=\"dropdown-menu ${alignRight ? 'dropdown-menu-right' : ''} ${menuClass} abt-dropdown-menu\" css=\"${menuStyle}\">\n      <slot>\n\n      </slot>\n    </div>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/float-input/abt-float-input.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"./abt-float-input.css\"></require>\n\n  <label aut-uuid ref=\"floatInputLabel\">\n    <input id=\"${id}\" ref=\"floatInput\" class=\"${class}\" css=\"${style}\" type=\"${type}\" placeholder=\"${placeholder}\"/>\n    <span>\n      <slot></slot>\n    </span>\n  </label>\n</template>\n"
+module.exports.default =  "<template>\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n  <require from=\"./abt-float-input.css\"></require>\n\n  <label aut-uuid ref=\"floatInputLabel\">\n    <input id=\"${id}\" ref=\"floatInput\" class=\"${class}\" css=\"${style}\" type=\"${type}\" placeholder=\"${placeholder}\" />\n    <span>\n      <slot></slot>\n    </span>\n  </label>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/inputgroup/abt-inputgroup-append.html", function(exports, require, module, __filename, __dirname){
 
@@ -150,7 +150,7 @@ module.exports.default =  "<template>\n  <div class=\"jumbotron ${fluid? 'jumbot
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"listGroupItemTemplate\">\n  <require from=\"./abt-listgroup-item.css\"></require>\n  <a id=\"${id}\" href=\"${href}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''} ${style}\"\n    class=\"list-group-item list-group-item-action ${class}\">\n    <slot></slot>\n  </a>\n</template>\n"
+module.exports.default =  "<template ref=\"listGroupItemTemplate\">\n  \n  <require from=\"./abt-listgroup-item.css\"></require>\n  \n  <a id=\"${id}\" href=\"${href}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''} ${style}\"\n    class=\"list-group-item list-group-item-action ${class}\">\n    <slot></slot>\n  </a>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup.html", function(exports, require, module, __filename, __dirname){
 
@@ -174,15 +174,15 @@ module.exports.default =  "<template>\n\n  <span class=\"modal-title abt-modal-t
 });
 ___scope___.file("components/bootstrap/modal/abt-modal.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/purejs/uuid/aut-uuid\"></require>\n  <div ref=\"modal\" class=\"modal ${animate ? 'fade' : ''} ${class}\" data-abt-dismissible=\"${dismissible}\" aut-uuid css=\"${style}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"fill-later\"\n    aria-hidden=\"true\">\n    <div class=\"modal-dialog ${centered ? ' modal-dialog-centered' : ''} modal-${size}\" role=\"document\">\n        <div class=\"modal-content\">\n          <slot>\n          </slot>\n        </div>\n      </div>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template ref=\"modal\" class=\"modal ${animate ? 'fade' : ''} ${class}\" data-abt-dismissible=\"${dismissible}\" aut-uuid css=\"${style}\"\n  tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"fill-later\" aria-hidden=\"true\">\n\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <!-- <div> -->\n  <div class=\"modal-dialog ${centered ? ' modal-dialog-centered' : ''} modal-${size}\" role=\"document\">\n    <div class=\"modal-content\">\n      <slot>\n      </slot>\n    </div>\n  </div>\n  <!-- </div> -->\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-brand.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"navbarBrandTemplate\">\n  <require from=\"./abt-navbar-link.css\"></require>\n  <a id=\"${id}\" ref=\"navbarBrand\" class=\"navbar-brand ${class}\" css=\"${style}\" click.trigger=\"onClick($event)\" href=\"${href}\">\n    <slot></slot>\n  </a>\n\n</template>\n"
+module.exports.default =  "<template ref=\"navbarBrandTemplate\">\n  <require from=\"./abt-navbar-brand.css\"></require>\n  <a id=\"${id}\" ref=\"navbarBrand\" class=\"navbar-brand ${class}\" css=\"${style}\" click.trigger=\"onClick($event)\" href=\"${href}\">\n    <slot></slot>\n  </a>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-collapser.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div aut-uuid ref=\"navbarCollapse\" class=\"abt-navbar-collapser collapse navbar-collapse ${class}\" css='${style}'>\n    <slot></slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <div aut-uuid ref=\"navbarCollapse\" class=\"abt-navbar-collapser collapse navbar-collapse ${class}\" css='${style}'>\n    <slot></slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-dropdown-divider.html", function(exports, require, module, __filename, __dirname){
 
@@ -202,7 +202,7 @@ module.exports.default =  "<template ref=\"navDropDown\">\n  <li ref=\"navListDr
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-link.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"navItem\">\n  <require from=\"./abt-navbar-link.css\"></require>\n  <li id=\"${id}\" class=\"nav-item ${class}\" css=\"${style}\">\n    <a ref=\"navItemLink\" class=\"nav-link ${linkClass}\" css=\"${linkStyle}\" click.trigger=\"onClick($event)\" href=\"${href}\">\n      <slot></slot>\n    </a>\n  </li>\n</template>\n"
+module.exports.default =  "<template ref=\"navItem\">\n  <require from=\"./abt-navbar-link.css\"></require>\n  \n  <li id=\"${id}\" class=\"nav-item ${class}\" css=\"${style}\">\n    <a ref=\"navItemLink\" class=\"nav-link ${linkClass}\" css=\"${linkStyle}\" click.trigger=\"onClick($event)\" href=\"${href}\">\n      <slot></slot>\n    </a>\n  </li>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/navbar/abt-navbar-nav.html", function(exports, require, module, __filename, __dirname){
 
@@ -230,11 +230,11 @@ module.exports.default =  "<template role=\"tablist\" >\n\n\n  <div class=\"${ve
 });
 ___scope___.file("components/bootstrap/pagination/abt-pagination.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"paginationTemplate\">\n  <require from=\"./abt-pagination.css\"></require>\n  <ul ref=\"pagination\" css=\"${style}\" id=\"${id}\" class=\"pagination abt-pagination ${class}\">\n    <li show.bind=\"boundaryLinks\" class=\"text-nowrap page-item abt-pagination-first ${selectedPage === 1  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-first\" href=\"#\" click.trigger=\"onClick($event,1)\">\n        <span class=\"${firstIcon}\" aria-hidden=\"true\">${firstText}</span>\n      </a>\n    </li>\n    <li show.bind=\"directionLinks\" class=\"text-nowrap page-item abt-pagination-prev ${selectedPage === 1 && !loop  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-prev\" href=\"#\" click.trigger=\"onClick($event, 'prev')\">\n        <span class=\"${prevIcon}\" aria-hidden=\"true\">${prevText}</span>\n      </a>\n    </li>\n\n    <li class=\"${ip.selected ? 'active':''} text-nowrap page-item abt-pagination-item\" repeat.for=\"ip of pages\">\n      <a hide.bind=\"showNumbers && ip.page === '...'\" class=\"page-link abt-pagination-link-item\" href=\"#\" click.trigger=\"onClick($event,ip.pageNumber,pages[$index-1].pageNumber,pages[$index+1].pageNumber)\">\n        ${ip.page === '-1' ? '...' : ip.page}\n      </a>\n    </li>\n\n    <li show.bind=\"directionLinks\" class=\"text-nowrap page-item abt-pagination-next ${selectedPage === totalPages && !loop  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-next\" href=\"#\" click.trigger=\"onClick($event,'next')\">\n        <span class=\"${nextIcon}\" aria-hidden=\"true\">${nextText}</span>\n      </a>\n    </li>\n    <li show.bind=\"boundaryLinks\" class=\"text-nowrap page-item abt-pagination-last ${selectedPage === totalPages  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-last\" href=\"#\" click.trigger=\"onClick($event, totalPages)\">\n        <span class=\"${lastIcon}\" aria-hidden=\"true\">${lastText}</span>\n      </a>\n  </ul>\n</template>\n"
+module.exports.default =  "<template ref=\"paginationTemplate\">\n  <require from=\"./abt-pagination.css\"></require>\n  \n  <ul ref=\"pagination\" css=\"${style}\" id=\"${id}\" class=\"pagination abt-pagination ${class}\">\n    <li show.bind=\"boundaryLinks\" class=\"text-nowrap page-item abt-pagination-first ${selectedPage === 1  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-first\" href=\"#\" click.trigger=\"onClick($event,1)\">\n        <span class=\"${firstIcon}\" aria-hidden=\"true\">${firstText}</span>\n      </a>\n    </li>\n    <li show.bind=\"directionLinks\" class=\"text-nowrap page-item abt-pagination-prev ${selectedPage === 1 && !loop  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-prev\" href=\"#\" click.trigger=\"onClick($event, 'prev')\">\n        <span class=\"${prevIcon}\" aria-hidden=\"true\">${prevText}</span>\n      </a>\n    </li>\n\n    <li class=\"${ip.selected ? 'active':''} text-nowrap page-item abt-pagination-item\" repeat.for=\"ip of pages\">\n      <a hide.bind=\"showNumbers && ip.page === '...'\" class=\"page-link abt-pagination-link-item\" href=\"#\" click.trigger=\"onClick($event,ip.pageNumber,pages[$index-1].pageNumber,pages[$index+1].pageNumber)\">\n        ${ip.page === '-1' ? '...' : ip.page}\n      </a>\n    </li>\n\n    <li show.bind=\"directionLinks\" class=\"text-nowrap page-item abt-pagination-next ${selectedPage === totalPages && !loop  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-next\" href=\"#\" click.trigger=\"onClick($event,'next')\">\n        <span class=\"${nextIcon}\" aria-hidden=\"true\">${nextText}</span>\n      </a>\n    </li>\n    <li show.bind=\"boundaryLinks\" class=\"text-nowrap page-item abt-pagination-last ${selectedPage === totalPages  ? 'disabled':''}\">\n      <a class=\"page-link abt-pagination-link-last\" href=\"#\" click.trigger=\"onClick($event, totalPages)\">\n        <span class=\"${lastIcon}\" aria-hidden=\"true\">${lastText}</span>\n      </a>\n  </ul>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/password/abt-password.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"passwordTemplate\">\n  <require from=\"./abt-password.css\"></require>\n  <require from=\"../inputgroup/abt-inputgroup\"></require>\n  <require from=\"../inputgroup/abt-inputgroup-append\"></require>\n  <require from=\"../progressbar/abt-progress\"></require>\n  <require from=\"../progressbar/abt-progress-bar\"></require>\n  <abt-inputgroup size=\"${size}\">\n    <input ref='txtPassword' css=\"${inputStyle}\" type=\"password\" value.bind=\"text\" class=\"form-control abt-password-input ${inputClass}\">\n    <abt-inputgroup-append if.bind=\"passwordVisibility\">\n      <button ref='btnPassword' class=\"btn btn-${buttonColorType} abt-password-button ${buttonClass}\" click.delegate=\"passwordVisibilityToggle()\"\n        css=\"${buttonStyle}\" type=\"button\">\n        <i ref='iconPassword' class=\"${isInvisible ? hidePasswordIcon : showPasswordIcon}\"></i>\n      </button>\n    </abt-inputgroup-append>\n  </abt-inputgroup>\n  <abt-progress if.bind=\"showProgressBar\" height=\"${progressBarHeight}\">\n    <abt-progress-bar type.bind=\"progressBarClass\" color.bind=\"progressBarColor\" value=\"${progressBarValue}\" min=\"0\" max=\"100\">${percentValue}</abt-progress-bar>\n  </abt-progress>\n  <div class=\"abt-password-errors-list\" ref=\"errorsList\" if.bind=\"!showTooltip\"></div>\n</template>\n"
+module.exports.default =  "<template ref=\"passwordTemplate\">\n  <require from=\"./abt-password.css\"></require>\n  <require from=\"../inputgroup/abt-inputgroup\"></require>\n  <require from=\"../inputgroup/abt-inputgroup-append\"></require>\n  <require from=\"../progressbar/abt-progress\"></require>\n  <require from=\"../progressbar/abt-progress-bar\"></require>\n  \n  <abt-inputgroup size=\"${size}\">\n    <input ref='txtPassword' css=\"${inputStyle}\" type=\"password\" value.bind=\"text\" class=\"form-control abt-password-input ${inputClass}\">\n    <abt-inputgroup-append if.bind=\"passwordVisibility\">\n      <button ref='btnPassword' class=\"btn btn-${buttonColorType} abt-password-button ${buttonClass}\" click.delegate=\"passwordVisibilityToggle()\"\n        css=\"${buttonStyle}\" type=\"button\">\n        <i ref='iconPassword' class=\"${isInvisible ? hidePasswordIcon : showPasswordIcon}\"></i>\n      </button>\n    </abt-inputgroup-append>\n  </abt-inputgroup>\n  <abt-progress if.bind=\"showProgressBar\" height=\"${progressBarHeight}\">\n    <abt-progress-bar type.bind=\"progressBarClass\" color.bind=\"progressBarColor\" value=\"${progressBarValue}\" min=\"0\" max=\"100\">${percentValue}</abt-progress-bar>\n  </abt-progress>\n  <div class=\"abt-password-errors-list\" ref=\"errorsList\" if.bind=\"!showTooltip\"></div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/popover/abt-popover.html", function(exports, require, module, __filename, __dirname){
 
@@ -242,7 +242,7 @@ module.exports.default =  "<template ref=\"popoverTemplate\">\n  <div ref=\"popo
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress-bar.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"progressbarTemplate\">\n  <div aut-uuid ref=\"progressbar\" class=\"progress-bar ${type? 'bg-'+type : ''} ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} ${class}\"\n    role=\"progressbar\" css=\"width: ${value}%; ${color ? 'background:' + color : ''} ${style}\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\" aria-valuemax=\"${max}\">\n    <slot>\n      <slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template ref=\"progressbarTemplate\">\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <div aut-uuid ref=\"progressbar\" class=\"progress-bar ${type? 'bg-'+type : ''} ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} ${class}\"\n    role=\"progressbar\" css=\"width: ${value}%; ${color ? 'background:' + color : ''} ${style}\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\"\n    aria-valuemax=\"${max}\">\n    <slot>\n      <slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress.html", function(exports, require, module, __filename, __dirname){
 
@@ -258,11 +258,11 @@ module.exports.default =  "<template>\n  <div ref=\"spy\" data-spy=\"scroll\" da
 });
 ___scope___.file("components/bootstrap/star-rate/abt-star-rate.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"text-${type} star-${type} ${class}\" css=\"cursor:${disabled ? 'auto' : 'pointer'};  ${color ? 'color:' + color + ' !important;' : ''} ${style}\" mouseleave.trigger=\"mouseLeft()\">\n\n  <require from=\"./abt-star-rate.css\"></require>\n\n\n  <i if.bind=\"!rtl\" class=\"abt-star-rate ${$index > fixedPoint ? emptyStar : $index < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStarClass && fixedPoint == $index ) ? halfStarClass : emptyStar}\"\n    repeat.for=\"$index of maxRate\" mousemove.delegate=\"mouseMove($event,$index)\" click.delegate=\"setRate($index)\">\n  </i>\n  <!-- <span mouseover.delegate=\"mouseLeft()\"> -->\n    <slot></slot>\n  <!-- </span> -->\n  <i if.bind=\"rtl\" class=\"abt-star-rate abt-star-rtl ${maxRate-$index-1 > fixedPoint ? emptyStar : maxRate-$index-1 < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStarClass && fixedPoint == maxRate-$index-1 ) ? halfStarClass : emptyStar}\"\n         repeat.for=\"$index of maxRate\"\n          \n          mousemove.delegate=\"mouseMove($event,maxRate-$index-1)\"\n        click.delegate=\"setRate(maxRate-$index-1)\">\n  </i>\n\n</template>\n"
+module.exports.default =  "<template class=\"text-${type} star-${type} ${class}\" css=\"cursor:${disabled ? 'auto' : 'pointer'};  ${color ? 'color:' + color + ' !important;' : ''} ${style}\" mouseleave.trigger=\"mouseLeft()\">\n\n  <!-- <require from=\"../../../external-resources/css/font-awesome.css\"></require> -->\n  <require from=\"./abt-star-rate.css\"></require>\n\n\n  <i if.bind=\"!rtl\" class=\"abt-star-rate ${$index > fixedPoint ? emptyStar : $index < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStarClass && fixedPoint == $index ) ? halfStarClass : emptyStar}\"\n    repeat.for=\"$index of maxRate\" mousemove.delegate=\"mouseMove($event,$index)\" click.delegate=\"setRate($index)\">\n  </i>\n  <!-- <span mouseover.delegate=\"mouseLeft()\"> -->\n    <slot></slot>\n  <!-- </span> -->\n  <i if.bind=\"rtl\" class=\"abt-star-rate abt-star-rtl ${maxRate-$index-1 > fixedPoint ? emptyStar : maxRate-$index-1 < fixedPoint ? fullStar : ( ( showHalfStar || hasFloatingPoint ) && halfStarClass && fixedPoint == maxRate-$index-1 ) ? halfStarClass : emptyStar}\"\n         repeat.for=\"$index of maxRate\"\n          \n          mousemove.delegate=\"mouseMove($event,maxRate-$index-1)\"\n        click.delegate=\"setRate(maxRate-$index-1)\">\n  </i>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"abt-toggle ${class}\" css=\"${style}\">\n  <require from=\"./abt-toggle.css\"></require>\n  <label click.delegate=\"onChanged()\" class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onType}\" data-offstyle=\"${offType}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
+module.exports.default =  "<template class=\"abt-toggle ${class}\" css=\"${style}\">\n  \n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-toggle/bootstrap-toggle.css\"></require>\n  <require from=\"./abt-toggle.css\"></require>\n\n  <label click.delegate=\"onChanged()\" class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onType}\" data-offstyle=\"${offType}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize-item.html", function(exports, require, module, __filename, __dirname){
 
@@ -270,7 +270,7 @@ module.exports.default =  "<template>\n    <option value=\"${value}\" class=\"${
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"tokenizeTemplate\">\n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css\"></require>\n  <select id=\"${id}\" ref='tokenize' class=\"${class}\" css=\"${style}\" multiple>\n  </select>\n  <slot></slot>\n</template>\n"
+module.exports.default =  "<template ref=\"tokenizeTemplate\">\n  \n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css\"></require>\n\n  <select id=\"${id}\" ref='tokenize' class=\"${class}\" css=\"${style}\" multiple>\n  </select>\n  <slot></slot>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/tooltip/abt-tooltip.html", function(exports, require, module, __filename, __dirname){
 
@@ -304,33 +304,37 @@ ___scope___.file("components/jquery/news-ticker/aut-news-ticker.html", function(
 
 module.exports.default =  "<template></template>"
 });
-___scope___.file("components/purejs/clock/aut-clock.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/clock/aut-clock.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"./aut-clock.css\"></require>\n  <require from=\"../../../value-converters/purejs/datetime/moment-vc\"></require>\n  <!-- text-shadow: 0 0 20px ${shadowColor}, 0 0 20px rgba(10, 175, 230, 0); -->\n\n  <div class=\"clock\" css=\"color: ${color};\">\n    <slot if.bind=\"showDate\" name=\"date\">\n      <p if.bind=\"showDate\" class=\"date\" css=\"font-size: ${fontSize/2}px;\">${value|date:dateFormat:locale}</p>\n    </slot>\n    <slot if.bind=\"showTime\" name=\"time\">\n      <p if.bind=\"showTime\" class=\"time\" css=\"font-size: ${fontSize}px;\">${value|time:be24Hours}</p>\n    </slot>\n    <slot if.bind=\"showText\" name=\"text\">\n      <p if.bind=\"showText\" class=\"text\" css=\"font-size: ${fontSize/3}px;\">${text}</p>\n    </slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\n\n  <require from=\"./aut-clock.css\"></require>\n  <require from=\"../../../value-converters/vanilla/datetime/moment-vc\"></require>\n  <!-- text-shadow: 0 0 20px ${shadowColor}, 0 0 20px rgba(10, 175, 230, 0); -->\n\n  <div class=\"clock\" css=\"color: ${color};\">\n    <slot name=\"date\">\n      <p if.bind=\"showDate\" class=\"date\" css=\"font-size: ${fontSize/2}px;\">${value|date:dateFormat:locale}</p>\n    </slot>\n    <slot name=\"time\">\n      <p if.bind=\"showTime\" class=\"time\" css=\"font-size: ${fontSize}px;\">${value|time:be24Hours}</p>\n    </slot>\n    <slot name=\"text\">\n      <p if.bind=\"showText\" class=\"text\" css=\"font-size: ${fontSize/3}px;\">${text}</p>\n    </slot>\n  </div>\n\n</template>\n"
 });
-___scope___.file("components/purejs/mark-down/aut-mark-down.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/divider/aut-divider.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"../../bootstrap/toggle/abt-toggle\"></require>\n  <require from=\"../../../value-converters/purejs/mark-down/markdown-vc\"></require>\n  <require from=\"../../bootstrap/button/abt-button\"></require>\n\n  <!-- <require from=\"../../bootstrap/card/abt-card.html\"></require>\n  <require from=\"../../bootstrap/card/abt-card-body.html\"></require> -->\n\n  <abt-card class=\"mt-3 mb-4\">\n    <abt-card-header if.bind=\"showToolBar\">\n\n      <abt-button size=\"sm\" color=\"secondary\" click.call=\"srcChanged()\">\n        <span slot=\"loading\">\n          <i class=\"fa fa-refresh fa-spin\"></i>\n        </span>\n\n        Reload\n\n      </abt-button>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button click.delegate=\"addText('# ')\" type=\"button\" class=\"btn btn-outline-primary\">h1</button>\n        <button click.delegate=\"addText('## ')\" type=\"button\" class=\"btn btn-outline-primary\">h2</button>\n        <button click.delegate=\"addText('### ')\" type=\"button\" class=\"btn btn-outline-primary\">h3</button>\n        <button click.delegate=\"addText('#### ')\" type=\"button\" class=\"btn btn-outline-primary\">h4</button>\n        <button click.delegate=\"addText('##### ')\" type=\"button\" class=\"btn btn-outline-primary\">h5</button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('****', 2)\">\n          <b>Bold</b>\n        </button>\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('__', 1)\">\n          <em>Italic</em>\n        </button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-button outline click.call=\"addText('[]()', 1)\">\n          <b>Link</b>\n        </abt-button>\n        <abt-button outline click.call=\"addText('![]()', 4)\">\n          <em>Image</em>\n        </abt-button>\n      </div>\n\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-toggle size=\"mini\" checked.bind=\"showPreview\">\n          Preview\n        </abt-toggle>\n        <abt-toggle size=\"mini\" checked.bind=\"showEditor\">\n          Editor\n        </abt-toggle>\n      </div>\n    </abt-card-header>\n    <abt-card-body if.bind=\"showEditor === true\" style=\"border-left: 3px solid maroon !important;\">\n\n      <textarea ref=\"editor\" class=\"editor\" style=\"\n                  width: 98%;\n                  border: 0px;\n                  min-height: 400px;\" value.bind=\"myText\">\n      </textarea>\n\n    </abt-card-body>\n    <abt-card-footer if.bind=\"showPreview === true\" style=\"min-height: 100px; border-left:4px solid #753B85;\">\n      <div ref=\"preview\" innerhtml.bind=\"myText | md & debounce:200\">\n      </div>\n    </abt-card-footer>\n\n    <div show.bind=\"false\" ref=\"slotContainer\" style=\"visibility: hidden\">\n      <slot></slot>\n    </div>\n\n  </abt-card>\n</template>\n"
+module.exports.default =  "<template>\n  <require from=\"./aut-divider.css\"></require>\n  <div id=\"${id}\" ref=\"divider\" class=\"${class} ${vertical ? 'is-divider-vertical' : 'is-divider'}\">\n    <slot></slot>\n  </div>\n</template>\n"
 });
-___scope___.file("components/purejs/microlink/aut-microlink.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/mark-down/aut-mark-down.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\n\n  <require from=\"../../bootstrap/toggle/abt-toggle\"></require>\n  <require from=\"../../../value-converters/vanilla/mark-down/markdown-vc\"></require>\n  <require from=\"../../bootstrap/button/abt-button\"></require>\n\n  <!-- <require from=\"../../bootstrap/card/abt-card.html\"></require>\n  <require from=\"../../bootstrap/card/abt-card-body.html\"></require> -->\n\n  <abt-card class=\"mt-3 mb-4\">\n    <abt-card-header if.bind=\"showToolBar\">\n\n      <abt-button size=\"sm\" color=\"secondary\" click.call=\"srcChanged()\">\n        <span slot=\"loading\">\n          <i class=\"fa fa-refresh fa-spin\"></i>\n        </span>\n\n        Reload\n\n      </abt-button>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button click.delegate=\"addText('# ')\" type=\"button\" class=\"btn btn-outline-primary\">h1</button>\n        <button click.delegate=\"addText('## ')\" type=\"button\" class=\"btn btn-outline-primary\">h2</button>\n        <button click.delegate=\"addText('### ')\" type=\"button\" class=\"btn btn-outline-primary\">h3</button>\n        <button click.delegate=\"addText('#### ')\" type=\"button\" class=\"btn btn-outline-primary\">h4</button>\n        <button click.delegate=\"addText('##### ')\" type=\"button\" class=\"btn btn-outline-primary\">h5</button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('****', 2)\">\n          <b>Bold</b>\n        </button>\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('__', 1)\">\n          <em>Italic</em>\n        </button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-button outline click.call=\"addText('[]()', 1)\">\n          <b>Link</b>\n        </abt-button>\n        <abt-button outline click.call=\"addText('![]()', 4)\">\n          <em>Image</em>\n        </abt-button>\n      </div>\n\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-toggle size=\"mini\" checked.bind=\"showPreview\">\n          Preview\n        </abt-toggle>\n        <abt-toggle size=\"mini\" checked.bind=\"showEditor\">\n          Editor\n        </abt-toggle>\n      </div>\n    </abt-card-header>\n    <abt-card-body if.bind=\"showEditor === true\" style=\"border-left: 3px solid maroon !important;\">\n\n      <textarea ref=\"editor\" class=\"editor\" style=\"\n                  width: 98%;\n                  border: 0px;\n                  min-height: 400px;\" value.bind=\"myText\">\n      </textarea>\n\n    </abt-card-body>\n    <abt-card-footer if.bind=\"showPreview === true\" style=\"min-height: 100px; border-left:4px solid #753B85;\">\n      <div ref=\"preview\" innerhtml.bind=\"myText | md & debounce:200\">\n      </div>\n    </abt-card-footer>\n\n    <div show.bind=\"false\" ref=\"slotContainer\" style=\"visibility: hidden\">\n      <slot></slot>\n    </div>\n\n  </abt-card>\n</template>\n"
+});
+___scope___.file("components/vanilla/microlink/aut-microlink.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n  <div style=\"width: 1px\" class=\"${class}\">\n    <a aut-uuid class=\"micro-link aut-microlink\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n    </a>\n  </div>\n</template>\n"
 });
-___scope___.file("components/purejs/pretty/aut-checkbox.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/pretty/aut-checkbox.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\n\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\n    <input type=\"${isCheckBox ? 'checkbox' : 'radio'}\" name.bind=\"name\" checked.bind=\"state\" change.delegate=\"changed()\" disabled.bind=\"disabled\"\n    />\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\n      <label>\n        <slot></slot>\n      </label>\n    </div>\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\n      <label>\n        ${offLabel}\n      </label>\n    </div>\n  </div>\n\n</template>\n"
 });
-___scope___.file("components/purejs/pretty/aut-radio.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/pretty/aut-radio.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\n\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\n    <input ref=\"radioButton\" type=\"radio\" name.bind=\"name\" disabled.bind=\"disabled\" change.delegate=\"changed()\" />\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\n      <label>\n        <slot></slot>\n      </label>\n    </div>\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\n      <label>\n        ${offLabel}\n      </label>\n    </div>\n  </div>\n\n</template>\n"
 });
-___scope___.file("components/purejs/raw-html/aut-raw-html.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/raw-html/aut-raw-html.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n\n  <span ref=\"renderer\" textcontent.bind=\"content\">\n\n\n\n  </span>\n\n  <div ref=\"dummy\">\n    <slot>\n\n    </slot>\n  </div>\n\n</template>\n"
 });
-___scope___.file("components/purejs/scrollup/aut-scrollup.html", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/scrollup/aut-scrollup.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n    <style>\n        .aut-scrollup-noselect {\n            -webkit-touch-callout: none !important;\n            -webkit-user-select: none !important;\n            -khtml-user-select: none !important;\n            -moz-user-select: none !important;\n            -ms-user-select: none !important;\n            user-select: none !important;\n        }\n        .aut-scrollup-noselect:focus,\n        .aut-scrollup-noselect:active {\n            outline: none !important;\n            box-shadow: none !important;\n        }\n    </style>\n    <require from=\"./aut-scrollup.css\"></require>\n    <button ref='scrollupButton' aut-uuid click.delegate=\"goToUp()\" css=\"${style}\" class=\"aut-scrollup aut-scrollup-noselect ${class}\">\n        <slot>\n        </slot>\n    </button>\n</template>"
+module.exports.default =  "<template>\n    <require from=\"./aut-scrollup.css\"></require>\n    <button ref='scrollupButton' aut-uuid click.delegate=\"goToUp()\" css=\"${style}\" class=\"aut-scrollup aut-scrollup-noselect ${class}\">\n        <slot>\n        </slot>\n    </button>\n</template>\n"
 });
 ___scope___.file("binding-behaviours/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -1620,7 +1624,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var sharedIndex_1 = require("./../../../utilities/purejs/sharedIndex");
+var sharedIndex_1 = require("./../../../utilities/vanilla/sharedIndex");
 var aurelia_framework_1 = require("aurelia-framework");
 var CarouselItemCustomElement = (function () {
     function CarouselItemCustomElement(element, sharedController) {
@@ -1662,7 +1666,7 @@ var CarouselItemCustomElement = (function () {
 exports.CarouselItemCustomElement = CarouselItemCustomElement;
 //# sourceMappingURL=abt-carousel-item.js.map
 });
-___scope___.file("utilities/purejs/sharedIndex.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("utilities/vanilla/sharedIndex.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2214,7 +2218,7 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_event_aggregator_1 = require("aurelia-event-aggregator");
 var abt_dropdown_selected_item_changed_1 = require("./abt-dropdown-selected-item-changed");
 var $ = require("jquery");
-var uuid_1 = require("../../../utilities/purejs/uuid");
+var uuid_1 = require("../../../utilities/vanilla/uuid");
 var BootstrapDropDown = (function () {
     function BootstrapDropDown(element, ea, uuid) {
         this.element = element;
@@ -2456,7 +2460,7 @@ var BootstrapDropDown = (function () {
 exports.BootstrapDropDown = BootstrapDropDown;
 //# sourceMappingURL=abt-dropdown.js.map
 });
-___scope___.file("utilities/purejs/uuid.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("utilities/vanilla/uuid.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2519,10 +2523,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-var cssMinifier_1 = require("../../../utilities/purejs/cssMinifier");
 var BootstrapFloatInput = (function () {
-    function BootstrapFloatInput(cssMinifier) {
-        this.cssMinifier = cssMinifier;
+    function BootstrapFloatInput() {
         this.placeholder = null;
         this.placeholderFontSize = null;
         this.labelFontSize = null;
@@ -2565,8 +2567,7 @@ var BootstrapFloatInput = (function () {
         if (this.floatInput.classList.contains('form-control')) {
             this.floatInputLabel.classList.add('has-float-label');
             var style = "\n                  #" + id + ".has-float-label .form-control:placeholder-shown:not(:focus) + * {\n                    color : " + (this.placeholderColor || 'black') + " !important;\n                    font-size: " + (this.placeholderFontSize || fontSize) + " !important;\n                    opacity: " + (this.placeholderOpacity || '.5') + " !important;\n                    top: " + (this.placeholderTop || top) + " !important;\n                  }\n                  #" + id + ".has-float-label label, #" + id + ".has-float-label > span\n                  {\n                    color : " + (this.labelColor || 'black') + " !important;\n                    font-size: " + (this.labelFontSize || '75%') + " !important;\n                  }";
-            var minify = this.cssMinifier.minify(style);
-            aurelia_framework_1.DOM.injectStyles(minify, null, null, 's' + id);
+            aurelia_framework_1.DOM.injectStyles(style, null, null, 's' + id);
         }
     };
     __decorate([
@@ -2619,42 +2620,12 @@ var BootstrapFloatInput = (function () {
     ], BootstrapFloatInput.prototype, "placeholderColor", void 0);
     BootstrapFloatInput = __decorate([
         aurelia_framework_1.containerless(),
-        aurelia_framework_1.inject(cssMinifier_1.CssMinifier),
-        aurelia_framework_1.customElement('abt-float-input'),
-        __metadata("design:paramtypes", [typeof (_a = typeof cssMinifier_1.CssMinifier !== "undefined" && cssMinifier_1.CssMinifier) === "function" && _a || Object])
+        aurelia_framework_1.customElement('abt-float-input')
     ], BootstrapFloatInput);
     return BootstrapFloatInput;
-    var _a;
 }());
 exports.BootstrapFloatInput = BootstrapFloatInput;
 //# sourceMappingURL=abt-float-input.js.map
-});
-___scope___.file("utilities/purejs/cssMinifier.js", function(exports, require, module, __filename, __dirname){
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-var CleanCSS = require('clean-css');
-var CssMinifier = (function () {
-    function CssMinifier() {
-    }
-    CssMinifier.prototype.minify = function (content) {
-        var options = {};
-        var output = new CleanCSS(options).minify(content).styles;
-        return output;
-    };
-    CssMinifier = __decorate([
-        aurelia_framework_1.singleton()
-    ], CssMinifier);
-    return CssMinifier;
-}());
-exports.CssMinifier = CssMinifier;
-//# sourceMappingURL=cssMinifier.js.map
 });
 ___scope___.file("components/bootstrap/float-input/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -3438,7 +3409,6 @@ var BootstrapModal = (function () {
     ], BootstrapModal.prototype, "bsHidden", void 0);
     BootstrapModal = __decorate([
         aurelia_framework_1.inject(Element),
-        aurelia_framework_1.containerless(),
         aurelia_framework_1.customElement('abt-modal'),
         __metadata("design:paramtypes", [Object])
     ], BootstrapModal);
@@ -4152,7 +4122,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-var uuid_1 = require("../../../utilities/purejs/uuid");
+var uuid_1 = require("../../../utilities/vanilla/uuid");
 var BootstrapNavItem = (function () {
     function BootstrapNavItem(element, uuid) {
         this.uuid = uuid;
@@ -4728,7 +4698,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var jsTools_1 = require("./../../../utilities/purejs/jsTools");
+var jsTools_1 = require("./../../../utilities/vanilla/jsTools");
 var password_meter_1 = require("password-meter");
 var aurelia_framework_1 = require("aurelia-framework");
 var PasswordCustomElement = (function () {
@@ -4985,7 +4955,7 @@ var PasswordCustomElement = (function () {
 exports.PasswordCustomElement = PasswordCustomElement;
 //# sourceMappingURL=abt-password.js.map
 });
-___scope___.file("utilities/purejs/jsTools.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("utilities/vanilla/jsTools.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5999,9 +5969,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 require("jquery");
-require("aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css");
 require("aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.js");
-var jsTools_1 = require("../../../utilities/purejs/jsTools");
+var jsTools_1 = require("../../../utilities/vanilla/jsTools");
 var BootstrapTokenizeCustomElement = (function () {
     function BootstrapTokenizeCustomElement(element, jsTools, bindingEngine) {
         this.element = element;
@@ -6605,7 +6574,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 require("./scripts/jquery.bootstrap-touchspin");
-require("./styles/jquery.bootstrap-touchspin.css");
 var BootstrapTouchspinCustomElement = (function () {
     function BootstrapTouchspinCustomElement() {
     }
@@ -6642,7 +6610,7 @@ function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/jquery/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -6665,17 +6633,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var SharedOptions_1 = require("./SharedOptions");
-var jsTools_1 = require("./../../../utilities/purejs/jsTools");
-var cssMinifier_1 = require("./../../../utilities/purejs/cssMinifier");
+var jsTools_1 = require("./../../../utilities/vanilla/jsTools");
 var aurelia_framework_1 = require("aurelia-framework");
 var $ = require("jquery");
 require("aureliatoolbelt-thirdparty/jquery.blockUI/jquery.blockUI.js");
 var aut_block_ui_option_1 = require("./aut-block-ui-option");
 var JQueryBlockUI = (function () {
-    function JQueryBlockUI(element, option, cssMinifier, jsTools, sharedOptions) {
+    function JQueryBlockUI(element, option, jsTools, sharedOptions) {
         this.element = element;
         this.option = option;
-        this.cssMinifier = cssMinifier;
         this.jsTools = jsTools;
         this.sharedOptions = sharedOptions;
         this.settings = null;
@@ -6772,8 +6738,8 @@ var JQueryBlockUI = (function () {
             spinnerBgColor = 'bg-primary';
             isClass = true;
         }
-        var minify = "\n    .blockElement." + ('m' + id) + "{\n      z-index: " + option.baseZ + " !important;\n    }\n    .blockPage." + ('m' + id) + "{\n      z-index: " + option.baseZ + " !important;\n    }\n    ." + ('b' + id) + " {\n      width: " + size + unit + " !important;\n      height: " + size + unit + " !important;\n      " + (!isClass ? spinnerBgColor : '') + "\n    }";
-        aurelia_framework_1.DOM.injectStyles(this.cssMinifier.minify(minify), null, null, 's' + id);
+        var style = "\n    .blockElement." + ('m' + id) + "{\n      z-index: " + option.baseZ + " !important;\n    }\n    .blockPage." + ('m' + id) + "{\n      z-index: " + option.baseZ + " !important;\n    }\n    ." + ('b' + id) + " {\n      width: " + size + unit + " !important;\n      height: " + size + unit + " !important;\n      " + (!isClass ? spinnerBgColor : '') + "\n    }";
+        aurelia_framework_1.DOM.injectStyles(style, null, null, 's' + id);
         this.spinnerMessage = "<div class=\"bounce\"><div class=\"bounce1 " + (isClass ? spinnerBgColor : '') + " " + ('b' + id) + "\"></div><div class=\"bounce2 " + (isClass ? spinnerBgColor : '') + " " + ('b' + id) + "\"></div><div class=\"bounce3 " + (isClass ? spinnerBgColor : '') + " " + ('b' + id) + "\"></div></div>";
     };
     JQueryBlockUI.prototype.blockChanged = function (isBlocked) {
@@ -6872,11 +6838,11 @@ var JQueryBlockUI = (function () {
     ], JQueryBlockUI.prototype, "blockPage", void 0);
     JQueryBlockUI = __decorate([
         aurelia_framework_1.customElement('aut-block-ui'),
-        aurelia_framework_1.inject(Element, 'aut-block-ui-option', cssMinifier_1.CssMinifier, jsTools_1.JsTools, SharedOptions_1.SharedOptions),
-        __metadata("design:paramtypes", [Object, typeof (_b = typeof aut_block_ui_option_1.IAutBlockUIOption !== "undefined" && aut_block_ui_option_1.IAutBlockUIOption) === "function" && _b || Object, typeof (_c = typeof cssMinifier_1.CssMinifier !== "undefined" && cssMinifier_1.CssMinifier) === "function" && _c || Object, typeof (_d = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _d || Object, typeof (_e = typeof SharedOptions_1.SharedOptions !== "undefined" && SharedOptions_1.SharedOptions) === "function" && _e || Object])
+        aurelia_framework_1.inject(Element, 'aut-block-ui-option', jsTools_1.JsTools, SharedOptions_1.SharedOptions),
+        __metadata("design:paramtypes", [Object, typeof (_b = typeof aut_block_ui_option_1.IAutBlockUIOption !== "undefined" && aut_block_ui_option_1.IAutBlockUIOption) === "function" && _b || Object, typeof (_c = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _c || Object, typeof (_d = typeof SharedOptions_1.SharedOptions !== "undefined" && SharedOptions_1.SharedOptions) === "function" && _d || Object])
     ], JQueryBlockUI);
     return JQueryBlockUI;
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d;
 }());
 exports.JQueryBlockUI = JQueryBlockUI;
 //# sourceMappingURL=aut-block-ui.js.map
@@ -7424,7 +7390,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/clock/aut-clock.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/clock/aut-clock.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7437,6 +7403,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_templating_1 = require("aurelia-templating");
 var ClockCustomElement = (function () {
     function ClockCustomElement() {
         this.text = 'Aurelia is awesome';
@@ -7505,6 +7472,7 @@ var ClockCustomElement = (function () {
         __metadata("design:type", Object)
     ], ClockCustomElement.prototype, "showTime", void 0);
     ClockCustomElement = __decorate([
+        aurelia_templating_1.containerless(),
         aurelia_framework_1.customElement('aut-clock')
     ], ClockCustomElement);
     return ClockCustomElement;
@@ -7512,7 +7480,7 @@ var ClockCustomElement = (function () {
 exports.ClockCustomElement = ClockCustomElement;
 //# sourceMappingURL=aut-clock.js.map
 });
-___scope___.file("components/purejs/clock/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/clock/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -7526,24 +7494,108 @@ exports.configure = configure;
 __export(require("./aut-clock"));
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/divider/aut-divider.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var sharedIndex_1 = require("./../../../utilities/vanilla/sharedIndex");
+var aurelia_framework_1 = require("aurelia-framework");
+var DividerCustomElement = (function () {
+    function DividerCustomElement(element, sharedIndex) {
+        this.element = element;
+        this.sharedIndex = sharedIndex;
+        this.vertical = false;
+        this.color = '#b5b5b5';
+        this.backgroundColor = '#fff';
+        this.lineColor = '#dbdbdb';
+    }
+    DividerCustomElement.prototype.attached = function () {
+        this.vertical = (this.vertical === '' && this.element.hasAttribute('vertical')) || this.vertical.toString() === 'true';
+        var value = this.divider.innerText;
+        this.divider.innerText = '';
+        this.divider.setAttribute('data-content', value);
+        var css = ".is-divider-vertical[data-content]::after,.is-divider[data-content]::after{\n      background:" + this.backgroundColor + "!important;color:" + this.color + "!important}\n      .is-divider{border-top:.1rem solid " + this.lineColor + "!important;}\n      .is-divider-vertical::before{border-left:.1rem solid " + this.lineColor + "!important;}\n      ";
+        aurelia_framework_1.DOM.injectStyles(css, null, null, 'aut_divider_injected_style');
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], DividerCustomElement.prototype, "id", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], DividerCustomElement.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], DividerCustomElement.prototype, "vertical", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], DividerCustomElement.prototype, "color", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], DividerCustomElement.prototype, "backgroundColor", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], DividerCustomElement.prototype, "lineColor", void 0);
+    DividerCustomElement = __decorate([
+        aurelia_framework_1.customElement('aut-divider'),
+        aurelia_framework_1.inject(Element, sharedIndex_1.SharedIndex),
+        aurelia_framework_1.containerless(),
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof sharedIndex_1.SharedIndex !== "undefined" && sharedIndex_1.SharedIndex) === "function" && _a || Object])
+    ], DividerCustomElement);
+    return DividerCustomElement;
+    var _a;
+}());
+exports.DividerCustomElement = DividerCustomElement;
+//# sourceMappingURL=aut-divider.js.map
+});
+___scope___.file("components/vanilla/divider/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./aut-divider"));
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./aut-divider')
+    ]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("components/vanilla/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/clock/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/mark-down/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/nprogress/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/pretty/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/microlink/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/scrollup/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/purejs/raw-html/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/clock/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/mark-down/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/nprogress/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/pretty/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/microlink/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/scrollup/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/raw-html/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/divider/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/mark-down/aut-mark-down.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/mark-down/aut-mark-down.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7625,7 +7677,7 @@ var MarkDownItCustomElement = (function () {
 exports.MarkDownItCustomElement = MarkDownItCustomElement;
 //# sourceMappingURL=aut-mark-down.js.map
 });
-___scope___.file("components/purejs/mark-down/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/mark-down/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -7641,7 +7693,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/microlink/aut-microlink.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/microlink/aut-microlink.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7685,7 +7737,7 @@ var MicrolinkCustomElement = (function () {
 exports.MicrolinkCustomElement = MicrolinkCustomElement;
 //# sourceMappingURL=aut-microlink.js.map
 });
-___scope___.file("components/purejs/microlink/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/microlink/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -7701,7 +7753,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/nprogress/aut-nprogress.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/nprogress/aut-nprogress.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7716,26 +7768,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var nprogress = require("nprogress");
 var aurelia_framework_1 = require("aurelia-framework");
 require("nprogress/nprogress.css");
-var NProgressStyleInjector = (function () {
-    function NProgressStyleInjector() {
-        this.isAlreadyOverridden = false;
-    }
-    NProgressStyleInjector.prototype.overrideStyle = function (color, size) {
-        if (this.isAlreadyOverridden) {
-            return;
-        }
-        this.isAlreadyOverridden = true;
-        aurelia_framework_1.DOM.injectStyles("#nprogress .bar {\n         background: " + color + " !important;\n         height: " + size + "px !important;\n       }\n       #nprogress .peg {\n         box-shadow: 0 0 10px " + color + ", 0 0 5px " + color + " !important;\n       }\n       #nprogress .spinner-icon {\n         border-top-color: " + color + " !important;\n         border-left-color: " + color + " !important;\n       }");
-    };
-    NProgressStyleInjector = __decorate([
-        aurelia_framework_1.singleton()
-    ], NProgressStyleInjector);
-    return NProgressStyleInjector;
-}());
-exports.NProgressStyleInjector = NProgressStyleInjector;
 var NProgressLoadingIndicator = (function () {
-    function NProgressLoadingIndicator(injector) {
-        this.injector = injector;
+    function NProgressLoadingIndicator() {
         this.loading = false;
         this.showSpinner = false;
         this.easing = 'ease';
@@ -7746,7 +7780,7 @@ var NProgressLoadingIndicator = (function () {
     NProgressLoadingIndicator.prototype.attached = function () {
         this.showSpinner = this.showSpinner === true || this.showSpinner === 'true';
         nprogress.configure({ showSpinner: this.showSpinner, easing: this.easing, speed: this.speed });
-        this.injector.overrideStyle(this.color, this.size);
+        aurelia_framework_1.DOM.injectStyles("#nprogress .bar {\n      background: " + this.color + " !important;\n      height: " + this.size + "px !important;\n    }\n    #nprogress .peg {\n      box-shadow: 0 0 10px " + this.color + ", 0 0 5px " + this.color + " !important;\n    }\n    #nprogress .spinner-icon {\n      border-top-color: " + this.color + " !important;\n      border-left-color: " + this.color + " !important;\n    }", null, null, 'aut-injected-nprogress');
     };
     NProgressLoadingIndicator.prototype.loadingChanged = function (newValue) {
         if (newValue) {
@@ -7781,17 +7815,15 @@ var NProgressLoadingIndicator = (function () {
         __metadata("design:type", Number)
     ], NProgressLoadingIndicator.prototype, "size", void 0);
     NProgressLoadingIndicator = __decorate([
-        aurelia_framework_1.noView([aurelia_framework_1.PLATFORM.moduleName('nprogress/nprogress.css')]),
-        aurelia_framework_1.customElement('aut-nprogress'),
-        aurelia_framework_1.inject(NProgressStyleInjector),
-        __metadata("design:paramtypes", [NProgressStyleInjector])
+        aurelia_framework_1.noView(),
+        aurelia_framework_1.customElement('aut-nprogress')
     ], NProgressLoadingIndicator);
     return NProgressLoadingIndicator;
 }());
 exports.NProgressLoadingIndicator = NProgressLoadingIndicator;
 //# sourceMappingURL=aut-nprogress.js.map
 });
-___scope___.file("components/purejs/nprogress/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/nprogress/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -7801,7 +7833,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/pretty/aut-checkbox.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/pretty/aut-checkbox.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7982,7 +8014,7 @@ var PrettyCheckboxCustomElement = (function () {
 exports.PrettyCheckboxCustomElement = PrettyCheckboxCustomElement;
 //# sourceMappingURL=aut-checkbox.js.map
 });
-___scope___.file("components/purejs/pretty/aut-radio.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/pretty/aut-radio.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8125,7 +8157,7 @@ var PrettyRadioButtonCustomElement = (function () {
 exports.PrettyRadioButtonCustomElement = PrettyRadioButtonCustomElement;
 //# sourceMappingURL=aut-radio.js.map
 });
-___scope___.file("components/purejs/pretty/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/pretty/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -8143,7 +8175,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/raw-html/aut-raw-html.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/raw-html/aut-raw-html.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8174,7 +8206,7 @@ var RawHtmlRenderer = (function () {
 exports.RawHtmlRenderer = RawHtmlRenderer;
 //# sourceMappingURL=aut-raw-html.js.map
 });
-___scope___.file("components/purejs/raw-html/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/raw-html/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -8190,7 +8222,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/purejs/scrollup/aut-scrollup.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/scrollup/aut-scrollup.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8290,7 +8322,7 @@ var ScrollUpCustomElement = (function () {
 exports.ScrollUpCustomElement = ScrollUpCustomElement;
 //# sourceMappingURL=aut-scrollup.js.map
 });
-___scope___.file("components/purejs/scrollup/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/scrollup/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -8323,7 +8355,7 @@ function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/bootstrap/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/jquery/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/vanilla/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -8337,7 +8369,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("custom-attributes/purejs/id/aut-id-group.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/id/aut-id-group.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8350,7 +8382,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-var uuid_1 = require("../../../utilities/purejs/uuid");
+var uuid_1 = require("../../../utilities/vanilla/uuid");
 var UuidCustomAttribute = (function () {
     function UuidCustomAttribute(element, idgeneratorV4) {
         this.element = element;
@@ -8375,7 +8407,7 @@ var UuidCustomAttribute = (function () {
 exports.UuidCustomAttribute = UuidCustomAttribute;
 //# sourceMappingURL=aut-id-group.js.map
 });
-___scope___.file("custom-attributes/purejs/id/aut-id.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/id/aut-id.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8387,9 +8419,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var sharedIndex_1 = require("./../../../utilities/purejs/sharedIndex");
+var sharedIndex_1 = require("./../../../utilities/vanilla/sharedIndex");
 var aurelia_framework_1 = require("aurelia-framework");
-var uuid_1 = require("../../../utilities/purejs/uuid");
+var uuid_1 = require("../../../utilities/vanilla/uuid");
 var IdCustomAttribute = (function () {
     function IdCustomAttribute(element, sharedIndex, idgeneratorV4) {
         this.element = element;
@@ -8417,7 +8449,7 @@ var IdCustomAttribute = (function () {
 exports.IdCustomAttribute = IdCustomAttribute;
 //# sourceMappingURL=aut-id.js.map
 });
-___scope___.file("custom-attributes/purejs/id/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/id/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -8430,20 +8462,20 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("custom-attributes/purejs/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/masked/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/uuid/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/purejs/id/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/vanilla/masked/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/vanilla/uuid/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/vanilla/id/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("custom-attributes/purejs/masked/aut-masked.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/masked/aut-masked.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8488,7 +8520,7 @@ var MaskedInputCustomAttribute = (function () {
 exports.MaskedInputCustomAttribute = MaskedInputCustomAttribute;
 //# sourceMappingURL=aut-masked.js.map
 });
-___scope___.file("custom-attributes/purejs/masked/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/masked/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -8500,7 +8532,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("custom-attributes/purejs/uuid/aut-uuid.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/uuid/aut-uuid.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8513,7 +8545,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
-var uuid_1 = require("../../../utilities/purejs/uuid");
+var uuid_1 = require("../../../utilities/vanilla/uuid");
 var UuidCustomAttribute = (function () {
     function UuidCustomAttribute(element, idgeneratorV4) {
         this.element = element;
@@ -8539,7 +8571,7 @@ var UuidCustomAttribute = (function () {
 exports.UuidCustomAttribute = UuidCustomAttribute;
 //# sourceMappingURL=aut-uuid.js.map
 });
-___scope___.file("custom-attributes/purejs/uuid/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("custom-attributes/vanilla/uuid/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -8550,6 +8582,27 @@ function configure(config) {
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
+});
+___scope___.file("decorators/inject-css.js", function(exports, require, module, __filename, __dirname){
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_loader_1 = require("aurelia-loader");
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
+var aurelia_pal_1 = require("aurelia-pal");
+function injectCss(address) {
+    return function (target) {
+        var container = aurelia_dependency_injection_1.Container.instance;
+        var loader = container.get(aurelia_loader_1.Loader);
+        var css_id = 'inject_css_' + target.name.toLowerCase();
+        loader.loadText(address).then(function (css) {
+            aurelia_pal_1.DOM.injectStyles(css, null, null, css_id);
+        });
+        target.prototype.injectedCssId = css_id;
+        return target;
+    };
+}
+exports.injectCss = injectCss;
+//# sourceMappingURL=inject-css.js.map
 });
 ___scope___.file("index.js", function(exports, require, module, __filename, __dirname){
 
@@ -8650,9 +8703,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-var toastr = require("toastr");
-require("toastr/build/toastr.css");
+require("jquery");
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
 var ToastrService = (function () {
     function ToastrService(tr) {
         this.tr = tr;
@@ -8695,8 +8747,7 @@ var ToastrService = (function () {
         this.tr.subscribe(callback);
     };
     ToastrService = __decorate([
-        aurelia_framework_1.singleton(),
-        aurelia_framework_1.inject(toastr),
+        aurelia_dependency_injection_1.singleton(),
         __metadata("design:paramtypes", [Object])
     ], ToastrService);
     return ToastrService;
@@ -8748,7 +8799,7 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/bootstrap/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/jquery/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/misc/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/purejs/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/vanilla/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -8770,14 +8821,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var toastr_service_1 = require("./toastr-service");
 var toastr = require("toastr");
 function configure(config, toastrOption) {
-    var trs = new toastr_service_1.ToastrService(toastr);
+    var _trs = new toastr_service_1.ToastrService(toastr);
     if (toastrOption) {
         config.container.registerSingleton(toastr_service_1.ToastrService, function () {
             toastr.options.closeButton = true;
             toastr.options.progressBar = toastrOption.progressBar;
             toastr.options.preventDuplicates = toastrOption.preventDuplicates;
             toastr.options.positionClass = toastrOption.positionClass;
-            return trs;
+            return _trs;
         });
     }
 }
@@ -8793,7 +8844,7 @@ function configure() {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("services/purejs/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("services/vanilla/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 function configure(config) {
@@ -8802,7 +8853,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("services/purejs/zenscroll/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("services/vanilla/zenscroll/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var zenscroll_service_1 = require("./zenscroll-service");
@@ -8815,7 +8866,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("services/purejs/zenscroll/zenscroll-service.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("services/vanilla/zenscroll/zenscroll-service.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8907,18 +8958,22 @@ exports.ZenscrollService = ZenscrollService;
 ___scope___.file("utilities/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
-require("./purejs/fastSafeStringify");
+require("./vanilla/fastSafeStringify");
 function configure(config) {
     console.log(config);
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("utilities/purejs/fastSafeStringify.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("utilities/vanilla/fastSafeStringify.js", function(exports, require, module, __filename, __dirname){
 
 var fastSafeStringify = require('fast-safe-stringify');
 JSON.safeStringify = function (obj) { return fastSafeStringify(obj); };
 //# sourceMappingURL=fastSafeStringify.js.map
+});
+___scope___.file("utilities/vanilla/cssMinifier.js", function(exports, require, module, __filename, __dirname){
+
+//# sourceMappingURL=cssMinifier.js.map
 });
 ___scope___.file("value-converters/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -8926,12 +8981,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/array/filter-by.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/array/filter-by.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var FilterByValueConverter = (function () {
@@ -8958,7 +9013,7 @@ var FilterByValueConverter = (function () {
 exports.FilterByValueConverter = FilterByValueConverter;
 //# sourceMappingURL=filter-by.js.map
 });
-___scope___.file("value-converters/purejs/array/group-by.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/array/group-by.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var GroupByValueConverter = (function () {
@@ -8983,7 +9038,7 @@ var GroupByValueConverter = (function () {
 exports.GroupByValueConverter = GroupByValueConverter;
 //# sourceMappingURL=group-by.js.map
 });
-___scope___.file("value-converters/purejs/array/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/array/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -8997,7 +9052,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/array/order-by.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/array/order-by.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var OrderByValueConverter = (function () {
@@ -9025,7 +9080,7 @@ var OrderByValueConverter = (function () {
 exports.OrderByValueConverter = OrderByValueConverter;
 //# sourceMappingURL=order-by.js.map
 });
-___scope___.file("value-converters/purejs/datetime/humanize-duration-vc.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/datetime/humanize-duration-vc.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9050,7 +9105,7 @@ var HumanizeValueConverter = (function () {
 exports.HumanizeValueConverter = HumanizeValueConverter;
 //# sourceMappingURL=humanize-duration-vc.js.map
 });
-___scope___.file("value-converters/purejs/datetime/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/datetime/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -9064,11 +9119,11 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/datetime/moment-timezone-vc.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/datetime/moment-timezone-vc.js", function(exports, require, module, __filename, __dirname){
 
 //# sourceMappingURL=moment-timezone-vc.js.map
 });
-___scope___.file("value-converters/purejs/datetime/moment-vc.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/datetime/moment-vc.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9147,7 +9202,7 @@ var AgeValueConverter = (function () {
 exports.AgeValueConverter = AgeValueConverter;
 //# sourceMappingURL=moment-vc.js.map
 });
-___scope___.file("value-converters/purejs/fusejs/deep.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/fusejs/deep.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 function deepGetByArray(obj, propsArray, defaultValue) {
@@ -9182,7 +9237,7 @@ function deepSet(obj, path, value) {
 exports.deepSet = deepSet;
 //# sourceMappingURL=deep.js.map
 });
-___scope___.file("value-converters/purejs/fusejs/fuse-highlight.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/fusejs/fuse-highlight.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var deep_1 = require("./deep");
@@ -9223,7 +9278,7 @@ var FuseHighlightValueConverter = (function () {
 exports.FuseHighlightValueConverter = FuseHighlightValueConverter;
 //# sourceMappingURL=fuse-highlight.js.map
 });
-___scope___.file("value-converters/purejs/fusejs/fusejs.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/fusejs/fusejs.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Fuse = require("fuse.js");
@@ -9247,7 +9302,7 @@ var FuseValueConverter = (function () {
 exports.FuseValueConverter = FuseValueConverter;
 //# sourceMappingURL=fusejs.js.map
 });
-___scope___.file("value-converters/purejs/fusejs/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/fusejs/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -9260,22 +9315,22 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/array/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/datetime/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/fusejs/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/mark-down/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/string/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/array/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/datetime/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/fusejs/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/mark-down/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/mark-down/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/mark-down/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -9285,7 +9340,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/mark-down/markdown-vc.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/mark-down/markdown-vc.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9330,20 +9385,20 @@ var MarkDownValueConverter = (function () {
 exports.MarkDownValueConverter = MarkDownValueConverter;
 //# sourceMappingURL=markdown-vc.js.map
 });
-___scope___.file("value-converters/purejs/string/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/string/latin/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/string/persian/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/purejs/string/numeral/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/latin/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/persian/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/numeral/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/string/latin/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/latin/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 function configure(config) {
@@ -9352,7 +9407,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/string/numeral/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/numeral/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -9362,7 +9417,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/string/numeral/number.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/numeral/number.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9390,7 +9445,7 @@ var NumberValueConverter = (function () {
 exports.NumberValueConverter = NumberValueConverter;
 //# sourceMappingURL=number.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -9407,7 +9462,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/persianchars.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/persianchars.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9438,7 +9493,7 @@ var PersianCharsValueConverter = (function () {
 exports.PersianCharsValueConverter = PersianCharsValueConverter;
 //# sourceMappingURL=persianchars.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/persiankeyboard.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/persiankeyboard.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9469,7 +9524,7 @@ var PersianKeyboardValueConverter = (function () {
 exports.PersianKeyboardValueConverter = PersianKeyboardValueConverter;
 //# sourceMappingURL=persiankeyboard.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/persianurl.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/persianurl.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9500,7 +9555,7 @@ var PersianUrlValueConverter = (function () {
 exports.PersianUrlValueConverter = PersianUrlValueConverter;
 //# sourceMappingURL=persianurl.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/rial.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/rial.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9542,7 +9597,7 @@ var RialValueConverter = (function () {
 exports.RialValueConverter = RialValueConverter;
 //# sourceMappingURL=rial.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/scripts/rial.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/scripts/rial.js", function(exports, require, module, __filename, __dirname){
 
 /*!
  * Rial.js v0.0.2
@@ -9676,7 +9731,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 //# sourceMappingURL=rial.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/scripts/wordifyfa.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/scripts/wordifyfa.js", function(exports, require, module, __filename, __dirname){
 
 var wordifyfa = function (num, level) {
     'use strict';
@@ -9750,7 +9805,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 //# sourceMappingURL=wordifyfa.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/stringifyfa.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/stringifyfa.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9784,7 +9839,7 @@ var StringifyFaValueConverter = (function () {
 exports.StringifyFaValueConverter = StringifyFaValueConverter;
 //# sourceMappingURL=stringifyfa.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/stringifyrial.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/stringifyrial.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9818,7 +9873,7 @@ var StringifyRialValueConverter = (function () {
 exports.StringifyRialValueConverter = StringifyRialValueConverter;
 //# sourceMappingURL=stringifyrial.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/stringifytoman.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/stringifytoman.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9852,7 +9907,7 @@ var StringifyTomanValueConverter = (function () {
 exports.StringifyTomanValueConverter = StringifyTomanValueConverter;
 //# sourceMappingURL=stringifytoman.js.map
 });
-___scope___.file("value-converters/purejs/string/persian/toman.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/persian/toman.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9895,7 +9950,7 @@ var TomanValueConverter = (function () {
 exports.TomanValueConverter = TomanValueConverter;
 //# sourceMappingURL=toman.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/append.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/append.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9924,7 +9979,7 @@ var AppendValueConverter = (function () {
 exports.AppendValueConverter = AppendValueConverter;
 //# sourceMappingURL=append.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/appendArray.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/appendArray.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9949,7 +10004,7 @@ var AppendArrayValueConverter = (function () {
 exports.AppendArrayValueConverter = AppendArrayValueConverter;
 //# sourceMappingURL=appendArray.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/at.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/at.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9974,7 +10029,7 @@ var AtValueConverter = (function () {
 exports.AtValueConverter = AtValueConverter;
 //# sourceMappingURL=at.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/base64decode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/base64decode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -9999,7 +10054,7 @@ var Base64DecodeValueConverter = (function () {
 exports.Base64DecodeValueConverter = Base64DecodeValueConverter;
 //# sourceMappingURL=base64decode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/base64encode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/base64encode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10024,7 +10079,7 @@ var Base64EncodeValueConverter = (function () {
 exports.Base64EncodeValueConverter = Base64EncodeValueConverter;
 //# sourceMappingURL=base64encode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/between.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/between.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10049,7 +10104,7 @@ var BetweenValueConverter = (function () {
 exports.BetweenValueConverter = BetweenValueConverter;
 //# sourceMappingURL=between.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/bindecode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/bindecode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10074,7 +10129,7 @@ var BinDecodeValueConverter = (function () {
 exports.BinDecodeValueConverter = BinDecodeValueConverter;
 //# sourceMappingURL=bindecode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/binencode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/binencode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10099,7 +10154,7 @@ var BinEncodeValueConverter = (function () {
 exports.BinEncodeValueConverter = BinEncodeValueConverter;
 //# sourceMappingURL=binencode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/chars.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/chars.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10124,7 +10179,7 @@ var CharsValueConverter = (function () {
 exports.CharsValueConverter = CharsValueConverter;
 //# sourceMappingURL=chars.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/collapsewhitespace.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/collapsewhitespace.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10149,7 +10204,7 @@ var CollapseWhitespaceValueConverter = (function () {
 exports.CollapseWhitespaceValueConverter = CollapseWhitespaceValueConverter;
 //# sourceMappingURL=collapsewhitespace.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/compare.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/compare.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10174,7 +10229,7 @@ var CompareValueConverter = (function () {
 exports.CompareValueConverter = CompareValueConverter;
 //# sourceMappingURL=compare.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/contains.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/contains.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10199,7 +10254,7 @@ var ContainsValueConverter = (function () {
 exports.ContainsValueConverter = ContainsValueConverter;
 //# sourceMappingURL=contains.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/containsall.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/containsall.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10224,7 +10279,7 @@ var ContainsAllValueConverter = (function () {
 exports.ContainsAllValueConverter = ContainsAllValueConverter;
 //# sourceMappingURL=containsall.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/containsany.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/containsany.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10249,7 +10304,7 @@ var ContainsAnyValueConverter = (function () {
 exports.ContainsAnyValueConverter = ContainsAnyValueConverter;
 //# sourceMappingURL=containsany.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/countsubstr.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/countsubstr.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10274,7 +10329,7 @@ var CountSubstrValueConverter = (function () {
 exports.CountSubstrValueConverter = CountSubstrValueConverter;
 //# sourceMappingURL=countsubstr.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/decdecode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/decdecode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10299,7 +10354,7 @@ var DecDecodeValueConverter = (function () {
 exports.DecDecodeValueConverter = DecDecodeValueConverter;
 //# sourceMappingURL=decdecode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/decencode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/decencode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10324,7 +10379,7 @@ var DecEncodeValueConverter = (function () {
 exports.DecEncodeValueConverter = DecEncodeValueConverter;
 //# sourceMappingURL=decencode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/endswith.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/endswith.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10349,7 +10404,7 @@ var EndsWithValueConverter = (function () {
 exports.EndsWithValueConverter = EndsWithValueConverter;
 //# sourceMappingURL=endswith.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/ensureleft.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/ensureleft.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10374,7 +10429,7 @@ var EnsureLeftValueConverter = (function () {
 exports.EnsureLeftValueConverter = EnsureLeftValueConverter;
 //# sourceMappingURL=ensureleft.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/ensureright.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/ensureright.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10399,7 +10454,7 @@ var EnsureRightValueConverter = (function () {
 exports.EnsureRightValueConverter = EnsureRightValueConverter;
 //# sourceMappingURL=ensureright.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/equal.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/equal.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10424,7 +10479,7 @@ var EqualValueConverter = (function () {
 exports.EqualValueConverter = EqualValueConverter;
 //# sourceMappingURL=equal.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/first.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/first.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10449,7 +10504,7 @@ var FirstValueConverter = (function () {
 exports.FirstValueConverter = FirstValueConverter;
 //# sourceMappingURL=first.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/format.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/format.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10478,7 +10533,7 @@ var FormatValueConverter = (function () {
 exports.FormatValueConverter = FormatValueConverter;
 //# sourceMappingURL=format.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/hexdecode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/hexdecode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10503,7 +10558,7 @@ var HexDecodeValueConverter = (function () {
 exports.HexDecodeValueConverter = HexDecodeValueConverter;
 //# sourceMappingURL=hexdecode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/hexencode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/hexencode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10528,7 +10583,7 @@ var HexEncodeValueConverter = (function () {
 exports.HexEncodeValueConverter = HexEncodeValueConverter;
 //# sourceMappingURL=hexencode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/htmldecode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/htmldecode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10553,7 +10608,7 @@ var HtmlDecodeValueConverter = (function () {
 exports.HtmlDecodeValueConverter = HtmlDecodeValueConverter;
 //# sourceMappingURL=htmldecode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/htmlencode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/htmlencode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10578,7 +10633,7 @@ var HtmlEncodeValueConverter = (function () {
 exports.HtmlEncodeValueConverter = HtmlEncodeValueConverter;
 //# sourceMappingURL=htmlencode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
@@ -10653,7 +10708,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/inequal.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/inequal.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10678,7 +10733,7 @@ var InequalValueConverter = (function () {
 exports.InequalValueConverter = InequalValueConverter;
 //# sourceMappingURL=inequal.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/insert.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/insert.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10703,7 +10758,7 @@ var InsertValueConverter = (function () {
 exports.InsertValueConverter = InsertValueConverter;
 //# sourceMappingURL=insert.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/islowercase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/islowercase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10728,7 +10783,7 @@ var IsLowerCaseValueConverter = (function () {
 exports.IsLowerCaseValueConverter = IsLowerCaseValueConverter;
 //# sourceMappingURL=islowercase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/isstring.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/isstring.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10753,7 +10808,7 @@ var IsStringValueConverter = (function () {
 exports.IsStringValueConverter = IsStringValueConverter;
 //# sourceMappingURL=isstring.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/isuppercase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/isuppercase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10778,7 +10833,7 @@ var IsUpperCaseValueConverter = (function () {
 exports.IsUpperCaseValueConverter = IsUpperCaseValueConverter;
 //# sourceMappingURL=isuppercase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/last.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/last.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10803,7 +10858,7 @@ var LastValueConverter = (function () {
 exports.LastValueConverter = LastValueConverter;
 //# sourceMappingURL=last.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/lastindexof.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/lastindexof.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10828,7 +10883,7 @@ var LastIndexOfValueConverter = (function () {
 exports.LastIndexOfValueConverter = LastIndexOfValueConverter;
 //# sourceMappingURL=lastindexof.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/leftpad.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/leftpad.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10853,7 +10908,7 @@ var LeftPadValueConverter = (function () {
 exports.LeftPadValueConverter = LeftPadValueConverter;
 //# sourceMappingURL=leftpad.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/lefttrim.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/lefttrim.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10878,7 +10933,7 @@ var LeftTrimValueConverter = (function () {
 exports.LeftTrimValueConverter = LeftTrimValueConverter;
 //# sourceMappingURL=lefttrim.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/prepend.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/prepend.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10903,7 +10958,7 @@ var PrependValueConverter = (function () {
 exports.PrependValueConverter = PrependValueConverter;
 //# sourceMappingURL=prepend.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/prependarray.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/prependarray.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10928,7 +10983,7 @@ var PrependArrayValueConverter = (function () {
 exports.PrependArrayValueConverter = PrependArrayValueConverter;
 //# sourceMappingURL=prependarray.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/removeemptystrings.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/removeemptystrings.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10953,7 +11008,7 @@ var RemoveEmptyStringsValueConverter = (function () {
 exports.RemoveEmptyStringsValueConverter = RemoveEmptyStringsValueConverter;
 //# sourceMappingURL=removeemptystrings.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/removeleft.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/removeleft.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10978,7 +11033,7 @@ var RemoveLeftValueConverter = (function () {
 exports.RemoveLeftValueConverter = RemoveLeftValueConverter;
 //# sourceMappingURL=removeleft.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/removenonwords.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/removenonwords.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11003,7 +11058,7 @@ var RemoveNonWordsValueConverter = (function () {
 exports.RemoveNonWordsValueConverter = RemoveNonWordsValueConverter;
 //# sourceMappingURL=removenonwords.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/removespaces.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/removespaces.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11028,7 +11083,7 @@ var RemoveSpacesValueConverter = (function () {
 exports.RemoveSpacesValueConverter = RemoveSpacesValueConverter;
 //# sourceMappingURL=removespaces.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/repeat.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/repeat.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11053,7 +11108,7 @@ var RepeatValueConverter = (function () {
 exports.RepeatValueConverter = RepeatValueConverter;
 //# sourceMappingURL=repeat.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/replace.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/replace.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11078,7 +11133,7 @@ var ReplaceValueConverter = (function () {
 exports.ReplaceValueConverter = ReplaceValueConverter;
 //# sourceMappingURL=replace.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/reverse.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/reverse.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11103,7 +11158,7 @@ var ReverseValueConverter = (function () {
 exports.ReverseValueConverter = ReverseValueConverter;
 //# sourceMappingURL=reverse.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/rightpad.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/rightpad.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11128,7 +11183,7 @@ var RightPadValueConverter = (function () {
 exports.RightPadValueConverter = RightPadValueConverter;
 //# sourceMappingURL=rightpad.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/righttrim.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/righttrim.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11153,7 +11208,7 @@ var RightTrimValueConverter = (function () {
 exports.RightTrimValueConverter = RightTrimValueConverter;
 //# sourceMappingURL=righttrim.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/safetruncate.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/safetruncate.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11178,7 +11233,7 @@ var SafeTruncateValueConverter = (function () {
 exports.SafeTruncateValueConverter = SafeTruncateValueConverter;
 //# sourceMappingURL=safetruncate.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/shuffle.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/shuffle.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11203,7 +11258,7 @@ var ShuffleValueConverter = (function () {
 exports.ShuffleValueConverter = ShuffleValueConverter;
 //# sourceMappingURL=shuffle.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/slice.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/slice.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11228,7 +11283,7 @@ var SliceValueConverter = (function () {
 exports.SliceValueConverter = SliceValueConverter;
 //# sourceMappingURL=slice.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/split.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/split.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11253,7 +11308,7 @@ var SplitValueConverter = (function () {
 exports.SplitValueConverter = SplitValueConverter;
 //# sourceMappingURL=split.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/startswith.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/startswith.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11278,7 +11333,7 @@ var StartsWithValueConverter = (function () {
 exports.StartsWithValueConverter = StartsWithValueConverter;
 //# sourceMappingURL=startswith.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/substr.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/substr.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11303,7 +11358,7 @@ var SubstrValueConverter = (function () {
 exports.SubstrValueConverter = SubstrValueConverter;
 //# sourceMappingURL=substr.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/surround.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/surround.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11328,7 +11383,7 @@ var SurroundValueConverter = (function () {
 exports.SurroundValueConverter = SurroundValueConverter;
 //# sourceMappingURL=surround.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/tocamelcase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/tocamelcase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11353,7 +11408,7 @@ var ToCamelCaseValueConverter = (function () {
 exports.ToCamelCaseValueConverter = ToCamelCaseValueConverter;
 //# sourceMappingURL=tocamelcase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/todecamelize.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/todecamelize.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11378,7 +11433,7 @@ var ToDecamelizeValueConverter = (function () {
 exports.ToDecamelizeValueConverter = ToDecamelizeValueConverter;
 //# sourceMappingURL=todecamelize.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/tokebabcase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/tokebabcase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11403,7 +11458,7 @@ var ToKebabCaseValueConverter = (function () {
 exports.ToKebabCaseValueConverter = ToKebabCaseValueConverter;
 //# sourceMappingURL=tokebabcase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/tolowercase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/tolowercase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11428,7 +11483,7 @@ var ToLowerCaseValueConverter = (function () {
 exports.ToLowerCaseValueConverter = ToLowerCaseValueConverter;
 //# sourceMappingURL=tolowercase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/tosnakecase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/tosnakecase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11453,7 +11508,7 @@ var ToSnakeCaseValueConverter = (function () {
 exports.ToSnakeCaseValueConverter = ToSnakeCaseValueConverter;
 //# sourceMappingURL=tosnakecase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/tostudlycaps.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/tostudlycaps.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11478,7 +11533,7 @@ var ToStudlyCapsValueConverter = (function () {
 exports.ToStudlyCapsValueConverter = ToStudlyCapsValueConverter;
 //# sourceMappingURL=tostudlycaps.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/touppercase.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/touppercase.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11503,7 +11558,7 @@ var ToUpperCaseValueConverter = (function () {
 exports.ToUpperCaseValueConverter = ToUpperCaseValueConverter;
 //# sourceMappingURL=touppercase.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/transliterate.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/transliterate.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11528,7 +11583,7 @@ var TransLiterateValueConverter = (function () {
 exports.TransLiterateValueConverter = TransLiterateValueConverter;
 //# sourceMappingURL=transliterate.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/trim.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/trim.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11553,7 +11608,7 @@ var TrimValueConverter = (function () {
 exports.TrimValueConverter = TrimValueConverter;
 //# sourceMappingURL=trim.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/truncate.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/truncate.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11578,7 +11633,7 @@ var TruncateValueConverter = (function () {
 exports.TruncateValueConverter = TruncateValueConverter;
 //# sourceMappingURL=truncate.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/urldecode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/urldecode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11603,7 +11658,7 @@ var UrlDecodeValueConverter = (function () {
 exports.UrlDecodeValueConverter = UrlDecodeValueConverter;
 //# sourceMappingURL=urldecode.js.map
 });
-___scope___.file("value-converters/purejs/string/strman/urlencode.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("value-converters/vanilla/string/strman/urlencode.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11680,13 +11735,21 @@ ___scope___.file("components/jquery/block-ui/aut-block-ui.css", function(exports
 
 module.exports = "/* http://tobiasahlin.com/spinkit/ */\n\n.bounce {\n    text-align: center;    \n}\n\n.bounce>div {\n    width: 18px;\n    height: 18px;\n    background-color: #333;\n    border-radius: 100%;\n    display: inline-block;\n    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n    animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n\n.bounce .bounce1 {\n    -webkit-animation-delay: -0.32s;\n    animation-delay: -0.32s;\n}\n\n.bounce .bounce2 {\n    -webkit-animation-delay: -0.16s;\n    animation-delay: -0.16s;\n}\n\n@-webkit-keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0)\n    }\n    40% {\n        -webkit-transform: scale(1.0)\n    }\n}\n\n@keyframes sk-bouncedelay {\n    0%,\n    80%,\n    100% {\n        -webkit-transform: scale(0);\n        transform: scale(0);\n    }\n    40% {\n        -webkit-transform: scale(1.0);\n        transform: scale(1.0);\n    }\n}\n\n"
 });
-___scope___.file("components/purejs/clock/aut-clock.css", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/clock/aut-clock.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".clock {\n    font-family: 'Share Tech Mono', monospace;\n    text-align: center;\n    -webkit-transform: translate(-50%, -50%);\n    transform: translate(-50%, -50%);\n    -webkit-touch-callout: none;\n    /* iOS Safari */\n    -webkit-user-select: none;\n    /* Safari */\n    -khtml-user-select: none;\n    /* Konqueror HTML */\n    -moz-user-select: none;\n    /* Firefox */\n    -ms-user-select: none;\n    /* Internet Explorer/Edge */\n    user-select: none;\n    /* Non-prefixed version, currently */\n}\n\n.clock>p {\n    margin: 0;\n    padding: 0;\n}\n\n.clock .time {\n    letter-spacing: 0.05em;\n}\n\n.clock .date {\n    letter-spacing: 0.1em;\n    padding-bottom: 5px;\n}\n\n.clock .text {\n    letter-spacing: 0.1em;\n    padding: 10px 0 0;\n}"
+module.exports = "@font-face {\n  font-family: 'Digital-7';\n  src: url('./digital-7/Digital-7.eot');\n  src: url('./digital-7/Digital-7.eot?#iefix') format('embedded-opentype'), url('./digital-7/Digital-7.woff2') format('woff2'), url('./digital-7/Digital-7.woff') format('woff'), url('./digital-7/Digital-7.ttf') format('truetype'), url('./digital-7/Digital-7.svg#Digital-7') format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n\n.clock {\n  font-family: 'Digital-7', Tahoma, monospace;\n  text-align: center;\n  /* -webkit-transform: translate(-50%, -50%);\n    transform: translate(-50%, -50%); */\n  -webkit-touch-callout: none;\n  /* iOS Safari */\n  -webkit-user-select: none;\n  /* Safari */\n  -khtml-user-select: none;\n  /* Konqueror HTML */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* Internet Explorer/Edge */\n  user-select: none;\n  /* Non-prefixed version, currently */\n}\n\n.clock>p {\n  margin: 0;\n  padding: 0;\n}\n\n.clock .time {\n  letter-spacing: 0.05em;\n}\n\n.clock .date {\n  letter-spacing: 0.1em;\n  padding-bottom: 3px;\n}\n\n.clock .text {\n  letter-spacing: 0.1em;\n  padding: 5px 0 0;\n}\n"
 });
-___scope___.file("components/purejs/scrollup/aut-scrollup.css", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/divider/aut-divider.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".aut-scrollup {\n  display: none;\n  position: fixed;\n  bottom: 20px;\n  right: 30px;\n  width:50px;\n  height:50px;\n  z-index: 9999999;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  padding: 0px;\n  border-radius: 50%;\n}\n"
+module.exports = "@-webkit-keyframes spinAround{\n    from{\n        -webkit-transform:rotate(0);\n        transform:rotate(0);\n    }\n    to{\n        -webkit-transform:rotate(359deg);\n        transform:rotate(359deg);\n    }\n}\n@keyframes spinAround{\n    from{\n        -webkit-transform:rotate(0);\n        transform:rotate(0);\n    }\n    to{\n        -webkit-transform:rotate(359deg);\n        transform:rotate(359deg);\n    }\n}\n.is-divider,.is-divider-vertical{\n    display:block;\n    position:relative;\n}\n.is-divider-vertical[data-content]::after,.is-divider[data-content]::after{\n    background:#fff;\n    color:#b5b5b5;\n    content:attr(data-content);\n    display:inline-block;\n    font-size:.75rem;\n    padding:.5rem .8rem;\n    -webkit-transform:translateY(-1.1rem);\n    transform:translateY(-1.1rem);\n    text-align:center;\n}\n.is-divider{\n    border-top:.1rem solid #dbdbdb;\n    height:.1rem;\n    margin:2rem 0;\n    text-align:center;\n}\n.is-divider-vertical{\n    display:block;\n    padding:2rem;\n    position:relative;\n}\n\n.is-divider-vertical::before{\n    border-left:.1rem solid #dbdbdb;\n    bottom:1rem;\n    content:\"\";\n    display:block;\n    left:50%;\n    position:absolute;\n    top:1rem;\n    -webkit-transform:translateX(-50%);\n    transform:translateX(-50%);\n\n}\n.is-divider-vertical[data-content]::after{\n    left:50%;\n    padding:.4rem 0;\n    position:relative;\n    top:50%;\n    -webkit-transform:translate(-50%,-50%);\n    transform:translate(-50%,-50%);\n}\n"
+});
+___scope___.file("components/vanilla/scrollup/aut-scrollup.css", function(exports, require, module, __filename, __dirname){
+
+module.exports = ".aut-scrollup {\n  display: none;\n  position: fixed;\n  bottom: 20px;\n  right: 30px;\n  width:50px;\n  height:50px;\n  z-index: 9999999;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  padding: 0px;\n  border-radius: 50%;\n}\n.aut-scrollup-noselect {\n  -webkit-touch-callout: none !important;\n  -webkit-user-select: none !important;\n  -khtml-user-select: none !important;\n  -moz-user-select: none !important;\n  -ms-user-select: none !important;\n  user-select: none !important;\n}\n.aut-scrollup-noselect:focus,\n.aut-scrollup-noselect:active {\n  outline: none !important;\n  box-shadow: none !important;\n}\n"
+});
+___scope___.file("external-resources/css/toastr.css", function(exports, require, module, __filename, __dirname){
+
+module.exports = ".toast-title {\n  font-weight: bold;\n}\n.toast-message {\n  -ms-word-wrap: break-word;\n  word-wrap: break-word;\n}\n.toast-message a,\n.toast-message label {\n  color: #FFFFFF;\n}\n.toast-message a:hover {\n  color: #CCCCCC;\n  text-decoration: none;\n}\n.toast-close-button {\n  position: relative;\n  right: -0.3em;\n  top: -0.3em;\n  float: right;\n  font-size: 20px;\n  font-weight: bold;\n  color: #FFFFFF;\n  -webkit-text-shadow: 0 1px 0 #ffffff;\n  text-shadow: 0 1px 0 #ffffff;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n  line-height: 1;\n}\n.toast-close-button:hover,\n.toast-close-button:focus {\n  color: #000000;\n  text-decoration: none;\n  cursor: pointer;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n.rtl .toast-close-button {\n  left: -0.3em;\n  float: left;\n  right: 0.3em;\n}\n/*Additional properties for button version\n iOS requires the button element instead of an anchor tag.\n If you want the anchor version, it requires `href=\"#\"`.*/\nbutton.toast-close-button {\n  padding: 0;\n  cursor: pointer;\n  background: transparent;\n  border: 0;\n  -webkit-appearance: none;\n}\n.toast-top-center {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-center {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-full-width {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-full-width {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-left {\n  top: 12px;\n  left: 12px;\n}\n.toast-top-right {\n  top: 12px;\n  right: 12px;\n}\n.toast-bottom-right {\n  right: 12px;\n  bottom: 12px;\n}\n.toast-bottom-left {\n  bottom: 12px;\n  left: 12px;\n}\n#toast-container {\n  position: fixed;\n  z-index: 999999;\n  pointer-events: none;\n  /*overrides*/\n}\n#toast-container * {\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n#toast-container > div {\n  position: relative;\n  pointer-events: auto;\n  overflow: hidden;\n  margin: 0 0 6px;\n  padding: 15px 15px 15px 50px;\n  width: 300px;\n  -moz-border-radius: 3px 3px 3px 3px;\n  -webkit-border-radius: 3px 3px 3px 3px;\n  border-radius: 3px 3px 3px 3px;\n  background-position: 15px center;\n  background-repeat: no-repeat;\n  -moz-box-shadow: 0 0 12px #999999;\n  -webkit-box-shadow: 0 0 12px #999999;\n  box-shadow: 0 0 12px #999999;\n  color: #FFFFFF;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n}\n#toast-container > div.rtl {\n  direction: rtl;\n  padding: 15px 50px 15px 15px;\n  background-position: right 15px center;\n}\n#toast-container > div:hover {\n  -moz-box-shadow: 0 0 12px #000000;\n  -webkit-box-shadow: 0 0 12px #000000;\n  box-shadow: 0 0 12px #000000;\n  opacity: 1;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);\n  filter: alpha(opacity=100);\n  cursor: pointer;\n}\n#toast-container > .toast-info {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-error {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHOSURBVEhLrZa/SgNBEMZzh0WKCClSCKaIYOED+AAKeQQLG8HWztLCImBrYadgIdY+gIKNYkBFSwu7CAoqCgkkoGBI/E28PdbLZmeDLgzZzcx83/zZ2SSXC1j9fr+I1Hq93g2yxH4iwM1vkoBWAdxCmpzTxfkN2RcyZNaHFIkSo10+8kgxkXIURV5HGxTmFuc75B2RfQkpxHG8aAgaAFa0tAHqYFfQ7Iwe2yhODk8+J4C7yAoRTWI3w/4klGRgR4lO7Rpn9+gvMyWp+uxFh8+H+ARlgN1nJuJuQAYvNkEnwGFck18Er4q3egEc/oO+mhLdKgRyhdNFiacC0rlOCbhNVz4H9FnAYgDBvU3QIioZlJFLJtsoHYRDfiZoUyIxqCtRpVlANq0EU4dApjrtgezPFad5S19Wgjkc0hNVnuF4HjVA6C7QrSIbylB+oZe3aHgBsqlNqKYH48jXyJKMuAbiyVJ8KzaB3eRc0pg9VwQ4niFryI68qiOi3AbjwdsfnAtk0bCjTLJKr6mrD9g8iq/S/B81hguOMlQTnVyG40wAcjnmgsCNESDrjme7wfftP4P7SP4N3CJZdvzoNyGq2c/HWOXJGsvVg+RA/k2MC/wN6I2YA2Pt8GkAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-success {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==\") !important;\n}\n#toast-container > .toast-warning {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=\") !important;\n}\n#toast-container.toast-top-center > div,\n#toast-container.toast-bottom-center > div {\n  width: 300px;\n  margin-left: auto;\n  margin-right: auto;\n}\n#toast-container.toast-top-full-width > div,\n#toast-container.toast-bottom-full-width > div {\n  width: 96%;\n  margin-left: auto;\n  margin-right: auto;\n}\n.toast {\n  background-color: #030303;\n}\n.toast-success {\n  background-color: #51A351;\n}\n.toast-error {\n  background-color: #BD362F;\n}\n.toast-info {\n  background-color: #2F96B4;\n}\n.toast-warning {\n  background-color: #F89406;\n}\n.toast-progress {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  height: 4px;\n  background-color: #000000;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n/*Responsive Design*/\n@media all and (max-width: 240px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 11em;\n  }\n  #toast-container > div.rtl {\n    padding: 8px 50px 8px 8px;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n  #toast-container .rtl .toast-close-button {\n    left: -0.2em;\n    right: 0.2em;\n  }\n}\n@media all and (min-width: 241px) and (max-width: 480px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 18em;\n  }\n  #toast-container > div.rtl {\n    padding: 8px 50px 8px 8px;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n  #toast-container .rtl .toast-close-button {\n    left: -0.2em;\n    right: 0.2em;\n  }\n}\n@media all and (min-width: 481px) and (max-width: 768px) {\n  #toast-container > div {\n    padding: 15px 15px 15px 50px;\n    width: 25em;\n  }\n  #toast-container > div.rtl {\n    padding: 15px 50px 15px 15px;\n  }\n}\n"
 });
 return ___scope___.entry = "index.js";
 });
