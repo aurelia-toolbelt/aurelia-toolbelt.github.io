@@ -150,7 +150,7 @@ module.exports.default =  "<template>\n  <div class=\"jumbotron ${fluid? 'jumbot
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"listGroupItemTemplate\">\n  \n  <require from=\"./abt-listgroup-item.css\"></require>\n  \n  <a id=\"${id}\" href=\"${href}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''} ${style}\"\n    class=\"list-group-item list-group-item-action ${class}\">\n    <slot></slot>\n  </a>\n</template>\n"
+module.exports.default =  "<template ref=\"listGroupItemTemplate\">\n  \n  <require from=\"./abt-listgroup-item.css\"></require>\n  \n  <a id=\"${id}\" href=\"${href}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''}; ${style}\"\n    class=\"list-group-item list-group-item-action ${class}\">\n    <slot></slot>\n  </a>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup.html", function(exports, require, module, __filename, __dirname){
 
@@ -298,7 +298,7 @@ module.exports.default =  "<template>\n  <li>\n    <a class=\"aut-metis-menu-ite
 });
 ___scope___.file("components/jquery/metis-menu/aut-metis-menu.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n\n  <require from=\"metismenu/dist/metismenu.css\"></require>\n\n  <ul ref=\"metismenu\" class=\"metismenu ${class}\" css=\"${style}\">\n    <slot></slot>\n  </ul>\n  \n</template>\n"
+module.exports.default =  "<template>\n\n  <require from=\"metismenu/dist/metisMenu.css\"></require>\n\n  <ul ref=\"metismenu\" class=\"metismenu ${class}\" css=\"${style}\">\n    <slot></slot>\n  </ul>\n</template>\n"
 });
 ___scope___.file("components/jquery/news-ticker/aut-news-ticker.html", function(exports, require, module, __filename, __dirname){
 
@@ -780,7 +780,7 @@ var BootstrapButtonGroup = (function () {
         this.class = '';
         this.vertical = false;
     }
-    BootstrapButtonGroup.prototype.afterAttached = function () {
+    BootstrapButtonGroup.prototype.attached = function () {
         var onlyVerticalAttribute = (this.vertical === '' && this.element.hasAttribute('vertical'));
         this.vertical = onlyVerticalAttribute || this.vertical === 'true' || this.vertical === true;
     };
@@ -847,7 +847,7 @@ var BootstrapButton = (function () {
         this.isBusy = false;
         this.task = null;
     }
-    BootstrapButton.prototype.afterAttached = function () {
+    BootstrapButton.prototype.attached = function () {
         var onlyOutlineAttribute = (this.outline === '' && this.element.hasAttribute('outline'));
         this.outline = onlyOutlineAttribute || this.outline === 'true' || this.outline === true;
         var onlyBlockAttribute = (this.block === '' && this.element.hasAttribute('block'));
@@ -952,7 +952,7 @@ var BootstrapLinkButton = (function () {
         this.isBusy = false;
         this.task = null;
     }
-    BootstrapLinkButton.prototype.afterAttached = function () {
+    BootstrapLinkButton.prototype.attached = function () {
         var onlyOutlineAttribute = (this.outline === '' && this.element.hasAttribute('outline'));
         this.outline = onlyOutlineAttribute || this.outline === 'true' || this.outline === true;
         var onlyBlockAttribute = (this.block === '' && this.element.hasAttribute('block'));
@@ -1637,7 +1637,7 @@ var CarouselItemCustomElement = (function () {
     CarouselItemCustomElement.prototype.createIndicatorHtml = function (id, index, beActive) {
         return "<li style=\"cursor:pointer\" data-target=\"#" + id + "\" data-slide-to=\"" + index + "\" class=\"" + (beActive ? 'active' : '') + "\" ></li>";
     };
-    CarouselItemCustomElement.prototype.afterAttached = function () {
+    CarouselItemCustomElement.prototype.attached = function () {
         var carousel = this.carouselItem.parentElement.parentElement;
         this.times = this.sharedController.getAndIncrement(carousel.id);
         var isActive = (this.active === '' && this.carouselItemTemplate.hasAttribute('active')) || this.active.toString() === 'true';
@@ -1742,7 +1742,7 @@ var CarouselCustomElement = (function () {
         this.showNavigator = false;
         this.showIndicator = false;
     }
-    CarouselCustomElement.prototype.afterAttached = function () {
+    CarouselCustomElement.prototype.attached = function () {
         var _this = this;
         this.interval = Number(this.interval);
         this.showNavigator = (this.navigator === '' && this.carouselTemplate.hasAttribute('navigator')) || this.navigator.toString() === 'true';
@@ -2019,7 +2019,7 @@ var BootstrapCollapse = (function () {
             });
         }
     };
-    BootstrapCollapse.prototype.afterAttached = function () {
+    BootstrapCollapse.prototype.attached = function () {
         this.setEvents();
         if (this.collapse.parentElement.parentElement.classList.contains('abt-accordion')) {
             this.collapse.setAttribute('data-parent', "#" + this.collapse.parentElement.parentElement.id);
@@ -2220,9 +2220,10 @@ var abt_dropdown_selected_item_changed_1 = require("./abt-dropdown-selected-item
 var $ = require("jquery");
 var uuid_1 = require("../../../utilities/vanilla/uuid");
 var BootstrapDropDown = (function () {
-    function BootstrapDropDown(element, ea, uuid) {
+    function BootstrapDropDown(element, ea, uuid, taskQueue) {
         this.element = element;
         this.ea = ea;
+        this.taskQueue = taskQueue;
         this.alignRight = false;
         this.boundary = 'scrollParent';
         this.type = 'primary';
@@ -2268,6 +2269,7 @@ var BootstrapDropDown = (function () {
         }
     };
     BootstrapDropDown.prototype.attached = function () {
+        var _this = this;
         this.split = (this.split === '' && this.element.hasAttribute('split')) || this.split.toString() === 'true';
         this.alignRight = (this.alignRight === '' && this.element.hasAttribute('align-right')) || this.alignRight.toString() === 'true';
         this.element.children.item(0).setAttribute('data-id', this.id);
@@ -2285,6 +2287,7 @@ var BootstrapDropDown = (function () {
                 this.placementClass = '';
                 break;
         }
+        this.taskQueue.queueTask(function () { return _this.afterAttached(); });
     };
     BootstrapDropDown.prototype.bind = function () {
         var _this = this;
@@ -2450,12 +2453,12 @@ var BootstrapDropDown = (function () {
         __metadata("design:type", Object)
     ], BootstrapDropDown.prototype, "bsHidden", void 0);
     BootstrapDropDown = __decorate([
-        aurelia_framework_1.inject(Element, aurelia_event_aggregator_1.EventAggregator, uuid_1.Uuid),
+        aurelia_framework_1.inject(Element, aurelia_event_aggregator_1.EventAggregator, uuid_1.Uuid, aurelia_framework_1.TaskQueue),
         aurelia_framework_1.customElement('abt-dropdown'),
-        __metadata("design:paramtypes", [Object, typeof (_a = typeof aurelia_event_aggregator_1.EventAggregator !== "undefined" && aurelia_event_aggregator_1.EventAggregator) === "function" && _a || Object, typeof (_b = typeof uuid_1.Uuid !== "undefined" && uuid_1.Uuid) === "function" && _b || Object])
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof aurelia_event_aggregator_1.EventAggregator !== "undefined" && aurelia_event_aggregator_1.EventAggregator) === "function" && _a || Object, typeof (_b = typeof uuid_1.Uuid !== "undefined" && uuid_1.Uuid) === "function" && _b || Object, typeof (_c = typeof aurelia_framework_1.TaskQueue !== "undefined" && aurelia_framework_1.TaskQueue) === "function" && _c || Object])
     ], BootstrapDropDown);
     return BootstrapDropDown;
-    var _a, _b;
+    var _a, _b, _c;
 }());
 exports.BootstrapDropDown = BootstrapDropDown;
 //# sourceMappingURL=abt-dropdown.js.map
@@ -2535,7 +2538,7 @@ var BootstrapFloatInput = (function () {
         this.labelColor = null;
         this.placeholderColor = null;
     }
-    BootstrapFloatInput.prototype.afterAttached = function () {
+    BootstrapFloatInput.prototype.attached = function () {
         var id = this.floatInputLabel.id;
         var fontSize = '';
         var top = '';
@@ -3039,7 +3042,7 @@ var ListGroupCustomElement = (function () {
     function ListGroupCustomElement() {
         this.flush = false;
     }
-    ListGroupCustomElement.prototype.afterAttached = function () {
+    ListGroupCustomElement.prototype.attached = function () {
         var isFlush = (this.flush === '' && this.listGroupTemplate.hasAttribute('active')) || this.flush.toString() === 'true';
         if (isFlush) {
             this.listGroup.classList.add('list-group-flush');
@@ -3174,7 +3177,7 @@ var BootstrapModalHeader = (function () {
         this.style = '';
         this.class = '';
     }
-    BootstrapModalHeader.prototype.afterAttached = function () {
+    BootstrapModalHeader.prototype.attached = function () {
         var x = this.header.parentElement.parentElement.parentElement.getAttribute('data-abt-dismissible');
         this.dismissible = x === 'true';
     };
@@ -3310,7 +3313,7 @@ var BootstrapModal = (function () {
         }
         $(this.modal).modal('hide');
     };
-    BootstrapModal.prototype.afterAttached = function () {
+    BootstrapModal.prototype.attached = function () {
         var _this = this;
         this.animate = this.animate === true || this.animate === 'true';
         this.centered = this.centered === true || this.centered === 'true';
@@ -3465,7 +3468,7 @@ var BootstrapNavBarBrand = (function () {
         }
         return true;
     };
-    BootstrapNavBarBrand.prototype.afterAttached = function () {
+    BootstrapNavBarBrand.prototype.attached = function () {
         var isHeading = Boolean(this.heading) || this.navbarBrandTemplate.hasAttribute('heading');
         if (isHeading) {
             this.navbarBrand.classList.add('abt-navbar-brand-heading');
@@ -3692,7 +3695,7 @@ var BootstrapNavBarDropDown = (function () {
         this.fulWidth = false;
         this.placement = 'down';
     }
-    BootstrapNavBarDropDown.prototype.afterAttached = function () {
+    BootstrapNavBarDropDown.prototype.attached = function () {
         var _this = this;
         switch (this.placement) {
             case 'up':
@@ -3813,7 +3816,7 @@ var BootstrapNavBarLink = (function () {
         this.active = false;
         this.disabled = false;
     }
-    BootstrapNavBarLink.prototype.afterAttached = function () {
+    BootstrapNavBarLink.prototype.attached = function () {
         var isActive = Boolean(this.active) || this.navItem.hasAttribute('active');
         var isDisabled = Boolean(this.disabled) || this.navItem.hasAttribute('disabled');
         if (isActive) {
@@ -4017,7 +4020,7 @@ var BootstrapNavBar = (function () {
         this.expandSize = 'lg';
         this.placement = '';
     }
-    BootstrapNavBar.prototype.afterAttached = function () {
+    BootstrapNavBar.prototype.attached = function () {
         if (this.navbarColorType) {
             this.navbar.classList.add("navbar-" + this.navbarColorType);
         }
@@ -4238,7 +4241,7 @@ var BootstrapNavs = (function () {
         this.beTab = true;
         this.bePills = false;
     }
-    BootstrapNavs.prototype.afterAttached = function () {
+    BootstrapNavs.prototype.attached = function () {
         var onlyPillsAttribute = (this.pills === '' && this.element.hasAttribute('pills'));
         this.pills = onlyPillsAttribute || this.pills.toString() === 'true';
         var onlyTabsAttribute = (this.tabs === '' && this.element.hasAttribute('tabs'));
@@ -4541,7 +4544,7 @@ var BootstrapPaginationCustomElement = (function () {
     BootstrapPaginationCustomElement.prototype.showRightDots = function (selectedItem, totalPages) {
         return totalPages - 5 >= selectedItem;
     };
-    BootstrapPaginationCustomElement.prototype.afterAttached = function () {
+    BootstrapPaginationCustomElement.prototype.attached = function () {
         this.totalPages = Number(this.totalPages);
         this.selectedPage = Number(this.selectedPage);
         this.visiblePages = Number(this.visiblePages);
@@ -4722,7 +4725,7 @@ var PasswordCustomElement = (function () {
         this.progressBarClass = null;
         this.progressBarColor = null;
     }
-    PasswordCustomElement.prototype.afterAttached = function () {
+    PasswordCustomElement.prototype.attached = function () {
         this.showProgressBar = (this.showProgressBar === '' && this.passwordTemplate.hasAttribute('show-progress-bar')) || this.showProgressBar.toString() === 'true';
         this.showPercent = (this.showPercent === '' && this.passwordTemplate.hasAttribute('show-percent')) || this.showPercent.toString() === 'true';
         this.passwordVisibility = (this.passwordVisibility === '' && this.passwordTemplate.hasAttribute('password-visibility')) || this.passwordVisibility.toString() === 'true';
@@ -5262,7 +5265,7 @@ var BootstrapProgressBar = (function () {
         this.isAnimated = false;
         this.isStriped = false;
     }
-    BootstrapProgressBar.prototype.afterAttached = function () {
+    BootstrapProgressBar.prototype.attached = function () {
         var animated = (this.animated === '' && this.progressbarTemplate.hasAttribute('animated')) || this.animated.toString() === 'true';
         var striped = (this.striped === '' && this.progressbarTemplate.hasAttribute('striped')) || this.striped.toString() === 'true';
         this.value = Number(this.value);
@@ -5441,7 +5444,7 @@ var BootstrapScrollSpy = (function () {
         this.offset = 10;
         this.onBody = false;
     }
-    BootstrapScrollSpy.prototype.afterAttached = function () {
+    BootstrapScrollSpy.prototype.attached = function () {
         var _this = this;
         this.onBody = Boolean(this.onBody);
         this.offset = Number(this.offset);
@@ -5577,7 +5580,7 @@ var BootstrapStarRate = (function () {
         }
         var oldValue = this.rate;
         this.rate = index + 1 - (this.showHalfStar ? 0.5 : 0);
-        if (this.rateChanged) {
+        if (oldValue !== this.rate && this.rateChanged) {
             this.rateChanged({ newRate: this.rate, oldRate: oldValue });
         }
     };
@@ -6016,7 +6019,7 @@ var BootstrapTokenizeCustomElement = (function () {
     BootstrapTokenizeCustomElement.prototype.detached = function () {
         this.subscription = null;
     };
-    BootstrapTokenizeCustomElement.prototype.afterAttached = function () {
+    BootstrapTokenizeCustomElement.prototype.attached = function () {
         var _this = this;
         if (this.id) {
             this.tokenizeTemplate.setAttribute('id', "abt-tokenize-" + this.id);
@@ -6411,7 +6414,7 @@ var BootstrapTooltipCustomElement = (function () {
         this.boundary = 'scrollParent';
         this.template = '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>';
     }
-    BootstrapTooltipCustomElement.prototype.afterAttached = function () {
+    BootstrapTooltipCustomElement.prototype.attached = function () {
         var _this = this;
         this.parentElement = this.tooltip.parentElement;
         var slotContent = this.html ? this.tooltip.innerHTML : this.tooltip.textContent;
@@ -6632,7 +6635,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var SharedOptions_1 = require("./SharedOptions");
+var sharedOptions_1 = require("./sharedOptions");
 var jsTools_1 = require("./../../../utilities/vanilla/jsTools");
 var aurelia_framework_1 = require("aurelia-framework");
 var $ = require("jquery");
@@ -6659,7 +6662,7 @@ var JQueryBlockUI = (function () {
         }
         return false;
     };
-    JQueryBlockUI.prototype.afterAttached = function () {
+    JQueryBlockUI.prototype.attached = function () {
         this.id = this.content.id;
         this.elementId = "#" + this.id;
         if (this.blockPage && this.hasContent()) {
@@ -6838,65 +6841,14 @@ var JQueryBlockUI = (function () {
     ], JQueryBlockUI.prototype, "blockPage", void 0);
     JQueryBlockUI = __decorate([
         aurelia_framework_1.customElement('aut-block-ui'),
-        aurelia_framework_1.inject(Element, 'aut-block-ui-option', jsTools_1.JsTools, SharedOptions_1.SharedOptions),
-        __metadata("design:paramtypes", [Object, typeof (_b = typeof aut_block_ui_option_1.IAutBlockUIOption !== "undefined" && aut_block_ui_option_1.IAutBlockUIOption) === "function" && _b || Object, typeof (_c = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _c || Object, typeof (_d = typeof SharedOptions_1.SharedOptions !== "undefined" && SharedOptions_1.SharedOptions) === "function" && _d || Object])
+        aurelia_framework_1.inject(Element, 'aut-block-ui-option', jsTools_1.JsTools, sharedOptions_1.SharedOptions),
+        __metadata("design:paramtypes", [Object, typeof (_b = typeof aut_block_ui_option_1.IAutBlockUIOption !== "undefined" && aut_block_ui_option_1.IAutBlockUIOption) === "function" && _b || Object, typeof (_c = typeof jsTools_1.JsTools !== "undefined" && jsTools_1.JsTools) === "function" && _c || Object, typeof (_d = typeof sharedOptions_1.SharedOptions !== "undefined" && sharedOptions_1.SharedOptions) === "function" && _d || Object])
     ], JQueryBlockUI);
     return JQueryBlockUI;
     var _a, _b, _c, _d;
 }());
 exports.JQueryBlockUI = JQueryBlockUI;
 //# sourceMappingURL=aut-block-ui.js.map
-});
-___scope___.file("components/jquery/block-ui/SharedOptions.js", function(exports, require, module, __filename, __dirname){
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
-var SharedOptions = (function () {
-    function SharedOptions() {
-        this.allOptions = {};
-    }
-    SharedOptions.prototype.getOption = function (id) {
-        return this.allOptions[id];
-    };
-    SharedOptions.prototype.setOption = function (id, obj) {
-        this.allOptions[id] = {
-            id: id,
-            settings: obj.settings,
-            option: obj.option,
-            default: obj.default
-        };
-    };
-    SharedOptions.prototype.dispose = function () {
-        this.allOptions = {};
-    };
-    SharedOptions = __decorate([
-        aurelia_dependency_injection_1.singleton()
-    ], SharedOptions);
-    return SharedOptions;
-}());
-exports.SharedOptions = SharedOptions;
-//# sourceMappingURL=SharedOptions.js.map
-});
-___scope___.file("components/jquery/block-ui/index.js", function(exports, require, module, __filename, __dirname){
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-__export(require("./aut-block-ui"));
-function configure(config, option) {
-    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./aut-block-ui')]);
-    config.container.registerInstance('aut-block-ui-option', option);
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
 });
 ___scope___.file("components/jquery/block-ui/sharedOptions.js", function(exports, require, module, __filename, __dirname){
 
@@ -6933,6 +6885,21 @@ var SharedOptions = (function () {
 }());
 exports.SharedOptions = SharedOptions;
 //# sourceMappingURL=sharedOptions.js.map
+});
+___scope___.file("components/jquery/block-ui/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./aut-block-ui"));
+function configure(config, option) {
+    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./aut-block-ui')]);
+    config.container.registerInstance('aut-block-ui-option', option);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
 });
 ___scope___.file("components/jquery/index.js", function(exports, require, module, __filename, __dirname){
 
@@ -8623,7 +8590,6 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/utilities/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/index'));
-    config.plugin(aurelia_framework_1.PLATFORM.moduleName('aurelia-after-attached-plugin'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -8705,6 +8671,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("jquery");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
+var inject_css_1 = require("../../../decorators/inject-css");
 var ToastrService = (function () {
     function ToastrService(tr) {
         this.tr = tr;
@@ -8748,6 +8715,7 @@ var ToastrService = (function () {
     };
     ToastrService = __decorate([
         aurelia_dependency_injection_1.singleton(),
+        inject_css_1.injectCss('aurelia-toolbelt/external-resources/css/toastr.css'),
         __metadata("design:paramtypes", [Object])
     ], ToastrService);
     return ToastrService;
@@ -11737,7 +11705,7 @@ module.exports = "/* http://tobiasahlin.com/spinkit/ */\n\n.bounce {\n    text-a
 });
 ___scope___.file("components/vanilla/clock/aut-clock.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = "@font-face {\n  font-family: 'Digital-7';\n  src: url('./digital-7/Digital-7.eot');\n  src: url('./digital-7/Digital-7.eot?#iefix') format('embedded-opentype'), url('./digital-7/Digital-7.woff2') format('woff2'), url('./digital-7/Digital-7.woff') format('woff'), url('./digital-7/Digital-7.ttf') format('truetype'), url('./digital-7/Digital-7.svg#Digital-7') format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n\n.clock {\n  font-family: 'Digital-7', Tahoma, monospace;\n  text-align: center;\n  /* -webkit-transform: translate(-50%, -50%);\n    transform: translate(-50%, -50%); */\n  -webkit-touch-callout: none;\n  /* iOS Safari */\n  -webkit-user-select: none;\n  /* Safari */\n  -khtml-user-select: none;\n  /* Konqueror HTML */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* Internet Explorer/Edge */\n  user-select: none;\n  /* Non-prefixed version, currently */\n}\n\n.clock>p {\n  margin: 0;\n  padding: 0;\n}\n\n.clock .time {\n  letter-spacing: 0.05em;\n}\n\n.clock .date {\n  letter-spacing: 0.1em;\n  padding-bottom: 3px;\n}\n\n.clock .text {\n  letter-spacing: 0.1em;\n  padding: 5px 0 0;\n}\n"
+module.exports = "/* @font-face {\n  font-family: 'Digital-7';\n  src: url('./digital-7/Digital-7.eot');\n  src: url('./digital-7/Digital-7.eot?#iefix') format('embedded-opentype'), url('./digital-7/Digital-7.woff2') format('woff2'), url('./digital-7/Digital-7.woff') format('woff'), url('./digital-7/Digital-7.ttf') format('truetype'), url('./digital-7/Digital-7.svg#Digital-7') format('svg');\n  font-weight: normal;\n  font-style: normal;\n} */\n\n.clock {\n  font-family: Tahoma, monospace;\n  text-align: center;\n  /* -webkit-transform: translate(-50%, -50%);\n    transform: translate(-50%, -50%); */\n  -webkit-touch-callout: none;\n  /* iOS Safari */\n  -webkit-user-select: none;\n  /* Safari */\n  -khtml-user-select: none;\n  /* Konqueror HTML */\n  -moz-user-select: none;\n  /* Firefox */\n  -ms-user-select: none;\n  /* Internet Explorer/Edge */\n  user-select: none;\n  /* Non-prefixed version, currently */\n}\n\n.clock>p {\n  margin: 0;\n  padding: 0;\n}\n\n.clock .time {\n  letter-spacing: 0.05em;\n}\n\n.clock .date {\n  letter-spacing: 0.1em;\n  padding-bottom: 3px;\n}\n\n.clock .text {\n  letter-spacing: 0.1em;\n  padding: 5px 0 0;\n}\n"
 });
 ___scope___.file("components/vanilla/divider/aut-divider.css", function(exports, require, module, __filename, __dirname){
 
