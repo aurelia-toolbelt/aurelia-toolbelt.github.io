@@ -22,15 +22,23 @@ module.exports.default =  "<template>\n\n  <nav aria-label=\"breadcrumb\">\n    
 });
 ___scope___.file("components/bootstrap/button/abt-button-group.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div id=\"${id}\" class=\"btn-group ${class} btn-group-${size} ${vertical?'btn-group-vertical':''} abt-button-group\" role=\"group\" css=\"${style}\"\n    aria-label=\"${label}\">\n\n    <slot>\n\n    </slot>\n  </div>\n\n</template>\n"
+module.exports.default =  "<template>\n  <div id=\"${id}\" class=\"btn-group ${class} btn-group-${size} ${toggle ? 'btn-group-toggle':''} ${vertical?'btn-group-vertical':''} abt-button-group\" role=\"group\" css=\"${style}\"\n    aria-label=\"${label}\" data-toggle=\"${toggle ? 'buttons' : ''}\">\n\n    <slot>\n\n    </slot>\n  </div>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/button/abt-button.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n\n  <require from=\"./abt-button.css\"></require>\n\n  <button id=\"${id}\" role=\"button\" type=\"${type}\" disabled.bind=\"disabled || isBusy\" class=\"abt-button btn btn-${outline? 'outline-' : ''}${bsType} btn-${size} ${block?'btn-block':''} ${class}\"\n    css=\"${style}\" click.delegate=\"onClick($event)\">\n    <span show.bind=\"isBusy\">\n      <slot name=\"loading\">\n        <!-- <i class=\"fa fa-spinner fa-spin\" aria-hidden=\"true\">\n        </i> -->\n      </slot>\n    </span>\n    <slot>\n    </slot>\n\n  </button>\n\n</template>\n"
 });
+___scope___.file("components/bootstrap/button/abt-checkbox-button.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\n\n    \n      <label  click.delegate=\"changed()\" class=\"abt-checkbox-button btn \n        ${state ? 'active' : ''}\n        btn-${bsType} \n        ${class}\"\n      css=\"${style}\">\n        <input id=\"${id}\" type=\"checkbox\" checked.bind=\"state\" disabled.bind=\"disabled\"   autocomplete=\"off\">\n        <slot></slot>\n      </label>\n\n</template>\n"
+});
 ___scope___.file("components/bootstrap/button/abt-link-button.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <a id=\"${id}\" css=\"${style}\" href=\"${href}\" role=\"button\" click.trigger=\"onClick($event)\" tabindex=\"${disabled===true ? -1 : tabIndex }\" disabled.bind=\"disabled\" class=\"btn btn-${outline? 'outline-' : ''}${type} btn-${size} ${block?'btn-block':''} ${class} abt-link-button\">\n    <slot>\n    </slot>\n  </a>\n</template>\n"
+module.exports.default =  "<template>\n  <a id=\"${id}\" css=\"${style}\" href=\"${href}\" role=\"button\" click.trigger=\"onClick($event)\" \n  tabindex=\"${disabled===true ? -1 : tabIndex }\" disabled.bind=\"disabled\"\n  class=\"btn btn-${outline? 'outline-' : ''}${type} btn-${size} ${block?'btn-block':''} ${class} abt-link-button ${disabled ? 'disabled':''}\">\n    <slot>\n    </slot>\n  </a>\n</template>\n"
+});
+___scope___.file("components/bootstrap/button/abt-radio-button.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\n\n    \n      <label click.delegate=\"changed()\" class=\"abt-radio-button btn \n        ${state ? 'active' : ''}\n        btn-${bsType} \n        ${class}\"\n      css=\"${style}\">\n      <!-- <input ref=\"radioButton\" type=\"radio\" name.bind=\"name\" disabled.bind=\"disabled\" change.delegate=\"changed()\" /> -->\n        <input ref=\"radioButton\"  id=\"${id}\" type=\"radio\" checked.bind=\"checked\" name.bind=\"name\" disabled.bind=\"disabled\" autocomplete=\"off\">\n        <slot></slot>\n      </label>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/button/abt-toolbar.html", function(exports, require, module, __filename, __dirname){
 
@@ -778,11 +786,14 @@ var BootstrapButtonGroup = (function () {
         this.size = 'md';
         this.style = '';
         this.class = '';
+        this.toggle = false;
         this.vertical = false;
     }
     BootstrapButtonGroup.prototype.attached = function () {
         var onlyVerticalAttribute = (this.vertical === '' && this.element.hasAttribute('vertical'));
         this.vertical = onlyVerticalAttribute || this.vertical === 'true' || this.vertical === true;
+        var onlyisToggleAttribute = (this.toggle === '' && this.element.hasAttribute('toggle'));
+        this.toggle = onlyisToggleAttribute || this.toggle === 'true' || this.toggle === true;
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
@@ -804,6 +815,10 @@ var BootstrapButtonGroup = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapButtonGroup.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapButtonGroup.prototype, "toggle", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
         __metadata("design:type", Object)
@@ -926,6 +941,143 @@ var BootstrapButton = (function () {
 exports.BootstrapButton = BootstrapButton;
 //# sourceMappingURL=abt-button.js.map
 });
+___scope___.file("components/bootstrap/button/abt-checkbox-button.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapCheckboxButton = (function () {
+    function BootstrapCheckboxButton(element, bindingEngine) {
+        this.element = element;
+        this.bindingEngine = bindingEngine;
+        this.disabled = false;
+        this.style = '';
+        this.class = '';
+        this.bsType = 'primary';
+        this.subscription = null;
+    }
+    BootstrapCheckboxButton.prototype.changed = function () {
+        if (this.disabled) {
+            return;
+        }
+        this.state = !this.state;
+        this.synchronizeModel(this.state);
+    };
+    BootstrapCheckboxButton.prototype.synchronizeModel = function (newState) {
+        var _this = this;
+        if (!Array.isArray(this.checked)) {
+            this.checked = newState;
+            return;
+        }
+        if (newState && ((this.matcher && this.checked.findIndex(function (x) { return _this.matcher(x, _this.value || _this.model); }) === -1)
+            ||
+                (this.checked.indexOf(this.value || this.model) === -1))) {
+            this.checked.push(this.value || this.model);
+        }
+        else if (!newState) {
+            var index = this.matcher
+                ? this.checked.findIndex(function (x) { return _this.matcher(x, _this.value || _this.model); })
+                : this.checked.indexOf(this.value || this.model);
+            if (index !== -1) {
+                this.checked.splice(index, 1);
+            }
+        }
+    };
+    BootstrapCheckboxButton.prototype.checkedChanged = function (newValue) {
+        var _this = this;
+        this.disposeSubscription();
+        if (Array.isArray(this.checked)) {
+            this.subscription = this.bindingEngine.collectionObserver(this.checked)
+                .subscribe(function () {
+                _this.synchronizeView(newValue);
+            });
+        }
+        this.synchronizeView(newValue);
+    };
+    BootstrapCheckboxButton.prototype.synchronizeView = function (newValue) {
+        var _this = this;
+        if (Array.isArray(this.checked)) {
+            var index = this.matcher
+                ? this.checked.findIndex(function (x) { return _this.matcher(x, _this.value || _this.model); })
+                : this.checked.indexOf(this.value || this.model);
+            this.state = index !== -1;
+        }
+        else {
+            this.state = newValue;
+        }
+    };
+    BootstrapCheckboxButton.prototype.disposeSubscription = function () {
+        if (this.subscription !== null) {
+            this.subscription.dispose();
+            this.subscription = null;
+        }
+    };
+    BootstrapCheckboxButton.prototype.bind = function () {
+        if (!this.element.hasAttribute) {
+            console.warn(this.element);
+        }
+        this.disabled = this.disabled === true || this.disabled === 'true' || this.disabled === 'disabled';
+        this.synchronizeView(this.checked);
+    };
+    BootstrapCheckboxButton.prototype.unbind = function () {
+        this.disposeSubscription();
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapCheckboxButton.prototype, "value", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapCheckboxButton.prototype, "model", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapCheckboxButton.prototype, "checked", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapCheckboxButton.prototype, "matcher", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapCheckboxButton.prototype, "disabled", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapCheckboxButton.prototype, "id", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCheckboxButton.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapCheckboxButton.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapCheckboxButton.prototype, "bsType", void 0);
+    BootstrapCheckboxButton = __decorate([
+        aurelia_framework_1.inject(Element, aurelia_framework_1.BindingEngine),
+        aurelia_framework_1.customElement('abt-checkbox-button'),
+        aurelia_framework_1.containerless(),
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof aurelia_framework_1.BindingEngine !== "undefined" && aurelia_framework_1.BindingEngine) === "function" && _a || Object])
+    ], BootstrapCheckboxButton);
+    return BootstrapCheckboxButton;
+    var _a;
+}());
+exports.BootstrapCheckboxButton = BootstrapCheckboxButton;
+//# sourceMappingURL=abt-checkbox-button.js.map
+});
 ___scope___.file("components/bootstrap/button/abt-link-button.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1032,6 +1184,111 @@ var BootstrapLinkButton = (function () {
 exports.BootstrapLinkButton = BootstrapLinkButton;
 //# sourceMappingURL=abt-link-button.js.map
 });
+___scope___.file("components/bootstrap/button/abt-radio-button.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var BootstrapRadioButton = (function () {
+    function BootstrapRadioButton(element, bindingEngine) {
+        this.element = element;
+        this.bindingEngine = bindingEngine;
+        this.disabled = false;
+        this.style = '';
+        this.class = '';
+        this.bsType = 'primary';
+        this.name = '';
+        this.subscription = null;
+    }
+    BootstrapRadioButton.prototype.changed = function () {
+        if (this.disabled) {
+            return;
+        }
+        this.synchronizeModel();
+    };
+    BootstrapRadioButton.prototype.synchronizeModel = function () {
+        this.checked = (this.model !== undefined)
+            ? this.model
+            : this.value;
+        this.state = this.radioButton.checked;
+    };
+    BootstrapRadioButton.prototype.synchronizeView = function () {
+        if (this.model !== undefined) {
+            this.radioButton.checked = this.matcher
+                ? this.matcher(this.checked, this.model)
+                : this.checked === this.model;
+        }
+        else if (this.value) {
+            this.radioButton.checked = this.matcher
+                ? this.matcher(this.checked, this.value)
+                : this.checked === this.value;
+        }
+        this.state = this.radioButton.checked;
+    };
+    BootstrapRadioButton.prototype.bind = function () {
+        this.disabled = this.disabled === true || this.disabled === 'true' || this.disabled === 'disabled';
+        this.synchronizeView();
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapRadioButton.prototype, "value", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapRadioButton.prototype, "model", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapRadioButton.prototype, "checked", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapRadioButton.prototype, "matcher", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapRadioButton.prototype, "disabled", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapRadioButton.prototype, "id", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapRadioButton.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], BootstrapRadioButton.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapRadioButton.prototype, "bsType", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], BootstrapRadioButton.prototype, "name", void 0);
+    BootstrapRadioButton = __decorate([
+        aurelia_framework_1.inject(Element, aurelia_framework_1.BindingEngine),
+        aurelia_framework_1.customElement('abt-radio-button'),
+        aurelia_framework_1.containerless(),
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof aurelia_framework_1.BindingEngine !== "undefined" && aurelia_framework_1.BindingEngine) === "function" && _a || Object])
+    ], BootstrapRadioButton);
+    return BootstrapRadioButton;
+    var _a;
+}());
+exports.BootstrapRadioButton = BootstrapRadioButton;
+//# sourceMappingURL=abt-radio-button.js.map
+});
 ___scope___.file("components/bootstrap/button/abt-toolbar.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1094,7 +1351,9 @@ function configure(config) {
         aurelia_framework_1.PLATFORM.moduleName('./abt-button'),
         aurelia_framework_1.PLATFORM.moduleName('./abt-toolbar'),
         aurelia_framework_1.PLATFORM.moduleName('./abt-button-group'),
-        aurelia_framework_1.PLATFORM.moduleName('./abt-link-button')
+        aurelia_framework_1.PLATFORM.moduleName('./abt-link-button'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-checkbox-button'),
+        aurelia_framework_1.PLATFORM.moduleName('./abt-radio-button')
     ]);
 }
 exports.configure = configure;
@@ -3313,7 +3572,7 @@ var BootstrapModal = (function () {
         }
         $(this.modal).modal('hide');
     };
-    BootstrapModal.prototype.attached = function () {
+    BootstrapModal.prototype.attached = function (options) {
         var _this = this;
         this.animate = this.animate === true || this.animate === 'true';
         this.centered = this.centered === true || this.centered === 'true';
@@ -3332,16 +3591,19 @@ var BootstrapModal = (function () {
             });
         }
         else {
-            throw Error("The 'abt-modal' should have either 'open-by' or 'visible' attribute");
         }
-        $(this.modal).modal({
-            backdrop: this.backdrop,
-            keyboard: this.keyboard,
-            focus: this.focus,
-            show: false
-        });
+        if (!options) {
+            options = {
+                backdrop: this.backdrop,
+                keyboard: this.keyboard,
+                focus: this.focus,
+                show: false
+            };
+        }
+        this.jqModal = $(this.modal).modal(options);
     };
     BootstrapModal.prototype.detached = function () {
+        console.log('SHG: detached called');
         $(this.modal).off('show.bs.modal');
         $(this.modal).off('shown.bs.modal');
         $(this.modal).off('hide.bs.modal');
@@ -3420,6 +3682,91 @@ var BootstrapModal = (function () {
 exports.BootstrapModal = BootstrapModal;
 //# sourceMappingURL=abt-modal.js.map
 });
+___scope___.file("components/bootstrap/modal/AureliaToolbeltBootstrapModalRenderer.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var $ = require("jquery");
+var AureliaToolbeltBootstrapModalRenderer = (function () {
+    function AureliaToolbeltBootstrapModalRenderer() {
+        this.dialogs = [];
+        console.log('Renderer created');
+    }
+    AureliaToolbeltBootstrapModalRenderer.prototype.getDialogContainer = function () {
+        return document.createElement('template');
+    };
+    AureliaToolbeltBootstrapModalRenderer.prototype.showDialog = function (dialogController) {
+        console.log(dialogController);
+        if (!dialogController.showDialog) {
+            return this.createDialogHost(dialogController)
+                .then(function () {
+                return dialogController.showDialog();
+            });
+        }
+        return dialogController.showDialog();
+    };
+    AureliaToolbeltBootstrapModalRenderer.prototype.hideDialog = function (dialogController) {
+        return dialogController.hideDialog();
+    };
+    AureliaToolbeltBootstrapModalRenderer.prototype.createDialogHost = function (dialogController) {
+        var _this = this;
+        var element = dialogController.controller.view.firstChild.nextSibling;
+        var controller = element.au.controller;
+        var viewModel = controller.viewModel;
+        var options = Object.assign(dialogController.settings, {
+            show: false,
+            focus: viewModel.focus,
+            backdrop: viewModel.backdrop,
+            keyboard: viewModel.keyboard
+        });
+        controller.attached(options);
+        var dialog = viewModel.jqModal;
+        dialogController.showDialog = function () {
+            return new Promise(function (resolve) {
+                var underlyingModals = $(document.body).children('.modal');
+                viewModel.jqModal.on('hidden.bs.modal', function () {
+                    dialogController.cancel(null);
+                });
+                viewModel.jqModal.on('shown.bs.modal', function () {
+                    viewModel.jqModal.off('shown.bs.modal');
+                    resolve();
+                });
+                if (underlyingModals.length) {
+                    underlyingModals.last().after(element);
+                }
+                else {
+                    document.body.insertBefore(element, document.body.firstChild);
+                }
+                _this.dialogs.push(dialog);
+                dialog.modal('show');
+            });
+        };
+        dialogController.hideDialog = function () {
+            dialog.modal('hide');
+            dialog.off('hidden.bs.modal');
+            dialog.get(0).remove();
+            return Promise.resolve();
+        };
+        return Promise.resolve();
+    };
+    AureliaToolbeltBootstrapModalRenderer = __decorate([
+        aurelia_framework_1.inject(aurelia_framework_1.TemplatingEngine),
+        __metadata("design:paramtypes", [])
+    ], AureliaToolbeltBootstrapModalRenderer);
+    return AureliaToolbeltBootstrapModalRenderer;
+}());
+exports.AureliaToolbeltBootstrapModalRenderer = AureliaToolbeltBootstrapModalRenderer;
+//# sourceMappingURL=AureliaToolbeltBootstrapModalRenderer.js.map
+});
 ___scope___.file("components/bootstrap/modal/index.js", function(exports, require, module, __filename, __dirname){
 
 function __export(m) {
@@ -3427,6 +3774,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
+var AureliaToolbeltBootstrapModalRenderer_1 = require("./AureliaToolbeltBootstrapModalRenderer");
 __export(require("./abt-modal"));
 __export(require("./abt-modal-title"));
 __export(require("./abt-modal-header"));
@@ -3440,6 +3788,10 @@ function configure(config) {
         aurelia_framework_1.PLATFORM.moduleName('./abt-modal-body'),
         aurelia_framework_1.PLATFORM.moduleName('./abt-modal-footer')
     ]);
+    config.aurelia.use.plugin(aurelia_framework_1.PLATFORM.moduleName('aurelia-dialog'), function (rendererConfig) {
+        rendererConfig.useRenderer(AureliaToolbeltBootstrapModalRenderer_1.AureliaToolbeltBootstrapModalRenderer);
+        rendererConfig.useResource('attach-focus');
+    });
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -8016,9 +8368,6 @@ var PrettyRadioButtonCustomElement = (function () {
         this.checked = (this.model !== undefined)
             ? this.model
             : this.value;
-    };
-    PrettyRadioButtonCustomElement.prototype.checkedChanged = function () {
-        this.synchronizeView();
     };
     PrettyRadioButtonCustomElement.prototype.synchronizeView = function () {
         if (this.model !== undefined) {
