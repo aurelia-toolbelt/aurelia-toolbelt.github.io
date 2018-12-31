@@ -10374,7 +10374,7 @@ var hl = require('highlight.js');
 require("bootstrap/dist/js/bootstrap.bundle.js");
 require("bootstrap/dist/css/bootstrap.css");
 require("metismenu/dist/metisMenu.css");
-require("nprogress/nprogress.css");
+require("toastr/build/toastr.css");
 require("font-awesome/css/font-awesome.css");
 require("highlight.js/styles/atom-one-dark.css");
 require("pretty-checkbox/dist/pretty-checkbox.css");
@@ -10384,6 +10384,8 @@ require("aureliatoolbelt-thirdparty/bootstrap-toggle/bootstrap-toggle.js");
 require("aureliatoolbelt-thirdparty/bootstrap-toggle/bootstrap-toggle.css");
 require("aureliatoolbelt-thirdparty/jquery.blockUI/jquery.blockUI.js");
 var ml = require('aureliatoolbelt-thirdparty/microlink/microlink.js');
+var fl = require('aureliatoolbelt-thirdparty/jquery.float-label/jquery.float-label.js');
+require("aureliatoolbelt-thirdparty/jquery.float-label/jquery.float-label.css");
 var x = fuse;
 var hljs = hl;
 //# sourceMappingURL=extra.js.map
@@ -10401,7 +10403,7 @@ FuseBox.pkg("fuse.js", {}, function(___scope___){
 ___scope___.file("dist/fuse.js", function(exports, require, module, __filename, __dirname){
 
 /*!
- * Fuse.js v3.2.1 - Lightweight fuzzy-search (http://fusejs.io)
+ * Fuse.js v3.3.0 - Lightweight fuzzy-search (http://fusejs.io)
  * 
  * Copyright (c) 2012-2017 Kirollos Risk (http://kiro.me)
  * All Rights Reserved. Apache Software License 2.0
@@ -11415,8 +11417,10 @@ hljs.registerLanguage('abnf', require('./languages/abnf'));
 hljs.registerLanguage('accesslog', require('./languages/accesslog'));
 hljs.registerLanguage('actionscript', require('./languages/actionscript'));
 hljs.registerLanguage('ada', require('./languages/ada'));
+hljs.registerLanguage('angelscript', require('./languages/angelscript'));
 hljs.registerLanguage('apache', require('./languages/apache'));
 hljs.registerLanguage('applescript', require('./languages/applescript'));
+hljs.registerLanguage('arcade', require('./languages/arcade'));
 hljs.registerLanguage('cpp', require('./languages/cpp'));
 hljs.registerLanguage('arduino', require('./languages/arduino'));
 hljs.registerLanguage('armasm', require('./languages/armasm'));
@@ -11476,6 +11480,7 @@ hljs.registerLanguage('gauss', require('./languages/gauss'));
 hljs.registerLanguage('gcode', require('./languages/gcode'));
 hljs.registerLanguage('gherkin', require('./languages/gherkin'));
 hljs.registerLanguage('glsl', require('./languages/glsl'));
+hljs.registerLanguage('gml', require('./languages/gml'));
 hljs.registerLanguage('go', require('./languages/go'));
 hljs.registerLanguage('golo', require('./languages/golo'));
 hljs.registerLanguage('gradle', require('./languages/gradle'));
@@ -11491,6 +11496,7 @@ hljs.registerLanguage('hy', require('./languages/hy'));
 hljs.registerLanguage('inform7', require('./languages/inform7'));
 hljs.registerLanguage('ini', require('./languages/ini'));
 hljs.registerLanguage('irpf90', require('./languages/irpf90'));
+hljs.registerLanguage('isbl', require('./languages/isbl'));
 hljs.registerLanguage('java', require('./languages/java'));
 hljs.registerLanguage('javascript', require('./languages/javascript'));
 hljs.registerLanguage('jboss-cli', require('./languages/jboss-cli'));
@@ -11531,12 +11537,15 @@ hljs.registerLanguage('openscad', require('./languages/openscad'));
 hljs.registerLanguage('oxygene', require('./languages/oxygene'));
 hljs.registerLanguage('parser3', require('./languages/parser3'));
 hljs.registerLanguage('pf', require('./languages/pf'));
+hljs.registerLanguage('pgsql', require('./languages/pgsql'));
 hljs.registerLanguage('php', require('./languages/php'));
+hljs.registerLanguage('plaintext', require('./languages/plaintext'));
 hljs.registerLanguage('pony', require('./languages/pony'));
 hljs.registerLanguage('powershell', require('./languages/powershell'));
 hljs.registerLanguage('processing', require('./languages/processing'));
 hljs.registerLanguage('profile', require('./languages/profile'));
 hljs.registerLanguage('prolog', require('./languages/prolog'));
+hljs.registerLanguage('properties', require('./languages/properties'));
 hljs.registerLanguage('protobuf', require('./languages/protobuf'));
 hljs.registerLanguage('puppet', require('./languages/puppet'));
 hljs.registerLanguage('purebasic', require('./languages/purebasic'));
@@ -11544,12 +11553,14 @@ hljs.registerLanguage('python', require('./languages/python'));
 hljs.registerLanguage('q', require('./languages/q'));
 hljs.registerLanguage('qml', require('./languages/qml'));
 hljs.registerLanguage('r', require('./languages/r'));
+hljs.registerLanguage('reasonml', require('./languages/reasonml'));
 hljs.registerLanguage('rib', require('./languages/rib'));
 hljs.registerLanguage('roboconf', require('./languages/roboconf'));
 hljs.registerLanguage('routeros', require('./languages/routeros'));
 hljs.registerLanguage('rsl', require('./languages/rsl'));
 hljs.registerLanguage('ruleslanguage', require('./languages/ruleslanguage'));
 hljs.registerLanguage('rust', require('./languages/rust'));
+hljs.registerLanguage('sas', require('./languages/sas'));
 hljs.registerLanguage('scala', require('./languages/scala'));
 hljs.registerLanguage('scheme', require('./languages/scheme'));
 hljs.registerLanguage('scilab', require('./languages/scilab'));
@@ -11867,6 +11878,8 @@ https://highlightjs.org/
         if (!mode.begin)
           mode.begin = /\B|\b/;
         mode.beginRe = langRe(mode.begin);
+        if (mode.endSameAsBegin)
+          mode.end = mode.begin;
         if (!mode.end && !mode.endsWithParent)
           mode.end = /\B|\b/;
         if (mode.end)
@@ -11915,11 +11928,18 @@ https://highlightjs.org/
   */
   function highlight(name, value, ignore_illegals, continuation) {
 
+    function escapeRe(value) {
+      return new RegExp(value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'm');
+    }
+
     function subMode(lexeme, mode) {
       var i, length;
 
       for (i = 0, length = mode.contains.length; i < length; i++) {
         if (testRe(mode.contains[i].beginRe, lexeme)) {
+          if (mode.contains[i].endSameAsBegin) {
+            mode.contains[i].endRe = escapeRe( mode.contains[i].beginRe.exec(lexeme)[0] );
+          }
           return mode.contains[i];
         }
       }
@@ -12059,12 +12079,15 @@ https://highlightjs.org/
           if (top.className) {
             result += spanEndTag;
           }
-          if (!top.skip) {
+          if (!top.skip && !top.subLanguage) {
             relevance += top.relevance;
           }
           top = top.parent;
         } while (top !== end_mode.parent);
         if (end_mode.starts) {
+          if (end_mode.endSameAsBegin) {
+            end_mode.starts.endRe = end_mode.endRe;
+          }
           startNewMode(end_mode.starts, '');
         }
         return origin.returnEnd ? 0 : lexeme.length;
@@ -12150,7 +12173,7 @@ https://highlightjs.org/
       value: escape(text)
     };
     var second_best = result;
-    languageSubset.filter(getLanguage).forEach(function(name) {
+    languageSubset.filter(getLanguage).filter(autoDetection).forEach(function(name) {
       var current = highlight(name, text, false);
       current.language = name;
       if (current.relevance > second_best.relevance) {
@@ -12287,6 +12310,11 @@ https://highlightjs.org/
     return languages[name] || languages[aliases[name]];
   }
 
+  function autoDetection(name) {
+    var lang = getLanguage(name);
+    return lang && !lang.disableAutodetect;
+  }
+
   /* Interface definition */
 
   hljs.highlight = highlight;
@@ -12299,6 +12327,7 @@ https://highlightjs.org/
   hljs.registerLanguage = registerLanguage;
   hljs.listLanguages = listLanguages;
   hljs.getLanguage = getLanguage;
+  hljs.autoDetection = autoDetection;
   hljs.inherit = inherit;
 
   // Common regexps
@@ -13285,6 +13314,115 @@ function(hljs) {
     };
 };
 });
+___scope___.file("lib/languages/angelscript.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+  var builtInTypeMode = {
+    className: 'built_in',
+    begin: '\\b(void|bool|int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|string|ref|array|double|float|auto|dictionary)'
+  };
+
+  var objectHandleMode = {
+    className: 'symbol',
+    begin: '[a-zA-Z0-9_]+@'
+  };
+
+  var genericMode = {
+    className: 'keyword',
+    begin: '<', end: '>',
+    contains: [ builtInTypeMode, objectHandleMode ]
+  };
+
+  builtInTypeMode.contains = [ genericMode ];
+  objectHandleMode.contains = [ genericMode ];
+
+  return {
+    aliases: [ 'asc' ],
+
+    keywords:
+      'for in|0 break continue while do|0 return if else case switch namespace is cast ' +
+      'or and xor not get|0 in inout|10 out override set|0 private public const default|0 ' +
+      'final shared external mixin|10 enum typedef funcdef this super import from interface ' +
+      'abstract|0 try catch protected explicit',
+
+    // avoid close detection with C# and JS
+    illegal: '(^using\\s+[A-Za-z0-9_\\.]+;$|\\bfunction\s*[^\\(])',
+
+    contains: [
+      { // 'strings'
+        className: 'string',
+        begin: '\'', end: '\'',
+        illegal: '\\n',
+        contains: [ hljs.BACKSLASH_ESCAPE ],
+        relevance: 0
+      },
+
+      { // "strings"
+        className: 'string',
+        begin: '"', end: '"',
+        illegal: '\\n',
+        contains: [ hljs.BACKSLASH_ESCAPE ],
+        relevance: 0
+      },
+
+      // """heredoc strings"""
+      {
+        className: 'string',
+        begin: '"""', end: '"""'
+      },
+
+      hljs.C_LINE_COMMENT_MODE, // single-line comments
+      hljs.C_BLOCK_COMMENT_MODE, // comment blocks
+
+      { // interface or namespace declaration
+        beginKeywords: 'interface namespace', end: '{',
+        illegal: '[;.\\-]',
+        contains: [
+          { // interface or namespace name
+            className: 'symbol',
+            begin: '[a-zA-Z0-9_]+'
+          }
+        ]
+      },
+
+      { // class declaration
+        beginKeywords: 'class', end: '{',
+        illegal: '[;.\\-]',
+        contains: [
+          { // class name
+            className: 'symbol',
+            begin: '[a-zA-Z0-9_]+',
+            contains: [
+              {
+                begin: '[:,]\\s*',
+                contains: [
+                  {
+                    className: 'symbol',
+                    begin: '[a-zA-Z0-9_]+'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      builtInTypeMode, // built-in types
+      objectHandleMode, // object handles
+
+      { // literals
+        className: 'literal',
+        begin: '\\b(null|true|false)'
+      },
+
+      { // numbers
+        className: 'number',
+        begin: '(-?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?f?|\\.\\d+f?)([eE][-+]?\\d+f?)?)'
+      }
+    ]
+  };
+};
+});
 ___scope___.file("lib/languages/apache.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
@@ -13421,6 +13559,145 @@ module.exports = function(hljs) {
   };
 };
 });
+___scope___.file("lib/languages/arcade.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+  var IDENT_RE = '[A-Za-z_][0-9A-Za-z_]*';
+  var KEYWORDS = {
+    keyword:
+      'if for while var new function do return void else break',
+    literal:
+      'true false null undefined NaN Infinity PI BackSlash DoubleQuote ForwardSlash NewLine SingleQuote Tab',
+    built_in:
+      'Abs Acos Area AreaGeodetic Asin Atan Atan2 Average Boolean Buffer BufferGeodetic ' +
+      'Ceil Centroid Clip Console Constrain Contains Cos Count Crosses Cut Date DateAdd ' +
+      'DateDiff Day Decode DefaultValue Dictionary Difference Disjoint Distance Distinct ' +
+      'DomainCode DomainName Equals Exp Extent Feature FeatureSet FeatureSetById FeatureSetByTitle ' +
+      'FeatureSetByUrl Filter First Floor Geometry Guid HasKey Hour IIf IndexOf Intersection ' +
+      'Intersects IsEmpty Length LengthGeodetic Log Max Mean Millisecond Min Minute Month ' +
+      'MultiPartToSinglePart Multipoint NextSequenceValue Now Number OrderBy Overlaps Point Polygon ' +
+      'Polyline Pow Random Relate Reverse Round Second SetGeometry Sin Sort Sqrt Stdev Sum ' +
+      'SymmetricDifference Tan Text Timestamp Today ToLocal Top Touches ToUTC TypeOf Union Variance ' +
+      'Weekday When Within Year '
+  };
+  var EXPRESSIONS;
+  var SYMBOL = {
+    className: 'symbol',
+    begin: '\\$[feature|layer|map|value|view]+'
+  };
+  var NUMBER = {
+    className: 'number',
+    variants: [
+      { begin: '\\b(0[bB][01]+)' },
+      { begin: '\\b(0[oO][0-7]+)' },
+      { begin: hljs.C_NUMBER_RE }
+    ],
+    relevance: 0
+  };
+  var SUBST = {
+    className: 'subst',
+    begin: '\\$\\{', end: '\\}',
+    keywords: KEYWORDS,
+    contains: []  // defined later
+  };
+  var TEMPLATE_STRING = {
+    className: 'string',
+    begin: '`', end: '`',
+    contains: [
+      hljs.BACKSLASH_ESCAPE,
+      SUBST
+    ]
+  };
+  SUBST.contains = [
+    hljs.APOS_STRING_MODE,
+    hljs.QUOTE_STRING_MODE,
+    TEMPLATE_STRING,
+    NUMBER,
+    hljs.REGEXP_MODE
+  ];
+  var PARAMS_CONTAINS = SUBST.contains.concat([
+    hljs.C_BLOCK_COMMENT_MODE,
+    hljs.C_LINE_COMMENT_MODE
+  ]);
+
+  return {
+    aliases: ['arcade'],
+    keywords: KEYWORDS,
+    contains: [
+      hljs.APOS_STRING_MODE,
+      hljs.QUOTE_STRING_MODE,
+      TEMPLATE_STRING,
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      SYMBOL,
+      NUMBER,
+      { // object attr container
+        begin: /[{,]\s*/, relevance: 0,
+        contains: [
+          {
+            begin: IDENT_RE + '\\s*:', returnBegin: true,
+            relevance: 0,
+            contains: [{className: 'attr', begin: IDENT_RE, relevance: 0}]
+          }
+        ]
+      },
+      { // "value" container
+        begin: '(' + hljs.RE_STARTERS_RE + '|\\b(return)\\b)\\s*',
+        keywords: 'return',
+        contains: [
+          hljs.C_LINE_COMMENT_MODE,
+          hljs.C_BLOCK_COMMENT_MODE,
+          hljs.REGEXP_MODE,
+          {
+            className: 'function',
+            begin: '(\\(.*?\\)|' + IDENT_RE + ')\\s*=>', returnBegin: true,
+            end: '\\s*=>',
+            contains: [
+              {
+                className: 'params',
+                variants: [
+                  {
+                    begin: IDENT_RE
+                  },
+                  {
+                    begin: /\(\s*\)/,
+                  },
+                  {
+                    begin: /\(/, end: /\)/,
+                    excludeBegin: true, excludeEnd: true,
+                    keywords: KEYWORDS,
+                    contains: PARAMS_CONTAINS
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        relevance: 0
+      },
+      {
+        className: 'function',
+        beginKeywords: 'function', end: /\{/, excludeEnd: true,
+        contains: [
+          hljs.inherit(hljs.TITLE_MODE, {begin: IDENT_RE}),
+          {
+            className: 'params',
+            begin: /\(/, end: /\)/,
+            excludeBegin: true,
+            excludeEnd: true,
+            contains: PARAMS_CONTAINS
+          }
+        ],
+        illegal: /\[|%/
+      },
+      {
+        begin: /\$[(.]/
+      }
+    ],
+    illegal: /#(?!!)/
+  };
+};
+});
 ___scope___.file("lib/languages/cpp.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
@@ -13433,13 +13710,16 @@ module.exports = function(hljs) {
     className: 'string',
     variants: [
       {
-        begin: '(u8?|U)?L?"', end: '"',
+        begin: '(u8?|U|L)?"', end: '"',
         illegal: '\\n',
         contains: [hljs.BACKSLASH_ESCAPE]
       },
       {
-        begin: '(u8?|U)?R"', end: '"',
-        contains: [hljs.BACKSLASH_ESCAPE]
+        // TODO: This does not handle raw string literals with prefixes. Using
+        // a single regex with backreferences would work (note to use *?
+        // instead of * to make it non-greedy), but the mode.terminators
+        // computation in highlight.js breaks the counting.
+        begin: '(u8?|U|L)?R"\\(', end: '\\)"',
       },
       {
         begin: '\'\\\\?.', end: '\'',
@@ -13573,7 +13853,21 @@ module.exports = function(hljs) {
               hljs.C_BLOCK_COMMENT_MODE,
               STRINGS,
               NUMBERS,
-              CPP_PRIMITIVE_TYPES
+              CPP_PRIMITIVE_TYPES,
+              // Count matching parentheses.
+              {
+                begin: /\(/, end: /\)/,
+                keywords: CPP_KEYWORDS,
+                relevance: 0,
+                contains: [
+                  'self',
+                  hljs.C_LINE_COMMENT_MODE,
+                  hljs.C_BLOCK_COMMENT_MODE,
+                  STRINGS,
+                  NUMBERS,
+                  CPP_PRIMITIVE_TYPES
+                ]
+              }
             ]
           },
           hljs.C_LINE_COMMENT_MODE,
@@ -13847,9 +14141,21 @@ module.exports = function(hljs) {
         relevance: 10
       },
       {
+        className: 'meta',
+        begin: /<\?xml/, end: /\?>/, relevance: 10
+      },
+      {
         begin: /<\?(php)?/, end: /\?>/,
         subLanguage: 'php',
-        contains: [{begin: '/\\*', end: '\\*/', skip: true}]
+        contains: [
+          // We don't want the php closing tag ?> to close the PHP block when
+          // inside any of the following blocks:
+          {begin: '/\\*', end: '\\*/', skip: true},
+          {begin: 'b"', end: '"', skip: true},
+          {begin: 'b\'', end: '\'', skip: true},
+          hljs.inherit(hljs.APOS_STRING_MODE, {illegal: null, className: null, contains: null, skip: true}),
+          hljs.inherit(hljs.QUOTE_STRING_MODE, {illegal: null, className: null, contains: null, skip: true})
+        ]
       },
       {
         className: 'tag',
@@ -13877,13 +14183,6 @@ module.exports = function(hljs) {
           end: '\<\/script\>', returnEnd: true,
           subLanguage: ['actionscript', 'javascript', 'handlebars', 'xml']
         }
-      },
-      {
-        className: 'meta',
-        variants: [
-          {begin: /<\?xml/, end: /\?>/, relevance: 10},
-          {begin: /<\?\w+/, end: /\?>/}
-        ]
       },
       {
         className: 'tag',
@@ -15139,25 +15438,40 @@ module.exports = function(hljs) {
     case_insensitive: true,
     keywords: {
       keyword:
-        'add_custom_command add_custom_target add_definitions add_dependencies ' +
-        'add_executable add_library add_subdirectory add_test aux_source_directory ' +
-        'break build_command cmake_minimum_required cmake_policy configure_file ' +
-        'create_test_sourcelist define_property else elseif enable_language enable_testing ' +
-        'endforeach endfunction endif endmacro endwhile execute_process export find_file ' +
-        'find_library find_package find_path find_program fltk_wrap_ui foreach function ' +
-        'get_cmake_property get_directory_property get_filename_component get_property ' +
-        'get_source_file_property get_target_property get_test_property if include ' +
-        'include_directories include_external_msproject include_regular_expression install ' +
-        'link_directories load_cache load_command macro mark_as_advanced message option ' +
-        'output_required_files project qt_wrap_cpp qt_wrap_ui remove_definitions return ' +
-        'separate_arguments set set_directory_properties set_property ' +
-        'set_source_files_properties set_target_properties set_tests_properties site_name ' +
-        'source_group string target_link_libraries try_compile try_run unset variable_watch ' +
-        'while build_name exec_program export_library_dependencies install_files ' +
-        'install_programs install_targets link_libraries make_directory remove subdir_depends ' +
-        'subdirs use_mangled_mesa utility_source variable_requires write_file ' +
-        'qt5_use_modules qt5_use_package qt5_wrap_cpp on off true false and or ' +
-        'equal less greater strless strgreater strequal matches'
+        // scripting commands
+        'break cmake_host_system_information cmake_minimum_required cmake_parse_arguments ' +
+        'cmake_policy configure_file continue elseif else endforeach endfunction endif endmacro ' +
+        'endwhile execute_process file find_file find_library find_package find_path ' +
+        'find_program foreach function get_cmake_property get_directory_property ' +
+        'get_filename_component get_property if include include_guard list macro ' +
+        'mark_as_advanced math message option return separate_arguments ' +
+        'set_directory_properties set_property set site_name string unset variable_watch while ' +
+        // project commands
+        'add_compile_definitions add_compile_options add_custom_command add_custom_target ' +
+        'add_definitions add_dependencies add_executable add_library add_link_options ' +
+        'add_subdirectory add_test aux_source_directory build_command create_test_sourcelist ' +
+        'define_property enable_language enable_testing export fltk_wrap_ui ' +
+        'get_source_file_property get_target_property get_test_property include_directories ' +
+        'include_external_msproject include_regular_expression install link_directories ' +
+        'link_libraries load_cache project qt_wrap_cpp qt_wrap_ui remove_definitions ' +
+        'set_source_files_properties set_target_properties set_tests_properties source_group ' +
+        'target_compile_definitions target_compile_features target_compile_options ' +
+        'target_include_directories target_link_directories target_link_libraries ' +
+        'target_link_options target_sources try_compile try_run ' +
+        // CTest commands
+        'ctest_build ctest_configure ctest_coverage ctest_empty_binary_directory ctest_memcheck ' +
+        'ctest_read_custom_files ctest_run_script ctest_sleep ctest_start ctest_submit ' +
+        'ctest_test ctest_update ctest_upload ' +
+        // deprecated commands
+        'build_name exec_program export_library_dependencies install_files install_programs ' +
+        'install_targets load_command make_directory output_required_files remove ' +
+        'subdir_depends subdirs use_mangled_mesa utility_source variable_requires write_file ' +
+        'qt5_use_modules qt5_use_package qt5_wrap_cpp ' +
+        // core keywords
+        'on off true false and or not command policy target test exists is_newer_than ' +
+        'is_directory is_symlink is_absolute matches less greater equal less_equal ' +
+        'greater_equal strless strgreater strequal strless_equal strgreater_equal version_less ' +
+        'version_greater version_equal version_less_equal version_greater_equal in_list defined'
     },
     contains: [
       {
@@ -15824,7 +16138,15 @@ module.exports = function(hljs) {
     literal:
       'null false true'
   };
-
+  var NUMBERS = {
+    className: 'number',
+    variants: [
+      { begin: '\\b(0b[01\']+)' },
+      { begin: '(-?)\\b([\\d\']+(\\.[\\d\']*)?|\\.[\\d\']+)(u|U|l|L|ul|UL|f|F|b|B)' },
+      { begin: '(-?)(\\b0[xX][a-fA-F0-9\']+|(\\b[\\d\']+(\\.[\\d\']*)?|\\.[\\d\']+)([eE][-+]?[\\d\']+)?)' }
+    ],
+    relevance: 0
+  };
   var VERBATIM_STRING = {
     className: 'string',
     begin: '@"', end: '"',
@@ -15858,7 +16180,7 @@ module.exports = function(hljs) {
     VERBATIM_STRING,
     hljs.APOS_STRING_MODE,
     hljs.QUOTE_STRING_MODE,
-    hljs.C_NUMBER_MODE,
+    NUMBERS,
     hljs.C_BLOCK_COMMENT_MODE
   ];
   SUBST_NO_LF.contains = [
@@ -15867,7 +16189,7 @@ module.exports = function(hljs) {
     VERBATIM_STRING_NO_LF,
     hljs.APOS_STRING_MODE,
     hljs.QUOTE_STRING_MODE,
-    hljs.C_NUMBER_MODE,
+    NUMBERS,
     hljs.inherit(hljs.C_BLOCK_COMMENT_MODE, {illegal: /\n/})
   ];
   var STRING = {
@@ -15920,10 +16242,10 @@ module.exports = function(hljs) {
         }
       },
       STRING,
-      hljs.C_NUMBER_MODE,
+      NUMBERS,
       {
         beginKeywords: 'class interface', end: /[{;=]/,
-        illegal: /[^\s:]/,
+        illegal: /[^\s:,]/,
         contains: [
           hljs.TITLE_MODE,
           hljs.C_LINE_COMMENT_MODE,
@@ -15956,7 +16278,7 @@ module.exports = function(hljs) {
       {
         className: 'function',
         begin: '(' + TYPE_IDENT_RE + '\\s+)+' + hljs.IDENT_RE + '\\s*\\(', returnBegin: true,
-        end: /[{;=]/, excludeEnd: true,
+        end: /\s*[{;=]/, excludeEnd: true,
         keywords: KEYWORDS,
         contains: [
           {
@@ -15973,7 +16295,7 @@ module.exports = function(hljs) {
             relevance: 0,
             contains: [
               STRING,
-              hljs.C_NUMBER_MODE,
+              NUMBERS,
               hljs.C_BLOCK_COMMENT_MODE
             ]
           },
@@ -16491,7 +16813,10 @@ ___scope___.file("lib/languages/dart.js", function(exports, require, module, __f
 module.exports = function (hljs) {
   var SUBST = {
     className: 'subst',
-    begin: '\\$\\{', end: '}',
+    variants: [
+       {begin: '\\${', end: '}'},
+       {begin: '\\$[A-Za-z0-9_]+'}
+    ],
     keywords: 'true false null this is new super'
   };
 
@@ -17124,12 +17449,12 @@ module.exports = function(hljs) {
 ___scope___.file("lib/languages/elixir.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
-  var ELIXIR_IDENT_RE = '[a-zA-Z_][a-zA-Z0-9_]*(\\!|\\?)?';
+  var ELIXIR_IDENT_RE = '[a-zA-Z_][a-zA-Z0-9_.]*(\\!|\\?)?';
   var ELIXIR_METHOD_RE = '[a-zA-Z_]\\w*[!?=]?|[-+~]\\@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?';
   var ELIXIR_KEYWORDS =
     'and false then defined module in return redo retry end for true self when ' +
     'next until do begin unless nil break not case cond alias while ensure or ' +
-    'include use alias fn quote';
+    'include use alias fn quote require import with|0';
   var SUBST = {
     className: 'subst',
     begin: '#\\{', end: '}',
@@ -17168,14 +17493,17 @@ module.exports = function(hljs) {
     CLASS,
     FUNCTION,
     {
+      begin: '::'
+    },
+    {
       className: 'symbol',
-      begin: ':(?!\\s)',
+      begin: ':(?![\\s:])',
       contains: [STRING, {begin: ELIXIR_METHOD_RE}],
       relevance: 0
     },
     {
       className: 'symbol',
-      begin: ELIXIR_IDENT_RE + ':',
+      begin: ELIXIR_IDENT_RE + ':(?!:)',
       relevance: 0
     },
     {
@@ -17256,6 +17584,12 @@ module.exports = function(hljs) {
     contains: LIST.contains
   };
 
+  var CHARACTER = {
+    className: 'string',
+    begin: '\'\\\\?.', end: '\'',
+    illegal: '.'
+  };
+
   return {
     keywords:
       'let in if then else case of where module import exposing ' +
@@ -17293,7 +17627,7 @@ module.exports = function(hljs) {
 
       // Literals and names.
 
-      // TODO: characters.
+      CHARACTER,
       hljs.QUOTE_STRING_MODE,
       hljs.C_NUMBER_MODE,
       CONSTRUCTOR,
@@ -18569,6 +18903,881 @@ module.exports = function(hljs) {
   };
 };
 });
+___scope___.file("lib/languages/gml.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+  var GML_KEYWORDS = {
+    keywords: 'begin end if then else while do for break continue with until ' +
+      'repeat exit and or xor not return mod div switch case default var ' +
+      'globalvar enum #macro #region #endregion',
+    built_in: 'is_real is_string is_array is_undefined is_int32 is_int64 ' +
+      'is_ptr is_vec3 is_vec4 is_matrix is_bool typeof ' +
+      'variable_global_exists variable_global_get variable_global_set ' +
+      'variable_instance_exists variable_instance_get variable_instance_set ' +
+      'variable_instance_get_names array_length_1d array_length_2d ' +
+      'array_height_2d array_equals array_create array_copy random ' +
+      'random_range irandom irandom_range random_set_seed random_get_seed ' +
+      'randomize randomise choose abs round floor ceil sign frac sqrt sqr ' +
+      'exp ln log2 log10 sin cos tan arcsin arccos arctan arctan2 dsin dcos ' +
+      'dtan darcsin darccos darctan darctan2 degtorad radtodeg power logn ' +
+      'min max mean median clamp lerp dot_product dot_product_3d ' +
+      'dot_product_normalised dot_product_3d_normalised ' +
+      'dot_product_normalized dot_product_3d_normalized math_set_epsilon ' +
+      'math_get_epsilon angle_difference point_distance_3d point_distance ' +
+      'point_direction lengthdir_x lengthdir_y real string int64 ptr ' +
+      'string_format chr ansi_char ord string_length string_byte_length ' +
+      'string_pos string_copy string_char_at string_ord_at string_byte_at ' +
+      'string_set_byte_at string_delete string_insert string_lower ' +
+      'string_upper string_repeat string_letters string_digits ' +
+      'string_lettersdigits string_replace string_replace_all string_count ' +
+      'string_hash_to_newline clipboard_has_text clipboard_set_text ' +
+      'clipboard_get_text date_current_datetime date_create_datetime ' +
+      'date_valid_datetime date_inc_year date_inc_month date_inc_week ' +
+      'date_inc_day date_inc_hour date_inc_minute date_inc_second ' +
+      'date_get_year date_get_month date_get_week date_get_day ' +
+      'date_get_hour date_get_minute date_get_second date_get_weekday ' +
+      'date_get_day_of_year date_get_hour_of_year date_get_minute_of_year ' +
+      'date_get_second_of_year date_year_span date_month_span ' +
+      'date_week_span date_day_span date_hour_span date_minute_span ' +
+      'date_second_span date_compare_datetime date_compare_date ' +
+      'date_compare_time date_date_of date_time_of date_datetime_string ' +
+      'date_date_string date_time_string date_days_in_month ' +
+      'date_days_in_year date_leap_year date_is_today date_set_timezone ' +
+      'date_get_timezone game_set_speed game_get_speed motion_set ' +
+      'motion_add place_free place_empty place_meeting place_snapped ' +
+      'move_random move_snap move_towards_point move_contact_solid ' +
+      'move_contact_all move_outside_solid move_outside_all ' +
+      'move_bounce_solid move_bounce_all move_wrap distance_to_point ' +
+      'distance_to_object position_empty position_meeting path_start ' +
+      'path_end mp_linear_step mp_potential_step mp_linear_step_object ' +
+      'mp_potential_step_object mp_potential_settings mp_linear_path ' +
+      'mp_potential_path mp_linear_path_object mp_potential_path_object ' +
+      'mp_grid_create mp_grid_destroy mp_grid_clear_all mp_grid_clear_cell ' +
+      'mp_grid_clear_rectangle mp_grid_add_cell mp_grid_get_cell ' +
+      'mp_grid_add_rectangle mp_grid_add_instances mp_grid_path ' +
+      'mp_grid_draw mp_grid_to_ds_grid collision_point collision_rectangle ' +
+      'collision_circle collision_ellipse collision_line ' +
+      'collision_point_list collision_rectangle_list collision_circle_list ' +
+      'collision_ellipse_list collision_line_list instance_position_list ' +
+      'instance_place_list point_in_rectangle ' +
+      'point_in_triangle point_in_circle rectangle_in_rectangle ' +
+      'rectangle_in_triangle rectangle_in_circle instance_find ' +
+      'instance_exists instance_number instance_position instance_nearest ' +
+      'instance_furthest instance_place instance_create_depth ' +
+      'instance_create_layer instance_copy instance_change instance_destroy ' +
+      'position_destroy position_change instance_id_get ' +
+      'instance_deactivate_all instance_deactivate_object ' +
+      'instance_deactivate_region instance_activate_all ' +
+      'instance_activate_object instance_activate_region room_goto ' +
+      'room_goto_previous room_goto_next room_previous room_next ' +
+      'room_restart game_end game_restart game_load game_save ' +
+      'game_save_buffer game_load_buffer event_perform event_user ' +
+      'event_perform_object event_inherited show_debug_message ' +
+      'show_debug_overlay debug_event debug_get_callstack alarm_get ' +
+      'alarm_set font_texture_page_size keyboard_set_map keyboard_get_map ' +
+      'keyboard_unset_map keyboard_check keyboard_check_pressed ' +
+      'keyboard_check_released keyboard_check_direct keyboard_get_numlock ' +
+      'keyboard_set_numlock keyboard_key_press keyboard_key_release ' +
+      'keyboard_clear io_clear mouse_check_button ' +
+      'mouse_check_button_pressed mouse_check_button_released ' +
+      'mouse_wheel_up mouse_wheel_down mouse_clear draw_self draw_sprite ' +
+      'draw_sprite_pos draw_sprite_ext draw_sprite_stretched ' +
+      'draw_sprite_stretched_ext draw_sprite_tiled draw_sprite_tiled_ext ' +
+      'draw_sprite_part draw_sprite_part_ext draw_sprite_general draw_clear ' +
+      'draw_clear_alpha draw_point draw_line draw_line_width draw_rectangle ' +
+      'draw_roundrect draw_roundrect_ext draw_triangle draw_circle ' +
+      'draw_ellipse draw_set_circle_precision draw_arrow draw_button ' +
+      'draw_path draw_healthbar draw_getpixel draw_getpixel_ext ' +
+      'draw_set_colour draw_set_color draw_set_alpha draw_get_colour ' +
+      'draw_get_color draw_get_alpha merge_colour make_colour_rgb ' +
+      'make_colour_hsv colour_get_red colour_get_green colour_get_blue ' +
+      'colour_get_hue colour_get_saturation colour_get_value merge_color ' +
+      'make_color_rgb make_color_hsv color_get_red color_get_green ' +
+      'color_get_blue color_get_hue color_get_saturation color_get_value ' +
+      'merge_color screen_save screen_save_part draw_set_font ' +
+      'draw_set_halign draw_set_valign draw_text draw_text_ext string_width ' +
+      'string_height string_width_ext string_height_ext ' +
+      'draw_text_transformed draw_text_ext_transformed draw_text_colour ' +
+      'draw_text_ext_colour draw_text_transformed_colour ' +
+      'draw_text_ext_transformed_colour draw_text_color draw_text_ext_color ' +
+      'draw_text_transformed_color draw_text_ext_transformed_color ' +
+      'draw_point_colour draw_line_colour draw_line_width_colour ' +
+      'draw_rectangle_colour draw_roundrect_colour ' +
+      'draw_roundrect_colour_ext draw_triangle_colour draw_circle_colour ' +
+      'draw_ellipse_colour draw_point_color draw_line_color ' +
+      'draw_line_width_color draw_rectangle_color draw_roundrect_color ' +
+      'draw_roundrect_color_ext draw_triangle_color draw_circle_color ' +
+      'draw_ellipse_color draw_primitive_begin draw_vertex ' +
+      'draw_vertex_colour draw_vertex_color draw_primitive_end ' +
+      'sprite_get_uvs font_get_uvs sprite_get_texture font_get_texture ' +
+      'texture_get_width texture_get_height texture_get_uvs ' +
+      'draw_primitive_begin_texture draw_vertex_texture ' +
+      'draw_vertex_texture_colour draw_vertex_texture_color ' +
+      'texture_global_scale surface_create surface_create_ext ' +
+      'surface_resize surface_free surface_exists surface_get_width ' +
+      'surface_get_height surface_get_texture surface_set_target ' +
+      'surface_set_target_ext surface_reset_target surface_depth_disable ' +
+      'surface_get_depth_disable draw_surface draw_surface_stretched ' +
+      'draw_surface_tiled draw_surface_part draw_surface_ext ' +
+      'draw_surface_stretched_ext draw_surface_tiled_ext ' +
+      'draw_surface_part_ext draw_surface_general surface_getpixel ' +
+      'surface_getpixel_ext surface_save surface_save_part surface_copy ' +
+      'surface_copy_part application_surface_draw_enable ' +
+      'application_get_position application_surface_enable ' +
+      'application_surface_is_enabled display_get_width display_get_height ' +
+      'display_get_orientation display_get_gui_width display_get_gui_height ' +
+      'display_reset display_mouse_get_x display_mouse_get_y ' +
+      'display_mouse_set display_set_ui_visibility ' +
+      'window_set_fullscreen window_get_fullscreen ' +
+      'window_set_caption window_set_min_width window_set_max_width ' +
+      'window_set_min_height window_set_max_height window_get_visible_rects ' +
+      'window_get_caption window_set_cursor window_get_cursor ' +
+      'window_set_colour window_get_colour window_set_color ' +
+      'window_get_color window_set_position window_set_size ' +
+      'window_set_rectangle window_center window_get_x window_get_y ' +
+      'window_get_width window_get_height window_mouse_get_x ' +
+      'window_mouse_get_y window_mouse_set window_view_mouse_get_x ' +
+      'window_view_mouse_get_y window_views_mouse_get_x ' +
+      'window_views_mouse_get_y audio_listener_position ' +
+      'audio_listener_velocity audio_listener_orientation ' +
+      'audio_emitter_position audio_emitter_create audio_emitter_free ' +
+      'audio_emitter_exists audio_emitter_pitch audio_emitter_velocity ' +
+      'audio_emitter_falloff audio_emitter_gain audio_play_sound ' +
+      'audio_play_sound_on audio_play_sound_at audio_stop_sound ' +
+      'audio_resume_music audio_music_is_playing audio_resume_sound ' +
+      'audio_pause_sound audio_pause_music audio_channel_num ' +
+      'audio_sound_length audio_get_type audio_falloff_set_model ' +
+      'audio_play_music audio_stop_music audio_master_gain audio_music_gain ' +
+      'audio_sound_gain audio_sound_pitch audio_stop_all audio_resume_all ' +
+      'audio_pause_all audio_is_playing audio_is_paused audio_exists ' +
+      'audio_sound_set_track_position audio_sound_get_track_position ' +
+      'audio_emitter_get_gain audio_emitter_get_pitch audio_emitter_get_x ' +
+      'audio_emitter_get_y audio_emitter_get_z audio_emitter_get_vx ' +
+      'audio_emitter_get_vy audio_emitter_get_vz ' +
+      'audio_listener_set_position audio_listener_set_velocity ' +
+      'audio_listener_set_orientation audio_listener_get_data ' +
+      'audio_set_master_gain audio_get_master_gain audio_sound_get_gain ' +
+      'audio_sound_get_pitch audio_get_name audio_sound_set_track_position ' +
+      'audio_sound_get_track_position audio_create_stream ' +
+      'audio_destroy_stream audio_create_sync_group ' +
+      'audio_destroy_sync_group audio_play_in_sync_group ' +
+      'audio_start_sync_group audio_stop_sync_group audio_pause_sync_group ' +
+      'audio_resume_sync_group audio_sync_group_get_track_pos ' +
+      'audio_sync_group_debug audio_sync_group_is_playing audio_debug ' +
+      'audio_group_load audio_group_unload audio_group_is_loaded ' +
+      'audio_group_load_progress audio_group_name audio_group_stop_all ' +
+      'audio_group_set_gain audio_create_buffer_sound ' +
+      'audio_free_buffer_sound audio_create_play_queue ' +
+      'audio_free_play_queue audio_queue_sound audio_get_recorder_count ' +
+      'audio_get_recorder_info audio_start_recording audio_stop_recording ' +
+      'audio_sound_get_listener_mask audio_emitter_get_listener_mask ' +
+      'audio_get_listener_mask audio_sound_set_listener_mask ' +
+      'audio_emitter_set_listener_mask audio_set_listener_mask ' +
+      'audio_get_listener_count audio_get_listener_info audio_system ' +
+      'show_message show_message_async clickable_add clickable_add_ext ' +
+      'clickable_change clickable_change_ext clickable_delete ' +
+      'clickable_exists clickable_set_style show_question ' +
+      'show_question_async get_integer get_string get_integer_async ' +
+      'get_string_async get_login_async get_open_filename get_save_filename ' +
+      'get_open_filename_ext get_save_filename_ext show_error ' +
+      'highscore_clear highscore_add highscore_value highscore_name ' +
+      'draw_highscore sprite_exists sprite_get_name sprite_get_number ' +
+      'sprite_get_width sprite_get_height sprite_get_xoffset ' +
+      'sprite_get_yoffset sprite_get_bbox_left sprite_get_bbox_right ' +
+      'sprite_get_bbox_top sprite_get_bbox_bottom sprite_save ' +
+      'sprite_save_strip sprite_set_cache_size sprite_set_cache_size_ext ' +
+      'sprite_get_tpe sprite_prefetch sprite_prefetch_multi sprite_flush ' +
+      'sprite_flush_multi sprite_set_speed sprite_get_speed_type ' +
+      'sprite_get_speed font_exists font_get_name font_get_fontname ' +
+      'font_get_bold font_get_italic font_get_first font_get_last ' +
+      'font_get_size font_set_cache_size path_exists path_get_name ' +
+      'path_get_length path_get_time path_get_kind path_get_closed ' +
+      'path_get_precision path_get_number path_get_point_x path_get_point_y ' +
+      'path_get_point_speed path_get_x path_get_y path_get_speed ' +
+      'script_exists script_get_name timeline_add timeline_delete ' +
+      'timeline_clear timeline_exists timeline_get_name ' +
+      'timeline_moment_clear timeline_moment_add_script timeline_size ' +
+      'timeline_max_moment object_exists object_get_name object_get_sprite ' +
+      'object_get_solid object_get_visible object_get_persistent ' +
+      'object_get_mask object_get_parent object_get_physics ' +
+      'object_is_ancestor room_exists room_get_name sprite_set_offset ' +
+      'sprite_duplicate sprite_assign sprite_merge sprite_add ' +
+      'sprite_replace sprite_create_from_surface sprite_add_from_surface ' +
+      'sprite_delete sprite_set_alpha_from_sprite sprite_collision_mask ' +
+      'font_add_enable_aa font_add_get_enable_aa font_add font_add_sprite ' +
+      'font_add_sprite_ext font_replace font_replace_sprite ' +
+      'font_replace_sprite_ext font_delete path_set_kind path_set_closed ' +
+      'path_set_precision path_add path_assign path_duplicate path_append ' +
+      'path_delete path_add_point path_insert_point path_change_point ' +
+      'path_delete_point path_clear_points path_reverse path_mirror ' +
+      'path_flip path_rotate path_rescale path_shift script_execute ' +
+      'object_set_sprite object_set_solid object_set_visible ' +
+      'object_set_persistent object_set_mask room_set_width room_set_height ' +
+      'room_set_persistent room_set_background_colour ' +
+      'room_set_background_color room_set_view room_set_viewport ' +
+      'room_get_viewport room_set_view_enabled room_add room_duplicate ' +
+      'room_assign room_instance_add room_instance_clear room_get_camera ' +
+      'room_set_camera asset_get_index asset_get_type ' +
+      'file_text_open_from_string file_text_open_read file_text_open_write ' +
+      'file_text_open_append file_text_close file_text_write_string ' +
+      'file_text_write_real file_text_writeln file_text_read_string ' +
+      'file_text_read_real file_text_readln file_text_eof file_text_eoln ' +
+      'file_exists file_delete file_rename file_copy directory_exists ' +
+      'directory_create directory_destroy file_find_first file_find_next ' +
+      'file_find_close file_attributes filename_name filename_path ' +
+      'filename_dir filename_drive filename_ext filename_change_ext ' +
+      'file_bin_open file_bin_rewrite file_bin_close file_bin_position ' +
+      'file_bin_size file_bin_seek file_bin_write_byte file_bin_read_byte ' +
+      'parameter_count parameter_string environment_get_variable ' +
+      'ini_open_from_string ini_open ini_close ini_read_string ' +
+      'ini_read_real ini_write_string ini_write_real ini_key_exists ' +
+      'ini_section_exists ini_key_delete ini_section_delete ' +
+      'ds_set_precision ds_exists ds_stack_create ds_stack_destroy ' +
+      'ds_stack_clear ds_stack_copy ds_stack_size ds_stack_empty ' +
+      'ds_stack_push ds_stack_pop ds_stack_top ds_stack_write ds_stack_read ' +
+      'ds_queue_create ds_queue_destroy ds_queue_clear ds_queue_copy ' +
+      'ds_queue_size ds_queue_empty ds_queue_enqueue ds_queue_dequeue ' +
+      'ds_queue_head ds_queue_tail ds_queue_write ds_queue_read ' +
+      'ds_list_create ds_list_destroy ds_list_clear ds_list_copy ' +
+      'ds_list_size ds_list_empty ds_list_add ds_list_insert ' +
+      'ds_list_replace ds_list_delete ds_list_find_index ds_list_find_value ' +
+      'ds_list_mark_as_list ds_list_mark_as_map ds_list_sort ' +
+      'ds_list_shuffle ds_list_write ds_list_read ds_list_set ds_map_create ' +
+      'ds_map_destroy ds_map_clear ds_map_copy ds_map_size ds_map_empty ' +
+      'ds_map_add ds_map_add_list ds_map_add_map ds_map_replace ' +
+      'ds_map_replace_map ds_map_replace_list ds_map_delete ds_map_exists ' +
+      'ds_map_find_value ds_map_find_previous ds_map_find_next ' +
+      'ds_map_find_first ds_map_find_last ds_map_write ds_map_read ' +
+      'ds_map_secure_save ds_map_secure_load ds_map_secure_load_buffer ' +
+      'ds_map_secure_save_buffer ds_map_set ds_priority_create ' +
+      'ds_priority_destroy ds_priority_clear ds_priority_copy ' +
+      'ds_priority_size ds_priority_empty ds_priority_add ' +
+      'ds_priority_change_priority ds_priority_find_priority ' +
+      'ds_priority_delete_value ds_priority_delete_min ds_priority_find_min ' +
+      'ds_priority_delete_max ds_priority_find_max ds_priority_write ' +
+      'ds_priority_read ds_grid_create ds_grid_destroy ds_grid_copy ' +
+      'ds_grid_resize ds_grid_width ds_grid_height ds_grid_clear ' +
+      'ds_grid_set ds_grid_add ds_grid_multiply ds_grid_set_region ' +
+      'ds_grid_add_region ds_grid_multiply_region ds_grid_set_disk ' +
+      'ds_grid_add_disk ds_grid_multiply_disk ds_grid_set_grid_region ' +
+      'ds_grid_add_grid_region ds_grid_multiply_grid_region ds_grid_get ' +
+      'ds_grid_get_sum ds_grid_get_max ds_grid_get_min ds_grid_get_mean ' +
+      'ds_grid_get_disk_sum ds_grid_get_disk_min ds_grid_get_disk_max ' +
+      'ds_grid_get_disk_mean ds_grid_value_exists ds_grid_value_x ' +
+      'ds_grid_value_y ds_grid_value_disk_exists ds_grid_value_disk_x ' +
+      'ds_grid_value_disk_y ds_grid_shuffle ds_grid_write ds_grid_read ' +
+      'ds_grid_sort ds_grid_set ds_grid_get effect_create_below ' +
+      'effect_create_above effect_clear part_type_create part_type_destroy ' +
+      'part_type_exists part_type_clear part_type_shape part_type_sprite ' +
+      'part_type_size part_type_scale part_type_orientation part_type_life ' +
+      'part_type_step part_type_death part_type_speed part_type_direction ' +
+      'part_type_gravity part_type_colour1 part_type_colour2 ' +
+      'part_type_colour3 part_type_colour_mix part_type_colour_rgb ' +
+      'part_type_colour_hsv part_type_color1 part_type_color2 ' +
+      'part_type_color3 part_type_color_mix part_type_color_rgb ' +
+      'part_type_color_hsv part_type_alpha1 part_type_alpha2 ' +
+      'part_type_alpha3 part_type_blend part_system_create ' +
+      'part_system_create_layer part_system_destroy part_system_exists ' +
+      'part_system_clear part_system_draw_order part_system_depth ' +
+      'part_system_position part_system_automatic_update ' +
+      'part_system_automatic_draw part_system_update part_system_drawit ' +
+      'part_system_get_layer part_system_layer part_particles_create ' +
+      'part_particles_create_colour part_particles_create_color ' +
+      'part_particles_clear part_particles_count part_emitter_create ' +
+      'part_emitter_destroy part_emitter_destroy_all part_emitter_exists ' +
+      'part_emitter_clear part_emitter_region part_emitter_burst ' +
+      'part_emitter_stream external_call external_define external_free ' +
+      'window_handle window_device matrix_get matrix_set ' +
+      'matrix_build_identity matrix_build matrix_build_lookat ' +
+      'matrix_build_projection_ortho matrix_build_projection_perspective ' +
+      'matrix_build_projection_perspective_fov matrix_multiply ' +
+      'matrix_transform_vertex matrix_stack_push matrix_stack_pop ' +
+      'matrix_stack_multiply matrix_stack_set matrix_stack_clear ' +
+      'matrix_stack_top matrix_stack_is_empty browser_input_capture ' +
+      'os_get_config os_get_info os_get_language os_get_region ' +
+      'os_lock_orientation display_get_dpi_x display_get_dpi_y ' +
+      'display_set_gui_size display_set_gui_maximise ' +
+      'display_set_gui_maximize device_mouse_dbclick_enable ' +
+      'display_set_timing_method display_get_timing_method ' +
+      'display_set_sleep_margin display_get_sleep_margin virtual_key_add ' +
+      'virtual_key_hide virtual_key_delete virtual_key_show ' +
+      'draw_enable_drawevent draw_enable_swf_aa draw_set_swf_aa_level ' +
+      'draw_get_swf_aa_level draw_texture_flush draw_flush ' +
+      'gpu_set_blendenable gpu_set_ztestenable gpu_set_zfunc ' +
+      'gpu_set_zwriteenable gpu_set_lightingenable gpu_set_fog ' +
+      'gpu_set_cullmode gpu_set_blendmode gpu_set_blendmode_ext ' +
+      'gpu_set_blendmode_ext_sepalpha gpu_set_colorwriteenable ' +
+      'gpu_set_colourwriteenable gpu_set_alphatestenable ' +
+      'gpu_set_alphatestref gpu_set_alphatestfunc gpu_set_texfilter ' +
+      'gpu_set_texfilter_ext gpu_set_texrepeat gpu_set_texrepeat_ext ' +
+      'gpu_set_tex_filter gpu_set_tex_filter_ext gpu_set_tex_repeat ' +
+      'gpu_set_tex_repeat_ext gpu_set_tex_mip_filter ' +
+      'gpu_set_tex_mip_filter_ext gpu_set_tex_mip_bias ' +
+      'gpu_set_tex_mip_bias_ext gpu_set_tex_min_mip gpu_set_tex_min_mip_ext ' +
+      'gpu_set_tex_max_mip gpu_set_tex_max_mip_ext gpu_set_tex_max_aniso ' +
+      'gpu_set_tex_max_aniso_ext gpu_set_tex_mip_enable ' +
+      'gpu_set_tex_mip_enable_ext gpu_get_blendenable gpu_get_ztestenable ' +
+      'gpu_get_zfunc gpu_get_zwriteenable gpu_get_lightingenable ' +
+      'gpu_get_fog gpu_get_cullmode gpu_get_blendmode gpu_get_blendmode_ext ' +
+      'gpu_get_blendmode_ext_sepalpha gpu_get_blendmode_src ' +
+      'gpu_get_blendmode_dest gpu_get_blendmode_srcalpha ' +
+      'gpu_get_blendmode_destalpha gpu_get_colorwriteenable ' +
+      'gpu_get_colourwriteenable gpu_get_alphatestenable ' +
+      'gpu_get_alphatestref gpu_get_alphatestfunc gpu_get_texfilter ' +
+      'gpu_get_texfilter_ext gpu_get_texrepeat gpu_get_texrepeat_ext ' +
+      'gpu_get_tex_filter gpu_get_tex_filter_ext gpu_get_tex_repeat ' +
+      'gpu_get_tex_repeat_ext gpu_get_tex_mip_filter ' +
+      'gpu_get_tex_mip_filter_ext gpu_get_tex_mip_bias ' +
+      'gpu_get_tex_mip_bias_ext gpu_get_tex_min_mip gpu_get_tex_min_mip_ext ' +
+      'gpu_get_tex_max_mip gpu_get_tex_max_mip_ext gpu_get_tex_max_aniso ' +
+      'gpu_get_tex_max_aniso_ext gpu_get_tex_mip_enable ' +
+      'gpu_get_tex_mip_enable_ext gpu_push_state gpu_pop_state ' +
+      'gpu_get_state gpu_set_state draw_light_define_ambient ' +
+      'draw_light_define_direction draw_light_define_point ' +
+      'draw_light_enable draw_set_lighting draw_light_get_ambient ' +
+      'draw_light_get draw_get_lighting shop_leave_rating url_get_domain ' +
+      'url_open url_open_ext url_open_full get_timer achievement_login ' +
+      'achievement_logout achievement_post achievement_increment ' +
+      'achievement_post_score achievement_available ' +
+      'achievement_show_achievements achievement_show_leaderboards ' +
+      'achievement_load_friends achievement_load_leaderboard ' +
+      'achievement_send_challenge achievement_load_progress ' +
+      'achievement_reset achievement_login_status achievement_get_pic ' +
+      'achievement_show_challenge_notifications achievement_get_challenges ' +
+      'achievement_event achievement_show achievement_get_info ' +
+      'cloud_file_save cloud_string_save cloud_synchronise ads_enable ' +
+      'ads_disable ads_setup ads_engagement_launch ads_engagement_available ' +
+      'ads_engagement_active ads_event ads_event_preload ' +
+      'ads_set_reward_callback ads_get_display_height ads_get_display_width ' +
+      'ads_move ads_interstitial_available ads_interstitial_display ' +
+      'device_get_tilt_x device_get_tilt_y device_get_tilt_z ' +
+      'device_is_keypad_open device_mouse_check_button ' +
+      'device_mouse_check_button_pressed device_mouse_check_button_released ' +
+      'device_mouse_x device_mouse_y device_mouse_raw_x device_mouse_raw_y ' +
+      'device_mouse_x_to_gui device_mouse_y_to_gui iap_activate iap_status ' +
+      'iap_enumerate_products iap_restore_all iap_acquire iap_consume ' +
+      'iap_product_details iap_purchase_details facebook_init ' +
+      'facebook_login facebook_status facebook_graph_request ' +
+      'facebook_dialog facebook_logout facebook_launch_offerwall ' +
+      'facebook_post_message facebook_send_invite facebook_user_id ' +
+      'facebook_accesstoken facebook_check_permission ' +
+      'facebook_request_read_permissions ' +
+      'facebook_request_publish_permissions gamepad_is_supported ' +
+      'gamepad_get_device_count gamepad_is_connected ' +
+      'gamepad_get_description gamepad_get_button_threshold ' +
+      'gamepad_set_button_threshold gamepad_get_axis_deadzone ' +
+      'gamepad_set_axis_deadzone gamepad_button_count gamepad_button_check ' +
+      'gamepad_button_check_pressed gamepad_button_check_released ' +
+      'gamepad_button_value gamepad_axis_count gamepad_axis_value ' +
+      'gamepad_set_vibration gamepad_set_colour gamepad_set_color ' +
+      'os_is_paused window_has_focus code_is_compiled http_get ' +
+      'http_get_file http_post_string http_request json_encode json_decode ' +
+      'zip_unzip load_csv base64_encode base64_decode md5_string_unicode ' +
+      'md5_string_utf8 md5_file os_is_network_connected sha1_string_unicode ' +
+      'sha1_string_utf8 sha1_file os_powersave_enable analytics_event ' +
+      'analytics_event_ext win8_livetile_tile_notification ' +
+      'win8_livetile_tile_clear win8_livetile_badge_notification ' +
+      'win8_livetile_badge_clear win8_livetile_queue_enable ' +
+      'win8_secondarytile_pin win8_secondarytile_badge_notification ' +
+      'win8_secondarytile_delete win8_livetile_notification_begin ' +
+      'win8_livetile_notification_secondary_begin ' +
+      'win8_livetile_notification_expiry win8_livetile_notification_tag ' +
+      'win8_livetile_notification_text_add ' +
+      'win8_livetile_notification_image_add win8_livetile_notification_end ' +
+      'win8_appbar_enable win8_appbar_add_element ' +
+      'win8_appbar_remove_element win8_settingscharm_add_entry ' +
+      'win8_settingscharm_add_html_entry win8_settingscharm_add_xaml_entry ' +
+      'win8_settingscharm_set_xaml_property ' +
+      'win8_settingscharm_get_xaml_property win8_settingscharm_remove_entry ' +
+      'win8_share_image win8_share_screenshot win8_share_file ' +
+      'win8_share_url win8_share_text win8_search_enable ' +
+      'win8_search_disable win8_search_add_suggestions ' +
+      'win8_device_touchscreen_available win8_license_initialize_sandbox ' +
+      'win8_license_trial_version winphone_license_trial_version ' +
+      'winphone_tile_title winphone_tile_count winphone_tile_back_title ' +
+      'winphone_tile_back_content winphone_tile_back_content_wide ' +
+      'winphone_tile_front_image winphone_tile_front_image_small ' +
+      'winphone_tile_front_image_wide winphone_tile_back_image ' +
+      'winphone_tile_back_image_wide winphone_tile_background_colour ' +
+      'winphone_tile_background_color winphone_tile_icon_image ' +
+      'winphone_tile_small_icon_image winphone_tile_wide_content ' +
+      'winphone_tile_cycle_images winphone_tile_small_background_image ' +
+      'physics_world_create physics_world_gravity ' +
+      'physics_world_update_speed physics_world_update_iterations ' +
+      'physics_world_draw_debug physics_pause_enable physics_fixture_create ' +
+      'physics_fixture_set_kinematic physics_fixture_set_density ' +
+      'physics_fixture_set_awake physics_fixture_set_restitution ' +
+      'physics_fixture_set_friction physics_fixture_set_collision_group ' +
+      'physics_fixture_set_sensor physics_fixture_set_linear_damping ' +
+      'physics_fixture_set_angular_damping physics_fixture_set_circle_shape ' +
+      'physics_fixture_set_box_shape physics_fixture_set_edge_shape ' +
+      'physics_fixture_set_polygon_shape physics_fixture_set_chain_shape ' +
+      'physics_fixture_add_point physics_fixture_bind ' +
+      'physics_fixture_bind_ext physics_fixture_delete physics_apply_force ' +
+      'physics_apply_impulse physics_apply_angular_impulse ' +
+      'physics_apply_local_force physics_apply_local_impulse ' +
+      'physics_apply_torque physics_mass_properties physics_draw_debug ' +
+      'physics_test_overlap physics_remove_fixture physics_set_friction ' +
+      'physics_set_density physics_set_restitution physics_get_friction ' +
+      'physics_get_density physics_get_restitution ' +
+      'physics_joint_distance_create physics_joint_rope_create ' +
+      'physics_joint_revolute_create physics_joint_prismatic_create ' +
+      'physics_joint_pulley_create physics_joint_wheel_create ' +
+      'physics_joint_weld_create physics_joint_friction_create ' +
+      'physics_joint_gear_create physics_joint_enable_motor ' +
+      'physics_joint_get_value physics_joint_set_value physics_joint_delete ' +
+      'physics_particle_create physics_particle_delete ' +
+      'physics_particle_delete_region_circle ' +
+      'physics_particle_delete_region_box ' +
+      'physics_particle_delete_region_poly physics_particle_set_flags ' +
+      'physics_particle_set_category_flags physics_particle_draw ' +
+      'physics_particle_draw_ext physics_particle_count ' +
+      'physics_particle_get_data physics_particle_get_data_particle ' +
+      'physics_particle_group_begin physics_particle_group_circle ' +
+      'physics_particle_group_box physics_particle_group_polygon ' +
+      'physics_particle_group_add_point physics_particle_group_end ' +
+      'physics_particle_group_join physics_particle_group_delete ' +
+      'physics_particle_group_count physics_particle_group_get_data ' +
+      'physics_particle_group_get_mass physics_particle_group_get_inertia ' +
+      'physics_particle_group_get_centre_x ' +
+      'physics_particle_group_get_centre_y physics_particle_group_get_vel_x ' +
+      'physics_particle_group_get_vel_y physics_particle_group_get_ang_vel ' +
+      'physics_particle_group_get_x physics_particle_group_get_y ' +
+      'physics_particle_group_get_angle physics_particle_set_group_flags ' +
+      'physics_particle_get_group_flags physics_particle_get_max_count ' +
+      'physics_particle_get_radius physics_particle_get_density ' +
+      'physics_particle_get_damping physics_particle_get_gravity_scale ' +
+      'physics_particle_set_max_count physics_particle_set_radius ' +
+      'physics_particle_set_density physics_particle_set_damping ' +
+      'physics_particle_set_gravity_scale network_create_socket ' +
+      'network_create_socket_ext network_create_server ' +
+      'network_create_server_raw network_connect network_connect_raw ' +
+      'network_send_packet network_send_raw network_send_broadcast ' +
+      'network_send_udp network_send_udp_raw network_set_timeout ' +
+      'network_set_config network_resolve network_destroy buffer_create ' +
+      'buffer_write buffer_read buffer_seek buffer_get_surface ' +
+      'buffer_set_surface buffer_delete buffer_exists buffer_get_type ' +
+      'buffer_get_alignment buffer_poke buffer_peek buffer_save ' +
+      'buffer_save_ext buffer_load buffer_load_ext buffer_load_partial ' +
+      'buffer_copy buffer_fill buffer_get_size buffer_tell buffer_resize ' +
+      'buffer_md5 buffer_sha1 buffer_base64_encode buffer_base64_decode ' +
+      'buffer_base64_decode_ext buffer_sizeof buffer_get_address ' +
+      'buffer_create_from_vertex_buffer ' +
+      'buffer_create_from_vertex_buffer_ext buffer_copy_from_vertex_buffer ' +
+      'buffer_async_group_begin buffer_async_group_option ' +
+      'buffer_async_group_end buffer_load_async buffer_save_async ' +
+      'gml_release_mode gml_pragma steam_activate_overlay ' +
+      'steam_is_overlay_enabled steam_is_overlay_activated ' +
+      'steam_get_persona_name steam_initialised ' +
+      'steam_is_cloud_enabled_for_app steam_is_cloud_enabled_for_account ' +
+      'steam_file_persisted steam_get_quota_total steam_get_quota_free ' +
+      'steam_file_write steam_file_write_file steam_file_read ' +
+      'steam_file_delete steam_file_exists steam_file_size steam_file_share ' +
+      'steam_is_screenshot_requested steam_send_screenshot ' +
+      'steam_is_user_logged_on steam_get_user_steam_id steam_user_owns_dlc ' +
+      'steam_user_installed_dlc steam_set_achievement steam_get_achievement ' +
+      'steam_clear_achievement steam_set_stat_int steam_set_stat_float ' +
+      'steam_set_stat_avg_rate steam_get_stat_int steam_get_stat_float ' +
+      'steam_get_stat_avg_rate steam_reset_all_stats ' +
+      'steam_reset_all_stats_achievements steam_stats_ready ' +
+      'steam_create_leaderboard steam_upload_score steam_upload_score_ext ' +
+      'steam_download_scores_around_user steam_download_scores ' +
+      'steam_download_friends_scores steam_upload_score_buffer ' +
+      'steam_upload_score_buffer_ext steam_current_game_language ' +
+      'steam_available_languages steam_activate_overlay_browser ' +
+      'steam_activate_overlay_user steam_activate_overlay_store ' +
+      'steam_get_user_persona_name steam_get_app_id ' +
+      'steam_get_user_account_id steam_ugc_download steam_ugc_create_item ' +
+      'steam_ugc_start_item_update steam_ugc_set_item_title ' +
+      'steam_ugc_set_item_description steam_ugc_set_item_visibility ' +
+      'steam_ugc_set_item_tags steam_ugc_set_item_content ' +
+      'steam_ugc_set_item_preview steam_ugc_submit_item_update ' +
+      'steam_ugc_get_item_update_progress steam_ugc_subscribe_item ' +
+      'steam_ugc_unsubscribe_item steam_ugc_num_subscribed_items ' +
+      'steam_ugc_get_subscribed_items steam_ugc_get_item_install_info ' +
+      'steam_ugc_get_item_update_info steam_ugc_request_item_details ' +
+      'steam_ugc_create_query_user steam_ugc_create_query_user_ex ' +
+      'steam_ugc_create_query_all steam_ugc_create_query_all_ex ' +
+      'steam_ugc_query_set_cloud_filename_filter ' +
+      'steam_ugc_query_set_match_any_tag steam_ugc_query_set_search_text ' +
+      'steam_ugc_query_set_ranked_by_trend_days ' +
+      'steam_ugc_query_add_required_tag steam_ugc_query_add_excluded_tag ' +
+      'steam_ugc_query_set_return_long_description ' +
+      'steam_ugc_query_set_return_total_only ' +
+      'steam_ugc_query_set_allow_cached_response steam_ugc_send_query ' +
+      'shader_set shader_get_name shader_reset shader_current ' +
+      'shader_is_compiled shader_get_sampler_index shader_get_uniform ' +
+      'shader_set_uniform_i shader_set_uniform_i_array shader_set_uniform_f ' +
+      'shader_set_uniform_f_array shader_set_uniform_matrix ' +
+      'shader_set_uniform_matrix_array shader_enable_corner_id ' +
+      'texture_set_stage texture_get_texel_width texture_get_texel_height ' +
+      'shaders_are_supported vertex_format_begin vertex_format_end ' +
+      'vertex_format_delete vertex_format_add_position ' +
+      'vertex_format_add_position_3d vertex_format_add_colour ' +
+      'vertex_format_add_color vertex_format_add_normal ' +
+      'vertex_format_add_texcoord vertex_format_add_textcoord ' +
+      'vertex_format_add_custom vertex_create_buffer ' +
+      'vertex_create_buffer_ext vertex_delete_buffer vertex_begin ' +
+      'vertex_end vertex_position vertex_position_3d vertex_colour ' +
+      'vertex_color vertex_argb vertex_texcoord vertex_normal vertex_float1 ' +
+      'vertex_float2 vertex_float3 vertex_float4 vertex_ubyte4 ' +
+      'vertex_submit vertex_freeze vertex_get_number vertex_get_buffer_size ' +
+      'vertex_create_buffer_from_buffer ' +
+      'vertex_create_buffer_from_buffer_ext push_local_notification ' +
+      'push_get_first_local_notification push_get_next_local_notification ' +
+      'push_cancel_local_notification skeleton_animation_set ' +
+      'skeleton_animation_get skeleton_animation_mix ' +
+      'skeleton_animation_set_ext skeleton_animation_get_ext ' +
+      'skeleton_animation_get_duration skeleton_animation_get_frames ' +
+      'skeleton_animation_clear skeleton_skin_set skeleton_skin_get ' +
+      'skeleton_attachment_set skeleton_attachment_get ' +
+      'skeleton_attachment_create skeleton_collision_draw_set ' +
+      'skeleton_bone_data_get skeleton_bone_data_set ' +
+      'skeleton_bone_state_get skeleton_bone_state_set skeleton_get_minmax ' +
+      'skeleton_get_num_bounds skeleton_get_bounds ' +
+      'skeleton_animation_get_frame skeleton_animation_set_frame ' +
+      'draw_skeleton draw_skeleton_time draw_skeleton_instance ' +
+      'draw_skeleton_collision skeleton_animation_list skeleton_skin_list ' +
+      'skeleton_slot_data layer_get_id layer_get_id_at_depth ' +
+      'layer_get_depth layer_create layer_destroy layer_destroy_instances ' +
+      'layer_add_instance layer_has_instance layer_set_visible ' +
+      'layer_get_visible layer_exists layer_x layer_y layer_get_x ' +
+      'layer_get_y layer_hspeed layer_vspeed layer_get_hspeed ' +
+      'layer_get_vspeed layer_script_begin layer_script_end layer_shader ' +
+      'layer_get_script_begin layer_get_script_end layer_get_shader ' +
+      'layer_set_target_room layer_get_target_room layer_reset_target_room ' +
+      'layer_get_all layer_get_all_elements layer_get_name layer_depth ' +
+      'layer_get_element_layer layer_get_element_type layer_element_move ' +
+      'layer_force_draw_depth layer_is_draw_depth_forced ' +
+      'layer_get_forced_depth layer_background_get_id ' +
+      'layer_background_exists layer_background_create ' +
+      'layer_background_destroy layer_background_visible ' +
+      'layer_background_change layer_background_sprite ' +
+      'layer_background_htiled layer_background_vtiled ' +
+      'layer_background_stretch layer_background_yscale ' +
+      'layer_background_xscale layer_background_blend ' +
+      'layer_background_alpha layer_background_index layer_background_speed ' +
+      'layer_background_get_visible layer_background_get_sprite ' +
+      'layer_background_get_htiled layer_background_get_vtiled ' +
+      'layer_background_get_stretch layer_background_get_yscale ' +
+      'layer_background_get_xscale layer_background_get_blend ' +
+      'layer_background_get_alpha layer_background_get_index ' +
+      'layer_background_get_speed layer_sprite_get_id layer_sprite_exists ' +
+      'layer_sprite_create layer_sprite_destroy layer_sprite_change ' +
+      'layer_sprite_index layer_sprite_speed layer_sprite_xscale ' +
+      'layer_sprite_yscale layer_sprite_angle layer_sprite_blend ' +
+      'layer_sprite_alpha layer_sprite_x layer_sprite_y ' +
+      'layer_sprite_get_sprite layer_sprite_get_index ' +
+      'layer_sprite_get_speed layer_sprite_get_xscale ' +
+      'layer_sprite_get_yscale layer_sprite_get_angle ' +
+      'layer_sprite_get_blend layer_sprite_get_alpha layer_sprite_get_x ' +
+      'layer_sprite_get_y layer_tilemap_get_id layer_tilemap_exists ' +
+      'layer_tilemap_create layer_tilemap_destroy tilemap_tileset tilemap_x ' +
+      'tilemap_y tilemap_set tilemap_set_at_pixel tilemap_get_tileset ' +
+      'tilemap_get_tile_width tilemap_get_tile_height tilemap_get_width ' +
+      'tilemap_get_height tilemap_get_x tilemap_get_y tilemap_get ' +
+      'tilemap_get_at_pixel tilemap_get_cell_x_at_pixel ' +
+      'tilemap_get_cell_y_at_pixel tilemap_clear draw_tilemap draw_tile ' +
+      'tilemap_set_global_mask tilemap_get_global_mask tilemap_set_mask ' +
+      'tilemap_get_mask tilemap_get_frame tile_set_empty tile_set_index ' +
+      'tile_set_flip tile_set_mirror tile_set_rotate tile_get_empty ' +
+      'tile_get_index tile_get_flip tile_get_mirror tile_get_rotate ' +
+      'layer_tile_exists layer_tile_create layer_tile_destroy ' +
+      'layer_tile_change layer_tile_xscale layer_tile_yscale ' +
+      'layer_tile_blend layer_tile_alpha layer_tile_x layer_tile_y ' +
+      'layer_tile_region layer_tile_visible layer_tile_get_sprite ' +
+      'layer_tile_get_xscale layer_tile_get_yscale layer_tile_get_blend ' +
+      'layer_tile_get_alpha layer_tile_get_x layer_tile_get_y ' +
+      'layer_tile_get_region layer_tile_get_visible ' +
+      'layer_instance_get_instance instance_activate_layer ' +
+      'instance_deactivate_layer camera_create camera_create_view ' +
+      'camera_destroy camera_apply camera_get_active camera_get_default ' +
+      'camera_set_default camera_set_view_mat camera_set_proj_mat ' +
+      'camera_set_update_script camera_set_begin_script ' +
+      'camera_set_end_script camera_set_view_pos camera_set_view_size ' +
+      'camera_set_view_speed camera_set_view_border camera_set_view_angle ' +
+      'camera_set_view_target camera_get_view_mat camera_get_proj_mat ' +
+      'camera_get_update_script camera_get_begin_script ' +
+      'camera_get_end_script camera_get_view_x camera_get_view_y ' +
+      'camera_get_view_width camera_get_view_height camera_get_view_speed_x ' +
+      'camera_get_view_speed_y camera_get_view_border_x ' +
+      'camera_get_view_border_y camera_get_view_angle ' +
+      'camera_get_view_target view_get_camera view_get_visible ' +
+      'view_get_xport view_get_yport view_get_wport view_get_hport ' +
+      'view_get_surface_id view_set_camera view_set_visible view_set_xport ' +
+      'view_set_yport view_set_wport view_set_hport view_set_surface_id ' +
+      'gesture_drag_time gesture_drag_distance gesture_flick_speed ' +
+      'gesture_double_tap_time gesture_double_tap_distance ' +
+      'gesture_pinch_distance gesture_pinch_angle_towards ' +
+      'gesture_pinch_angle_away gesture_rotate_time gesture_rotate_angle ' +
+      'gesture_tap_count gesture_get_drag_time gesture_get_drag_distance ' +
+      'gesture_get_flick_speed gesture_get_double_tap_time ' +
+      'gesture_get_double_tap_distance gesture_get_pinch_distance ' +
+      'gesture_get_pinch_angle_towards gesture_get_pinch_angle_away ' +
+      'gesture_get_rotate_time gesture_get_rotate_angle ' +
+      'gesture_get_tap_count keyboard_virtual_show keyboard_virtual_hide ' +
+      'keyboard_virtual_status keyboard_virtual_height',
+    literal: 'self other all noone global local undefined pointer_invalid ' +
+      'pointer_null path_action_stop path_action_restart ' +
+      'path_action_continue path_action_reverse true false pi GM_build_date ' +
+      'GM_version GM_runtime_version  timezone_local timezone_utc ' +
+      'gamespeed_fps gamespeed_microseconds  ev_create ev_destroy ev_step ' +
+      'ev_alarm ev_keyboard ev_mouse ev_collision ev_other ev_draw ' +
+      'ev_draw_begin ev_draw_end ev_draw_pre ev_draw_post ev_keypress ' +
+      'ev_keyrelease ev_trigger ev_left_button ev_right_button ' +
+      'ev_middle_button ev_no_button ev_left_press ev_right_press ' +
+      'ev_middle_press ev_left_release ev_right_release ev_middle_release ' +
+      'ev_mouse_enter ev_mouse_leave ev_mouse_wheel_up ev_mouse_wheel_down ' +
+      'ev_global_left_button ev_global_right_button ev_global_middle_button ' +
+      'ev_global_left_press ev_global_right_press ev_global_middle_press ' +
+      'ev_global_left_release ev_global_right_release ' +
+      'ev_global_middle_release ev_joystick1_left ev_joystick1_right ' +
+      'ev_joystick1_up ev_joystick1_down ev_joystick1_button1 ' +
+      'ev_joystick1_button2 ev_joystick1_button3 ev_joystick1_button4 ' +
+      'ev_joystick1_button5 ev_joystick1_button6 ev_joystick1_button7 ' +
+      'ev_joystick1_button8 ev_joystick2_left ev_joystick2_right ' +
+      'ev_joystick2_up ev_joystick2_down ev_joystick2_button1 ' +
+      'ev_joystick2_button2 ev_joystick2_button3 ev_joystick2_button4 ' +
+      'ev_joystick2_button5 ev_joystick2_button6 ev_joystick2_button7 ' +
+      'ev_joystick2_button8 ev_outside ev_boundary ev_game_start ' +
+      'ev_game_end ev_room_start ev_room_end ev_no_more_lives ' +
+      'ev_animation_end ev_end_of_path ev_no_more_health ev_close_button ' +
+      'ev_user0 ev_user1 ev_user2 ev_user3 ev_user4 ev_user5 ev_user6 ' +
+      'ev_user7 ev_user8 ev_user9 ev_user10 ev_user11 ev_user12 ev_user13 ' +
+      'ev_user14 ev_user15 ev_step_normal ev_step_begin ev_step_end ev_gui ' +
+      'ev_gui_begin ev_gui_end ev_cleanup ev_gesture ev_gesture_tap ' +
+      'ev_gesture_double_tap ev_gesture_drag_start ev_gesture_dragging ' +
+      'ev_gesture_drag_end ev_gesture_flick ev_gesture_pinch_start ' +
+      'ev_gesture_pinch_in ev_gesture_pinch_out ev_gesture_pinch_end ' +
+      'ev_gesture_rotate_start ev_gesture_rotating ev_gesture_rotate_end ' +
+      'ev_global_gesture_tap ev_global_gesture_double_tap ' +
+      'ev_global_gesture_drag_start ev_global_gesture_dragging ' +
+      'ev_global_gesture_drag_end ev_global_gesture_flick ' +
+      'ev_global_gesture_pinch_start ev_global_gesture_pinch_in ' +
+      'ev_global_gesture_pinch_out ev_global_gesture_pinch_end ' +
+      'ev_global_gesture_rotate_start ev_global_gesture_rotating ' +
+      'ev_global_gesture_rotate_end vk_nokey vk_anykey vk_enter vk_return ' +
+      'vk_shift vk_control vk_alt vk_escape vk_space vk_backspace vk_tab ' +
+      'vk_pause vk_printscreen vk_left vk_right vk_up vk_down vk_home ' +
+      'vk_end vk_delete vk_insert vk_pageup vk_pagedown vk_f1 vk_f2 vk_f3 ' +
+      'vk_f4 vk_f5 vk_f6 vk_f7 vk_f8 vk_f9 vk_f10 vk_f11 vk_f12 vk_numpad0 ' +
+      'vk_numpad1 vk_numpad2 vk_numpad3 vk_numpad4 vk_numpad5 vk_numpad6 ' +
+      'vk_numpad7 vk_numpad8 vk_numpad9 vk_divide vk_multiply vk_subtract ' +
+      'vk_add vk_decimal vk_lshift vk_lcontrol vk_lalt vk_rshift ' +
+      'vk_rcontrol vk_ralt  mb_any mb_none mb_left mb_right mb_middle ' +
+      'c_aqua c_black c_blue c_dkgray c_fuchsia c_gray c_green c_lime ' +
+      'c_ltgray c_maroon c_navy c_olive c_purple c_red c_silver c_teal ' +
+      'c_white c_yellow c_orange fa_left fa_center fa_right fa_top ' +
+      'fa_middle fa_bottom pr_pointlist pr_linelist pr_linestrip ' +
+      'pr_trianglelist pr_trianglestrip pr_trianglefan bm_complex bm_normal ' +
+      'bm_add bm_max bm_subtract bm_zero bm_one bm_src_colour ' +
+      'bm_inv_src_colour bm_src_color bm_inv_src_color bm_src_alpha ' +
+      'bm_inv_src_alpha bm_dest_alpha bm_inv_dest_alpha bm_dest_colour ' +
+      'bm_inv_dest_colour bm_dest_color bm_inv_dest_color bm_src_alpha_sat ' +
+      'tf_point tf_linear tf_anisotropic mip_off mip_on mip_markedonly ' +
+      'audio_falloff_none audio_falloff_inverse_distance ' +
+      'audio_falloff_inverse_distance_clamped audio_falloff_linear_distance ' +
+      'audio_falloff_linear_distance_clamped ' +
+      'audio_falloff_exponent_distance ' +
+      'audio_falloff_exponent_distance_clamped audio_old_system ' +
+      'audio_new_system audio_mono audio_stereo audio_3d cr_default cr_none ' +
+      'cr_arrow cr_cross cr_beam cr_size_nesw cr_size_ns cr_size_nwse ' +
+      'cr_size_we cr_uparrow cr_hourglass cr_drag cr_appstart cr_handpoint ' +
+      'cr_size_all spritespeed_framespersecond ' +
+      'spritespeed_framespergameframe asset_object asset_unknown ' +
+      'asset_sprite asset_sound asset_room asset_path asset_script ' +
+      'asset_font asset_timeline asset_tiles asset_shader fa_readonly ' +
+      'fa_hidden fa_sysfile fa_volumeid fa_directory fa_archive  ' +
+      'ds_type_map ds_type_list ds_type_stack ds_type_queue ds_type_grid ' +
+      'ds_type_priority ef_explosion ef_ring ef_ellipse ef_firework ' +
+      'ef_smoke ef_smokeup ef_star ef_spark ef_flare ef_cloud ef_rain ' +
+      'ef_snow pt_shape_pixel pt_shape_disk pt_shape_square pt_shape_line ' +
+      'pt_shape_star pt_shape_circle pt_shape_ring pt_shape_sphere ' +
+      'pt_shape_flare pt_shape_spark pt_shape_explosion pt_shape_cloud ' +
+      'pt_shape_smoke pt_shape_snow ps_distr_linear ps_distr_gaussian ' +
+      'ps_distr_invgaussian ps_shape_rectangle ps_shape_ellipse ' +
+      'ps_shape_diamond ps_shape_line ty_real ty_string dll_cdecl ' +
+      'dll_stdcall matrix_view matrix_projection matrix_world os_win32 ' +
+      'os_windows os_macosx os_ios os_android os_symbian os_linux ' +
+      'os_unknown os_winphone os_tizen os_win8native ' +
+      'os_wiiu os_3ds  os_psvita os_bb10 os_ps4 os_xboxone ' +
+      'os_ps3 os_xbox360 os_uwp os_tvos os_switch ' +
+      'browser_not_a_browser browser_unknown browser_ie browser_firefox ' +
+      'browser_chrome browser_safari browser_safari_mobile browser_opera ' +
+      'browser_tizen browser_edge browser_windows_store browser_ie_mobile  ' +
+      'device_ios_unknown device_ios_iphone device_ios_iphone_retina ' +
+      'device_ios_ipad device_ios_ipad_retina device_ios_iphone5 ' +
+      'device_ios_iphone6 device_ios_iphone6plus device_emulator ' +
+      'device_tablet display_landscape display_landscape_flipped ' +
+      'display_portrait display_portrait_flipped tm_sleep tm_countvsyncs ' +
+      'of_challenge_win of_challen ge_lose of_challenge_tie ' +
+      'leaderboard_type_number leaderboard_type_time_mins_secs ' +
+      'cmpfunc_never cmpfunc_less cmpfunc_equal cmpfunc_lessequal ' +
+      'cmpfunc_greater cmpfunc_notequal cmpfunc_greaterequal cmpfunc_always ' +
+      'cull_noculling cull_clockwise cull_counterclockwise lighttype_dir ' +
+      'lighttype_point iap_ev_storeload iap_ev_product iap_ev_purchase ' +
+      'iap_ev_consume iap_ev_restore iap_storeload_ok iap_storeload_failed ' +
+      'iap_status_uninitialised iap_status_unavailable iap_status_loading ' +
+      'iap_status_available iap_status_processing iap_status_restoring ' +
+      'iap_failed iap_unavailable iap_available iap_purchased iap_canceled ' +
+      'iap_refunded fb_login_default fb_login_fallback_to_webview ' +
+      'fb_login_no_fallback_to_webview fb_login_forcing_webview ' +
+      'fb_login_use_system_account fb_login_forcing_safari  ' +
+      'phy_joint_anchor_1_x phy_joint_anchor_1_y phy_joint_anchor_2_x ' +
+      'phy_joint_anchor_2_y phy_joint_reaction_force_x ' +
+      'phy_joint_reaction_force_y phy_joint_reaction_torque ' +
+      'phy_joint_motor_speed phy_joint_angle phy_joint_motor_torque ' +
+      'phy_joint_max_motor_torque phy_joint_translation phy_joint_speed ' +
+      'phy_joint_motor_force phy_joint_max_motor_force phy_joint_length_1 ' +
+      'phy_joint_length_2 phy_joint_damping_ratio phy_joint_frequency ' +
+      'phy_joint_lower_angle_limit phy_joint_upper_angle_limit ' +
+      'phy_joint_angle_limits phy_joint_max_length phy_joint_max_torque ' +
+      'phy_joint_max_force phy_debug_render_aabb ' +
+      'phy_debug_render_collision_pairs phy_debug_render_coms ' +
+      'phy_debug_render_core_shapes phy_debug_render_joints ' +
+      'phy_debug_render_obb phy_debug_render_shapes  ' +
+      'phy_particle_flag_water phy_particle_flag_zombie ' +
+      'phy_particle_flag_wall phy_particle_flag_spring ' +
+      'phy_particle_flag_elastic phy_particle_flag_viscous ' +
+      'phy_particle_flag_powder phy_particle_flag_tensile ' +
+      'phy_particle_flag_colourmixing phy_particle_flag_colormixing ' +
+      'phy_particle_group_flag_solid phy_particle_group_flag_rigid ' +
+      'phy_particle_data_flag_typeflags phy_particle_data_flag_position ' +
+      'phy_particle_data_flag_velocity phy_particle_data_flag_colour ' +
+      'phy_particle_data_flag_color phy_particle_data_flag_category  ' +
+      'achievement_our_info achievement_friends_info ' +
+      'achievement_leaderboard_info achievement_achievement_info ' +
+      'achievement_filter_all_players achievement_filter_friends_only ' +
+      'achievement_filter_favorites_only ' +
+      'achievement_type_achievement_challenge ' +
+      'achievement_type_score_challenge achievement_pic_loaded  ' +
+      'achievement_show_ui achievement_show_profile ' +
+      'achievement_show_leaderboard achievement_show_achievement ' +
+      'achievement_show_bank achievement_show_friend_picker ' +
+      'achievement_show_purchase_prompt network_socket_tcp ' +
+      'network_socket_udp network_socket_bluetooth network_type_connect ' +
+      'network_type_disconnect network_type_data ' +
+      'network_type_non_blocking_connect network_config_connect_timeout ' +
+      'network_config_use_non_blocking_socket ' +
+      'network_config_enable_reliable_udp ' +
+      'network_config_disable_reliable_udp buffer_fixed buffer_grow ' +
+      'buffer_wrap buffer_fast buffer_vbuffer buffer_network buffer_u8 ' +
+      'buffer_s8 buffer_u16 buffer_s16 buffer_u32 buffer_s32 buffer_u64 ' +
+      'buffer_f16 buffer_f32 buffer_f64 buffer_bool buffer_text ' +
+      'buffer_string buffer_surface_copy buffer_seek_start ' +
+      'buffer_seek_relative buffer_seek_end ' +
+      'buffer_generalerror buffer_outofspace buffer_outofbounds ' +
+      'buffer_invalidtype  text_type button_type input_type ANSI_CHARSET ' +
+      'DEFAULT_CHARSET EASTEUROPE_CHARSET RUSSIAN_CHARSET SYMBOL_CHARSET ' +
+      'SHIFTJIS_CHARSET HANGEUL_CHARSET GB2312_CHARSET CHINESEBIG5_CHARSET ' +
+      'JOHAB_CHARSET HEBREW_CHARSET ARABIC_CHARSET GREEK_CHARSET ' +
+      'TURKISH_CHARSET VIETNAMESE_CHARSET THAI_CHARSET MAC_CHARSET ' +
+      'BALTIC_CHARSET OEM_CHARSET  gp_face1 gp_face2 gp_face3 gp_face4 ' +
+      'gp_shoulderl gp_shoulderr gp_shoulderlb gp_shoulderrb gp_select ' +
+      'gp_start gp_stickl gp_stickr gp_padu gp_padd gp_padl gp_padr ' +
+      'gp_axislh gp_axislv gp_axisrh gp_axisrv ov_friends ov_community ' +
+      'ov_players ov_settings ov_gamegroup ov_achievements lb_sort_none ' +
+      'lb_sort_ascending lb_sort_descending lb_disp_none lb_disp_numeric ' +
+      'lb_disp_time_sec lb_disp_time_ms ugc_result_success ' +
+      'ugc_filetype_community ugc_filetype_microtrans ugc_visibility_public ' +
+      'ugc_visibility_friends_only ugc_visibility_private ' +
+      'ugc_query_RankedByVote ugc_query_RankedByPublicationDate ' +
+      'ugc_query_AcceptedForGameRankedByAcceptanceDate ' +
+      'ugc_query_RankedByTrend ' +
+      'ugc_query_FavoritedByFriendsRankedByPublicationDate ' +
+      'ugc_query_CreatedByFriendsRankedByPublicationDate ' +
+      'ugc_query_RankedByNumTimesReported ' +
+      'ugc_query_CreatedByFollowedUsersRankedByPublicationDate ' +
+      'ugc_query_NotYetRated ugc_query_RankedByTotalVotesAsc ' +
+      'ugc_query_RankedByVotesUp ugc_query_RankedByTextSearch ' +
+      'ugc_sortorder_CreationOrderDesc ugc_sortorder_CreationOrderAsc ' +
+      'ugc_sortorder_TitleAsc ugc_sortorder_LastUpdatedDesc ' +
+      'ugc_sortorder_SubscriptionDateDesc ugc_sortorder_VoteScoreDesc ' +
+      'ugc_sortorder_ForModeration ugc_list_Published ugc_list_VotedOn ' +
+      'ugc_list_VotedUp ugc_list_VotedDown ugc_list_WillVoteLater ' +
+      'ugc_list_Favorited ugc_list_Subscribed ugc_list_UsedOrPlayed ' +
+      'ugc_list_Followed ugc_match_Items ugc_match_Items_Mtx ' +
+      'ugc_match_Items_ReadyToUse ugc_match_Collections ugc_match_Artwork ' +
+      'ugc_match_Videos ugc_match_Screenshots ugc_match_AllGuides ' +
+      'ugc_match_WebGuides ugc_match_IntegratedGuides ' +
+      'ugc_match_UsableInGame ugc_match_ControllerBindings  ' +
+      'vertex_usage_position vertex_usage_colour vertex_usage_color ' +
+      'vertex_usage_normal vertex_usage_texcoord vertex_usage_textcoord ' +
+      'vertex_usage_blendweight vertex_usage_blendindices ' +
+      'vertex_usage_psize vertex_usage_tangent vertex_usage_binormal ' +
+      'vertex_usage_fog vertex_usage_depth vertex_usage_sample ' +
+      'vertex_type_float1 vertex_type_float2 vertex_type_float3 ' +
+      'vertex_type_float4 vertex_type_colour vertex_type_color ' +
+      'vertex_type_ubyte4 layerelementtype_undefined ' +
+      'layerelementtype_background layerelementtype_instance ' +
+      'layerelementtype_oldtilemap layerelementtype_sprite ' +
+      'layerelementtype_tilemap layerelementtype_particlesystem ' +
+      'layerelementtype_tile tile_rotate tile_flip tile_mirror ' +
+      'tile_index_mask kbv_type_default kbv_type_ascii kbv_type_url ' +
+      'kbv_type_email kbv_type_numbers kbv_type_phone kbv_type_phone_name ' +
+      'kbv_returnkey_default kbv_returnkey_go kbv_returnkey_google ' +
+      'kbv_returnkey_join kbv_returnkey_next kbv_returnkey_route ' +
+      'kbv_returnkey_search kbv_returnkey_send kbv_returnkey_yahoo ' +
+      'kbv_returnkey_done kbv_returnkey_continue kbv_returnkey_emergency ' +
+      'kbv_autocapitalize_none kbv_autocapitalize_words ' +
+      'kbv_autocapitalize_sentences kbv_autocapitalize_characters',
+    symbol: 'argument_relative argument argument0 argument1 argument2 ' +
+      'argument3 argument4 argument5 argument6 argument7 argument8 ' +
+      'argument9 argument10 argument11 argument12 argument13 argument14 ' +
+      'argument15 argument_count x y xprevious yprevious xstart ystart ' +
+      'hspeed vspeed direction speed friction gravity gravity_direction ' +
+      'path_index path_position path_positionprevious path_speed ' +
+      'path_scale path_orientation path_endaction object_index id solid ' +
+      'persistent mask_index instance_count instance_id room_speed fps ' +
+      'fps_real current_time current_year current_month current_day ' +
+      'current_weekday current_hour current_minute current_second alarm ' +
+      'timeline_index timeline_position timeline_speed timeline_running ' +
+      'timeline_loop room room_first room_last room_width room_height ' +
+      'room_caption room_persistent score lives health show_score ' +
+      'show_lives show_health caption_score caption_lives caption_health ' +
+      'event_type event_number event_object event_action ' +
+      'application_surface gamemaker_pro gamemaker_registered ' +
+      'gamemaker_version error_occurred error_last debug_mode ' +
+      'keyboard_key keyboard_lastkey keyboard_lastchar keyboard_string ' +
+      'mouse_x mouse_y mouse_button mouse_lastbutton cursor_sprite ' +
+      'visible sprite_index sprite_width sprite_height sprite_xoffset ' +
+      'sprite_yoffset image_number image_index image_speed depth ' +
+      'image_xscale image_yscale image_angle image_alpha image_blend ' +
+      'bbox_left bbox_right bbox_top bbox_bottom layer background_colour  ' +
+      'background_showcolour background_color background_showcolor ' +
+      'view_enabled view_current view_visible view_xview view_yview ' +
+      'view_wview view_hview view_xport view_yport view_wport view_hport ' +
+      'view_angle view_hborder view_vborder view_hspeed view_vspeed ' +
+      'view_object view_surface_id view_camera game_id game_display_name ' +
+      'game_project_name game_save_id working_directory temp_directory ' +
+      'program_directory browser_width browser_height os_type os_device ' +
+      'os_browser os_version display_aa async_load delta_time ' +
+      'webgl_enabled event_data iap_data phy_rotation phy_position_x ' +
+      'phy_position_y phy_angular_velocity phy_linear_velocity_x ' +
+      'phy_linear_velocity_y phy_speed_x phy_speed_y phy_speed ' +
+      'phy_angular_damping phy_linear_damping phy_bullet ' +
+      'phy_fixed_rotation phy_active phy_mass phy_inertia phy_com_x ' +
+      'phy_com_y phy_dynamic phy_kinematic phy_sleeping ' +
+      'phy_collision_points phy_collision_x phy_collision_y ' +
+      'phy_col_normal_x phy_col_normal_y phy_position_xprevious ' +
+      'phy_position_yprevious'
+  };
+
+  return {
+    aliases: ['gml', 'GML'],
+    case_insensitive: false, // language is case-insensitive
+    keywords: GML_KEYWORDS,
+
+    contains: [
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      hljs.APOS_STRING_MODE,
+      hljs.QUOTE_STRING_MODE,
+      hljs.C_NUMBER_MODE
+    ]
+  };
+};
+});
 ___scope___.file("lib/languages/go.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
@@ -19639,13 +20848,3188 @@ module.exports = function(hljs) {
   };
 };
 });
+___scope___.file("lib/languages/isbl.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+  // Определение идентификаторов
+  var UNDERSCORE_IDENT_RE = "[A-Za-zА-Яа-яёЁ_!][A-Za-zА-Яа-яёЁ_0-9]*";
+
+  // Определение имен функций
+  var FUNCTION_NAME_IDENT_RE = "[A-Za-zА-Яа-яёЁ_][A-Za-zА-Яа-яёЁ_0-9]*";
+
+  // keyword : ключевые слова
+  var KEYWORD =
+    "and и else иначе endexcept endfinally endforeach конецвсе endif конецесли endwhile конецпока " +
+    "except exitfor finally foreach все if если in в not не or или try while пока ";
+
+  // SYSRES Constants
+  var sysres_constants =
+    "SYSRES_CONST_ACCES_RIGHT_TYPE_EDIT " +
+    "SYSRES_CONST_ACCES_RIGHT_TYPE_FULL " +
+    "SYSRES_CONST_ACCES_RIGHT_TYPE_VIEW " +
+    "SYSRES_CONST_ACCESS_MODE_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_NO_ACCESS_VIEW " +
+    "SYSRES_CONST_ACCESS_NO_ACCESS_VIEW_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_ADD_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_ADD_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_CHANGE_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_CHANGE_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_DELETE_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_DELETE_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_EXECUTE_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_EXECUTE_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_NO_ACCESS_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_NO_ACCESS_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_RATIFY_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_RATIFY_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_VIEW " +
+    "SYSRES_CONST_ACCESS_RIGHTS_VIEW_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_VIEW_REQUISITE_CODE " +
+    "SYSRES_CONST_ACCESS_RIGHTS_VIEW_REQUISITE_YES_CODE " +
+    "SYSRES_CONST_ACCESS_TYPE_CHANGE " +
+    "SYSRES_CONST_ACCESS_TYPE_CHANGE_CODE " +
+    "SYSRES_CONST_ACCESS_TYPE_EXISTS " +
+    "SYSRES_CONST_ACCESS_TYPE_EXISTS_CODE " +
+    "SYSRES_CONST_ACCESS_TYPE_FULL " +
+    "SYSRES_CONST_ACCESS_TYPE_FULL_CODE " +
+    "SYSRES_CONST_ACCESS_TYPE_VIEW " +
+    "SYSRES_CONST_ACCESS_TYPE_VIEW_CODE " +
+    "SYSRES_CONST_ACTION_TYPE_ABORT " +
+    "SYSRES_CONST_ACTION_TYPE_ACCEPT " +
+    "SYSRES_CONST_ACTION_TYPE_ACCESS_RIGHTS " +
+    "SYSRES_CONST_ACTION_TYPE_ADD_ATTACHMENT " +
+    "SYSRES_CONST_ACTION_TYPE_CHANGE_CARD " +
+    "SYSRES_CONST_ACTION_TYPE_CHANGE_KIND " +
+    "SYSRES_CONST_ACTION_TYPE_CHANGE_STORAGE " +
+    "SYSRES_CONST_ACTION_TYPE_CONTINUE " +
+    "SYSRES_CONST_ACTION_TYPE_COPY " +
+    "SYSRES_CONST_ACTION_TYPE_CREATE " +
+    "SYSRES_CONST_ACTION_TYPE_CREATE_VERSION " +
+    "SYSRES_CONST_ACTION_TYPE_DELETE " +
+    "SYSRES_CONST_ACTION_TYPE_DELETE_ATTACHMENT " +
+    "SYSRES_CONST_ACTION_TYPE_DELETE_VERSION " +
+    "SYSRES_CONST_ACTION_TYPE_DISABLE_DELEGATE_ACCESS_RIGHTS " +
+    "SYSRES_CONST_ACTION_TYPE_ENABLE_DELEGATE_ACCESS_RIGHTS " +
+    "SYSRES_CONST_ACTION_TYPE_ENCRYPTION_BY_CERTIFICATE " +
+    "SYSRES_CONST_ACTION_TYPE_ENCRYPTION_BY_CERTIFICATE_AND_PASSWORD " +
+    "SYSRES_CONST_ACTION_TYPE_ENCRYPTION_BY_PASSWORD " +
+    "SYSRES_CONST_ACTION_TYPE_EXPORT_WITH_LOCK " +
+    "SYSRES_CONST_ACTION_TYPE_EXPORT_WITHOUT_LOCK " +
+    "SYSRES_CONST_ACTION_TYPE_IMPORT_WITH_UNLOCK " +
+    "SYSRES_CONST_ACTION_TYPE_IMPORT_WITHOUT_UNLOCK " +
+    "SYSRES_CONST_ACTION_TYPE_LIFE_CYCLE_STAGE " +
+    "SYSRES_CONST_ACTION_TYPE_LOCK " +
+    "SYSRES_CONST_ACTION_TYPE_LOCK_FOR_SERVER " +
+    "SYSRES_CONST_ACTION_TYPE_LOCK_MODIFY " +
+    "SYSRES_CONST_ACTION_TYPE_MARK_AS_READED " +
+    "SYSRES_CONST_ACTION_TYPE_MARK_AS_UNREADED " +
+    "SYSRES_CONST_ACTION_TYPE_MODIFY " +
+    "SYSRES_CONST_ACTION_TYPE_MODIFY_CARD " +
+    "SYSRES_CONST_ACTION_TYPE_MOVE_TO_ARCHIVE " +
+    "SYSRES_CONST_ACTION_TYPE_OFF_ENCRYPTION " +
+    "SYSRES_CONST_ACTION_TYPE_PASSWORD_CHANGE " +
+    "SYSRES_CONST_ACTION_TYPE_PERFORM " +
+    "SYSRES_CONST_ACTION_TYPE_RECOVER_FROM_LOCAL_COPY " +
+    "SYSRES_CONST_ACTION_TYPE_RESTART " +
+    "SYSRES_CONST_ACTION_TYPE_RESTORE_FROM_ARCHIVE " +
+    "SYSRES_CONST_ACTION_TYPE_REVISION " +
+    "SYSRES_CONST_ACTION_TYPE_SEND_BY_MAIL " +
+    "SYSRES_CONST_ACTION_TYPE_SIGN " +
+    "SYSRES_CONST_ACTION_TYPE_START " +
+    "SYSRES_CONST_ACTION_TYPE_UNLOCK " +
+    "SYSRES_CONST_ACTION_TYPE_UNLOCK_FROM_SERVER " +
+    "SYSRES_CONST_ACTION_TYPE_VERSION_STATE " +
+    "SYSRES_CONST_ACTION_TYPE_VERSION_VISIBILITY " +
+    "SYSRES_CONST_ACTION_TYPE_VIEW " +
+    "SYSRES_CONST_ACTION_TYPE_VIEW_SHADOW_COPY " +
+    "SYSRES_CONST_ACTION_TYPE_WORKFLOW_DESCRIPTION_MODIFY " +
+    "SYSRES_CONST_ACTION_TYPE_WRITE_HISTORY " +
+    "SYSRES_CONST_ACTIVE_VERSION_STATE_PICK_VALUE " +
+    "SYSRES_CONST_ADD_REFERENCE_MODE_NAME " +
+    "SYSRES_CONST_ADDITION_REQUISITE_CODE " +
+    "SYSRES_CONST_ADDITIONAL_PARAMS_REQUISITE_CODE " +
+    "SYSRES_CONST_ADITIONAL_JOB_END_DATE_REQUISITE_NAME " +
+    "SYSRES_CONST_ADITIONAL_JOB_READ_REQUISITE_NAME " +
+    "SYSRES_CONST_ADITIONAL_JOB_START_DATE_REQUISITE_NAME " +
+    "SYSRES_CONST_ADITIONAL_JOB_STATE_REQUISITE_NAME " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_ADDING_USER_TO_GROUP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_ADDING_USER_TO_GROUP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_CREATION_COMP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_CREATION_COMP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_CREATION_GROUP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_CREATION_GROUP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_CREATION_USER_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_CREATION_USER_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DATABASE_USER_CREATION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DATABASE_USER_CREATION_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DATABASE_USER_DELETION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DATABASE_USER_DELETION_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_COMP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_COMP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_GROUP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_GROUP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_USER_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_USER_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_USER_FROM_GROUP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_DELETION_USER_FROM_GROUP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_FILTERER_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_FILTERER_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_FILTERER_RESTRICTION_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_FILTERER_RESTRICTION_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_PRIVILEGE_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_PRIVILEGE_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_RIGHTS_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_GRANTING_RIGHTS_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_IS_MAIN_SERVER_CHANGED_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_IS_MAIN_SERVER_CHANGED_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_IS_PUBLIC_CHANGED_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_IS_PUBLIC_CHANGED_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_FILTERER_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_FILTERER_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_FILTERER_RESTRICTION_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_FILTERER_RESTRICTION_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_PRIVILEGE_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_PRIVILEGE_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_RIGHTS_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_REMOVING_RIGHTS_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_SERVER_LOGIN_CREATION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_SERVER_LOGIN_CREATION_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_SERVER_LOGIN_DELETION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_SERVER_LOGIN_DELETION_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_CATEGORY_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_CATEGORY_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_COMP_TITLE_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_COMP_TITLE_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_FULL_NAME_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_FULL_NAME_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_GROUP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_GROUP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_PARENT_GROUP_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_PARENT_GROUP_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_USER_AUTH_TYPE_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_USER_AUTH_TYPE_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_USER_LOGIN_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_USER_LOGIN_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_USER_STATUS_ACTION " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_UPDATING_USER_STATUS_ACTION_CODE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_USER_PASSWORD_CHANGE " +
+    "SYSRES_CONST_ADMINISTRATION_HISTORY_USER_PASSWORD_CHANGE_ACTION " +
+    "SYSRES_CONST_ALL_ACCEPT_CONDITION_RUS " +
+    "SYSRES_CONST_ALL_USERS_GROUP " +
+    "SYSRES_CONST_ALL_USERS_GROUP_NAME " +
+    "SYSRES_CONST_ALL_USERS_SERVER_GROUP_NAME " +
+    "SYSRES_CONST_ALLOWED_ACCESS_TYPE_CODE " +
+    "SYSRES_CONST_ALLOWED_ACCESS_TYPE_NAME " +
+    "SYSRES_CONST_APP_VIEWER_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_APPROVING_SIGNATURE_NAME " +
+    "SYSRES_CONST_APPROVING_SIGNATURE_REQUISITE_CODE " +
+    "SYSRES_CONST_ASSISTANT_SUBSTITUE_TYPE " +
+    "SYSRES_CONST_ASSISTANT_SUBSTITUE_TYPE_CODE " +
+    "SYSRES_CONST_ATTACH_TYPE_COMPONENT_TOKEN " +
+    "SYSRES_CONST_ATTACH_TYPE_DOC " +
+    "SYSRES_CONST_ATTACH_TYPE_EDOC " +
+    "SYSRES_CONST_ATTACH_TYPE_FOLDER " +
+    "SYSRES_CONST_ATTACH_TYPE_JOB " +
+    "SYSRES_CONST_ATTACH_TYPE_REFERENCE " +
+    "SYSRES_CONST_ATTACH_TYPE_TASK " +
+    "SYSRES_CONST_AUTH_ENCODED_PASSWORD " +
+    "SYSRES_CONST_AUTH_ENCODED_PASSWORD_CODE " +
+    "SYSRES_CONST_AUTH_NOVELL " +
+    "SYSRES_CONST_AUTH_PASSWORD " +
+    "SYSRES_CONST_AUTH_PASSWORD_CODE " +
+    "SYSRES_CONST_AUTH_WINDOWS " +
+    "SYSRES_CONST_AUTHENTICATING_SIGNATURE_NAME " +
+    "SYSRES_CONST_AUTHENTICATING_SIGNATURE_REQUISITE_CODE " +
+    "SYSRES_CONST_AUTO_ENUM_METHOD_FLAG " +
+    "SYSRES_CONST_AUTO_NUMERATION_CODE " +
+    "SYSRES_CONST_AUTO_STRONG_ENUM_METHOD_FLAG " +
+    "SYSRES_CONST_AUTOTEXT_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_AUTOTEXT_TEXT_REQUISITE_CODE " +
+    "SYSRES_CONST_AUTOTEXT_USAGE_ALL " +
+    "SYSRES_CONST_AUTOTEXT_USAGE_ALL_CODE " +
+    "SYSRES_CONST_AUTOTEXT_USAGE_SIGN " +
+    "SYSRES_CONST_AUTOTEXT_USAGE_SIGN_CODE " +
+    "SYSRES_CONST_AUTOTEXT_USAGE_WORK " +
+    "SYSRES_CONST_AUTOTEXT_USAGE_WORK_CODE " +
+    "SYSRES_CONST_AUTOTEXT_USE_ANYWHERE_CODE " +
+    "SYSRES_CONST_AUTOTEXT_USE_ON_SIGNING_CODE " +
+    "SYSRES_CONST_AUTOTEXT_USE_ON_WORK_CODE " +
+    "SYSRES_CONST_BEGIN_DATE_REQUISITE_CODE " +
+    "SYSRES_CONST_BLACK_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_BLUE_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_BTN_PART " +
+    "SYSRES_CONST_CALCULATED_ROLE_TYPE_CODE " +
+    "SYSRES_CONST_CALL_TYPE_VARIABLE_BUTTON_VALUE " +
+    "SYSRES_CONST_CALL_TYPE_VARIABLE_PROGRAM_VALUE " +
+    "SYSRES_CONST_CANCEL_MESSAGE_FUNCTION_RESULT " +
+    "SYSRES_CONST_CARD_PART " +
+    "SYSRES_CONST_CARD_REFERENCE_MODE_NAME " +
+    "SYSRES_CONST_CERTIFICATE_TYPE_REQUISITE_ENCRYPT_VALUE " +
+    "SYSRES_CONST_CERTIFICATE_TYPE_REQUISITE_SIGN_AND_ENCRYPT_VALUE " +
+    "SYSRES_CONST_CERTIFICATE_TYPE_REQUISITE_SIGN_VALUE " +
+    "SYSRES_CONST_CHECK_PARAM_VALUE_DATE_PARAM_TYPE " +
+    "SYSRES_CONST_CHECK_PARAM_VALUE_FLOAT_PARAM_TYPE " +
+    "SYSRES_CONST_CHECK_PARAM_VALUE_INTEGER_PARAM_TYPE " +
+    "SYSRES_CONST_CHECK_PARAM_VALUE_PICK_PARAM_TYPE " +
+    "SYSRES_CONST_CHECK_PARAM_VALUE_REEFRENCE_PARAM_TYPE " +
+    "SYSRES_CONST_CLOSED_RECORD_FLAG_VALUE_FEMININE " +
+    "SYSRES_CONST_CLOSED_RECORD_FLAG_VALUE_MASCULINE " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_ADMIN " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_DEVELOPER " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_DOCS " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_EDOC_CARDS " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_EXTERNAL_EXECUTABLE " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_OTHER " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_REFERENCE " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_REPORT " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_SCRIPT " +
+    "SYSRES_CONST_CODE_COMPONENT_TYPE_URL " +
+    "SYSRES_CONST_CODE_REQUISITE_ACCESS " +
+    "SYSRES_CONST_CODE_REQUISITE_CODE " +
+    "SYSRES_CONST_CODE_REQUISITE_COMPONENT " +
+    "SYSRES_CONST_CODE_REQUISITE_DESCRIPTION " +
+    "SYSRES_CONST_CODE_REQUISITE_EXCLUDE_COMPONENT " +
+    "SYSRES_CONST_CODE_REQUISITE_RECORD " +
+    "SYSRES_CONST_COMMENT_REQ_CODE " +
+    "SYSRES_CONST_COMMON_SETTINGS_REQUISITE_CODE " +
+    "SYSRES_CONST_COMP_CODE_GRD " +
+    "SYSRES_CONST_COMPONENT_GROUP_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_COMPONENT_TYPE_ADMIN_COMPONENTS " +
+    "SYSRES_CONST_COMPONENT_TYPE_DEVELOPER_COMPONENTS " +
+    "SYSRES_CONST_COMPONENT_TYPE_DOCS " +
+    "SYSRES_CONST_COMPONENT_TYPE_EDOC_CARDS " +
+    "SYSRES_CONST_COMPONENT_TYPE_EDOCS " +
+    "SYSRES_CONST_COMPONENT_TYPE_EXTERNAL_EXECUTABLE " +
+    "SYSRES_CONST_COMPONENT_TYPE_OTHER " +
+    "SYSRES_CONST_COMPONENT_TYPE_REFERENCE_TYPES " +
+    "SYSRES_CONST_COMPONENT_TYPE_REFERENCES " +
+    "SYSRES_CONST_COMPONENT_TYPE_REPORTS " +
+    "SYSRES_CONST_COMPONENT_TYPE_SCRIPTS " +
+    "SYSRES_CONST_COMPONENT_TYPE_URL " +
+    "SYSRES_CONST_COMPONENTS_REMOTE_SERVERS_VIEW_CODE " +
+    "SYSRES_CONST_CONDITION_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_CONST_FIRM_STATUS_COMMON " +
+    "SYSRES_CONST_CONST_FIRM_STATUS_INDIVIDUAL " +
+    "SYSRES_CONST_CONST_NEGATIVE_VALUE " +
+    "SYSRES_CONST_CONST_POSITIVE_VALUE " +
+    "SYSRES_CONST_CONST_SERVER_STATUS_DONT_REPLICATE " +
+    "SYSRES_CONST_CONST_SERVER_STATUS_REPLICATE " +
+    "SYSRES_CONST_CONTENTS_REQUISITE_CODE " +
+    "SYSRES_CONST_DATA_TYPE_BOOLEAN " +
+    "SYSRES_CONST_DATA_TYPE_DATE " +
+    "SYSRES_CONST_DATA_TYPE_FLOAT " +
+    "SYSRES_CONST_DATA_TYPE_INTEGER " +
+    "SYSRES_CONST_DATA_TYPE_PICK " +
+    "SYSRES_CONST_DATA_TYPE_REFERENCE " +
+    "SYSRES_CONST_DATA_TYPE_STRING " +
+    "SYSRES_CONST_DATA_TYPE_TEXT " +
+    "SYSRES_CONST_DATA_TYPE_VARIANT " +
+    "SYSRES_CONST_DATE_CLOSE_REQ_CODE " +
+    "SYSRES_CONST_DATE_FORMAT_DATE_ONLY_CHAR " +
+    "SYSRES_CONST_DATE_OPEN_REQ_CODE " +
+    "SYSRES_CONST_DATE_REQUISITE " +
+    "SYSRES_CONST_DATE_REQUISITE_CODE " +
+    "SYSRES_CONST_DATE_REQUISITE_NAME " +
+    "SYSRES_CONST_DATE_REQUISITE_TYPE " +
+    "SYSRES_CONST_DATE_TYPE_CHAR " +
+    "SYSRES_CONST_DATETIME_FORMAT_VALUE " +
+    "SYSRES_CONST_DEA_ACCESS_RIGHTS_ACTION_CODE " +
+    "SYSRES_CONST_DESCRIPTION_LOCALIZE_ID_REQUISITE_CODE " +
+    "SYSRES_CONST_DESCRIPTION_REQUISITE_CODE " +
+    "SYSRES_CONST_DET1_PART " +
+    "SYSRES_CONST_DET2_PART " +
+    "SYSRES_CONST_DET3_PART " +
+    "SYSRES_CONST_DET4_PART " +
+    "SYSRES_CONST_DET5_PART " +
+    "SYSRES_CONST_DET6_PART " +
+    "SYSRES_CONST_DETAIL_DATASET_KEY_REQUISITE_CODE " +
+    "SYSRES_CONST_DETAIL_PICK_REQUISITE_CODE " +
+    "SYSRES_CONST_DETAIL_REQ_CODE " +
+    "SYSRES_CONST_DO_NOT_USE_ACCESS_TYPE_CODE " +
+    "SYSRES_CONST_DO_NOT_USE_ACCESS_TYPE_NAME " +
+    "SYSRES_CONST_DO_NOT_USE_ON_VIEW_ACCESS_TYPE_CODE " +
+    "SYSRES_CONST_DO_NOT_USE_ON_VIEW_ACCESS_TYPE_NAME " +
+    "SYSRES_CONST_DOCUMENT_STORAGES_CODE " +
+    "SYSRES_CONST_DOCUMENT_TEMPLATES_TYPE_NAME " +
+    "SYSRES_CONST_DOUBLE_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITOR_CLOSE_FILE_OBSERV_TYPE_CODE " +
+    "SYSRES_CONST_EDITOR_CLOSE_PROCESS_OBSERV_TYPE_CODE " +
+    "SYSRES_CONST_EDITOR_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITORS_APPLICATION_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITORS_CREATE_SEVERAL_PROCESSES_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITORS_EXTENSION_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITORS_OBSERVER_BY_PROCESS_TYPE " +
+    "SYSRES_CONST_EDITORS_REFERENCE_CODE " +
+    "SYSRES_CONST_EDITORS_REPLACE_SPEC_CHARS_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITORS_USE_PLUGINS_REQUISITE_CODE " +
+    "SYSRES_CONST_EDITORS_VIEW_DOCUMENT_OPENED_TO_EDIT_CODE " +
+    "SYSRES_CONST_EDOC_CARD_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_CARD_TYPES_LINK_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_CERTIFICATE_AND_PASSWORD_ENCODE_CODE " +
+    "SYSRES_CONST_EDOC_CERTIFICATE_ENCODE_CODE " +
+    "SYSRES_CONST_EDOC_DATE_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_KIND_REFERENCE_CODE " +
+    "SYSRES_CONST_EDOC_KINDS_BY_TEMPLATE_ACTION_CODE " +
+    "SYSRES_CONST_EDOC_MANAGE_ACCESS_CODE " +
+    "SYSRES_CONST_EDOC_NONE_ENCODE_CODE " +
+    "SYSRES_CONST_EDOC_NUMBER_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_PASSWORD_ENCODE_CODE " +
+    "SYSRES_CONST_EDOC_READONLY_ACCESS_CODE " +
+    "SYSRES_CONST_EDOC_SHELL_LIFE_TYPE_VIEW_VALUE " +
+    "SYSRES_CONST_EDOC_SIZE_RESTRICTION_PRIORITY_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_STORAGE_CHECK_ACCESS_RIGHTS_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_STORAGE_COMPUTER_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_STORAGE_DATABASE_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_STORAGE_EDIT_IN_STORAGE_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_STORAGE_LOCAL_PATH_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_STORAGE_SHARED_SOURCE_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_TEMPLATE_REQUISITE_CODE " +
+    "SYSRES_CONST_EDOC_TYPES_REFERENCE_CODE " +
+    "SYSRES_CONST_EDOC_VERSION_ACTIVE_STAGE_CODE " +
+    "SYSRES_CONST_EDOC_VERSION_DESIGN_STAGE_CODE " +
+    "SYSRES_CONST_EDOC_VERSION_OBSOLETE_STAGE_CODE " +
+    "SYSRES_CONST_EDOC_WRITE_ACCES_CODE " +
+    "SYSRES_CONST_EDOCUMENT_CARD_REQUISITES_REFERENCE_CODE_SELECTED_REQUISITE " +
+    "SYSRES_CONST_ENCODE_CERTIFICATE_TYPE_CODE " +
+    "SYSRES_CONST_END_DATE_REQUISITE_CODE " +
+    "SYSRES_CONST_ENUMERATION_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_EXECUTE_ACCESS_RIGHTS_TYPE_CODE " +
+    "SYSRES_CONST_EXECUTIVE_FILE_STORAGE_TYPE " +
+    "SYSRES_CONST_EXIST_CONST " +
+    "SYSRES_CONST_EXIST_VALUE " +
+    "SYSRES_CONST_EXPORT_LOCK_TYPE_ASK " +
+    "SYSRES_CONST_EXPORT_LOCK_TYPE_WITH_LOCK " +
+    "SYSRES_CONST_EXPORT_LOCK_TYPE_WITHOUT_LOCK " +
+    "SYSRES_CONST_EXPORT_VERSION_TYPE_ASK " +
+    "SYSRES_CONST_EXPORT_VERSION_TYPE_LAST " +
+    "SYSRES_CONST_EXPORT_VERSION_TYPE_LAST_ACTIVE " +
+    "SYSRES_CONST_EXTENSION_REQUISITE_CODE " +
+    "SYSRES_CONST_FILTER_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_FILTER_REQUISITE_CODE " +
+    "SYSRES_CONST_FILTER_TYPE_COMMON_CODE " +
+    "SYSRES_CONST_FILTER_TYPE_COMMON_NAME " +
+    "SYSRES_CONST_FILTER_TYPE_USER_CODE " +
+    "SYSRES_CONST_FILTER_TYPE_USER_NAME " +
+    "SYSRES_CONST_FILTER_VALUE_REQUISITE_NAME " +
+    "SYSRES_CONST_FLOAT_NUMBER_FORMAT_CHAR " +
+    "SYSRES_CONST_FLOAT_REQUISITE_TYPE " +
+    "SYSRES_CONST_FOLDER_AUTHOR_VALUE " +
+    "SYSRES_CONST_FOLDER_KIND_ANY_OBJECTS " +
+    "SYSRES_CONST_FOLDER_KIND_COMPONENTS " +
+    "SYSRES_CONST_FOLDER_KIND_EDOCS " +
+    "SYSRES_CONST_FOLDER_KIND_JOBS " +
+    "SYSRES_CONST_FOLDER_KIND_TASKS " +
+    "SYSRES_CONST_FOLDER_TYPE_COMMON " +
+    "SYSRES_CONST_FOLDER_TYPE_COMPONENT " +
+    "SYSRES_CONST_FOLDER_TYPE_FAVORITES " +
+    "SYSRES_CONST_FOLDER_TYPE_INBOX " +
+    "SYSRES_CONST_FOLDER_TYPE_OUTBOX " +
+    "SYSRES_CONST_FOLDER_TYPE_QUICK_LAUNCH " +
+    "SYSRES_CONST_FOLDER_TYPE_SEARCH " +
+    "SYSRES_CONST_FOLDER_TYPE_SHORTCUTS " +
+    "SYSRES_CONST_FOLDER_TYPE_USER " +
+    "SYSRES_CONST_FROM_DICTIONARY_ENUM_METHOD_FLAG " +
+    "SYSRES_CONST_FULL_SUBSTITUTE_TYPE " +
+    "SYSRES_CONST_FULL_SUBSTITUTE_TYPE_CODE " +
+    "SYSRES_CONST_FUNCTION_CANCEL_RESULT " +
+    "SYSRES_CONST_FUNCTION_CATEGORY_SYSTEM " +
+    "SYSRES_CONST_FUNCTION_CATEGORY_USER " +
+    "SYSRES_CONST_FUNCTION_FAILURE_RESULT " +
+    "SYSRES_CONST_FUNCTION_SAVE_RESULT " +
+    "SYSRES_CONST_GENERATED_REQUISITE " +
+    "SYSRES_CONST_GREEN_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_GROUP_ACCOUNT_TYPE_VALUE_CODE " +
+    "SYSRES_CONST_GROUP_CATEGORY_NORMAL_CODE " +
+    "SYSRES_CONST_GROUP_CATEGORY_NORMAL_NAME " +
+    "SYSRES_CONST_GROUP_CATEGORY_SERVICE_CODE " +
+    "SYSRES_CONST_GROUP_CATEGORY_SERVICE_NAME " +
+    "SYSRES_CONST_GROUP_COMMON_CATEGORY_FIELD_VALUE " +
+    "SYSRES_CONST_GROUP_FULL_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_GROUP_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_GROUP_RIGHTS_T_REQUISITE_CODE " +
+    "SYSRES_CONST_GROUP_SERVER_CODES_REQUISITE_CODE " +
+    "SYSRES_CONST_GROUP_SERVER_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_GROUP_SERVICE_CATEGORY_FIELD_VALUE " +
+    "SYSRES_CONST_GROUP_USER_REQUISITE_CODE " +
+    "SYSRES_CONST_GROUPS_REFERENCE_CODE " +
+    "SYSRES_CONST_GROUPS_REQUISITE_CODE " +
+    "SYSRES_CONST_HIDDEN_MODE_NAME " +
+    "SYSRES_CONST_HIGH_LVL_REQUISITE_CODE " +
+    "SYSRES_CONST_HISTORY_ACTION_CREATE_CODE " +
+    "SYSRES_CONST_HISTORY_ACTION_DELETE_CODE " +
+    "SYSRES_CONST_HISTORY_ACTION_EDIT_CODE " +
+    "SYSRES_CONST_HOUR_CHAR " +
+    "SYSRES_CONST_ID_REQUISITE_CODE " +
+    "SYSRES_CONST_IDSPS_REQUISITE_CODE " +
+    "SYSRES_CONST_IMAGE_MODE_COLOR " +
+    "SYSRES_CONST_IMAGE_MODE_GREYSCALE " +
+    "SYSRES_CONST_IMAGE_MODE_MONOCHROME " +
+    "SYSRES_CONST_IMPORTANCE_HIGH " +
+    "SYSRES_CONST_IMPORTANCE_LOW " +
+    "SYSRES_CONST_IMPORTANCE_NORMAL " +
+    "SYSRES_CONST_IN_DESIGN_VERSION_STATE_PICK_VALUE " +
+    "SYSRES_CONST_INCOMING_WORK_RULE_TYPE_CODE " +
+    "SYSRES_CONST_INT_REQUISITE " +
+    "SYSRES_CONST_INT_REQUISITE_TYPE " +
+    "SYSRES_CONST_INTEGER_NUMBER_FORMAT_CHAR " +
+    "SYSRES_CONST_INTEGER_TYPE_CHAR " +
+    "SYSRES_CONST_IS_GENERATED_REQUISITE_NEGATIVE_VALUE " +
+    "SYSRES_CONST_IS_PUBLIC_ROLE_REQUISITE_CODE " +
+    "SYSRES_CONST_IS_REMOTE_USER_NEGATIVE_VALUE " +
+    "SYSRES_CONST_IS_REMOTE_USER_POSITIVE_VALUE " +
+    "SYSRES_CONST_IS_STORED_REQUISITE_NEGATIVE_VALUE " +
+    "SYSRES_CONST_IS_STORED_REQUISITE_STORED_VALUE " +
+    "SYSRES_CONST_ITALIC_LIFE_CYCLE_STAGE_DRAW_STYLE " +
+    "SYSRES_CONST_JOB_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_JOB_KIND_CONTROL_JOB " +
+    "SYSRES_CONST_JOB_KIND_JOB " +
+    "SYSRES_CONST_JOB_KIND_NOTICE " +
+    "SYSRES_CONST_JOB_STATE_ABORTED " +
+    "SYSRES_CONST_JOB_STATE_COMPLETE " +
+    "SYSRES_CONST_JOB_STATE_WORKING " +
+    "SYSRES_CONST_KIND_REQUISITE_CODE " +
+    "SYSRES_CONST_KIND_REQUISITE_NAME " +
+    "SYSRES_CONST_KINDS_CREATE_SHADOW_COPIES_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_DEFAULT_EDOC_LIFE_STAGE_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_EDOC_ALL_TEPLATES_ALLOWED_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_EDOC_ALLOW_LIFE_CYCLE_STAGE_CHANGING_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_EDOC_ALLOW_MULTIPLE_ACTIVE_VERSIONS_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_EDOC_SHARE_ACCES_RIGHTS_BY_DEFAULT_CODE " +
+    "SYSRES_CONST_KINDS_EDOC_TEMPLATE_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_EDOC_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_KINDS_SIGNERS_REQUISITES_CODE " +
+    "SYSRES_CONST_KOD_INPUT_TYPE " +
+    "SYSRES_CONST_LAST_UPDATE_DATE_REQUISITE_CODE " +
+    "SYSRES_CONST_LIFE_CYCLE_START_STAGE_REQUISITE_CODE " +
+    "SYSRES_CONST_LILAC_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_COMPONENT " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_DOCUMENT " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_EDOC " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_FOLDER " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_JOB " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_REFERENCE " +
+    "SYSRES_CONST_LINK_OBJECT_KIND_TASK " +
+    "SYSRES_CONST_LINK_REF_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_LIST_REFERENCE_MODE_NAME " +
+    "SYSRES_CONST_LOCALIZATION_DICTIONARY_MAIN_VIEW_CODE " +
+    "SYSRES_CONST_MAIN_VIEW_CODE " +
+    "SYSRES_CONST_MANUAL_ENUM_METHOD_FLAG " +
+    "SYSRES_CONST_MASTER_COMP_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_MASTER_TABLE_REC_ID_REQUISITE_CODE " +
+    "SYSRES_CONST_MAXIMIZED_MODE_NAME " +
+    "SYSRES_CONST_ME_VALUE " +
+    "SYSRES_CONST_MESSAGE_ATTENTION_CAPTION " +
+    "SYSRES_CONST_MESSAGE_CONFIRMATION_CAPTION " +
+    "SYSRES_CONST_MESSAGE_ERROR_CAPTION " +
+    "SYSRES_CONST_MESSAGE_INFORMATION_CAPTION " +
+    "SYSRES_CONST_MINIMIZED_MODE_NAME " +
+    "SYSRES_CONST_MINUTE_CHAR " +
+    "SYSRES_CONST_MODULE_REQUISITE_CODE " +
+    "SYSRES_CONST_MONITORING_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_MONTH_FORMAT_VALUE " +
+    "SYSRES_CONST_NAME_LOCALIZE_ID_REQUISITE_CODE " +
+    "SYSRES_CONST_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_NAME_SINGULAR_REQUISITE_CODE " +
+    "SYSRES_CONST_NAMEAN_INPUT_TYPE " +
+    "SYSRES_CONST_NEGATIVE_PICK_VALUE " +
+    "SYSRES_CONST_NEGATIVE_VALUE " +
+    "SYSRES_CONST_NO " +
+    "SYSRES_CONST_NO_PICK_VALUE " +
+    "SYSRES_CONST_NO_SIGNATURE_REQUISITE_CODE " +
+    "SYSRES_CONST_NO_VALUE " +
+    "SYSRES_CONST_NONE_ACCESS_RIGHTS_TYPE_CODE " +
+    "SYSRES_CONST_NONOPERATING_RECORD_FLAG_VALUE " +
+    "SYSRES_CONST_NONOPERATING_RECORD_FLAG_VALUE_MASCULINE " +
+    "SYSRES_CONST_NORMAL_ACCESS_RIGHTS_TYPE_CODE " +
+    "SYSRES_CONST_NORMAL_LIFE_CYCLE_STAGE_DRAW_STYLE " +
+    "SYSRES_CONST_NORMAL_MODE_NAME " +
+    "SYSRES_CONST_NOT_ALLOWED_ACCESS_TYPE_CODE " +
+    "SYSRES_CONST_NOT_ALLOWED_ACCESS_TYPE_NAME " +
+    "SYSRES_CONST_NOTE_REQUISITE_CODE " +
+    "SYSRES_CONST_NOTICE_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_NUM_REQUISITE " +
+    "SYSRES_CONST_NUM_STR_REQUISITE_CODE " +
+    "SYSRES_CONST_NUMERATION_AUTO_NOT_STRONG " +
+    "SYSRES_CONST_NUMERATION_AUTO_STRONG " +
+    "SYSRES_CONST_NUMERATION_FROM_DICTONARY " +
+    "SYSRES_CONST_NUMERATION_MANUAL " +
+    "SYSRES_CONST_NUMERIC_TYPE_CHAR " +
+    "SYSRES_CONST_NUMREQ_REQUISITE_CODE " +
+    "SYSRES_CONST_OBSOLETE_VERSION_STATE_PICK_VALUE " +
+    "SYSRES_CONST_OPERATING_RECORD_FLAG_VALUE " +
+    "SYSRES_CONST_OPERATING_RECORD_FLAG_VALUE_CODE " +
+    "SYSRES_CONST_OPERATING_RECORD_FLAG_VALUE_FEMININE " +
+    "SYSRES_CONST_OPERATING_RECORD_FLAG_VALUE_MASCULINE " +
+    "SYSRES_CONST_OPTIONAL_FORM_COMP_REQCODE_PREFIX " +
+    "SYSRES_CONST_ORANGE_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_ORIGINALREF_REQUISITE_CODE " +
+    "SYSRES_CONST_OURFIRM_REF_CODE " +
+    "SYSRES_CONST_OURFIRM_REQUISITE_CODE " +
+    "SYSRES_CONST_OURFIRM_VAR " +
+    "SYSRES_CONST_OUTGOING_WORK_RULE_TYPE_CODE " +
+    "SYSRES_CONST_PICK_NEGATIVE_RESULT " +
+    "SYSRES_CONST_PICK_POSITIVE_RESULT " +
+    "SYSRES_CONST_PICK_REQUISITE " +
+    "SYSRES_CONST_PICK_REQUISITE_TYPE " +
+    "SYSRES_CONST_PICK_TYPE_CHAR " +
+    "SYSRES_CONST_PLAN_STATUS_REQUISITE_CODE " +
+    "SYSRES_CONST_PLATFORM_VERSION_COMMENT " +
+    "SYSRES_CONST_PLUGINS_SETTINGS_DESCRIPTION_REQUISITE_CODE " +
+    "SYSRES_CONST_POSITIVE_PICK_VALUE " +
+    "SYSRES_CONST_POWER_TO_CREATE_ACTION_CODE " +
+    "SYSRES_CONST_POWER_TO_SIGN_ACTION_CODE " +
+    "SYSRES_CONST_PRIORITY_REQUISITE_CODE " +
+    "SYSRES_CONST_QUALIFIED_TASK_TYPE " +
+    "SYSRES_CONST_QUALIFIED_TASK_TYPE_CODE " +
+    "SYSRES_CONST_RECSTAT_REQUISITE_CODE " +
+    "SYSRES_CONST_RED_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_REF_ID_T_REF_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_REF_REQUISITE " +
+    "SYSRES_CONST_REF_REQUISITE_TYPE " +
+    "SYSRES_CONST_REF_REQUISITES_REFERENCE_CODE_SELECTED_REQUISITE " +
+    "SYSRES_CONST_REFERENCE_RECORD_HISTORY_CREATE_ACTION_CODE " +
+    "SYSRES_CONST_REFERENCE_RECORD_HISTORY_DELETE_ACTION_CODE " +
+    "SYSRES_CONST_REFERENCE_RECORD_HISTORY_MODIFY_ACTION_CODE " +
+    "SYSRES_CONST_REFERENCE_TYPE_CHAR " +
+    "SYSRES_CONST_REFERENCE_TYPE_REQUISITE_NAME " +
+    "SYSRES_CONST_REFERENCES_ADD_PARAMS_REQUISITE_CODE " +
+    "SYSRES_CONST_REFERENCES_DISPLAY_REQUISITE_REQUISITE_CODE " +
+    "SYSRES_CONST_REMOTE_SERVER_STATUS_WORKING " +
+    "SYSRES_CONST_REMOTE_SERVER_TYPE_MAIN " +
+    "SYSRES_CONST_REMOTE_SERVER_TYPE_SECONDARY " +
+    "SYSRES_CONST_REMOTE_USER_FLAG_VALUE_CODE " +
+    "SYSRES_CONST_REPORT_APP_EDITOR_INTERNAL " +
+    "SYSRES_CONST_REPORT_BASE_REPORT_ID_REQUISITE_CODE " +
+    "SYSRES_CONST_REPORT_BASE_REPORT_REQUISITE_CODE " +
+    "SYSRES_CONST_REPORT_SCRIPT_REQUISITE_CODE " +
+    "SYSRES_CONST_REPORT_TEMPLATE_REQUISITE_CODE " +
+    "SYSRES_CONST_REPORT_VIEWER_CODE_REQUISITE_CODE " +
+    "SYSRES_CONST_REQ_ALLOW_COMPONENT_DEFAULT_VALUE " +
+    "SYSRES_CONST_REQ_ALLOW_RECORD_DEFAULT_VALUE " +
+    "SYSRES_CONST_REQ_ALLOW_SERVER_COMPONENT_DEFAULT_VALUE " +
+    "SYSRES_CONST_REQ_MODE_AVAILABLE_CODE " +
+    "SYSRES_CONST_REQ_MODE_EDIT_CODE " +
+    "SYSRES_CONST_REQ_MODE_HIDDEN_CODE " +
+    "SYSRES_CONST_REQ_MODE_NOT_AVAILABLE_CODE " +
+    "SYSRES_CONST_REQ_MODE_VIEW_CODE " +
+    "SYSRES_CONST_REQ_NUMBER_REQUISITE_CODE " +
+    "SYSRES_CONST_REQ_SECTION_VALUE " +
+    "SYSRES_CONST_REQ_TYPE_VALUE " +
+    "SYSRES_CONST_REQUISITE_FORMAT_BY_UNIT " +
+    "SYSRES_CONST_REQUISITE_FORMAT_DATE_FULL " +
+    "SYSRES_CONST_REQUISITE_FORMAT_DATE_TIME " +
+    "SYSRES_CONST_REQUISITE_FORMAT_LEFT " +
+    "SYSRES_CONST_REQUISITE_FORMAT_RIGHT " +
+    "SYSRES_CONST_REQUISITE_FORMAT_WITHOUT_UNIT " +
+    "SYSRES_CONST_REQUISITE_NUMBER_REQUISITE_CODE " +
+    "SYSRES_CONST_REQUISITE_SECTION_ACTIONS " +
+    "SYSRES_CONST_REQUISITE_SECTION_BUTTON " +
+    "SYSRES_CONST_REQUISITE_SECTION_BUTTONS " +
+    "SYSRES_CONST_REQUISITE_SECTION_CARD " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE10 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE11 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE12 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE13 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE14 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE15 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE16 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE17 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE18 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE19 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE2 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE20 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE21 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE22 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE23 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE24 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE3 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE4 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE5 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE6 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE7 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE8 " +
+    "SYSRES_CONST_REQUISITE_SECTION_TABLE9 " +
+    "SYSRES_CONST_REQUISITES_PSEUDOREFERENCE_REQUISITE_NUMBER_REQUISITE_CODE " +
+    "SYSRES_CONST_RIGHT_ALIGNMENT_CODE " +
+    "SYSRES_CONST_ROLES_REFERENCE_CODE " +
+    "SYSRES_CONST_ROUTE_STEP_AFTER_RUS " +
+    "SYSRES_CONST_ROUTE_STEP_AND_CONDITION_RUS " +
+    "SYSRES_CONST_ROUTE_STEP_OR_CONDITION_RUS " +
+    "SYSRES_CONST_ROUTE_TYPE_COMPLEX " +
+    "SYSRES_CONST_ROUTE_TYPE_PARALLEL " +
+    "SYSRES_CONST_ROUTE_TYPE_SERIAL " +
+    "SYSRES_CONST_SBDATASETDESC_NEGATIVE_VALUE " +
+    "SYSRES_CONST_SBDATASETDESC_POSITIVE_VALUE " +
+    "SYSRES_CONST_SBVIEWSDESC_POSITIVE_VALUE " +
+    "SYSRES_CONST_SCRIPT_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_SEARCH_BY_TEXT_REQUISITE_CODE " +
+    "SYSRES_CONST_SEARCHES_COMPONENT_CONTENT " +
+    "SYSRES_CONST_SEARCHES_CRITERIA_ACTION_NAME " +
+    "SYSRES_CONST_SEARCHES_EDOC_CONTENT " +
+    "SYSRES_CONST_SEARCHES_FOLDER_CONTENT " +
+    "SYSRES_CONST_SEARCHES_JOB_CONTENT " +
+    "SYSRES_CONST_SEARCHES_REFERENCE_CODE " +
+    "SYSRES_CONST_SEARCHES_TASK_CONTENT " +
+    "SYSRES_CONST_SECOND_CHAR " +
+    "SYSRES_CONST_SECTION_REQUISITE_ACTIONS_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_CARD_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_CODE " +
+    "SYSRES_CONST_SECTION_REQUISITE_DETAIL_1_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_DETAIL_2_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_DETAIL_3_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_DETAIL_4_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_DETAIL_5_VALUE " +
+    "SYSRES_CONST_SECTION_REQUISITE_DETAIL_6_VALUE " +
+    "SYSRES_CONST_SELECT_REFERENCE_MODE_NAME " +
+    "SYSRES_CONST_SELECT_TYPE_SELECTABLE " +
+    "SYSRES_CONST_SELECT_TYPE_SELECTABLE_ONLY_CHILD " +
+    "SYSRES_CONST_SELECT_TYPE_SELECTABLE_WITH_CHILD " +
+    "SYSRES_CONST_SELECT_TYPE_UNSLECTABLE " +
+    "SYSRES_CONST_SERVER_TYPE_MAIN " +
+    "SYSRES_CONST_SERVICE_USER_CATEGORY_FIELD_VALUE " +
+    "SYSRES_CONST_SETTINGS_USER_REQUISITE_CODE " +
+    "SYSRES_CONST_SIGNATURE_AND_ENCODE_CERTIFICATE_TYPE_CODE " +
+    "SYSRES_CONST_SIGNATURE_CERTIFICATE_TYPE_CODE " +
+    "SYSRES_CONST_SINGULAR_TITLE_REQUISITE_CODE " +
+    "SYSRES_CONST_SQL_SERVER_AUTHENTIFICATION_FLAG_VALUE_CODE " +
+    "SYSRES_CONST_SQL_SERVER_ENCODE_AUTHENTIFICATION_FLAG_VALUE_CODE " +
+    "SYSRES_CONST_STANDART_ROUTE_REFERENCE_CODE " +
+    "SYSRES_CONST_STANDART_ROUTE_REFERENCE_COMMENT_REQUISITE_CODE " +
+    "SYSRES_CONST_STANDART_ROUTES_GROUPS_REFERENCE_CODE " +
+    "SYSRES_CONST_STATE_REQ_NAME " +
+    "SYSRES_CONST_STATE_REQUISITE_ACTIVE_VALUE " +
+    "SYSRES_CONST_STATE_REQUISITE_CLOSED_VALUE " +
+    "SYSRES_CONST_STATE_REQUISITE_CODE " +
+    "SYSRES_CONST_STATIC_ROLE_TYPE_CODE " +
+    "SYSRES_CONST_STATUS_PLAN_DEFAULT_VALUE " +
+    "SYSRES_CONST_STATUS_VALUE_AUTOCLEANING " +
+    "SYSRES_CONST_STATUS_VALUE_BLUE_SQUARE " +
+    "SYSRES_CONST_STATUS_VALUE_COMPLETE " +
+    "SYSRES_CONST_STATUS_VALUE_GREEN_SQUARE " +
+    "SYSRES_CONST_STATUS_VALUE_ORANGE_SQUARE " +
+    "SYSRES_CONST_STATUS_VALUE_PURPLE_SQUARE " +
+    "SYSRES_CONST_STATUS_VALUE_RED_SQUARE " +
+    "SYSRES_CONST_STATUS_VALUE_SUSPEND " +
+    "SYSRES_CONST_STATUS_VALUE_YELLOW_SQUARE " +
+    "SYSRES_CONST_STDROUTE_SHOW_TO_USERS_REQUISITE_CODE " +
+    "SYSRES_CONST_STORAGE_TYPE_FILE " +
+    "SYSRES_CONST_STORAGE_TYPE_SQL_SERVER " +
+    "SYSRES_CONST_STR_REQUISITE " +
+    "SYSRES_CONST_STRIKEOUT_LIFE_CYCLE_STAGE_DRAW_STYLE " +
+    "SYSRES_CONST_STRING_FORMAT_LEFT_ALIGN_CHAR " +
+    "SYSRES_CONST_STRING_FORMAT_RIGHT_ALIGN_CHAR " +
+    "SYSRES_CONST_STRING_REQUISITE_CODE " +
+    "SYSRES_CONST_STRING_REQUISITE_TYPE " +
+    "SYSRES_CONST_STRING_TYPE_CHAR " +
+    "SYSRES_CONST_SUBSTITUTES_PSEUDOREFERENCE_CODE " +
+    "SYSRES_CONST_SUBTASK_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_SYSTEM_SETTING_CURRENT_USER_PARAM_VALUE " +
+    "SYSRES_CONST_SYSTEM_SETTING_EMPTY_VALUE_PARAM_VALUE " +
+    "SYSRES_CONST_SYSTEM_VERSION_COMMENT " +
+    "SYSRES_CONST_TASK_ACCESS_TYPE_ALL " +
+    "SYSRES_CONST_TASK_ACCESS_TYPE_ALL_MEMBERS " +
+    "SYSRES_CONST_TASK_ACCESS_TYPE_MANUAL " +
+    "SYSRES_CONST_TASK_ENCODE_TYPE_CERTIFICATION " +
+    "SYSRES_CONST_TASK_ENCODE_TYPE_CERTIFICATION_AND_PASSWORD " +
+    "SYSRES_CONST_TASK_ENCODE_TYPE_NONE " +
+    "SYSRES_CONST_TASK_ENCODE_TYPE_PASSWORD " +
+    "SYSRES_CONST_TASK_ROUTE_ALL_CONDITION " +
+    "SYSRES_CONST_TASK_ROUTE_AND_CONDITION " +
+    "SYSRES_CONST_TASK_ROUTE_OR_CONDITION " +
+    "SYSRES_CONST_TASK_STATE_ABORTED " +
+    "SYSRES_CONST_TASK_STATE_COMPLETE " +
+    "SYSRES_CONST_TASK_STATE_CONTINUED " +
+    "SYSRES_CONST_TASK_STATE_CONTROL " +
+    "SYSRES_CONST_TASK_STATE_INIT " +
+    "SYSRES_CONST_TASK_STATE_WORKING " +
+    "SYSRES_CONST_TASK_TITLE " +
+    "SYSRES_CONST_TASK_TYPES_GROUPS_REFERENCE_CODE " +
+    "SYSRES_CONST_TASK_TYPES_REFERENCE_CODE " +
+    "SYSRES_CONST_TEMPLATES_REFERENCE_CODE " +
+    "SYSRES_CONST_TEST_DATE_REQUISITE_NAME " +
+    "SYSRES_CONST_TEST_DEV_DATABASE_NAME " +
+    "SYSRES_CONST_TEST_DEV_SYSTEM_CODE " +
+    "SYSRES_CONST_TEST_EDMS_DATABASE_NAME " +
+    "SYSRES_CONST_TEST_EDMS_MAIN_CODE " +
+    "SYSRES_CONST_TEST_EDMS_MAIN_DB_NAME " +
+    "SYSRES_CONST_TEST_EDMS_SECOND_CODE " +
+    "SYSRES_CONST_TEST_EDMS_SECOND_DB_NAME " +
+    "SYSRES_CONST_TEST_EDMS_SYSTEM_CODE " +
+    "SYSRES_CONST_TEST_NUMERIC_REQUISITE_NAME " +
+    "SYSRES_CONST_TEXT_REQUISITE " +
+    "SYSRES_CONST_TEXT_REQUISITE_CODE " +
+    "SYSRES_CONST_TEXT_REQUISITE_TYPE " +
+    "SYSRES_CONST_TEXT_TYPE_CHAR " +
+    "SYSRES_CONST_TYPE_CODE_REQUISITE_CODE " +
+    "SYSRES_CONST_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_UNDEFINED_LIFE_CYCLE_STAGE_FONT_COLOR " +
+    "SYSRES_CONST_UNITS_SECTION_ID_REQUISITE_CODE " +
+    "SYSRES_CONST_UNITS_SECTION_REQUISITE_CODE " +
+    "SYSRES_CONST_UNOPERATING_RECORD_FLAG_VALUE_CODE " +
+    "SYSRES_CONST_UNSTORED_DATA_REQUISITE_CODE " +
+    "SYSRES_CONST_UNSTORED_DATA_REQUISITE_NAME " +
+    "SYSRES_CONST_USE_ACCESS_TYPE_CODE " +
+    "SYSRES_CONST_USE_ACCESS_TYPE_NAME " +
+    "SYSRES_CONST_USER_ACCOUNT_TYPE_VALUE_CODE " +
+    "SYSRES_CONST_USER_ADDITIONAL_INFORMATION_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_AND_GROUP_ID_FROM_PSEUDOREFERENCE_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_CATEGORY_NORMAL " +
+    "SYSRES_CONST_USER_CERTIFICATE_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_CERTIFICATE_STATE_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_CERTIFICATE_SUBJECT_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_CERTIFICATE_THUMBPRINT_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_COMMON_CATEGORY " +
+    "SYSRES_CONST_USER_COMMON_CATEGORY_CODE " +
+    "SYSRES_CONST_USER_FULL_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_GROUP_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_LOGIN_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_REMOTE_CONTROLLER_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_REMOTE_SYSTEM_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_RIGHTS_T_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_SERVER_NAME_REQUISITE_CODE " +
+    "SYSRES_CONST_USER_SERVICE_CATEGORY " +
+    "SYSRES_CONST_USER_SERVICE_CATEGORY_CODE " +
+    "SYSRES_CONST_USER_STATUS_ADMINISTRATOR_CODE " +
+    "SYSRES_CONST_USER_STATUS_ADMINISTRATOR_NAME " +
+    "SYSRES_CONST_USER_STATUS_DEVELOPER_CODE " +
+    "SYSRES_CONST_USER_STATUS_DEVELOPER_NAME " +
+    "SYSRES_CONST_USER_STATUS_DISABLED_CODE " +
+    "SYSRES_CONST_USER_STATUS_DISABLED_NAME " +
+    "SYSRES_CONST_USER_STATUS_SYSTEM_DEVELOPER_CODE " +
+    "SYSRES_CONST_USER_STATUS_USER_CODE " +
+    "SYSRES_CONST_USER_STATUS_USER_NAME " +
+    "SYSRES_CONST_USER_STATUS_USER_NAME_DEPRECATED " +
+    "SYSRES_CONST_USER_TYPE_FIELD_VALUE_USER " +
+    "SYSRES_CONST_USER_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_CONTROLLER_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_IS_MAIN_SERVER_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_REFERENCE_CODE " +
+    "SYSRES_CONST_USERS_REGISTRATION_CERTIFICATES_ACTION_NAME " +
+    "SYSRES_CONST_USERS_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_SYSTEM_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_USER_ACCESS_RIGHTS_TYPR_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_USER_AUTHENTICATION_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_USER_COMPONENT_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_USER_GROUP_REQUISITE_CODE " +
+    "SYSRES_CONST_USERS_VIEW_CERTIFICATES_ACTION_NAME " +
+    "SYSRES_CONST_VIEW_DEFAULT_CODE " +
+    "SYSRES_CONST_VIEW_DEFAULT_NAME " +
+    "SYSRES_CONST_VIEWER_REQUISITE_CODE " +
+    "SYSRES_CONST_WAITING_BLOCK_DESCRIPTION " +
+    "SYSRES_CONST_WIZARD_FORM_LABEL_TEST_STRING  " +
+    "SYSRES_CONST_WIZARD_QUERY_PARAM_HEIGHT_ETALON_STRING " +
+    "SYSRES_CONST_WIZARD_REFERENCE_COMMENT_REQUISITE_CODE " +
+    "SYSRES_CONST_WORK_RULES_DESCRIPTION_REQUISITE_CODE " +
+    "SYSRES_CONST_WORK_TIME_CALENDAR_REFERENCE_CODE " +
+    "SYSRES_CONST_WORK_WORKFLOW_HARD_ROUTE_TYPE_VALUE " +
+    "SYSRES_CONST_WORK_WORKFLOW_HARD_ROUTE_TYPE_VALUE_CODE " +
+    "SYSRES_CONST_WORK_WORKFLOW_HARD_ROUTE_TYPE_VALUE_CODE_RUS " +
+    "SYSRES_CONST_WORK_WORKFLOW_SOFT_ROUTE_TYPE_VALUE_CODE_RUS " +
+    "SYSRES_CONST_WORKFLOW_ROUTE_TYPR_HARD " +
+    "SYSRES_CONST_WORKFLOW_ROUTE_TYPR_SOFT " +
+    "SYSRES_CONST_XML_ENCODING " +
+    "SYSRES_CONST_XREC_STAT_REQUISITE_CODE " +
+    "SYSRES_CONST_XRECID_FIELD_NAME " +
+    "SYSRES_CONST_YES " +
+    "SYSRES_CONST_YES_NO_2_REQUISITE_CODE " +
+    "SYSRES_CONST_YES_NO_REQUISITE_CODE " +
+    "SYSRES_CONST_YES_NO_T_REF_TYPE_REQUISITE_CODE " +
+    "SYSRES_CONST_YES_PICK_VALUE " +
+    "SYSRES_CONST_YES_VALUE ";
+
+  // Base constant
+  var base_constants = "CR FALSE nil NO_VALUE NULL TAB TRUE YES_VALUE ";
+
+  // Base group name
+  var base_group_name_constants =
+    "ADMINISTRATORS_GROUP_NAME CUSTOMIZERS_GROUP_NAME DEVELOPERS_GROUP_NAME SERVICE_USERS_GROUP_NAME ";
+
+  // Decision block properties
+  var decision_block_properties_constants =
+    "DECISION_BLOCK_FIRST_OPERAND_PROPERTY DECISION_BLOCK_NAME_PROPERTY DECISION_BLOCK_OPERATION_PROPERTY " +
+    "DECISION_BLOCK_RESULT_TYPE_PROPERTY DECISION_BLOCK_SECOND_OPERAND_PROPERTY ";
+
+  // File extension
+  var file_extension_constants =
+    "ANY_FILE_EXTENTION COMPRESSED_DOCUMENT_EXTENSION EXTENDED_DOCUMENT_EXTENSION " +
+    "SHORT_COMPRESSED_DOCUMENT_EXTENSION SHORT_EXTENDED_DOCUMENT_EXTENSION ";
+
+  // Job block properties
+  var job_block_properties_constants =
+    "JOB_BLOCK_ABORT_DEADLINE_PROPERTY " +
+    "JOB_BLOCK_AFTER_FINISH_EVENT " +
+    "JOB_BLOCK_AFTER_QUERY_PARAMETERS_EVENT " +
+    "JOB_BLOCK_ATTACHMENT_PROPERTY " +
+    "JOB_BLOCK_ATTACHMENTS_RIGHTS_GROUP_PROPERTY " +
+    "JOB_BLOCK_ATTACHMENTS_RIGHTS_TYPE_PROPERTY " +
+    "JOB_BLOCK_BEFORE_QUERY_PARAMETERS_EVENT " +
+    "JOB_BLOCK_BEFORE_START_EVENT " +
+    "JOB_BLOCK_CREATED_JOBS_PROPERTY " +
+    "JOB_BLOCK_DEADLINE_PROPERTY " +
+    "JOB_BLOCK_EXECUTION_RESULTS_PROPERTY " +
+    "JOB_BLOCK_IS_PARALLEL_PROPERTY " +
+    "JOB_BLOCK_IS_RELATIVE_ABORT_DEADLINE_PROPERTY " +
+    "JOB_BLOCK_IS_RELATIVE_DEADLINE_PROPERTY " +
+    "JOB_BLOCK_JOB_TEXT_PROPERTY " +
+    "JOB_BLOCK_NAME_PROPERTY " +
+    "JOB_BLOCK_NEED_SIGN_ON_PERFORM_PROPERTY " +
+    "JOB_BLOCK_PERFORMER_PROPERTY " +
+    "JOB_BLOCK_RELATIVE_ABORT_DEADLINE_TYPE_PROPERTY " +
+    "JOB_BLOCK_RELATIVE_DEADLINE_TYPE_PROPERTY " +
+    "JOB_BLOCK_SUBJECT_PROPERTY ";
+
+  // Language code
+  var language_code_constants = "ENGLISH_LANGUAGE_CODE RUSSIAN_LANGUAGE_CODE ";
+
+  // Launching external applications
+  var launching_external_applications_constants =
+    "smHidden smMaximized smMinimized smNormal wmNo wmYes ";
+
+  // Link kind
+  var link_kind_constants =
+    "COMPONENT_TOKEN_LINK_KIND " +
+    "DOCUMENT_LINK_KIND " +
+    "EDOCUMENT_LINK_KIND " +
+    "FOLDER_LINK_KIND " +
+    "JOB_LINK_KIND " +
+    "REFERENCE_LINK_KIND " +
+    "TASK_LINK_KIND ";
+
+  // Lock type
+  var lock_type_constants =
+    "COMPONENT_TOKEN_LOCK_TYPE EDOCUMENT_VERSION_LOCK_TYPE ";
+
+  // Monitor block properties
+  var monitor_block_properties_constants =
+    "MONITOR_BLOCK_AFTER_FINISH_EVENT " +
+    "MONITOR_BLOCK_BEFORE_START_EVENT " +
+    "MONITOR_BLOCK_DEADLINE_PROPERTY " +
+    "MONITOR_BLOCK_INTERVAL_PROPERTY " +
+    "MONITOR_BLOCK_INTERVAL_TYPE_PROPERTY " +
+    "MONITOR_BLOCK_IS_RELATIVE_DEADLINE_PROPERTY " +
+    "MONITOR_BLOCK_NAME_PROPERTY " +
+    "MONITOR_BLOCK_RELATIVE_DEADLINE_TYPE_PROPERTY " +
+    "MONITOR_BLOCK_SEARCH_SCRIPT_PROPERTY ";
+
+  // Notice block properties
+  var notice_block_properties_constants =
+    "NOTICE_BLOCK_AFTER_FINISH_EVENT " +
+    "NOTICE_BLOCK_ATTACHMENT_PROPERTY " +
+    "NOTICE_BLOCK_ATTACHMENTS_RIGHTS_GROUP_PROPERTY " +
+    "NOTICE_BLOCK_ATTACHMENTS_RIGHTS_TYPE_PROPERTY " +
+    "NOTICE_BLOCK_BEFORE_START_EVENT " +
+    "NOTICE_BLOCK_CREATED_NOTICES_PROPERTY " +
+    "NOTICE_BLOCK_DEADLINE_PROPERTY " +
+    "NOTICE_BLOCK_IS_RELATIVE_DEADLINE_PROPERTY " +
+    "NOTICE_BLOCK_NAME_PROPERTY " +
+    "NOTICE_BLOCK_NOTICE_TEXT_PROPERTY " +
+    "NOTICE_BLOCK_PERFORMER_PROPERTY " +
+    "NOTICE_BLOCK_RELATIVE_DEADLINE_TYPE_PROPERTY " +
+    "NOTICE_BLOCK_SUBJECT_PROPERTY ";
+
+  // Object events
+  var object_events_constants =
+    "dseAfterCancel " +
+    "dseAfterClose " +
+    "dseAfterDelete " +
+    "dseAfterDeleteOutOfTransaction " +
+    "dseAfterInsert " +
+    "dseAfterOpen " +
+    "dseAfterScroll " +
+    "dseAfterUpdate " +
+    "dseAfterUpdateOutOfTransaction " +
+    "dseBeforeCancel " +
+    "dseBeforeClose " +
+    "dseBeforeDelete " +
+    "dseBeforeDetailUpdate " +
+    "dseBeforeInsert " +
+    "dseBeforeOpen " +
+    "dseBeforeUpdate " +
+    "dseOnAnyRequisiteChange " +
+    "dseOnCloseRecord " +
+    "dseOnDeleteError " +
+    "dseOnOpenRecord " +
+    "dseOnPrepareUpdate " +
+    "dseOnUpdateError " +
+    "dseOnUpdateRatifiedRecord " +
+    "dseOnValidDelete " +
+    "dseOnValidUpdate " +
+    "reOnChange " +
+    "reOnChangeValues " +
+    "SELECTION_BEGIN_ROUTE_EVENT " +
+    "SELECTION_END_ROUTE_EVENT ";
+
+  // Object params
+  var object_params_constants =
+    "CURRENT_PERIOD_IS_REQUIRED " +
+    "PREVIOUS_CARD_TYPE_NAME " +
+    "SHOW_RECORD_PROPERTIES_FORM ";
+
+  // Other
+  var other_constants =
+    "ACCESS_RIGHTS_SETTING_DIALOG_CODE " +
+    "ADMINISTRATOR_USER_CODE " +
+    "ANALYTIC_REPORT_TYPE " +
+    "asrtHideLocal " +
+    "asrtHideRemote " +
+    "CALCULATED_ROLE_TYPE_CODE " +
+    "COMPONENTS_REFERENCE_DEVELOPER_VIEW_CODE " +
+    "DCTS_TEST_PROTOCOLS_FOLDER_PATH " +
+    "E_EDOC_VERSION_ALREADY_APPROVINGLY_SIGNED " +
+    "E_EDOC_VERSION_ALREADY_APPROVINGLY_SIGNED_BY_USER " +
+    "E_EDOC_VERSION_ALREDY_SIGNED " +
+    "E_EDOC_VERSION_ALREDY_SIGNED_BY_USER " +
+    "EDOC_TYPES_CODE_REQUISITE_FIELD_NAME " +
+    "EDOCUMENTS_ALIAS_NAME " +
+    "FILES_FOLDER_PATH " +
+    "FILTER_OPERANDS_DELIMITER " +
+    "FILTER_OPERATIONS_DELIMITER " +
+    "FORMCARD_NAME " +
+    "FORMLIST_NAME " +
+    "GET_EXTENDED_DOCUMENT_EXTENSION_CREATION_MODE " +
+    "GET_EXTENDED_DOCUMENT_EXTENSION_IMPORT_MODE " +
+    "INTEGRATED_REPORT_TYPE " +
+    "IS_BUILDER_APPLICATION_ROLE " +
+    "IS_BUILDER_APPLICATION_ROLE2 " +
+    "IS_BUILDER_USERS " +
+    "ISBSYSDEV " +
+    "LOG_FOLDER_PATH " +
+    "mbCancel " +
+    "mbNo " +
+    "mbNoToAll " +
+    "mbOK " +
+    "mbYes " +
+    "mbYesToAll " +
+    "MEMORY_DATASET_DESRIPTIONS_FILENAME " +
+    "mrNo " +
+    "mrNoToAll " +
+    "mrYes " +
+    "mrYesToAll " +
+    "MULTIPLE_SELECT_DIALOG_CODE " +
+    "NONOPERATING_RECORD_FLAG_FEMININE " +
+    "NONOPERATING_RECORD_FLAG_MASCULINE " +
+    "OPERATING_RECORD_FLAG_FEMININE " +
+    "OPERATING_RECORD_FLAG_MASCULINE " +
+    "PROFILING_SETTINGS_COMMON_SETTINGS_CODE_VALUE " +
+    "PROGRAM_INITIATED_LOOKUP_ACTION " +
+    "ratDelete " +
+    "ratEdit " +
+    "ratInsert " +
+    "REPORT_TYPE " +
+    "REQUIRED_PICK_VALUES_VARIABLE " +
+    "rmCard " +
+    "rmList " +
+    "SBRTE_PROGID_DEV " +
+    "SBRTE_PROGID_RELEASE " +
+    "STATIC_ROLE_TYPE_CODE " +
+    "SUPPRESS_EMPTY_TEMPLATE_CREATION " +
+    "SYSTEM_USER_CODE " +
+    "UPDATE_DIALOG_DATASET " +
+    "USED_IN_OBJECT_HINT_PARAM " +
+    "USER_INITIATED_LOOKUP_ACTION " +
+    "USER_NAME_FORMAT " +
+    "USER_SELECTION_RESTRICTIONS " +
+    "WORKFLOW_TEST_PROTOCOLS_FOLDER_PATH " +
+    "ELS_SUBTYPE_CONTROL_NAME " +
+    "ELS_FOLDER_KIND_CONTROL_NAME " +
+    "REPEAT_PROCESS_CURRENT_OBJECT_EXCEPTION_NAME ";
+
+  // Privileges
+  var privileges_constants =
+    "PRIVILEGE_COMPONENT_FULL_ACCESS " +
+    "PRIVILEGE_DEVELOPMENT_EXPORT " +
+    "PRIVILEGE_DEVELOPMENT_IMPORT " +
+    "PRIVILEGE_DOCUMENT_DELETE " +
+    "PRIVILEGE_ESD " +
+    "PRIVILEGE_FOLDER_DELETE " +
+    "PRIVILEGE_MANAGE_ACCESS_RIGHTS " +
+    "PRIVILEGE_MANAGE_REPLICATION " +
+    "PRIVILEGE_MANAGE_SESSION_SERVER " +
+    "PRIVILEGE_OBJECT_FULL_ACCESS " +
+    "PRIVILEGE_OBJECT_VIEW " +
+    "PRIVILEGE_RESERVE_LICENSE " +
+    "PRIVILEGE_SYSTEM_CUSTOMIZE " +
+    "PRIVILEGE_SYSTEM_DEVELOP " +
+    "PRIVILEGE_SYSTEM_INSTALL " +
+    "PRIVILEGE_TASK_DELETE " +
+    "PRIVILEGE_USER_PLUGIN_SETTINGS_CUSTOMIZE " +
+    "PRIVILEGES_PSEUDOREFERENCE_CODE ";
+
+  // Pseudoreference code
+  var pseudoreference_code_constants =
+    "ACCESS_TYPES_PSEUDOREFERENCE_CODE " +
+    "ALL_AVAILABLE_COMPONENTS_PSEUDOREFERENCE_CODE " +
+    "ALL_AVAILABLE_PRIVILEGES_PSEUDOREFERENCE_CODE " +
+    "ALL_REPLICATE_COMPONENTS_PSEUDOREFERENCE_CODE " +
+    "AVAILABLE_DEVELOPERS_COMPONENTS_PSEUDOREFERENCE_CODE " +
+    "COMPONENTS_PSEUDOREFERENCE_CODE " +
+    "FILTRATER_SETTINGS_CONFLICTS_PSEUDOREFERENCE_CODE " +
+    "GROUPS_PSEUDOREFERENCE_CODE " +
+    "RECEIVE_PROTOCOL_PSEUDOREFERENCE_CODE " +
+    "REFERENCE_REQUISITE_PSEUDOREFERENCE_CODE " +
+    "REFERENCE_REQUISITES_PSEUDOREFERENCE_CODE " +
+    "REFTYPES_PSEUDOREFERENCE_CODE " +
+    "REPLICATION_SEANCES_DIARY_PSEUDOREFERENCE_CODE " +
+    "SEND_PROTOCOL_PSEUDOREFERENCE_CODE " +
+    "SUBSTITUTES_PSEUDOREFERENCE_CODE " +
+    "SYSTEM_SETTINGS_PSEUDOREFERENCE_CODE " +
+    "UNITS_PSEUDOREFERENCE_CODE " +
+    "USERS_PSEUDOREFERENCE_CODE " +
+    "VIEWERS_PSEUDOREFERENCE_CODE ";
+
+  // Requisite ISBCertificateType values
+  var requisite_ISBCertificateType_values_constants =
+    "CERTIFICATE_TYPE_ENCRYPT " +
+    "CERTIFICATE_TYPE_SIGN " +
+    "CERTIFICATE_TYPE_SIGN_AND_ENCRYPT ";
+
+  // Requisite ISBEDocStorageType values
+  var requisite_ISBEDocStorageType_values_constants =
+    "STORAGE_TYPE_FILE " +
+    "STORAGE_TYPE_NAS_CIFS " +
+    "STORAGE_TYPE_SAPERION " +
+    "STORAGE_TYPE_SQL_SERVER ";
+
+  // Requisite CompType2 values
+  var requisite_compType2_values_constants =
+    "COMPTYPE2_REQUISITE_DOCUMENTS_VALUE " +
+    "COMPTYPE2_REQUISITE_TASKS_VALUE " +
+    "COMPTYPE2_REQUISITE_FOLDERS_VALUE " +
+    "COMPTYPE2_REQUISITE_REFERENCES_VALUE ";
+
+  // Requisite name
+  var requisite_name_constants =
+    "SYSREQ_CODE " +
+    "SYSREQ_COMPTYPE2 " +
+    "SYSREQ_CONST_AVAILABLE_FOR_WEB " +
+    "SYSREQ_CONST_COMMON_CODE " +
+    "SYSREQ_CONST_COMMON_VALUE " +
+    "SYSREQ_CONST_FIRM_CODE " +
+    "SYSREQ_CONST_FIRM_STATUS " +
+    "SYSREQ_CONST_FIRM_VALUE " +
+    "SYSREQ_CONST_SERVER_STATUS " +
+    "SYSREQ_CONTENTS " +
+    "SYSREQ_DATE_OPEN " +
+    "SYSREQ_DATE_CLOSE " +
+    "SYSREQ_DESCRIPTION " +
+    "SYSREQ_DESCRIPTION_LOCALIZE_ID " +
+    "SYSREQ_DOUBLE " +
+    "SYSREQ_EDOC_ACCESS_TYPE " +
+    "SYSREQ_EDOC_AUTHOR " +
+    "SYSREQ_EDOC_CREATED " +
+    "SYSREQ_EDOC_DELEGATE_RIGHTS_REQUISITE_CODE " +
+    "SYSREQ_EDOC_EDITOR " +
+    "SYSREQ_EDOC_ENCODE_TYPE " +
+    "SYSREQ_EDOC_ENCRYPTION_PLUGIN_NAME " +
+    "SYSREQ_EDOC_ENCRYPTION_PLUGIN_VERSION " +
+    "SYSREQ_EDOC_EXPORT_DATE " +
+    "SYSREQ_EDOC_EXPORTER " +
+    "SYSREQ_EDOC_KIND " +
+    "SYSREQ_EDOC_LIFE_STAGE_NAME " +
+    "SYSREQ_EDOC_LOCKED_FOR_SERVER_CODE " +
+    "SYSREQ_EDOC_MODIFIED " +
+    "SYSREQ_EDOC_NAME " +
+    "SYSREQ_EDOC_NOTE " +
+    "SYSREQ_EDOC_QUALIFIED_ID " +
+    "SYSREQ_EDOC_SESSION_KEY " +
+    "SYSREQ_EDOC_SESSION_KEY_ENCRYPTION_PLUGIN_NAME " +
+    "SYSREQ_EDOC_SESSION_KEY_ENCRYPTION_PLUGIN_VERSION " +
+    "SYSREQ_EDOC_SIGNATURE_TYPE " +
+    "SYSREQ_EDOC_SIGNED " +
+    "SYSREQ_EDOC_STORAGE " +
+    "SYSREQ_EDOC_STORAGES_ARCHIVE_STORAGE " +
+    "SYSREQ_EDOC_STORAGES_CHECK_RIGHTS " +
+    "SYSREQ_EDOC_STORAGES_COMPUTER_NAME " +
+    "SYSREQ_EDOC_STORAGES_EDIT_IN_STORAGE " +
+    "SYSREQ_EDOC_STORAGES_EXECUTIVE_STORAGE " +
+    "SYSREQ_EDOC_STORAGES_FUNCTION " +
+    "SYSREQ_EDOC_STORAGES_INITIALIZED " +
+    "SYSREQ_EDOC_STORAGES_LOCAL_PATH " +
+    "SYSREQ_EDOC_STORAGES_SAPERION_DATABASE_NAME " +
+    "SYSREQ_EDOC_STORAGES_SEARCH_BY_TEXT " +
+    "SYSREQ_EDOC_STORAGES_SERVER_NAME " +
+    "SYSREQ_EDOC_STORAGES_SHARED_SOURCE_NAME " +
+    "SYSREQ_EDOC_STORAGES_TYPE " +
+    "SYSREQ_EDOC_TEXT_MODIFIED " +
+    "SYSREQ_EDOC_TYPE_ACT_CODE " +
+    "SYSREQ_EDOC_TYPE_ACT_DESCRIPTION " +
+    "SYSREQ_EDOC_TYPE_ACT_DESCRIPTION_LOCALIZE_ID " +
+    "SYSREQ_EDOC_TYPE_ACT_ON_EXECUTE " +
+    "SYSREQ_EDOC_TYPE_ACT_ON_EXECUTE_EXISTS " +
+    "SYSREQ_EDOC_TYPE_ACT_SECTION " +
+    "SYSREQ_EDOC_TYPE_ADD_PARAMS " +
+    "SYSREQ_EDOC_TYPE_COMMENT " +
+    "SYSREQ_EDOC_TYPE_EVENT_TEXT " +
+    "SYSREQ_EDOC_TYPE_NAME_IN_SINGULAR " +
+    "SYSREQ_EDOC_TYPE_NAME_IN_SINGULAR_LOCALIZE_ID " +
+    "SYSREQ_EDOC_TYPE_NAME_LOCALIZE_ID " +
+    "SYSREQ_EDOC_TYPE_NUMERATION_METHOD " +
+    "SYSREQ_EDOC_TYPE_PSEUDO_REQUISITE_CODE " +
+    "SYSREQ_EDOC_TYPE_REQ_CODE " +
+    "SYSREQ_EDOC_TYPE_REQ_DESCRIPTION " +
+    "SYSREQ_EDOC_TYPE_REQ_DESCRIPTION_LOCALIZE_ID " +
+    "SYSREQ_EDOC_TYPE_REQ_IS_LEADING " +
+    "SYSREQ_EDOC_TYPE_REQ_IS_REQUIRED " +
+    "SYSREQ_EDOC_TYPE_REQ_NUMBER " +
+    "SYSREQ_EDOC_TYPE_REQ_ON_CHANGE " +
+    "SYSREQ_EDOC_TYPE_REQ_ON_CHANGE_EXISTS " +
+    "SYSREQ_EDOC_TYPE_REQ_ON_SELECT " +
+    "SYSREQ_EDOC_TYPE_REQ_ON_SELECT_KIND " +
+    "SYSREQ_EDOC_TYPE_REQ_SECTION " +
+    "SYSREQ_EDOC_TYPE_VIEW_CARD " +
+    "SYSREQ_EDOC_TYPE_VIEW_CODE " +
+    "SYSREQ_EDOC_TYPE_VIEW_COMMENT " +
+    "SYSREQ_EDOC_TYPE_VIEW_IS_MAIN " +
+    "SYSREQ_EDOC_TYPE_VIEW_NAME " +
+    "SYSREQ_EDOC_TYPE_VIEW_NAME_LOCALIZE_ID " +
+    "SYSREQ_EDOC_VERSION_AUTHOR " +
+    "SYSREQ_EDOC_VERSION_CRC " +
+    "SYSREQ_EDOC_VERSION_DATA " +
+    "SYSREQ_EDOC_VERSION_EDITOR " +
+    "SYSREQ_EDOC_VERSION_EXPORT_DATE " +
+    "SYSREQ_EDOC_VERSION_EXPORTER " +
+    "SYSREQ_EDOC_VERSION_HIDDEN " +
+    "SYSREQ_EDOC_VERSION_LIFE_STAGE " +
+    "SYSREQ_EDOC_VERSION_MODIFIED " +
+    "SYSREQ_EDOC_VERSION_NOTE " +
+    "SYSREQ_EDOC_VERSION_SIGNATURE_TYPE " +
+    "SYSREQ_EDOC_VERSION_SIGNED " +
+    "SYSREQ_EDOC_VERSION_SIZE " +
+    "SYSREQ_EDOC_VERSION_SOURCE " +
+    "SYSREQ_EDOC_VERSION_TEXT_MODIFIED " +
+    "SYSREQ_EDOCKIND_DEFAULT_VERSION_STATE_CODE " +
+    "SYSREQ_FOLDER_KIND " +
+    "SYSREQ_FUNC_CATEGORY " +
+    "SYSREQ_FUNC_COMMENT " +
+    "SYSREQ_FUNC_GROUP " +
+    "SYSREQ_FUNC_GROUP_COMMENT " +
+    "SYSREQ_FUNC_GROUP_NUMBER " +
+    "SYSREQ_FUNC_HELP " +
+    "SYSREQ_FUNC_PARAM_DEF_VALUE " +
+    "SYSREQ_FUNC_PARAM_IDENT " +
+    "SYSREQ_FUNC_PARAM_NUMBER " +
+    "SYSREQ_FUNC_PARAM_TYPE " +
+    "SYSREQ_FUNC_TEXT " +
+    "SYSREQ_GROUP_CATEGORY " +
+    "SYSREQ_ID " +
+    "SYSREQ_LAST_UPDATE " +
+    "SYSREQ_LEADER_REFERENCE " +
+    "SYSREQ_LINE_NUMBER " +
+    "SYSREQ_MAIN_RECORD_ID " +
+    "SYSREQ_NAME " +
+    "SYSREQ_NAME_LOCALIZE_ID " +
+    "SYSREQ_NOTE " +
+    "SYSREQ_ORIGINAL_RECORD " +
+    "SYSREQ_OUR_FIRM " +
+    "SYSREQ_PROFILING_SETTINGS_BATCH_LOGING " +
+    "SYSREQ_PROFILING_SETTINGS_BATCH_SIZE " +
+    "SYSREQ_PROFILING_SETTINGS_PROFILING_ENABLED " +
+    "SYSREQ_PROFILING_SETTINGS_SQL_PROFILING_ENABLED " +
+    "SYSREQ_PROFILING_SETTINGS_START_LOGGED " +
+    "SYSREQ_RECORD_STATUS " +
+    "SYSREQ_REF_REQ_FIELD_NAME " +
+    "SYSREQ_REF_REQ_FORMAT " +
+    "SYSREQ_REF_REQ_GENERATED " +
+    "SYSREQ_REF_REQ_LENGTH " +
+    "SYSREQ_REF_REQ_PRECISION " +
+    "SYSREQ_REF_REQ_REFERENCE " +
+    "SYSREQ_REF_REQ_SECTION " +
+    "SYSREQ_REF_REQ_STORED " +
+    "SYSREQ_REF_REQ_TOKENS " +
+    "SYSREQ_REF_REQ_TYPE " +
+    "SYSREQ_REF_REQ_VIEW " +
+    "SYSREQ_REF_TYPE_ACT_CODE " +
+    "SYSREQ_REF_TYPE_ACT_DESCRIPTION " +
+    "SYSREQ_REF_TYPE_ACT_DESCRIPTION_LOCALIZE_ID " +
+    "SYSREQ_REF_TYPE_ACT_ON_EXECUTE " +
+    "SYSREQ_REF_TYPE_ACT_ON_EXECUTE_EXISTS " +
+    "SYSREQ_REF_TYPE_ACT_SECTION " +
+    "SYSREQ_REF_TYPE_ADD_PARAMS " +
+    "SYSREQ_REF_TYPE_COMMENT " +
+    "SYSREQ_REF_TYPE_COMMON_SETTINGS " +
+    "SYSREQ_REF_TYPE_DISPLAY_REQUISITE_NAME " +
+    "SYSREQ_REF_TYPE_EVENT_TEXT " +
+    "SYSREQ_REF_TYPE_MAIN_LEADING_REF " +
+    "SYSREQ_REF_TYPE_NAME_IN_SINGULAR " +
+    "SYSREQ_REF_TYPE_NAME_IN_SINGULAR_LOCALIZE_ID " +
+    "SYSREQ_REF_TYPE_NAME_LOCALIZE_ID " +
+    "SYSREQ_REF_TYPE_NUMERATION_METHOD " +
+    "SYSREQ_REF_TYPE_REQ_CODE " +
+    "SYSREQ_REF_TYPE_REQ_DESCRIPTION " +
+    "SYSREQ_REF_TYPE_REQ_DESCRIPTION_LOCALIZE_ID " +
+    "SYSREQ_REF_TYPE_REQ_IS_CONTROL " +
+    "SYSREQ_REF_TYPE_REQ_IS_FILTER " +
+    "SYSREQ_REF_TYPE_REQ_IS_LEADING " +
+    "SYSREQ_REF_TYPE_REQ_IS_REQUIRED " +
+    "SYSREQ_REF_TYPE_REQ_NUMBER " +
+    "SYSREQ_REF_TYPE_REQ_ON_CHANGE " +
+    "SYSREQ_REF_TYPE_REQ_ON_CHANGE_EXISTS " +
+    "SYSREQ_REF_TYPE_REQ_ON_SELECT " +
+    "SYSREQ_REF_TYPE_REQ_ON_SELECT_KIND " +
+    "SYSREQ_REF_TYPE_REQ_SECTION " +
+    "SYSREQ_REF_TYPE_VIEW_CARD " +
+    "SYSREQ_REF_TYPE_VIEW_CODE " +
+    "SYSREQ_REF_TYPE_VIEW_COMMENT " +
+    "SYSREQ_REF_TYPE_VIEW_IS_MAIN " +
+    "SYSREQ_REF_TYPE_VIEW_NAME " +
+    "SYSREQ_REF_TYPE_VIEW_NAME_LOCALIZE_ID " +
+    "SYSREQ_REFERENCE_TYPE_ID " +
+    "SYSREQ_STATE " +
+    "SYSREQ_STATЕ " +
+    "SYSREQ_SYSTEM_SETTINGS_VALUE " +
+    "SYSREQ_TYPE " +
+    "SYSREQ_UNIT " +
+    "SYSREQ_UNIT_ID " +
+    "SYSREQ_USER_GROUPS_GROUP_FULL_NAME " +
+    "SYSREQ_USER_GROUPS_GROUP_NAME " +
+    "SYSREQ_USER_GROUPS_GROUP_SERVER_NAME " +
+    "SYSREQ_USERS_ACCESS_RIGHTS " +
+    "SYSREQ_USERS_AUTHENTICATION " +
+    "SYSREQ_USERS_CATEGORY " +
+    "SYSREQ_USERS_COMPONENT " +
+    "SYSREQ_USERS_COMPONENT_USER_IS_PUBLIC " +
+    "SYSREQ_USERS_DOMAIN " +
+    "SYSREQ_USERS_FULL_USER_NAME " +
+    "SYSREQ_USERS_GROUP " +
+    "SYSREQ_USERS_IS_MAIN_SERVER " +
+    "SYSREQ_USERS_LOGIN " +
+    "SYSREQ_USERS_REFERENCE_USER_IS_PUBLIC " +
+    "SYSREQ_USERS_STATUS " +
+    "SYSREQ_USERS_USER_CERTIFICATE " +
+    "SYSREQ_USERS_USER_CERTIFICATE_INFO " +
+    "SYSREQ_USERS_USER_CERTIFICATE_PLUGIN_NAME " +
+    "SYSREQ_USERS_USER_CERTIFICATE_PLUGIN_VERSION " +
+    "SYSREQ_USERS_USER_CERTIFICATE_STATE " +
+    "SYSREQ_USERS_USER_CERTIFICATE_SUBJECT_NAME " +
+    "SYSREQ_USERS_USER_CERTIFICATE_THUMBPRINT " +
+    "SYSREQ_USERS_USER_DEFAULT_CERTIFICATE " +
+    "SYSREQ_USERS_USER_DESCRIPTION " +
+    "SYSREQ_USERS_USER_GLOBAL_NAME " +
+    "SYSREQ_USERS_USER_LOGIN " +
+    "SYSREQ_USERS_USER_MAIN_SERVER " +
+    "SYSREQ_USERS_USER_TYPE " +
+    "SYSREQ_WORK_RULES_FOLDER_ID ";
+
+  // Result
+  var result_constants = "RESULT_VAR_NAME RESULT_VAR_NAME_ENG ";
+
+  // Rule identification
+  var rule_identification_constants =
+    "AUTO_NUMERATION_RULE_ID " +
+    "CANT_CHANGE_ID_REQUISITE_RULE_ID " +
+    "CANT_CHANGE_OURFIRM_REQUISITE_RULE_ID " +
+    "CHECK_CHANGING_REFERENCE_RECORD_USE_RULE_ID " +
+    "CHECK_CODE_REQUISITE_RULE_ID " +
+    "CHECK_DELETING_REFERENCE_RECORD_USE_RULE_ID " +
+    "CHECK_FILTRATER_CHANGES_RULE_ID " +
+    "CHECK_RECORD_INTERVAL_RULE_ID " +
+    "CHECK_REFERENCE_INTERVAL_RULE_ID " +
+    "CHECK_REQUIRED_DATA_FULLNESS_RULE_ID " +
+    "CHECK_REQUIRED_REQUISITES_FULLNESS_RULE_ID " +
+    "MAKE_RECORD_UNRATIFIED_RULE_ID " +
+    "RESTORE_AUTO_NUMERATION_RULE_ID " +
+    "SET_FIRM_CONTEXT_FROM_RECORD_RULE_ID " +
+    "SET_FIRST_RECORD_IN_LIST_FORM_RULE_ID " +
+    "SET_IDSPS_VALUE_RULE_ID " +
+    "SET_NEXT_CODE_VALUE_RULE_ID " +
+    "SET_OURFIRM_BOUNDS_RULE_ID " +
+    "SET_OURFIRM_REQUISITE_RULE_ID ";
+
+  // Script block properties
+  var script_block_properties_constants =
+    "SCRIPT_BLOCK_AFTER_FINISH_EVENT " +
+    "SCRIPT_BLOCK_BEFORE_START_EVENT " +
+    "SCRIPT_BLOCK_EXECUTION_RESULTS_PROPERTY " +
+    "SCRIPT_BLOCK_NAME_PROPERTY " +
+    "SCRIPT_BLOCK_SCRIPT_PROPERTY ";
+
+  // Subtask block properties
+  var subtask_block_properties_constants =
+    "SUBTASK_BLOCK_ABORT_DEADLINE_PROPERTY " +
+    "SUBTASK_BLOCK_AFTER_FINISH_EVENT " +
+    "SUBTASK_BLOCK_ASSIGN_PARAMS_EVENT " +
+    "SUBTASK_BLOCK_ATTACHMENTS_PROPERTY " +
+    "SUBTASK_BLOCK_ATTACHMENTS_RIGHTS_GROUP_PROPERTY " +
+    "SUBTASK_BLOCK_ATTACHMENTS_RIGHTS_TYPE_PROPERTY " +
+    "SUBTASK_BLOCK_BEFORE_START_EVENT " +
+    "SUBTASK_BLOCK_CREATED_TASK_PROPERTY " +
+    "SUBTASK_BLOCK_CREATION_EVENT " +
+    "SUBTASK_BLOCK_DEADLINE_PROPERTY " +
+    "SUBTASK_BLOCK_IMPORTANCE_PROPERTY " +
+    "SUBTASK_BLOCK_INITIATOR_PROPERTY " +
+    "SUBTASK_BLOCK_IS_RELATIVE_ABORT_DEADLINE_PROPERTY " +
+    "SUBTASK_BLOCK_IS_RELATIVE_DEADLINE_PROPERTY " +
+    "SUBTASK_BLOCK_JOBS_TYPE_PROPERTY " +
+    "SUBTASK_BLOCK_NAME_PROPERTY " +
+    "SUBTASK_BLOCK_PARALLEL_ROUTE_PROPERTY " +
+    "SUBTASK_BLOCK_PERFORMERS_PROPERTY " +
+    "SUBTASK_BLOCK_RELATIVE_ABORT_DEADLINE_TYPE_PROPERTY " +
+    "SUBTASK_BLOCK_RELATIVE_DEADLINE_TYPE_PROPERTY " +
+    "SUBTASK_BLOCK_REQUIRE_SIGN_PROPERTY " +
+    "SUBTASK_BLOCK_STANDARD_ROUTE_PROPERTY " +
+    "SUBTASK_BLOCK_START_EVENT " +
+    "SUBTASK_BLOCK_STEP_CONTROL_PROPERTY " +
+    "SUBTASK_BLOCK_SUBJECT_PROPERTY " +
+    "SUBTASK_BLOCK_TASK_CONTROL_PROPERTY " +
+    "SUBTASK_BLOCK_TEXT_PROPERTY " +
+    "SUBTASK_BLOCK_UNLOCK_ATTACHMENTS_ON_STOP_PROPERTY " +
+    "SUBTASK_BLOCK_USE_STANDARD_ROUTE_PROPERTY " +
+    "SUBTASK_BLOCK_WAIT_FOR_TASK_COMPLETE_PROPERTY ";
+
+  // System component
+  var system_component_constants =
+    "SYSCOMP_CONTROL_JOBS " +
+    "SYSCOMP_FOLDERS " +
+    "SYSCOMP_JOBS " +
+    "SYSCOMP_NOTICES " +
+    "SYSCOMP_TASKS ";
+
+  // System dialogs
+  var system_dialogs_constants =
+    "SYSDLG_CREATE_EDOCUMENT " +
+    "SYSDLG_CREATE_EDOCUMENT_VERSION " +
+    "SYSDLG_CURRENT_PERIOD " +
+    "SYSDLG_EDIT_FUNCTION_HELP " +
+    "SYSDLG_EDOCUMENT_KINDS_FOR_TEMPLATE " +
+    "SYSDLG_EXPORT_MULTIPLE_EDOCUMENTS " +
+    "SYSDLG_EXPORT_SINGLE_EDOCUMENT " +
+    "SYSDLG_IMPORT_EDOCUMENT " +
+    "SYSDLG_MULTIPLE_SELECT " +
+    "SYSDLG_SETUP_ACCESS_RIGHTS " +
+    "SYSDLG_SETUP_DEFAULT_RIGHTS " +
+    "SYSDLG_SETUP_FILTER_CONDITION " +
+    "SYSDLG_SETUP_SIGN_RIGHTS " +
+    "SYSDLG_SETUP_TASK_OBSERVERS " +
+    "SYSDLG_SETUP_TASK_ROUTE " +
+    "SYSDLG_SETUP_USERS_LIST " +
+    "SYSDLG_SIGN_EDOCUMENT " +
+    "SYSDLG_SIGN_MULTIPLE_EDOCUMENTS ";
+
+  // System reference names
+  var system_reference_names_constants =
+    "SYSREF_ACCESS_RIGHTS_TYPES " +
+    "SYSREF_ADMINISTRATION_HISTORY " +
+    "SYSREF_ALL_AVAILABLE_COMPONENTS " +
+    "SYSREF_ALL_AVAILABLE_PRIVILEGES " +
+    "SYSREF_ALL_REPLICATING_COMPONENTS " +
+    "SYSREF_AVAILABLE_DEVELOPERS_COMPONENTS " +
+    "SYSREF_CALENDAR_EVENTS " +
+    "SYSREF_COMPONENT_TOKEN_HISTORY " +
+    "SYSREF_COMPONENT_TOKENS " +
+    "SYSREF_COMPONENTS " +
+    "SYSREF_CONSTANTS " +
+    "SYSREF_DATA_RECEIVE_PROTOCOL " +
+    "SYSREF_DATA_SEND_PROTOCOL " +
+    "SYSREF_DIALOGS " +
+    "SYSREF_DIALOGS_REQUISITES " +
+    "SYSREF_EDITORS " +
+    "SYSREF_EDOC_CARDS " +
+    "SYSREF_EDOC_TYPES " +
+    "SYSREF_EDOCUMENT_CARD_REQUISITES " +
+    "SYSREF_EDOCUMENT_CARD_TYPES " +
+    "SYSREF_EDOCUMENT_CARD_TYPES_REFERENCE " +
+    "SYSREF_EDOCUMENT_CARDS " +
+    "SYSREF_EDOCUMENT_HISTORY " +
+    "SYSREF_EDOCUMENT_KINDS " +
+    "SYSREF_EDOCUMENT_REQUISITES " +
+    "SYSREF_EDOCUMENT_SIGNATURES " +
+    "SYSREF_EDOCUMENT_TEMPLATES " +
+    "SYSREF_EDOCUMENT_TEXT_STORAGES " +
+    "SYSREF_EDOCUMENT_VIEWS " +
+    "SYSREF_FILTERER_SETUP_CONFLICTS " +
+    "SYSREF_FILTRATER_SETTING_CONFLICTS " +
+    "SYSREF_FOLDER_HISTORY " +
+    "SYSREF_FOLDERS " +
+    "SYSREF_FUNCTION_GROUPS " +
+    "SYSREF_FUNCTION_PARAMS " +
+    "SYSREF_FUNCTIONS " +
+    "SYSREF_JOB_HISTORY " +
+    "SYSREF_LINKS " +
+    "SYSREF_LOCALIZATION_DICTIONARY " +
+    "SYSREF_LOCALIZATION_LANGUAGES " +
+    "SYSREF_MODULES " +
+    "SYSREF_PRIVILEGES " +
+    "SYSREF_RECORD_HISTORY " +
+    "SYSREF_REFERENCE_REQUISITES " +
+    "SYSREF_REFERENCE_TYPE_VIEWS " +
+    "SYSREF_REFERENCE_TYPES " +
+    "SYSREF_REFERENCES " +
+    "SYSREF_REFERENCES_REQUISITES " +
+    "SYSREF_REMOTE_SERVERS " +
+    "SYSREF_REPLICATION_SESSIONS_LOG " +
+    "SYSREF_REPLICATION_SESSIONS_PROTOCOL " +
+    "SYSREF_REPORTS " +
+    "SYSREF_ROLES " +
+    "SYSREF_ROUTE_BLOCK_GROUPS " +
+    "SYSREF_ROUTE_BLOCKS " +
+    "SYSREF_SCRIPTS " +
+    "SYSREF_SEARCHES " +
+    "SYSREF_SERVER_EVENTS " +
+    "SYSREF_SERVER_EVENTS_HISTORY " +
+    "SYSREF_STANDARD_ROUTE_GROUPS " +
+    "SYSREF_STANDARD_ROUTES " +
+    "SYSREF_STATUSES " +
+    "SYSREF_SYSTEM_SETTINGS " +
+    "SYSREF_TASK_HISTORY " +
+    "SYSREF_TASK_KIND_GROUPS " +
+    "SYSREF_TASK_KINDS " +
+    "SYSREF_TASK_RIGHTS " +
+    "SYSREF_TASK_SIGNATURES " +
+    "SYSREF_TASKS " +
+    "SYSREF_UNITS " +
+    "SYSREF_USER_GROUPS " +
+    "SYSREF_USER_GROUPS_REFERENCE " +
+    "SYSREF_USER_SUBSTITUTION " +
+    "SYSREF_USERS " +
+    "SYSREF_USERS_REFERENCE " +
+    "SYSREF_VIEWERS " +
+    "SYSREF_WORKING_TIME_CALENDARS ";
+
+  // Table name
+  var table_name_constants =
+    "ACCESS_RIGHTS_TABLE_NAME " +
+    "EDMS_ACCESS_TABLE_NAME " +
+    "EDOC_TYPES_TABLE_NAME ";
+
+  // Test
+  var test_constants =
+    "TEST_DEV_DB_NAME " +
+    "TEST_DEV_SYSTEM_CODE " +
+    "TEST_EDMS_DB_NAME " +
+    "TEST_EDMS_MAIN_CODE " +
+    "TEST_EDMS_MAIN_DB_NAME " +
+    "TEST_EDMS_SECOND_CODE " +
+    "TEST_EDMS_SECOND_DB_NAME " +
+    "TEST_EDMS_SYSTEM_CODE " +
+    "TEST_ISB5_MAIN_CODE " +
+    "TEST_ISB5_SECOND_CODE " +
+    "TEST_SQL_SERVER_2005_NAME " +
+    "TEST_SQL_SERVER_NAME ";
+
+  // Using the dialog windows
+  var using_the_dialog_windows_constants =
+    "ATTENTION_CAPTION " +
+    "cbsCommandLinks " +
+    "cbsDefault " +
+    "CONFIRMATION_CAPTION " +
+    "ERROR_CAPTION " +
+    "INFORMATION_CAPTION " +
+    "mrCancel " +
+    "mrOk ";
+
+  // Using the document
+  var using_the_document_constants =
+    "EDOC_VERSION_ACTIVE_STAGE_CODE " +
+    "EDOC_VERSION_DESIGN_STAGE_CODE " +
+    "EDOC_VERSION_OBSOLETE_STAGE_CODE ";
+
+  // Using the EA and encryption
+  var using_the_EA_and_encryption_constants =
+    "cpDataEnciphermentEnabled " +
+    "cpDigitalSignatureEnabled " +
+    "cpID " +
+    "cpIssuer " +
+    "cpPluginVersion " +
+    "cpSerial " +
+    "cpSubjectName " +
+    "cpSubjSimpleName " +
+    "cpValidFromDate " +
+    "cpValidToDate ";
+
+  // Using the ISBL-editor
+  var using_the_ISBL_editor_constants =
+    "ISBL_SYNTAX " + "NO_SYNTAX " + "XML_SYNTAX ";
+
+  // Wait block properties
+  var wait_block_properties_constants =
+    "WAIT_BLOCK_AFTER_FINISH_EVENT " +
+    "WAIT_BLOCK_BEFORE_START_EVENT " +
+    "WAIT_BLOCK_DEADLINE_PROPERTY " +
+    "WAIT_BLOCK_IS_RELATIVE_DEADLINE_PROPERTY " +
+    "WAIT_BLOCK_NAME_PROPERTY " +
+    "WAIT_BLOCK_RELATIVE_DEADLINE_TYPE_PROPERTY ";
+
+  // SYSRES Common
+  var sysres_common_constants =
+    "SYSRES_COMMON " +
+    "SYSRES_CONST " +
+    "SYSRES_MBFUNC " +
+    "SYSRES_SBDATA " +
+    "SYSRES_SBGUI " +
+    "SYSRES_SBINTF " +
+    "SYSRES_SBREFDSC " +
+    "SYSRES_SQLERRORS " +
+    "SYSRES_SYSCOMP ";
+
+  // Константы ==> built_in
+  var CONSTANTS =
+    sysres_constants +
+    base_constants +
+    base_group_name_constants +
+    decision_block_properties_constants +
+    file_extension_constants +
+    job_block_properties_constants +
+    language_code_constants +
+    launching_external_applications_constants +
+    link_kind_constants +
+    lock_type_constants +
+    monitor_block_properties_constants +
+    notice_block_properties_constants +
+    object_events_constants +
+    object_params_constants +
+    other_constants +
+    privileges_constants +
+    pseudoreference_code_constants +
+    requisite_ISBCertificateType_values_constants +
+    requisite_ISBEDocStorageType_values_constants +
+    requisite_compType2_values_constants +
+    requisite_name_constants +
+    result_constants +
+    rule_identification_constants +
+    script_block_properties_constants +
+    subtask_block_properties_constants +
+    system_component_constants +
+    system_dialogs_constants +
+    system_reference_names_constants +
+    table_name_constants +
+    test_constants +
+    using_the_dialog_windows_constants +
+    using_the_document_constants +
+    using_the_EA_and_encryption_constants +
+    using_the_ISBL_editor_constants +
+    wait_block_properties_constants +
+    sysres_common_constants;
+
+  // enum TAccountType
+  var TAccountType = "atUser atGroup atRole ";
+
+  // enum TActionEnabledMode
+  var TActionEnabledMode =
+    "aemEnabledAlways " +
+    "aemDisabledAlways " +
+    "aemEnabledOnBrowse " +
+    "aemEnabledOnEdit " +
+    "aemDisabledOnBrowseEmpty ";
+
+  // enum TAddPosition
+  var TAddPosition = "apBegin apEnd ";
+
+  // enum TAlignment
+  var TAlignment = "alLeft alRight ";
+
+  // enum TAreaShowMode
+  var TAreaShowMode =
+    "asmNever " +
+    "asmNoButCustomize " +
+    "asmAsLastTime " +
+    "asmYesButCustomize " +
+    "asmAlways ";
+
+  // enum TCertificateInvalidationReason
+  var TCertificateInvalidationReason = "cirCommon cirRevoked ";
+
+  // enum TCertificateType
+  var TCertificateType = "ctSignature ctEncode ctSignatureEncode ";
+
+  // enum TCheckListBoxItemState
+  var TCheckListBoxItemState = "clbUnchecked clbChecked clbGrayed ";
+
+  // enum TCloseOnEsc
+  var TCloseOnEsc = "ceISB ceAlways ceNever ";
+
+  // enum TCompType
+  var TCompType =
+    "ctDocument " +
+    "ctReference " +
+    "ctScript " +
+    "ctUnknown " +
+    "ctReport " +
+    "ctDialog " +
+    "ctFunction " +
+    "ctFolder " +
+    "ctEDocument " +
+    "ctTask " +
+    "ctJob " +
+    "ctNotice " +
+    "ctControlJob ";
+
+  // enum TConditionFormat
+  var TConditionFormat = "cfInternal cfDisplay ";
+
+  // enum TConnectionIntent
+  var TConnectionIntent = "ciUnspecified ciWrite ciRead ";
+
+  // enum TContentKind
+  var TContentKind =
+    "ckFolder " +
+    "ckEDocument " +
+    "ckTask " +
+    "ckJob " +
+    "ckComponentToken " +
+    "ckAny " +
+    "ckReference " +
+    "ckScript " +
+    "ckReport " +
+    "ckDialog ";
+
+  // enum TControlType
+  var TControlType =
+    "ctISBLEditor " +
+    "ctBevel " +
+    "ctButton " +
+    "ctCheckListBox " +
+    "ctComboBox " +
+    "ctComboEdit " +
+    "ctGrid " +
+    "ctDBCheckBox " +
+    "ctDBComboBox " +
+    "ctDBEdit " +
+    "ctDBEllipsis " +
+    "ctDBMemo " +
+    "ctDBNavigator " +
+    "ctDBRadioGroup " +
+    "ctDBStatusLabel " +
+    "ctEdit " +
+    "ctGroupBox " +
+    "ctInplaceHint " +
+    "ctMemo " +
+    "ctPanel " +
+    "ctListBox " +
+    "ctRadioButton " +
+    "ctRichEdit " +
+    "ctTabSheet " +
+    "ctWebBrowser " +
+    "ctImage " +
+    "ctHyperLink " +
+    "ctLabel " +
+    "ctDBMultiEllipsis " +
+    "ctRibbon " +
+    "ctRichView " +
+    "ctInnerPanel " +
+    "ctPanelGroup " +
+    "ctBitButton ";
+
+  // enum TCriterionContentType
+  var TCriterionContentType =
+    "cctDate " +
+    "cctInteger " +
+    "cctNumeric " +
+    "cctPick " +
+    "cctReference " +
+    "cctString " +
+    "cctText ";
+
+  // enum TCultureType
+  var TCultureType = "cltInternal cltPrimary cltGUI ";
+
+  // enum TDataSetEventType
+  var TDataSetEventType =
+    "dseBeforeOpen " +
+    "dseAfterOpen " +
+    "dseBeforeClose " +
+    "dseAfterClose " +
+    "dseOnValidDelete " +
+    "dseBeforeDelete " +
+    "dseAfterDelete " +
+    "dseAfterDeleteOutOfTransaction " +
+    "dseOnDeleteError " +
+    "dseBeforeInsert " +
+    "dseAfterInsert " +
+    "dseOnValidUpdate " +
+    "dseBeforeUpdate " +
+    "dseOnUpdateRatifiedRecord " +
+    "dseAfterUpdate " +
+    "dseAfterUpdateOutOfTransaction " +
+    "dseOnUpdateError " +
+    "dseAfterScroll " +
+    "dseOnOpenRecord " +
+    "dseOnCloseRecord " +
+    "dseBeforeCancel " +
+    "dseAfterCancel " +
+    "dseOnUpdateDeadlockError " +
+    "dseBeforeDetailUpdate " +
+    "dseOnPrepareUpdate " +
+    "dseOnAnyRequisiteChange ";
+
+  // enum TDataSetState
+  var TDataSetState = "dssEdit dssInsert dssBrowse dssInActive ";
+
+  // enum TDateFormatType
+  var TDateFormatType = "dftDate dftShortDate dftDateTime dftTimeStamp ";
+
+  // enum TDateOffsetType
+  var TDateOffsetType = "dotDays dotHours dotMinutes dotSeconds ";
+
+  // enum TDateTimeKind
+  var TDateTimeKind = "dtkndLocal dtkndUTC ";
+
+  // enum TDeaAccessRights
+  var TDeaAccessRights = "arNone arView arEdit arFull ";
+
+  // enum TDocumentDefaultAction
+  var TDocumentDefaultAction = "ddaView ddaEdit ";
+
+  // enum TEditMode
+  var TEditMode =
+    "emLock " +
+    "emEdit " +
+    "emSign " +
+    "emExportWithLock " +
+    "emImportWithUnlock " +
+    "emChangeVersionNote " +
+    "emOpenForModify " +
+    "emChangeLifeStage " +
+    "emDelete " +
+    "emCreateVersion " +
+    "emImport " +
+    "emUnlockExportedWithLock " +
+    "emStart " +
+    "emAbort " +
+    "emReInit " +
+    "emMarkAsReaded " +
+    "emMarkAsUnreaded " +
+    "emPerform " +
+    "emAccept " +
+    "emResume " +
+    "emChangeRights " +
+    "emEditRoute " +
+    "emEditObserver " +
+    "emRecoveryFromLocalCopy " +
+    "emChangeWorkAccessType " +
+    "emChangeEncodeTypeToCertificate " +
+    "emChangeEncodeTypeToPassword " +
+    "emChangeEncodeTypeToNone " +
+    "emChangeEncodeTypeToCertificatePassword " +
+    "emChangeStandardRoute " +
+    "emGetText " +
+    "emOpenForView " +
+    "emMoveToStorage " +
+    "emCreateObject " +
+    "emChangeVersionHidden " +
+    "emDeleteVersion " +
+    "emChangeLifeCycleStage " +
+    "emApprovingSign " +
+    "emExport " +
+    "emContinue " +
+    "emLockFromEdit " +
+    "emUnLockForEdit " +
+    "emLockForServer " +
+    "emUnlockFromServer " +
+    "emDelegateAccessRights " +
+    "emReEncode ";
+
+  // enum TEditorCloseObservType
+  var TEditorCloseObservType = "ecotFile ecotProcess ";
+
+  // enum TEdmsApplicationAction
+  var TEdmsApplicationAction = "eaGet eaCopy eaCreate eaCreateStandardRoute ";
+
+  // enum TEDocumentLockType
+  var TEDocumentLockType = "edltAll edltNothing edltQuery ";
+
+  // enum TEDocumentStepShowMode
+  var TEDocumentStepShowMode = "essmText essmCard ";
+
+  // enum TEDocumentStepVersionType
+  var TEDocumentStepVersionType = "esvtLast esvtLastActive esvtSpecified ";
+
+  // enum TEDocumentStorageFunction
+  var TEDocumentStorageFunction = "edsfExecutive edsfArchive ";
+
+  // enum TEDocumentStorageType
+  var TEDocumentStorageType = "edstSQLServer edstFile ";
+
+  // enum TEDocumentVersionSourceType
+  var TEDocumentVersionSourceType =
+    "edvstNone edvstEDocumentVersionCopy edvstFile edvstTemplate edvstScannedFile ";
+
+  // enum TEDocumentVersionState
+  var TEDocumentVersionState = "vsDefault vsDesign vsActive vsObsolete ";
+
+  // enum TEncodeType
+  var TEncodeType = "etNone etCertificate etPassword etCertificatePassword ";
+
+  // enum TExceptionCategory
+  var TExceptionCategory = "ecException ecWarning ecInformation ";
+
+  // enum TExportedSignaturesType
+  var TExportedSignaturesType = "estAll estApprovingOnly ";
+
+  // enum TExportedVersionType
+  var TExportedVersionType = "evtLast evtLastActive evtQuery ";
+
+  // enum TFieldDataType
+  var TFieldDataType =
+    "fdtString " +
+    "fdtNumeric " +
+    "fdtInteger " +
+    "fdtDate " +
+    "fdtText " +
+    "fdtUnknown " +
+    "fdtWideString " +
+    "fdtLargeInteger ";
+
+  // enum TFolderType
+  var TFolderType =
+    "ftInbox " +
+    "ftOutbox " +
+    "ftFavorites " +
+    "ftCommonFolder " +
+    "ftUserFolder " +
+    "ftComponents " +
+    "ftQuickLaunch " +
+    "ftShortcuts " +
+    "ftSearch ";
+
+  // enum TGridRowHeight
+  var TGridRowHeight = "grhAuto " + "grhX1 " + "grhX2 " + "grhX3 ";
+
+  // enum THyperlinkType
+  var THyperlinkType = "hltText " + "hltRTF " + "hltHTML ";
+
+  // enum TImageFileFormat
+  var TImageFileFormat =
+    "iffBMP " +
+    "iffJPEG " +
+    "iffMultiPageTIFF " +
+    "iffSinglePageTIFF " +
+    "iffTIFF " +
+    "iffPNG ";
+
+  // enum TImageMode
+  var TImageMode = "im8bGrayscale " + "im24bRGB " + "im1bMonochrome ";
+
+  // enum TImageType
+  var TImageType = "itBMP " + "itJPEG " + "itWMF " + "itPNG ";
+
+  // enum TInplaceHintKind
+  var TInplaceHintKind =
+    "ikhInformation " + "ikhWarning " + "ikhError " + "ikhNoIcon ";
+
+  // enum TISBLContext
+  var TISBLContext =
+    "icUnknown " +
+    "icScript " +
+    "icFunction " +
+    "icIntegratedReport " +
+    "icAnalyticReport " +
+    "icDataSetEventHandler " +
+    "icActionHandler " +
+    "icFormEventHandler " +
+    "icLookUpEventHandler " +
+    "icRequisiteChangeEventHandler " +
+    "icBeforeSearchEventHandler " +
+    "icRoleCalculation " +
+    "icSelectRouteEventHandler " +
+    "icBlockPropertyCalculation " +
+    "icBlockQueryParamsEventHandler " +
+    "icChangeSearchResultEventHandler " +
+    "icBlockEventHandler " +
+    "icSubTaskInitEventHandler " +
+    "icEDocDataSetEventHandler " +
+    "icEDocLookUpEventHandler " +
+    "icEDocActionHandler " +
+    "icEDocFormEventHandler " +
+    "icEDocRequisiteChangeEventHandler " +
+    "icStructuredConversionRule " +
+    "icStructuredConversionEventBefore " +
+    "icStructuredConversionEventAfter " +
+    "icWizardEventHandler " +
+    "icWizardFinishEventHandler " +
+    "icWizardStepEventHandler " +
+    "icWizardStepFinishEventHandler " +
+    "icWizardActionEnableEventHandler " +
+    "icWizardActionExecuteEventHandler " +
+    "icCreateJobsHandler " +
+    "icCreateNoticesHandler " +
+    "icBeforeLookUpEventHandler " +
+    "icAfterLookUpEventHandler " +
+    "icTaskAbortEventHandler " +
+    "icWorkflowBlockActionHandler " +
+    "icDialogDataSetEventHandler " +
+    "icDialogActionHandler " +
+    "icDialogLookUpEventHandler " +
+    "icDialogRequisiteChangeEventHandler " +
+    "icDialogFormEventHandler " +
+    "icDialogValidCloseEventHandler " +
+    "icBlockFormEventHandler " +
+    "icTaskFormEventHandler " +
+    "icReferenceMethod " +
+    "icEDocMethod " +
+    "icDialogMethod " +
+    "icProcessMessageHandler ";
+
+  // enum TItemShow
+  var TItemShow = "isShow " + "isHide " + "isByUserSettings ";
+
+  // enum TJobKind
+  var TJobKind = "jkJob " + "jkNotice " + "jkControlJob ";
+
+  // enum TJoinType
+  var TJoinType = "jtInner " + "jtLeft " + "jtRight " + "jtFull " + "jtCross ";
+
+  // enum TLabelPos
+  var TLabelPos = "lbpAbove " + "lbpBelow " + "lbpLeft " + "lbpRight ";
+
+  // enum TLicensingType
+  var TLicensingType = "eltPerConnection " + "eltPerUser ";
+
+  // enum TLifeCycleStageFontColor
+  var TLifeCycleStageFontColor =
+    "sfcUndefined " +
+    "sfcBlack " +
+    "sfcGreen " +
+    "sfcRed " +
+    "sfcBlue " +
+    "sfcOrange " +
+    "sfcLilac ";
+
+  // enum TLifeCycleStageFontStyle
+  var TLifeCycleStageFontStyle = "sfsItalic " + "sfsStrikeout " + "sfsNormal ";
+
+  // enum TLockableDevelopmentComponentType
+  var TLockableDevelopmentComponentType =
+    "ldctStandardRoute " +
+    "ldctWizard " +
+    "ldctScript " +
+    "ldctFunction " +
+    "ldctRouteBlock " +
+    "ldctIntegratedReport " +
+    "ldctAnalyticReport " +
+    "ldctReferenceType " +
+    "ldctEDocumentType " +
+    "ldctDialog " +
+    "ldctServerEvents ";
+
+  // enum TMaxRecordCountRestrictionType
+  var TMaxRecordCountRestrictionType =
+    "mrcrtNone " + "mrcrtUser " + "mrcrtMaximal " + "mrcrtCustom ";
+
+  // enum TRangeValueType
+  var TRangeValueType =
+    "vtEqual " + "vtGreaterOrEqual " + "vtLessOrEqual " + "vtRange ";
+
+  // enum TRelativeDate
+  var TRelativeDate =
+    "rdYesterday " +
+    "rdToday " +
+    "rdTomorrow " +
+    "rdThisWeek " +
+    "rdThisMonth " +
+    "rdThisYear " +
+    "rdNextMonth " +
+    "rdNextWeek " +
+    "rdLastWeek " +
+    "rdLastMonth ";
+
+  // enum TReportDestination
+  var TReportDestination = "rdWindow " + "rdFile " + "rdPrinter ";
+
+  // enum TReqDataType
+  var TReqDataType =
+    "rdtString " +
+    "rdtNumeric " +
+    "rdtInteger " +
+    "rdtDate " +
+    "rdtReference " +
+    "rdtAccount " +
+    "rdtText " +
+    "rdtPick " +
+    "rdtUnknown " +
+    "rdtLargeInteger " +
+    "rdtDocument ";
+
+  // enum TRequisiteEventType
+  var TRequisiteEventType = "reOnChange " + "reOnChangeValues ";
+
+  // enum TSBTimeType
+  var TSBTimeType = "ttGlobal " + "ttLocal " + "ttUser " + "ttSystem ";
+
+  // enum TSearchShowMode
+  var TSearchShowMode =
+    "ssmBrowse " + "ssmSelect " + "ssmMultiSelect " + "ssmBrowseModal ";
+
+  // enum TSelectMode
+  var TSelectMode = "smSelect " + "smLike " + "smCard ";
+
+  // enum TSignatureType
+  var TSignatureType = "stNone " + "stAuthenticating " + "stApproving ";
+
+  // enum TSignerContentType
+  var TSignerContentType = "sctString " + "sctStream ";
+
+  // enum TStringsSortType
+  var TStringsSortType = "sstAnsiSort " + "sstNaturalSort ";
+
+  // enum TStringValueType
+  var TStringValueType = "svtEqual " + "svtContain ";
+
+  // enum TStructuredObjectAttributeType
+  var TStructuredObjectAttributeType =
+    "soatString " +
+    "soatNumeric " +
+    "soatInteger " +
+    "soatDatetime " +
+    "soatReferenceRecord " +
+    "soatText " +
+    "soatPick " +
+    "soatBoolean " +
+    "soatEDocument " +
+    "soatAccount " +
+    "soatIntegerCollection " +
+    "soatNumericCollection " +
+    "soatStringCollection " +
+    "soatPickCollection " +
+    "soatDatetimeCollection " +
+    "soatBooleanCollection " +
+    "soatReferenceRecordCollection " +
+    "soatEDocumentCollection " +
+    "soatAccountCollection " +
+    "soatContents " +
+    "soatUnknown ";
+
+  // enum TTaskAbortReason
+  var TTaskAbortReason = "tarAbortByUser " + "tarAbortByWorkflowException ";
+
+  // enum TTextValueType
+  var TTextValueType = "tvtAllWords " + "tvtExactPhrase " + "tvtAnyWord ";
+
+  // enum TUserObjectStatus
+  var TUserObjectStatus =
+    "usNone " +
+    "usCompleted " +
+    "usRedSquare " +
+    "usBlueSquare " +
+    "usYellowSquare " +
+    "usGreenSquare " +
+    "usOrangeSquare " +
+    "usPurpleSquare " +
+    "usFollowUp ";
+
+  // enum TUserType
+  var TUserType =
+    "utUnknown " +
+    "utUser " +
+    "utDeveloper " +
+    "utAdministrator " +
+    "utSystemDeveloper " +
+    "utDisconnected ";
+
+  // enum TValuesBuildType
+  var TValuesBuildType =
+    "btAnd " + "btDetailAnd " + "btOr " + "btNotOr " + "btOnly ";
+
+  // enum TViewMode
+  var TViewMode = "vmView " + "vmSelect " + "vmNavigation ";
+
+  // enum TViewSelectionMode
+  var TViewSelectionMode =
+    "vsmSingle " + "vsmMultiple " + "vsmMultipleCheck " + "vsmNoSelection ";
+
+  // enum TWizardActionType
+  var TWizardActionType =
+    "wfatPrevious " + "wfatNext " + "wfatCancel " + "wfatFinish ";
+
+  // enum TWizardFormElementProperty
+  var TWizardFormElementProperty =
+    "wfepUndefined " +
+    "wfepText3 " +
+    "wfepText6 " +
+    "wfepText9 " +
+    "wfepSpinEdit " +
+    "wfepDropDown " +
+    "wfepRadioGroup " +
+    "wfepFlag " +
+    "wfepText12 " +
+    "wfepText15 " +
+    "wfepText18 " +
+    "wfepText21 " +
+    "wfepText24 " +
+    "wfepText27 " +
+    "wfepText30 " +
+    "wfepRadioGroupColumn1 " +
+    "wfepRadioGroupColumn2 " +
+    "wfepRadioGroupColumn3 ";
+
+  // enum TWizardFormElementType
+  var TWizardFormElementType =
+    "wfetQueryParameter " + "wfetText " + "wfetDelimiter " + "wfetLabel ";
+
+  // enum TWizardParamType
+  var TWizardParamType =
+    "wptString " +
+    "wptInteger " +
+    "wptNumeric " +
+    "wptBoolean " +
+    "wptDateTime " +
+    "wptPick " +
+    "wptText " +
+    "wptUser " +
+    "wptUserList " +
+    "wptEDocumentInfo " +
+    "wptEDocumentInfoList " +
+    "wptReferenceRecordInfo " +
+    "wptReferenceRecordInfoList " +
+    "wptFolderInfo " +
+    "wptTaskInfo " +
+    "wptContents " +
+    "wptFileName " +
+    "wptDate ";
+
+  // enum TWizardStepResult
+  var TWizardStepResult =
+    "wsrComplete " +
+    "wsrGoNext " +
+    "wsrGoPrevious " +
+    "wsrCustom " +
+    "wsrCancel " +
+    "wsrGoFinal ";
+
+  // enum TWizardStepType
+  var TWizardStepType =
+    "wstForm " +
+    "wstEDocument " +
+    "wstTaskCard " +
+    "wstReferenceRecordCard " +
+    "wstFinal ";
+
+  // enum TWorkAccessType
+  var TWorkAccessType = "waAll " + "waPerformers " + "waManual ";
+
+  // enum TWorkflowBlockType
+  var TWorkflowBlockType =
+    "wsbStart " +
+    "wsbFinish " +
+    "wsbNotice " +
+    "wsbStep " +
+    "wsbDecision " +
+    "wsbWait " +
+    "wsbMonitor " +
+    "wsbScript " +
+    "wsbConnector " +
+    "wsbSubTask " +
+    "wsbLifeCycleStage " +
+    "wsbPause ";
+
+  // enum TWorkflowDataType
+  var TWorkflowDataType =
+    "wdtInteger " +
+    "wdtFloat " +
+    "wdtString " +
+    "wdtPick " +
+    "wdtDateTime " +
+    "wdtBoolean " +
+    "wdtTask " +
+    "wdtJob " +
+    "wdtFolder " +
+    "wdtEDocument " +
+    "wdtReferenceRecord " +
+    "wdtUser " +
+    "wdtGroup " +
+    "wdtRole " +
+    "wdtIntegerCollection " +
+    "wdtFloatCollection " +
+    "wdtStringCollection " +
+    "wdtPickCollection " +
+    "wdtDateTimeCollection " +
+    "wdtBooleanCollection " +
+    "wdtTaskCollection " +
+    "wdtJobCollection " +
+    "wdtFolderCollection " +
+    "wdtEDocumentCollection " +
+    "wdtReferenceRecordCollection " +
+    "wdtUserCollection " +
+    "wdtGroupCollection " +
+    "wdtRoleCollection " +
+    "wdtContents " +
+    "wdtUserList " +
+    "wdtSearchDescription " +
+    "wdtDeadLine " +
+    "wdtPickSet " +
+    "wdtAccountCollection ";
+
+  // enum TWorkImportance
+  var TWorkImportance = "wiLow " + "wiNormal " + "wiHigh ";
+
+  // enum TWorkRouteType
+  var TWorkRouteType = "wrtSoft " + "wrtHard ";
+
+  // enum TWorkState
+  var TWorkState =
+    "wsInit " +
+    "wsRunning " +
+    "wsDone " +
+    "wsControlled " +
+    "wsAborted " +
+    "wsContinued ";
+
+  // enum TWorkTextBuildingMode
+  var TWorkTextBuildingMode =
+    "wtmFull " + "wtmFromCurrent " + "wtmOnlyCurrent ";
+
+  // Перечисления
+  var ENUMS =
+    TAccountType +
+    TActionEnabledMode +
+    TAddPosition +
+    TAlignment +
+    TAreaShowMode +
+    TCertificateInvalidationReason +
+    TCertificateType +
+    TCheckListBoxItemState +
+    TCloseOnEsc +
+    TCompType +
+    TConditionFormat +
+    TConnectionIntent +
+    TContentKind +
+    TControlType +
+    TCriterionContentType +
+    TCultureType +
+    TDataSetEventType +
+    TDataSetState +
+    TDateFormatType +
+    TDateOffsetType +
+    TDateTimeKind +
+    TDeaAccessRights +
+    TDocumentDefaultAction +
+    TEditMode +
+    TEditorCloseObservType +
+    TEdmsApplicationAction +
+    TEDocumentLockType +
+    TEDocumentStepShowMode +
+    TEDocumentStepVersionType +
+    TEDocumentStorageFunction +
+    TEDocumentStorageType +
+    TEDocumentVersionSourceType +
+    TEDocumentVersionState +
+    TEncodeType +
+    TExceptionCategory +
+    TExportedSignaturesType +
+    TExportedVersionType +
+    TFieldDataType +
+    TFolderType +
+    TGridRowHeight +
+    THyperlinkType +
+    TImageFileFormat +
+    TImageMode +
+    TImageType +
+    TInplaceHintKind +
+    TISBLContext +
+    TItemShow +
+    TJobKind +
+    TJoinType +
+    TLabelPos +
+    TLicensingType +
+    TLifeCycleStageFontColor +
+    TLifeCycleStageFontStyle +
+    TLockableDevelopmentComponentType +
+    TMaxRecordCountRestrictionType +
+    TRangeValueType +
+    TRelativeDate +
+    TReportDestination +
+    TReqDataType +
+    TRequisiteEventType +
+    TSBTimeType +
+    TSearchShowMode +
+    TSelectMode +
+    TSignatureType +
+    TSignerContentType +
+    TStringsSortType +
+    TStringValueType +
+    TStructuredObjectAttributeType +
+    TTaskAbortReason +
+    TTextValueType +
+    TUserObjectStatus +
+    TUserType +
+    TValuesBuildType +
+    TViewMode +
+    TViewSelectionMode +
+    TWizardActionType +
+    TWizardFormElementProperty +
+    TWizardFormElementType +
+    TWizardParamType +
+    TWizardStepResult +
+    TWizardStepType +
+    TWorkAccessType +
+    TWorkflowBlockType +
+    TWorkflowDataType +
+    TWorkImportance +
+    TWorkRouteType +
+    TWorkState +
+    TWorkTextBuildingMode;
+
+  // Системные функции ==> SYSFUNCTIONS
+  var system_functions =
+    "AddSubString " +
+    "AdjustLineBreaks " +
+    "AmountInWords " +
+    "Analysis " +
+    "ArrayDimCount " +
+    "ArrayHighBound " +
+    "ArrayLowBound " +
+    "ArrayOf " +
+    "ArrayReDim " +
+    "Assert " +
+    "Assigned " +
+    "BeginOfMonth " +
+    "BeginOfPeriod " +
+    "BuildProfilingOperationAnalysis " +
+    "CallProcedure " +
+    "CanReadFile " +
+    "CArrayElement " +
+    "CDataSetRequisite " +
+    "ChangeDate " +
+    "ChangeReferenceDataset " +
+    "Char " +
+    "CharPos " +
+    "CheckParam " +
+    "CheckParamValue " +
+    "CompareStrings " +
+    "ConstantExists " +
+    "ControlState " +
+    "ConvertDateStr " +
+    "Copy " +
+    "CopyFile " +
+    "CreateArray " +
+    "CreateCachedReference " +
+    "CreateConnection " +
+    "CreateDialog " +
+    "CreateDualListDialog " +
+    "CreateEditor " +
+    "CreateException " +
+    "CreateFile " +
+    "CreateFolderDialog " +
+    "CreateInputDialog " +
+    "CreateLinkFile " +
+    "CreateList " +
+    "CreateLock " +
+    "CreateMemoryDataSet " +
+    "CreateObject " +
+    "CreateOpenDialog " +
+    "CreateProgress " +
+    "CreateQuery " +
+    "CreateReference " +
+    "CreateReport " +
+    "CreateSaveDialog " +
+    "CreateScript " +
+    "CreateSQLPivotFunction " +
+    "CreateStringList " +
+    "CreateTreeListSelectDialog " +
+    "CSelectSQL " +
+    "CSQL " +
+    "CSubString " +
+    "CurrentUserID " +
+    "CurrentUserName " +
+    "CurrentVersion " +
+    "DataSetLocateEx " +
+    "DateDiff " +
+    "DateTimeDiff " +
+    "DateToStr " +
+    "DayOfWeek " +
+    "DeleteFile " +
+    "DirectoryExists " +
+    "DisableCheckAccessRights " +
+    "DisableCheckFullShowingRestriction " +
+    "DisableMassTaskSendingRestrictions " +
+    "DropTable " +
+    "DupeString " +
+    "EditText " +
+    "EnableCheckAccessRights " +
+    "EnableCheckFullShowingRestriction " +
+    "EnableMassTaskSendingRestrictions " +
+    "EndOfMonth " +
+    "EndOfPeriod " +
+    "ExceptionExists " +
+    "ExceptionsOff " +
+    "ExceptionsOn " +
+    "Execute " +
+    "ExecuteProcess " +
+    "Exit " +
+    "ExpandEnvironmentVariables " +
+    "ExtractFileDrive " +
+    "ExtractFileExt " +
+    "ExtractFileName " +
+    "ExtractFilePath " +
+    "ExtractParams " +
+    "FileExists " +
+    "FileSize " +
+    "FindFile " +
+    "FindSubString " +
+    "FirmContext " +
+    "ForceDirectories " +
+    "Format " +
+    "FormatDate " +
+    "FormatNumeric " +
+    "FormatSQLDate " +
+    "FormatString " +
+    "FreeException " +
+    "GetComponent " +
+    "GetComponentLaunchParam " +
+    "GetConstant " +
+    "GetLastException " +
+    "GetReferenceRecord " +
+    "GetRefTypeByRefID " +
+    "GetTableID " +
+    "GetTempFolder " +
+    "IfThen " +
+    "In " +
+    "IndexOf " +
+    "InputDialog " +
+    "InputDialogEx " +
+    "InteractiveMode " +
+    "IsFileLocked " +
+    "IsGraphicFile " +
+    "IsNumeric " +
+    "Length " +
+    "LoadString " +
+    "LoadStringFmt " +
+    "LocalTimeToUTC " +
+    "LowerCase " +
+    "Max " +
+    "MessageBox " +
+    "MessageBoxEx " +
+    "MimeDecodeBinary " +
+    "MimeDecodeString " +
+    "MimeEncodeBinary " +
+    "MimeEncodeString " +
+    "Min " +
+    "MoneyInWords " +
+    "MoveFile " +
+    "NewID " +
+    "Now " +
+    "OpenFile " +
+    "Ord " +
+    "Precision " +
+    "Raise " +
+    "ReadCertificateFromFile " +
+    "ReadFile " +
+    "ReferenceCodeByID " +
+    "ReferenceNumber " +
+    "ReferenceRequisiteMode " +
+    "ReferenceRequisiteValue " +
+    "RegionDateSettings " +
+    "RegionNumberSettings " +
+    "RegionTimeSettings " +
+    "RegRead " +
+    "RegWrite " +
+    "RenameFile " +
+    "Replace " +
+    "Round " +
+    "SelectServerCode " +
+    "SelectSQL " +
+    "ServerDateTime " +
+    "SetConstant " +
+    "SetManagedFolderFieldsState " +
+    "ShowConstantsInputDialog " +
+    "ShowMessage " +
+    "Sleep " +
+    "Split " +
+    "SQL " +
+    "SQL2XLSTAB " +
+    "SQLProfilingSendReport " +
+    "StrToDate " +
+    "SubString " +
+    "SubStringCount " +
+    "SystemSetting " +
+    "Time " +
+    "TimeDiff " +
+    "Today " +
+    "Transliterate " +
+    "Trim " +
+    "UpperCase " +
+    "UserStatus " +
+    "UTCToLocalTime " +
+    "ValidateXML " +
+    "VarIsClear " +
+    "VarIsEmpty " +
+    "VarIsNull " +
+    "WorkTimeDiff " +
+    "WriteFile " +
+    "WriteFileEx " +
+    "WriteObjectHistory " +
+    "Анализ " +
+    "БазаДанных " +
+    "БлокЕсть " +
+    "БлокЕстьРасш " +
+    "БлокИнфо " +
+    "БлокСнять " +
+    "БлокСнятьРасш " +
+    "БлокУстановить " +
+    "Ввод " +
+    "ВводМеню " +
+    "ВедС " +
+    "ВедСпр " +
+    "ВерхняяГраницаМассива " +
+    "ВнешПрогр " +
+    "Восст " +
+    "ВременнаяПапка " +
+    "Время " +
+    "ВыборSQL " +
+    "ВыбратьЗапись " +
+    "ВыделитьСтр " +
+    "Вызвать " +
+    "Выполнить " +
+    "ВыпПрогр " +
+    "ГрафическийФайл " +
+    "ГруппаДополнительно " +
+    "ДатаВремяСерв " +
+    "ДеньНедели " +
+    "ДиалогДаНет " +
+    "ДлинаСтр " +
+    "ДобПодстр " +
+    "ЕПусто " +
+    "ЕслиТо " +
+    "ЕЧисло " +
+    "ЗамПодстр " +
+    "ЗаписьСправочника " +
+    "ЗначПоляСпр " +
+    "ИДТипСпр " +
+    "ИзвлечьДиск " +
+    "ИзвлечьИмяФайла " +
+    "ИзвлечьПуть " +
+    "ИзвлечьРасширение " +
+    "ИзмДат " +
+    "ИзменитьРазмерМассива " +
+    "ИзмеренийМассива " +
+    "ИмяОрг " +
+    "ИмяПоляСпр " +
+    "Индекс " +
+    "ИндикаторЗакрыть " +
+    "ИндикаторОткрыть " +
+    "ИндикаторШаг " +
+    "ИнтерактивныйРежим " +
+    "ИтогТблСпр " +
+    "КодВидВедСпр " +
+    "КодВидСпрПоИД " +
+    "КодПоAnalit " +
+    "КодСимвола " +
+    "КодСпр " +
+    "КолПодстр " +
+    "КолПроп " +
+    "КонМес " +
+    "Конст " +
+    "КонстЕсть " +
+    "КонстЗнач " +
+    "КонТран " +
+    "КопироватьФайл " +
+    "КопияСтр " +
+    "КПериод " +
+    "КСтрТблСпр " +
+    "Макс " +
+    "МаксСтрТблСпр " +
+    "Массив " +
+    "Меню " +
+    "МенюРасш " +
+    "Мин " +
+    "НаборДанныхНайтиРасш " +
+    "НаимВидСпр " +
+    "НаимПоAnalit " +
+    "НаимСпр " +
+    "НастроитьПереводыСтрок " +
+    "НачМес " +
+    "НачТран " +
+    "НижняяГраницаМассива " +
+    "НомерСпр " +
+    "НПериод " +
+    "Окно " +
+    "Окр " +
+    "Окружение " +
+    "ОтлИнфДобавить " +
+    "ОтлИнфУдалить " +
+    "Отчет " +
+    "ОтчетАнал " +
+    "ОтчетИнт " +
+    "ПапкаСуществует " +
+    "Пауза " +
+    "ПВыборSQL " +
+    "ПереименоватьФайл " +
+    "Переменные " +
+    "ПереместитьФайл " +
+    "Подстр " +
+    "ПоискПодстр " +
+    "ПоискСтр " +
+    "ПолучитьИДТаблицы " +
+    "ПользовательДополнительно " +
+    "ПользовательИД " +
+    "ПользовательИмя " +
+    "ПользовательСтатус " +
+    "Прервать " +
+    "ПроверитьПараметр " +
+    "ПроверитьПараметрЗнач " +
+    "ПроверитьУсловие " +
+    "РазбСтр " +
+    "РазнВремя " +
+    "РазнДат " +
+    "РазнДатаВремя " +
+    "РазнРабВремя " +
+    "РегУстВрем " +
+    "РегУстДат " +
+    "РегУстЧсл " +
+    "РедТекст " +
+    "РеестрЗапись " +
+    "РеестрСписокИменПарам " +
+    "РеестрЧтение " +
+    "РеквСпр " +
+    "РеквСпрПр " +
+    "Сегодня " +
+    "Сейчас " +
+    "Сервер " +
+    "СерверПроцессИД " +
+    "СертификатФайлСчитать " +
+    "СжПроб " +
+    "Символ " +
+    "СистемаДиректумКод " +
+    "СистемаИнформация " +
+    "СистемаКод " +
+    "Содержит " +
+    "СоединениеЗакрыть " +
+    "СоединениеОткрыть " +
+    "СоздатьДиалог " +
+    "СоздатьДиалогВыбораИзДвухСписков " +
+    "СоздатьДиалогВыбораПапки " +
+    "СоздатьДиалогОткрытияФайла " +
+    "СоздатьДиалогСохраненияФайла " +
+    "СоздатьЗапрос " +
+    "СоздатьИндикатор " +
+    "СоздатьИсключение " +
+    "СоздатьКэшированныйСправочник " +
+    "СоздатьМассив " +
+    "СоздатьНаборДанных " +
+    "СоздатьОбъект " +
+    "СоздатьОтчет " +
+    "СоздатьПапку " +
+    "СоздатьРедактор " +
+    "СоздатьСоединение " +
+    "СоздатьСписок " +
+    "СоздатьСписокСтрок " +
+    "СоздатьСправочник " +
+    "СоздатьСценарий " +
+    "СоздСпр " +
+    "СостСпр " +
+    "Сохр " +
+    "СохрСпр " +
+    "СписокСистем " +
+    "Спр " +
+    "Справочник " +
+    "СпрБлокЕсть " +
+    "СпрБлокСнять " +
+    "СпрБлокСнятьРасш " +
+    "СпрБлокУстановить " +
+    "СпрИзмНабДан " +
+    "СпрКод " +
+    "СпрНомер " +
+    "СпрОбновить " +
+    "СпрОткрыть " +
+    "СпрОтменить " +
+    "СпрПарам " +
+    "СпрПолеЗнач " +
+    "СпрПолеИмя " +
+    "СпрРекв " +
+    "СпрРеквВведЗн " +
+    "СпрРеквНовые " +
+    "СпрРеквПр " +
+    "СпрРеквПредЗн " +
+    "СпрРеквРежим " +
+    "СпрРеквТипТекст " +
+    "СпрСоздать " +
+    "СпрСост " +
+    "СпрСохранить " +
+    "СпрТблИтог " +
+    "СпрТблСтр " +
+    "СпрТблСтрКол " +
+    "СпрТблСтрМакс " +
+    "СпрТблСтрМин " +
+    "СпрТблСтрПред " +
+    "СпрТблСтрСлед " +
+    "СпрТблСтрСозд " +
+    "СпрТблСтрУд " +
+    "СпрТекПредст " +
+    "СпрУдалить " +
+    "СравнитьСтр " +
+    "СтрВерхРегистр " +
+    "СтрНижнРегистр " +
+    "СтрТблСпр " +
+    "СумПроп " +
+    "Сценарий " +
+    "СценарийПарам " +
+    "ТекВерсия " +
+    "ТекОрг " +
+    "Точн " +
+    "Тран " +
+    "Транслитерация " +
+    "УдалитьТаблицу " +
+    "УдалитьФайл " +
+    "УдСпр " +
+    "УдСтрТблСпр " +
+    "Уст " +
+    "УстановкиКонстант " +
+    "ФайлАтрибутСчитать " +
+    "ФайлАтрибутУстановить " +
+    "ФайлВремя " +
+    "ФайлВремяУстановить " +
+    "ФайлВыбрать " +
+    "ФайлЗанят " +
+    "ФайлЗаписать " +
+    "ФайлИскать " +
+    "ФайлКопировать " +
+    "ФайлМожноЧитать " +
+    "ФайлОткрыть " +
+    "ФайлПереименовать " +
+    "ФайлПерекодировать " +
+    "ФайлПереместить " +
+    "ФайлПросмотреть " +
+    "ФайлРазмер " +
+    "ФайлСоздать " +
+    "ФайлСсылкаСоздать " +
+    "ФайлСуществует " +
+    "ФайлСчитать " +
+    "ФайлУдалить " +
+    "ФмтSQLДат " +
+    "ФмтДат " +
+    "ФмтСтр " +
+    "ФмтЧсл " +
+    "Формат " +
+    "ЦМассивЭлемент " +
+    "ЦНаборДанныхРеквизит " +
+    "ЦПодстр ";
+
+  // Предопределенные переменные ==> built_in
+  var predefined_variables =
+    "AltState " +
+    "Application " +
+    "CallType " +
+    "ComponentTokens " +
+    "CreatedJobs " +
+    "CreatedNotices " +
+    "ControlState " +
+    "DialogResult " +
+    "Dialogs " +
+    "EDocuments " +
+    "EDocumentVersionSource " +
+    "Folders " +
+    "GlobalIDs " +
+    "Job " +
+    "Jobs " +
+    "InputValue " +
+    "LookUpReference " +
+    "LookUpRequisiteNames " +
+    "LookUpSearch " +
+    "Object " +
+    "ParentComponent " +
+    "Processes " +
+    "References " +
+    "Requisite " +
+    "ReportName " +
+    "Reports " +
+    "Result " +
+    "Scripts " +
+    "Searches " +
+    "SelectedAttachments " +
+    "SelectedItems " +
+    "SelectMode " +
+    "Sender " +
+    "ServerEvents " +
+    "ServiceFactory " +
+    "ShiftState " +
+    "SubTask " +
+    "SystemDialogs " +
+    "Tasks " +
+    "Wizard " +
+    "Wizards " +
+    "Work " +
+    "ВызовСпособ " +
+    "ИмяОтчета " +
+    "РеквЗнач ";
+
+  // Интерфейсы ==> type
+  var interfaces =
+    "IApplication " +
+    "IAccessRights " +
+    "IAccountRepository " +
+    "IAccountSelectionRestrictions " +
+    "IAction " +
+    "IActionList " +
+    "IAdministrationHistoryDescription " +
+    "IAnchors " +
+    "IApplication " +
+    "IArchiveInfo " +
+    "IAttachment " +
+    "IAttachmentList " +
+    "ICheckListBox " +
+    "ICheckPointedList " +
+    "IColumn " +
+    "IComponent " +
+    "IComponentDescription " +
+    "IComponentToken " +
+    "IComponentTokenFactory " +
+    "IComponentTokenInfo " +
+    "ICompRecordInfo " +
+    "IConnection " +
+    "IContents " +
+    "IControl " +
+    "IControlJob " +
+    "IControlJobInfo " +
+    "IControlList " +
+    "ICrypto " +
+    "ICrypto2 " +
+    "ICustomJob " +
+    "ICustomJobInfo " +
+    "ICustomListBox " +
+    "ICustomObjectWizardStep " +
+    "ICustomWork " +
+    "ICustomWorkInfo " +
+    "IDataSet " +
+    "IDataSetAccessInfo " +
+    "IDataSigner " +
+    "IDateCriterion " +
+    "IDateRequisite " +
+    "IDateRequisiteDescription " +
+    "IDateValue " +
+    "IDeaAccessRights " +
+    "IDeaObjectInfo " +
+    "IDevelopmentComponentLock " +
+    "IDialog " +
+    "IDialogFactory " +
+    "IDialogPickRequisiteItems " +
+    "IDialogsFactory " +
+    "IDICSFactory " +
+    "IDocRequisite " +
+    "IDocumentInfo " +
+    "IDualListDialog " +
+    "IECertificate " +
+    "IECertificateInfo " +
+    "IECertificates " +
+    "IEditControl " +
+    "IEditorForm " +
+    "IEdmsExplorer " +
+    "IEdmsObject " +
+    "IEdmsObjectDescription " +
+    "IEdmsObjectFactory " +
+    "IEdmsObjectInfo " +
+    "IEDocument " +
+    "IEDocumentAccessRights " +
+    "IEDocumentDescription " +
+    "IEDocumentEditor " +
+    "IEDocumentFactory " +
+    "IEDocumentInfo " +
+    "IEDocumentStorage " +
+    "IEDocumentVersion " +
+    "IEDocumentVersionListDialog " +
+    "IEDocumentVersionSource " +
+    "IEDocumentWizardStep " +
+    "IEDocVerSignature " +
+    "IEDocVersionState " +
+    "IEnabledMode " +
+    "IEncodeProvider " +
+    "IEncrypter " +
+    "IEvent " +
+    "IEventList " +
+    "IException " +
+    "IExternalEvents " +
+    "IExternalHandler " +
+    "IFactory " +
+    "IField " +
+    "IFileDialog " +
+    "IFolder " +
+    "IFolderDescription " +
+    "IFolderDialog " +
+    "IFolderFactory " +
+    "IFolderInfo " +
+    "IForEach " +
+    "IForm " +
+    "IFormTitle " +
+    "IFormWizardStep " +
+    "IGlobalIDFactory " +
+    "IGlobalIDInfo " +
+    "IGrid " +
+    "IHasher " +
+    "IHistoryDescription " +
+    "IHyperLinkControl " +
+    "IImageButton " +
+    "IImageControl " +
+    "IInnerPanel " +
+    "IInplaceHint " +
+    "IIntegerCriterion " +
+    "IIntegerList " +
+    "IIntegerRequisite " +
+    "IIntegerValue " +
+    "IISBLEditorForm " +
+    "IJob " +
+    "IJobDescription " +
+    "IJobFactory " +
+    "IJobForm " +
+    "IJobInfo " +
+    "ILabelControl " +
+    "ILargeIntegerCriterion " +
+    "ILargeIntegerRequisite " +
+    "ILargeIntegerValue " +
+    "ILicenseInfo " +
+    "ILifeCycleStage " +
+    "IList " +
+    "IListBox " +
+    "ILocalIDInfo " +
+    "ILocalization " +
+    "ILock " +
+    "IMemoryDataSet " +
+    "IMessagingFactory " +
+    "IMetadataRepository " +
+    "INotice " +
+    "INoticeInfo " +
+    "INumericCriterion " +
+    "INumericRequisite " +
+    "INumericValue " +
+    "IObject " +
+    "IObjectDescription " +
+    "IObjectImporter " +
+    "IObjectInfo " +
+    "IObserver " +
+    "IPanelGroup " +
+    "IPickCriterion " +
+    "IPickProperty " +
+    "IPickRequisite " +
+    "IPickRequisiteDescription " +
+    "IPickRequisiteItem " +
+    "IPickRequisiteItems " +
+    "IPickValue " +
+    "IPrivilege " +
+    "IPrivilegeList " +
+    "IProcess " +
+    "IProcessFactory " +
+    "IProcessMessage " +
+    "IProgress " +
+    "IProperty " +
+    "IPropertyChangeEvent " +
+    "IQuery " +
+    "IReference " +
+    "IReferenceCriterion " +
+    "IReferenceEnabledMode " +
+    "IReferenceFactory " +
+    "IReferenceHistoryDescription " +
+    "IReferenceInfo " +
+    "IReferenceRecordCardWizardStep " +
+    "IReferenceRequisiteDescription " +
+    "IReferencesFactory " +
+    "IReferenceValue " +
+    "IRefRequisite " +
+    "IReport " +
+    "IReportFactory " +
+    "IRequisite " +
+    "IRequisiteDescription " +
+    "IRequisiteDescriptionList " +
+    "IRequisiteFactory " +
+    "IRichEdit " +
+    "IRouteStep " +
+    "IRule " +
+    "IRuleList " +
+    "ISchemeBlock " +
+    "IScript " +
+    "IScriptFactory " +
+    "ISearchCriteria " +
+    "ISearchCriterion " +
+    "ISearchDescription " +
+    "ISearchFactory " +
+    "ISearchFolderInfo " +
+    "ISearchForObjectDescription " +
+    "ISearchResultRestrictions " +
+    "ISecuredContext " +
+    "ISelectDialog " +
+    "IServerEvent " +
+    "IServerEventFactory " +
+    "IServiceDialog " +
+    "IServiceFactory " +
+    "ISignature " +
+    "ISignProvider " +
+    "ISignProvider2 " +
+    "ISignProvider3 " +
+    "ISimpleCriterion " +
+    "IStringCriterion " +
+    "IStringList " +
+    "IStringRequisite " +
+    "IStringRequisiteDescription " +
+    "IStringValue " +
+    "ISystemDialogsFactory " +
+    "ISystemInfo " +
+    "ITabSheet " +
+    "ITask " +
+    "ITaskAbortReasonInfo " +
+    "ITaskCardWizardStep " +
+    "ITaskDescription " +
+    "ITaskFactory " +
+    "ITaskInfo " +
+    "ITaskRoute " +
+    "ITextCriterion " +
+    "ITextRequisite " +
+    "ITextValue " +
+    "ITreeListSelectDialog " +
+    "IUser " +
+    "IUserList " +
+    "IValue " +
+    "IView " +
+    "IWebBrowserControl " +
+    "IWizard " +
+    "IWizardAction " +
+    "IWizardFactory " +
+    "IWizardFormElement " +
+    "IWizardParam " +
+    "IWizardPickParam " +
+    "IWizardReferenceParam " +
+    "IWizardStep " +
+    "IWorkAccessRights " +
+    "IWorkDescription " +
+    "IWorkflowAskableParam " +
+    "IWorkflowAskableParams " +
+    "IWorkflowBlock " +
+    "IWorkflowBlockResult " +
+    "IWorkflowEnabledMode " +
+    "IWorkflowParam " +
+    "IWorkflowPickParam " +
+    "IWorkflowReferenceParam " +
+    "IWorkState " +
+    "IWorkTreeCustomNode " +
+    "IWorkTreeJobNode " +
+    "IWorkTreeTaskNode " +
+    "IXMLEditorForm " +
+    "SBCrypto ";
+
+  // built_in : встроенные или библиотечные объекты (константы, перечисления)
+  var BUILTIN = CONSTANTS + ENUMS;
+
+  // class: встроенные наборы значений, системные объекты, фабрики
+  var CLASS = predefined_variables;
+
+  // literal : примитивные типы
+  var LITERAL = "null true false nil ";
+
+  // number : числа
+  var NUMBERS = {
+    className: "number",
+    begin: hljs.NUMBER_RE,
+    relevance: 0,
+  };
+
+  // string : строки
+  var STRINGS = {
+    className: "string",
+    variants: [{ begin: '"', end: '"' }, { begin: "'", end: "'" }],
+  };
+
+  // Токены
+  var DOCTAGS = {
+    className: "doctag",
+    begin: "\\b(?:TODO|DONE|BEGIN|END|STUB|CHG|FIXME|NOTE|BUG|XXX)\\b",
+    relevance: 0,
+  };
+
+  // Однострочный комментарий
+  var ISBL_LINE_COMMENT_MODE = {
+    className: "comment",
+    begin: "//",
+    end: "$",
+    relevance: 0,
+    contains: [hljs.PHRASAL_WORDS_MODE, DOCTAGS],
+  };
+
+  // Многострочный комментарий
+  var ISBL_BLOCK_COMMENT_MODE = {
+    className: "comment",
+    begin: "/\\*",
+    end: "\\*/",
+    relevance: 0,
+    contains: [hljs.PHRASAL_WORDS_MODE, DOCTAGS],
+  };
+
+  // comment : комментарии
+  var COMMENTS = {
+    variants: [ISBL_LINE_COMMENT_MODE, ISBL_BLOCK_COMMENT_MODE],
+  };
+
+  // keywords : ключевые слова
+  var KEYWORDS = {
+    keyword: KEYWORD,
+    built_in: BUILTIN,
+    class: CLASS,
+    literal: LITERAL,
+  };
+
+  // methods : методы
+  var METHODS = {
+    begin: "\\.\\s*" + hljs.UNDERSCORE_IDENT_RE,
+    keywords: KEYWORDS,
+    relevance: 0,
+  };
+
+  // type : встроенные типы
+  var TYPES = {
+    className: "type",
+    begin: ":[ \\t]*(" + interfaces.trim().replace(/\s/g, "|") + ")",
+    end: "[ \\t]*=",
+    excludeEnd: true,
+  };
+
+  // variables : переменные
+  var VARIABLES = {
+    className: "variable",
+    lexemes: UNDERSCORE_IDENT_RE,
+    keywords: KEYWORDS,
+    begin: UNDERSCORE_IDENT_RE,
+    relevance: 0,
+    containts: [TYPES, METHODS],
+  };
+
+  // Имена функций
+  var FUNCTION_TITLE = FUNCTION_NAME_IDENT_RE + "\\(";
+
+  var TITLE_MODE = {
+    className: "title",
+    lexemes: UNDERSCORE_IDENT_RE,
+    keywords: {
+      built_in: system_functions,
+    },
+    begin: FUNCTION_TITLE,
+    end: "\\(",
+    returnBegin: true,
+    excludeEnd: true,
+  };
+
+  // function : функции
+  var FUNCTIONS = {
+    className: "function",
+    begin: FUNCTION_TITLE,
+    end: "\\)$",
+    returnBegin: true,
+    lexemes: UNDERSCORE_IDENT_RE,
+    keywords: KEYWORDS,
+    illegal: "[\\[\\]\\|\\$\\?%,~#@]",
+    contains: [TITLE_MODE, METHODS, VARIABLES, STRINGS, NUMBERS, COMMENTS],
+  };
+
+  return {
+    aliases: ["isbl"],
+    case_insensitive: true,
+    lexemes: UNDERSCORE_IDENT_RE,
+    keywords: KEYWORDS,
+    illegal: "\\$|\\?|%|,|;$|~|#|@|</",
+    contains: [
+      FUNCTIONS,
+      TYPES,
+      METHODS,
+      VARIABLES,
+      STRINGS,
+      NUMBERS,
+      COMMENTS,
+    ],
+  };
+};
+});
 ___scope___.file("lib/languages/java.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
   var JAVA_IDENT_RE = '[\u00C0-\u02B8a-zA-Z_$][\u00C0-\u02B8a-zA-Z_$0-9]*';
   var GENERIC_IDENT_RE = JAVA_IDENT_RE + '(<' + JAVA_IDENT_RE + '(\\s*,\\s*' + JAVA_IDENT_RE + ')*>)?';
   var KEYWORDS =
-    'false synchronized int abstract float private char boolean static null if const ' +
+    'false synchronized int abstract float private char boolean var static null if const ' +
     'for true while long strictfp finally protected import native final void ' +
     'enum else break transient catch instanceof byte super volatile case assert short ' +
     'package default double public try this switch continue throws protected public private ' +
@@ -20207,8 +24591,9 @@ module.exports = function(hljs) {
     keyword:
       'abstract as val var vararg get set class object open private protected public noinline ' +
       'crossinline dynamic final enum if else do while for when throw try catch finally ' +
-      'import package is in fun override companion reified inline lateinit init' +
+      'import package is in fun override companion reified inline lateinit init ' +
       'interface annotation data sealed internal infix operator out by constructor super ' +
+      'tailrec where const inner suspend typealias external expect actual ' +
       // to be deleted soon
       'trait volatile transient native default',
     built_in:
@@ -20278,7 +24663,31 @@ module.exports = function(hljs) {
     ]
   };
 
+  // https://kotlinlang.org/docs/reference/whatsnew11.html#underscores-in-numeric-literals
+  // According to the doc above, the number mode of kotlin is the same as java 8,
+  // so the code below is copied from java.js
+  var KOTLIN_NUMBER_RE = '\\b' +
+    '(' +
+      '0[bB]([01]+[01_]+[01]+|[01]+)' + // 0b...
+      '|' +
+      '0[xX]([a-fA-F0-9]+[a-fA-F0-9_]+[a-fA-F0-9]+|[a-fA-F0-9]+)' + // 0x...
+      '|' +
+      '(' +
+        '([\\d]+[\\d_]+[\\d]+|[\\d]+)(\\.([\\d]+[\\d_]+[\\d]+|[\\d]+))?' +
+        '|' +
+        '\\.([\\d]+[\\d_]+[\\d]+|[\\d]+)' +
+      ')' +
+      '([eE][-+]?\\d+)?' + // octal, decimal, float
+    ')' +
+    '[lLfF]?';
+  var KOTLIN_NUMBER_MODE = {
+    className: 'number',
+    begin: KOTLIN_NUMBER_RE,
+    relevance: 0
+  };
+
   return {
+    aliases: ['kt'],
     keywords: KEYWORDS,
     contains : [
       hljs.COMMENT(
@@ -20371,7 +24780,7 @@ module.exports = function(hljs) {
         begin: "^#!/usr/bin/env", end: '$',
         illegal: '\n'
       },
-      hljs.C_NUMBER_MODE
+      KOTLIN_NUMBER_MODE
     ]
   };
 };
@@ -21554,21 +25963,17 @@ module.exports = function(hljs) {
 });
 ___scope___.file("lib/languages/matlab.js", function(exports, require, module, __filename, __dirname){
 
-module.exports = function(hljs) {
-  var COMMON_CONTAINS = [
-    hljs.C_NUMBER_MODE,
-    {
-      className: 'string',
-      begin: '\'', end: '\'',
-      contains: [hljs.BACKSLASH_ESCAPE, {begin: '\'\''}]
-    }
-  ];
+module.exports = /*
+  Formal syntax is not published, helpful link:
+  https://github.com/kornilova-l/matlab-IntelliJ-plugin/blob/master/src/main/grammar/Matlab.bnf
+*/
+function(hljs) {
+
+  var TRANSPOSE_RE = '(\'|\\.\')+';
   var TRANSPOSE = {
     relevance: 0,
     contains: [
-      {
-        begin: /'['\.]*/
-      }
+      { begin: TRANSPOSE_RE }
     ]
   };
 
@@ -21591,7 +25996,9 @@ module.exports = function(hljs) {
         'triu fliplr flipud flipdim rot90 find sub2ind ind2sub bsxfun ndgrid permute ipermute ' +
         'shiftdim circshift squeeze isscalar isvector ans eps realmax realmin pi i inf nan ' +
         'isnan isinf isfinite j why compan gallery hadamard hankel hilb invhilb magic pascal ' +
-        'rosser toeplitz vander wilkinson'
+        'rosser toeplitz vander wilkinson max min nanmax nanmin mean nanmean type table ' +
+        'readtable writetable sortrows sort figure plot plot3 scatter scatter3 cellfun ' +
+        'legend intersect ismember procrustes hold num2cell '
     },
     illegal: '(//|"|#|/\\*|\\s+/\\w+)',
     contains: [
@@ -21610,35 +26017,45 @@ module.exports = function(hljs) {
         ]
       },
       {
-        begin: /[a-zA-Z_][a-zA-Z_0-9]*'['\.]*/,
-        returnBegin: true,
+        className: 'built_in',
+        begin: /true|false/,
         relevance: 0,
+        starts: TRANSPOSE
+      },
+      {
+        begin: '[a-zA-Z][a-zA-Z_0-9]*' + TRANSPOSE_RE,
+        relevance: 0
+      },
+      {
+        className: 'number',
+        begin: hljs.C_NUMBER_RE,
+        relevance: 0,
+        starts: TRANSPOSE
+      },
+      {
+        className: 'string',
+        begin: '\'', end: '\'',
         contains: [
-          {begin: /[a-zA-Z_][a-zA-Z_0-9]*/, relevance: 0},
-          TRANSPOSE.contains[0]
-        ]
+          hljs.BACKSLASH_ESCAPE,
+          {begin: '\'\''}]
       },
       {
-        begin: '\\[', end: '\\]',
-        contains: COMMON_CONTAINS,
+        begin: /\]|}|\)/,
         relevance: 0,
         starts: TRANSPOSE
       },
       {
-        begin: '\\{', end: /}/,
-        contains: COMMON_CONTAINS,
-        relevance: 0,
-        starts: TRANSPOSE
-      },
-      {
-        // transpose operators at the end of a function call
-        begin: /\)/,
-        relevance: 0,
+        className: 'string',
+        begin: '"', end: '"',
+        contains: [
+          hljs.BACKSLASH_ESCAPE,
+          {begin: '""'}
+        ],
         starts: TRANSPOSE
       },
       hljs.COMMENT('^\\s*\\%\\{\\s*$', '^\\s*\\%\\}\\s*$'),
       hljs.COMMENT('\\%', '$')
-    ].concat(COMMON_CONTAINS)
+    ]
   };
 };
 });
@@ -23157,12 +27574,12 @@ module.exports = function(hljs) {
   var COMPILER = {
     // !compiler_flags
     className: 'keyword',
-    begin: /\!(addincludedir|addplugindir|appendfile|cd|define|delfile|echo|else|endif|error|execute|finalize|getdllversionsystem|ifdef|ifmacrodef|ifmacrondef|ifndef|if|include|insertmacro|macroend|macro|makensis|packhdr|searchparse|searchreplace|tempfile|undef|verbose|warning)/
+    begin: /\!(addincludedir|addplugindir|appendfile|cd|define|delfile|echo|else|endif|error|execute|finalize|getdllversion|gettlbversion|if|ifdef|ifmacrodef|ifmacrondef|ifndef|include|insertmacro|macro|macroend|makensis|packhdr|searchparse|searchreplace|system|tempfile|undef|verbose|warning)/
   };
 
   var METACHARS = {
     // $\n, $\r, $\t, $$
-    className: 'subst',
+    className: 'meta',
     begin: /\$(\\[nrt]|\$)/
   };
 
@@ -23199,7 +27616,7 @@ module.exports = function(hljs) {
     case_insensitive: false,
     keywords: {
       keyword:
-      'Abort AddBrandingImage AddSize AllowRootDirInstall AllowSkipFiles AutoCloseWindow BGFont BGGradient BrandingText BringToFront Call CallInstDLL Caption ChangeUI CheckBitmap ClearErrors CompletedText ComponentText CopyFiles CRCCheck CreateDirectory CreateFont CreateShortCut Delete DeleteINISec DeleteINIStr DeleteRegKey DeleteRegValue DetailPrint DetailsButtonText DirText DirVar DirVerify EnableWindow EnumRegKey EnumRegValue Exch Exec ExecShell ExecWait ExpandEnvStrings File FileBufSize FileClose FileErrorText FileOpen FileRead FileReadByte FileReadUTF16LE FileReadWord FileSeek FileWrite FileWriteByte FileWriteUTF16LE FileWriteWord FindClose FindFirst FindNext FindWindow FlushINI FunctionEnd GetCurInstType GetCurrentAddress GetDlgItem GetDLLVersion GetDLLVersionLocal GetErrorLevel GetFileTime GetFileTimeLocal GetFullPathName GetFunctionAddress GetInstDirError GetLabelAddress GetTempFileName Goto HideWindow Icon IfAbort IfErrors IfFileExists IfRebootFlag IfSilent InitPluginsDir InstallButtonText InstallColors InstallDir InstallDirRegKey InstProgressFlags InstType InstTypeGetText InstTypeSetText IntCmp IntCmpU IntFmt IntOp IsWindow LangString LicenseBkColor LicenseData LicenseForceSelection LicenseLangString LicenseText LoadLanguageFile LockWindow LogSet LogText ManifestDPIAware ManifestSupportedOS MessageBox MiscButtonText Name Nop OutFile Page PageCallbacks PageExEnd Pop Push Quit ReadEnvStr ReadINIStr ReadRegDWORD ReadRegStr Reboot RegDLL Rename RequestExecutionLevel ReserveFile Return RMDir SearchPath SectionEnd SectionGetFlags SectionGetInstTypes SectionGetSize SectionGetText SectionGroupEnd SectionIn SectionSetFlags SectionSetInstTypes SectionSetSize SectionSetText SendMessage SetAutoClose SetBrandingImage SetCompress SetCompressor SetCompressorDictSize SetCtlColors SetCurInstType SetDatablockOptimize SetDateSave SetDetailsPrint SetDetailsView SetErrorLevel SetErrors SetFileAttributes SetFont SetOutPath SetOverwrite SetRebootFlag SetRegView SetShellVarContext SetSilent ShowInstDetails ShowUninstDetails ShowWindow SilentInstall SilentUnInstall Sleep SpaceTexts StrCmp StrCmpS StrCpy StrLen SubCaption Unicode UninstallButtonText UninstallCaption UninstallIcon UninstallSubCaption UninstallText UninstPage UnRegDLL Var VIAddVersionKey VIFileVersion VIProductVersion WindowIcon WriteINIStr WriteRegBin WriteRegDWORD WriteRegExpandStr WriteRegStr WriteUninstaller XPStyle',
+      'Abort AddBrandingImage AddSize AllowRootDirInstall AllowSkipFiles AutoCloseWindow BGFont BGGradient BrandingText BringToFront Call CallInstDLL Caption ChangeUI CheckBitmap ClearErrors CompletedText ComponentText CopyFiles CRCCheck CreateDirectory CreateFont CreateShortCut Delete DeleteINISec DeleteINIStr DeleteRegKey DeleteRegValue DetailPrint DetailsButtonText DirText DirVar DirVerify EnableWindow EnumRegKey EnumRegValue Exch Exec ExecShell ExecShellWait ExecWait ExpandEnvStrings File FileBufSize FileClose FileErrorText FileOpen FileRead FileReadByte FileReadUTF16LE FileReadWord FileSeek FileWrite FileWriteByte FileWriteUTF16LE FileWriteWord FindClose FindFirst FindNext FindWindow FlushINI FunctionEnd GetCurInstType GetCurrentAddress GetDlgItem GetDLLVersion GetDLLVersionLocal GetErrorLevel GetFileTime GetFileTimeLocal GetFullPathName GetFunctionAddress GetInstDirError GetLabelAddress GetTempFileName Goto HideWindow Icon IfAbort IfErrors IfFileExists IfRebootFlag IfSilent InitPluginsDir InstallButtonText InstallColors InstallDir InstallDirRegKey InstProgressFlags InstType InstTypeGetText InstTypeSetText Int64Cmp Int64CmpU Int64Fmt IntCmp IntCmpU IntFmt IntOp IntPtrCmp IntPtrCmpU IntPtrOp IsWindow LangString LicenseBkColor LicenseData LicenseForceSelection LicenseLangString LicenseText LoadLanguageFile LockWindow LogSet LogText ManifestDPIAware ManifestSupportedOS MessageBox MiscButtonText Name Nop OutFile Page PageCallbacks PageExEnd Pop Push Quit ReadEnvStr ReadINIStr ReadRegDWORD ReadRegStr Reboot RegDLL Rename RequestExecutionLevel ReserveFile Return RMDir SearchPath SectionEnd SectionGetFlags SectionGetInstTypes SectionGetSize SectionGetText SectionGroupEnd SectionIn SectionSetFlags SectionSetInstTypes SectionSetSize SectionSetText SendMessage SetAutoClose SetBrandingImage SetCompress SetCompressor SetCompressorDictSize SetCtlColors SetCurInstType SetDatablockOptimize SetDateSave SetDetailsPrint SetDetailsView SetErrorLevel SetErrors SetFileAttributes SetFont SetOutPath SetOverwrite SetRebootFlag SetRegView SetShellVarContext SetSilent ShowInstDetails ShowUninstDetails ShowWindow SilentInstall SilentUnInstall Sleep SpaceTexts StrCmp StrCmpS StrCpy StrLen SubCaption Unicode UninstallButtonText UninstallCaption UninstallIcon UninstallSubCaption UninstallText UninstPage UnRegDLL Var VIAddVersionKey VIFileVersion VIProductVersion WindowIcon WriteINIStr WriteRegBin WriteRegDWORD WriteRegExpandStr WriteRegMultiStr WriteRegNone WriteRegStr WriteUninstaller XPStyle',
       literal:
       'admin all auto both bottom bzip2 colored components current custom directory false force hide highest ifdiff ifnewer instfiles lastused leave left license listonly lzma nevershow none normal notset off on open print right show silent silentlog smooth textonly top true try un.components un.custom un.directory un.instfiles un.license uninstConfirm user Win10 Win7 Win8 WinVista zlib'
     },
@@ -23630,6 +28047,496 @@ module.exports = function(hljs) {
   };
 };
 });
+___scope___.file("lib/languages/pgsql.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+  var COMMENT_MODE = hljs.COMMENT('--', '$');
+  var UNQUOTED_IDENT = '[a-zA-Z_][a-zA-Z_0-9$]*';
+  var DOLLAR_STRING = '\\$([a-zA-Z_]?|[a-zA-Z_][a-zA-Z_0-9]*)\\$';
+  var LABEL = '<<\\s*' + UNQUOTED_IDENT + '\\s*>>';
+
+  var SQL_KW = 
+    // https://www.postgresql.org/docs/11/static/sql-keywords-appendix.html
+    // https://www.postgresql.org/docs/11/static/sql-commands.html
+    // SQL commands (starting words)
+    'ABORT ALTER ANALYZE BEGIN CALL CHECKPOINT|10 CLOSE CLUSTER COMMENT COMMIT COPY CREATE DEALLOCATE DECLARE ' +
+    'DELETE DISCARD DO DROP END EXECUTE EXPLAIN FETCH GRANT IMPORT INSERT LISTEN LOAD LOCK MOVE NOTIFY ' +
+    'PREPARE REASSIGN|10 REFRESH REINDEX RELEASE RESET REVOKE ROLLBACK SAVEPOINT SECURITY SELECT SET SHOW ' +
+    'START TRUNCATE UNLISTEN|10 UPDATE VACUUM|10 VALUES ' +
+    // SQL commands (others)
+    'AGGREGATE COLLATION CONVERSION|10 DATABASE DEFAULT PRIVILEGES DOMAIN TRIGGER EXTENSION FOREIGN ' +
+    'WRAPPER|10 TABLE FUNCTION GROUP LANGUAGE LARGE OBJECT MATERIALIZED VIEW OPERATOR CLASS ' +
+    'FAMILY POLICY PUBLICATION|10 ROLE RULE SCHEMA SEQUENCE SERVER STATISTICS SUBSCRIPTION SYSTEM ' +
+    'TABLESPACE CONFIGURATION DICTIONARY PARSER TEMPLATE TYPE USER MAPPING PREPARED ACCESS ' +
+    'METHOD CAST AS TRANSFORM TRANSACTION OWNED TO INTO SESSION AUTHORIZATION ' +
+    'INDEX PROCEDURE ASSERTION ' +
+    // additional reserved key words
+    'ALL ANALYSE AND ANY ARRAY ASC ASYMMETRIC|10 BOTH CASE CHECK ' +
+    'COLLATE COLUMN CONCURRENTLY|10 CONSTRAINT CROSS ' +
+    'DEFERRABLE RANGE ' +
+    'DESC DISTINCT ELSE EXCEPT FOR FREEZE|10 FROM FULL HAVING ' +
+    'ILIKE IN INITIALLY INNER INTERSECT IS ISNULL JOIN LATERAL LEADING LIKE LIMIT ' +
+    'NATURAL NOT NOTNULL NULL OFFSET ON ONLY OR ORDER OUTER OVERLAPS PLACING PRIMARY ' +
+    'REFERENCES RETURNING SIMILAR SOME SYMMETRIC TABLESAMPLE THEN ' +
+    'TRAILING UNION UNIQUE USING VARIADIC|10 VERBOSE WHEN WHERE WINDOW WITH ' +
+    // some of non-reserved (which are used in clauses or as PL/pgSQL keyword)
+    'BY RETURNS INOUT OUT SETOF|10 IF STRICT CURRENT CONTINUE OWNER LOCATION OVER PARTITION WITHIN ' +
+    'BETWEEN ESCAPE EXTERNAL INVOKER DEFINER WORK RENAME VERSION CONNECTION CONNECT ' +
+    'TABLES TEMP TEMPORARY FUNCTIONS SEQUENCES TYPES SCHEMAS OPTION CASCADE RESTRICT ADD ADMIN ' +
+    'EXISTS VALID VALIDATE ENABLE DISABLE REPLICA|10 ALWAYS PASSING COLUMNS PATH ' +
+    'REF VALUE OVERRIDING IMMUTABLE STABLE VOLATILE BEFORE AFTER EACH ROW PROCEDURAL ' +
+    'ROUTINE NO HANDLER VALIDATOR OPTIONS STORAGE OIDS|10 WITHOUT INHERIT DEPENDS CALLED ' +
+    'INPUT LEAKPROOF|10 COST ROWS NOWAIT SEARCH UNTIL ENCRYPTED|10 PASSWORD CONFLICT|10 ' +
+    'INSTEAD INHERITS CHARACTERISTICS WRITE CURSOR ALSO STATEMENT SHARE EXCLUSIVE INLINE ' +
+    'ISOLATION REPEATABLE READ COMMITTED SERIALIZABLE UNCOMMITTED LOCAL GLOBAL SQL PROCEDURES ' +
+    'RECURSIVE SNAPSHOT ROLLUP CUBE TRUSTED|10 INCLUDE FOLLOWING PRECEDING UNBOUNDED RANGE GROUPS ' +
+    'UNENCRYPTED|10 SYSID FORMAT DELIMITER HEADER QUOTE ENCODING FILTER OFF ' +
+    // some parameters of VACUUM/ANALYZE/EXPLAIN
+    'FORCE_QUOTE FORCE_NOT_NULL FORCE_NULL COSTS BUFFERS TIMING SUMMARY DISABLE_PAGE_SKIPPING ' +
+    //
+    'RESTART CYCLE GENERATED IDENTITY DEFERRED IMMEDIATE LEVEL LOGGED UNLOGGED ' +
+    'OF NOTHING NONE EXCLUDE ATTRIBUTE ' +
+    // from GRANT (not keywords actually)
+    'USAGE ROUTINES ' +
+    // actually literals, but look better this way (due to IS TRUE, IS FALSE, ISNULL etc)
+    'TRUE FALSE NAN INFINITY ';
+
+  var ROLE_ATTRS = // only those not in keywrods already
+    'SUPERUSER NOSUPERUSER CREATEDB NOCREATEDB CREATEROLE NOCREATEROLE INHERIT NOINHERIT ' +
+    'LOGIN NOLOGIN REPLICATION NOREPLICATION BYPASSRLS NOBYPASSRLS ';
+
+  var PLPGSQL_KW = 
+    'ALIAS BEGIN CONSTANT DECLARE END EXCEPTION RETURN PERFORM|10 RAISE GET DIAGNOSTICS ' +
+    'STACKED|10 FOREACH LOOP ELSIF EXIT WHILE REVERSE SLICE DEBUG LOG INFO NOTICE WARNING ASSERT ' +
+    'OPEN ';
+
+  var TYPES =
+    // https://www.postgresql.org/docs/11/static/datatype.html
+    'BIGINT INT8 BIGSERIAL SERIAL8 BIT VARYING VARBIT BOOLEAN BOOL BOX BYTEA CHARACTER CHAR VARCHAR ' +
+    'CIDR CIRCLE DATE DOUBLE PRECISION FLOAT8 FLOAT INET INTEGER INT INT4 INTERVAL JSON JSONB LINE LSEG|10 ' +
+    'MACADDR MACADDR8 MONEY NUMERIC DEC DECIMAL PATH POINT POLYGON REAL FLOAT4 SMALLINT INT2 ' +
+    'SMALLSERIAL|10 SERIAL2|10 SERIAL|10 SERIAL4|10 TEXT TIME ZONE TIMETZ|10 TIMESTAMP TIMESTAMPTZ|10 TSQUERY|10 TSVECTOR|10 ' +
+    'TXID_SNAPSHOT|10 UUID XML NATIONAL NCHAR ' +
+    'INT4RANGE|10 INT8RANGE|10 NUMRANGE|10 TSRANGE|10 TSTZRANGE|10 DATERANGE|10 ' +
+    // pseudotypes
+    'ANYELEMENT ANYARRAY ANYNONARRAY ANYENUM ANYRANGE CSTRING INTERNAL ' +
+    'RECORD PG_DDL_COMMAND VOID UNKNOWN OPAQUE REFCURSOR ' +
+    // spec. type
+    'NAME ' +
+    // OID-types
+    'OID REGPROC|10 REGPROCEDURE|10 REGOPER|10 REGOPERATOR|10 REGCLASS|10 REGTYPE|10 REGROLE|10 ' +
+    'REGNAMESPACE|10 REGCONFIG|10 REGDICTIONARY|10 ';// +
+    // some types from standard extensions
+    'HSTORE|10 LO LTREE|10 ';
+    
+  var TYPES_RE = 
+    TYPES.trim()
+         .split(' ')
+         .map( function(val) { return val.split('|')[0]; } )
+         .join('|');
+
+  var SQL_BI =
+    'CURRENT_TIME CURRENT_TIMESTAMP CURRENT_USER CURRENT_CATALOG|10 CURRENT_DATE LOCALTIME LOCALTIMESTAMP ' +
+    'CURRENT_ROLE|10 CURRENT_SCHEMA|10 SESSION_USER PUBLIC ';
+
+  var PLPGSQL_BI =
+    'FOUND NEW OLD TG_NAME|10 TG_WHEN|10 TG_LEVEL|10 TG_OP|10 TG_RELID|10 TG_RELNAME|10 ' +
+    'TG_TABLE_NAME|10 TG_TABLE_SCHEMA|10 TG_NARGS|10 TG_ARGV|10 TG_EVENT|10 TG_TAG|10 ' +
+    // get diagnostics
+    'ROW_COUNT RESULT_OID|10 PG_CONTEXT|10 RETURNED_SQLSTATE COLUMN_NAME CONSTRAINT_NAME ' +
+    'PG_DATATYPE_NAME|10 MESSAGE_TEXT TABLE_NAME SCHEMA_NAME PG_EXCEPTION_DETAIL|10 ' +
+    'PG_EXCEPTION_HINT|10 PG_EXCEPTION_CONTEXT|10 ';
+
+  var PLPGSQL_EXCEPTIONS =
+    // exceptions https://www.postgresql.org/docs/current/static/errcodes-appendix.html
+    'SQLSTATE SQLERRM|10 ' +
+    'SUCCESSFUL_COMPLETION WARNING DYNAMIC_RESULT_SETS_RETURNED IMPLICIT_ZERO_BIT_PADDING ' +
+    'NULL_VALUE_ELIMINATED_IN_SET_FUNCTION PRIVILEGE_NOT_GRANTED PRIVILEGE_NOT_REVOKED ' +
+    'STRING_DATA_RIGHT_TRUNCATION DEPRECATED_FEATURE NO_DATA NO_ADDITIONAL_DYNAMIC_RESULT_SETS_RETURNED ' +
+    'SQL_STATEMENT_NOT_YET_COMPLETE CONNECTION_EXCEPTION CONNECTION_DOES_NOT_EXIST CONNECTION_FAILURE ' +
+    'SQLCLIENT_UNABLE_TO_ESTABLISH_SQLCONNECTION SQLSERVER_REJECTED_ESTABLISHMENT_OF_SQLCONNECTION ' +
+    'TRANSACTION_RESOLUTION_UNKNOWN PROTOCOL_VIOLATION TRIGGERED_ACTION_EXCEPTION FEATURE_NOT_SUPPORTED ' +
+    'INVALID_TRANSACTION_INITIATION LOCATOR_EXCEPTION INVALID_LOCATOR_SPECIFICATION INVALID_GRANTOR ' +
+    'INVALID_GRANT_OPERATION INVALID_ROLE_SPECIFICATION DIAGNOSTICS_EXCEPTION ' +
+    'STACKED_DIAGNOSTICS_ACCESSED_WITHOUT_ACTIVE_HANDLER CASE_NOT_FOUND CARDINALITY_VIOLATION ' +
+    'DATA_EXCEPTION ARRAY_SUBSCRIPT_ERROR CHARACTER_NOT_IN_REPERTOIRE DATETIME_FIELD_OVERFLOW ' +
+    'DIVISION_BY_ZERO ERROR_IN_ASSIGNMENT ESCAPE_CHARACTER_CONFLICT INDICATOR_OVERFLOW ' +
+    'INTERVAL_FIELD_OVERFLOW INVALID_ARGUMENT_FOR_LOGARITHM INVALID_ARGUMENT_FOR_NTILE_FUNCTION ' +
+    'INVALID_ARGUMENT_FOR_NTH_VALUE_FUNCTION INVALID_ARGUMENT_FOR_POWER_FUNCTION ' +
+    'INVALID_ARGUMENT_FOR_WIDTH_BUCKET_FUNCTION INVALID_CHARACTER_VALUE_FOR_CAST ' +
+    'INVALID_DATETIME_FORMAT INVALID_ESCAPE_CHARACTER INVALID_ESCAPE_OCTET INVALID_ESCAPE_SEQUENCE ' +
+    'NONSTANDARD_USE_OF_ESCAPE_CHARACTER INVALID_INDICATOR_PARAMETER_VALUE INVALID_PARAMETER_VALUE ' +
+    'INVALID_REGULAR_EXPRESSION INVALID_ROW_COUNT_IN_LIMIT_CLAUSE ' +
+    'INVALID_ROW_COUNT_IN_RESULT_OFFSET_CLAUSE INVALID_TABLESAMPLE_ARGUMENT INVALID_TABLESAMPLE_REPEAT ' +
+    'INVALID_TIME_ZONE_DISPLACEMENT_VALUE INVALID_USE_OF_ESCAPE_CHARACTER MOST_SPECIFIC_TYPE_MISMATCH ' +
+    'NULL_VALUE_NOT_ALLOWED NULL_VALUE_NO_INDICATOR_PARAMETER NUMERIC_VALUE_OUT_OF_RANGE ' +
+    'SEQUENCE_GENERATOR_LIMIT_EXCEEDED STRING_DATA_LENGTH_MISMATCH STRING_DATA_RIGHT_TRUNCATION ' +
+    'SUBSTRING_ERROR TRIM_ERROR UNTERMINATED_C_STRING ZERO_LENGTH_CHARACTER_STRING ' +
+    'FLOATING_POINT_EXCEPTION INVALID_TEXT_REPRESENTATION INVALID_BINARY_REPRESENTATION ' +
+    'BAD_COPY_FILE_FORMAT UNTRANSLATABLE_CHARACTER NOT_AN_XML_DOCUMENT INVALID_XML_DOCUMENT ' +
+    'INVALID_XML_CONTENT INVALID_XML_COMMENT INVALID_XML_PROCESSING_INSTRUCTION ' +
+    'INTEGRITY_CONSTRAINT_VIOLATION RESTRICT_VIOLATION NOT_NULL_VIOLATION FOREIGN_KEY_VIOLATION ' +
+    'UNIQUE_VIOLATION CHECK_VIOLATION EXCLUSION_VIOLATION INVALID_CURSOR_STATE ' +
+    'INVALID_TRANSACTION_STATE ACTIVE_SQL_TRANSACTION BRANCH_TRANSACTION_ALREADY_ACTIVE ' +
+    'HELD_CURSOR_REQUIRES_SAME_ISOLATION_LEVEL INAPPROPRIATE_ACCESS_MODE_FOR_BRANCH_TRANSACTION ' +
+    'INAPPROPRIATE_ISOLATION_LEVEL_FOR_BRANCH_TRANSACTION ' +
+    'NO_ACTIVE_SQL_TRANSACTION_FOR_BRANCH_TRANSACTION READ_ONLY_SQL_TRANSACTION ' +
+    'SCHEMA_AND_DATA_STATEMENT_MIXING_NOT_SUPPORTED NO_ACTIVE_SQL_TRANSACTION ' +
+    'IN_FAILED_SQL_TRANSACTION IDLE_IN_TRANSACTION_SESSION_TIMEOUT INVALID_SQL_STATEMENT_NAME ' +
+    'TRIGGERED_DATA_CHANGE_VIOLATION INVALID_AUTHORIZATION_SPECIFICATION INVALID_PASSWORD ' +
+    'DEPENDENT_PRIVILEGE_DESCRIPTORS_STILL_EXIST DEPENDENT_OBJECTS_STILL_EXIST ' +
+    'INVALID_TRANSACTION_TERMINATION SQL_ROUTINE_EXCEPTION FUNCTION_EXECUTED_NO_RETURN_STATEMENT ' +
+    'MODIFYING_SQL_DATA_NOT_PERMITTED PROHIBITED_SQL_STATEMENT_ATTEMPTED ' +
+    'READING_SQL_DATA_NOT_PERMITTED INVALID_CURSOR_NAME EXTERNAL_ROUTINE_EXCEPTION ' +
+    'CONTAINING_SQL_NOT_PERMITTED MODIFYING_SQL_DATA_NOT_PERMITTED ' +
+    'PROHIBITED_SQL_STATEMENT_ATTEMPTED READING_SQL_DATA_NOT_PERMITTED ' +
+    'EXTERNAL_ROUTINE_INVOCATION_EXCEPTION INVALID_SQLSTATE_RETURNED NULL_VALUE_NOT_ALLOWED ' +
+    'TRIGGER_PROTOCOL_VIOLATED SRF_PROTOCOL_VIOLATED EVENT_TRIGGER_PROTOCOL_VIOLATED ' +
+    'SAVEPOINT_EXCEPTION INVALID_SAVEPOINT_SPECIFICATION INVALID_CATALOG_NAME ' +
+    'INVALID_SCHEMA_NAME TRANSACTION_ROLLBACK TRANSACTION_INTEGRITY_CONSTRAINT_VIOLATION ' +
+    'SERIALIZATION_FAILURE STATEMENT_COMPLETION_UNKNOWN DEADLOCK_DETECTED ' +
+    'SYNTAX_ERROR_OR_ACCESS_RULE_VIOLATION SYNTAX_ERROR INSUFFICIENT_PRIVILEGE CANNOT_COERCE ' +
+    'GROUPING_ERROR WINDOWING_ERROR INVALID_RECURSION INVALID_FOREIGN_KEY INVALID_NAME ' +
+    'NAME_TOO_LONG RESERVED_NAME DATATYPE_MISMATCH INDETERMINATE_DATATYPE COLLATION_MISMATCH ' +
+    'INDETERMINATE_COLLATION WRONG_OBJECT_TYPE GENERATED_ALWAYS UNDEFINED_COLUMN ' +
+    'UNDEFINED_FUNCTION UNDEFINED_TABLE UNDEFINED_PARAMETER UNDEFINED_OBJECT ' +
+    'DUPLICATE_COLUMN DUPLICATE_CURSOR DUPLICATE_DATABASE DUPLICATE_FUNCTION ' +
+    'DUPLICATE_PREPARED_STATEMENT DUPLICATE_SCHEMA DUPLICATE_TABLE DUPLICATE_ALIAS ' +
+    'DUPLICATE_OBJECT AMBIGUOUS_COLUMN AMBIGUOUS_FUNCTION AMBIGUOUS_PARAMETER AMBIGUOUS_ALIAS ' +
+    'INVALID_COLUMN_REFERENCE INVALID_COLUMN_DEFINITION INVALID_CURSOR_DEFINITION ' +
+    'INVALID_DATABASE_DEFINITION INVALID_FUNCTION_DEFINITION ' +
+    'INVALID_PREPARED_STATEMENT_DEFINITION INVALID_SCHEMA_DEFINITION INVALID_TABLE_DEFINITION ' +
+    'INVALID_OBJECT_DEFINITION WITH_CHECK_OPTION_VIOLATION INSUFFICIENT_RESOURCES DISK_FULL ' +
+    'OUT_OF_MEMORY TOO_MANY_CONNECTIONS CONFIGURATION_LIMIT_EXCEEDED PROGRAM_LIMIT_EXCEEDED ' +
+    'STATEMENT_TOO_COMPLEX TOO_MANY_COLUMNS TOO_MANY_ARGUMENTS OBJECT_NOT_IN_PREREQUISITE_STATE ' +
+    'OBJECT_IN_USE CANT_CHANGE_RUNTIME_PARAM LOCK_NOT_AVAILABLE OPERATOR_INTERVENTION ' +
+    'QUERY_CANCELED ADMIN_SHUTDOWN CRASH_SHUTDOWN CANNOT_CONNECT_NOW DATABASE_DROPPED ' +
+    'SYSTEM_ERROR IO_ERROR UNDEFINED_FILE DUPLICATE_FILE SNAPSHOT_TOO_OLD CONFIG_FILE_ERROR ' +
+    'LOCK_FILE_EXISTS FDW_ERROR FDW_COLUMN_NAME_NOT_FOUND FDW_DYNAMIC_PARAMETER_VALUE_NEEDED ' +
+    'FDW_FUNCTION_SEQUENCE_ERROR FDW_INCONSISTENT_DESCRIPTOR_INFORMATION ' +
+    'FDW_INVALID_ATTRIBUTE_VALUE FDW_INVALID_COLUMN_NAME FDW_INVALID_COLUMN_NUMBER ' +
+    'FDW_INVALID_DATA_TYPE FDW_INVALID_DATA_TYPE_DESCRIPTORS ' +
+    'FDW_INVALID_DESCRIPTOR_FIELD_IDENTIFIER FDW_INVALID_HANDLE FDW_INVALID_OPTION_INDEX ' +
+    'FDW_INVALID_OPTION_NAME FDW_INVALID_STRING_LENGTH_OR_BUFFER_LENGTH ' +
+    'FDW_INVALID_STRING_FORMAT FDW_INVALID_USE_OF_NULL_POINTER FDW_TOO_MANY_HANDLES ' +
+    'FDW_OUT_OF_MEMORY FDW_NO_SCHEMAS FDW_OPTION_NAME_NOT_FOUND FDW_REPLY_HANDLE ' +
+    'FDW_SCHEMA_NOT_FOUND FDW_TABLE_NOT_FOUND FDW_UNABLE_TO_CREATE_EXECUTION ' +
+    'FDW_UNABLE_TO_CREATE_REPLY FDW_UNABLE_TO_ESTABLISH_CONNECTION PLPGSQL_ERROR ' +
+    'RAISE_EXCEPTION NO_DATA_FOUND TOO_MANY_ROWS ASSERT_FAILURE INTERNAL_ERROR DATA_CORRUPTED ' +
+    'INDEX_CORRUPTED ';
+
+  var FUNCTIONS =
+    // https://www.postgresql.org/docs/11/static/functions-aggregate.html
+    'ARRAY_AGG AVG BIT_AND BIT_OR BOOL_AND BOOL_OR COUNT EVERY JSON_AGG JSONB_AGG JSON_OBJECT_AGG ' +
+    'JSONB_OBJECT_AGG MAX MIN MODE STRING_AGG SUM XMLAGG ' +
+    'CORR COVAR_POP COVAR_SAMP REGR_AVGX REGR_AVGY REGR_COUNT REGR_INTERCEPT REGR_R2 REGR_SLOPE ' +
+    'REGR_SXX REGR_SXY REGR_SYY STDDEV STDDEV_POP STDDEV_SAMP VARIANCE VAR_POP VAR_SAMP ' +
+    'PERCENTILE_CONT PERCENTILE_DISC ' +
+    // https://www.postgresql.org/docs/11/static/functions-window.html
+    'ROW_NUMBER RANK DENSE_RANK PERCENT_RANK CUME_DIST NTILE LAG LEAD FIRST_VALUE LAST_VALUE NTH_VALUE ' +
+    // https://www.postgresql.org/docs/11/static/functions-comparison.html
+    'NUM_NONNULLS NUM_NULLS ' +
+    // https://www.postgresql.org/docs/11/static/functions-math.html
+    'ABS CBRT CEIL CEILING DEGREES DIV EXP FLOOR LN LOG MOD PI POWER RADIANS ROUND SCALE SIGN SQRT ' +
+    'TRUNC WIDTH_BUCKET ' +
+    'RANDOM SETSEED ' +
+    'ACOS ACOSD ASIN ASIND ATAN ATAND ATAN2 ATAN2D COS COSD COT COTD SIN SIND TAN TAND ' +
+    // https://www.postgresql.org/docs/11/static/functions-string.html
+    'BIT_LENGTH CHAR_LENGTH CHARACTER_LENGTH LOWER OCTET_LENGTH OVERLAY POSITION SUBSTRING TREAT TRIM UPPER ' +
+    'ASCII BTRIM CHR CONCAT CONCAT_WS CONVERT CONVERT_FROM CONVERT_TO DECODE ENCODE INITCAP' +
+    'LEFT LENGTH LPAD LTRIM MD5 PARSE_IDENT PG_CLIENT_ENCODING QUOTE_IDENT|10 QUOTE_LITERAL|10 ' +
+    'QUOTE_NULLABLE|10 REGEXP_MATCH REGEXP_MATCHES REGEXP_REPLACE REGEXP_SPLIT_TO_ARRAY ' +
+    'REGEXP_SPLIT_TO_TABLE REPEAT REPLACE REVERSE RIGHT RPAD RTRIM SPLIT_PART STRPOS SUBSTR ' +
+    'TO_ASCII TO_HEX TRANSLATE ' +
+    // https://www.postgresql.org/docs/11/static/functions-binarystring.html
+    'OCTET_LENGTH GET_BIT GET_BYTE SET_BIT SET_BYTE ' +
+    // https://www.postgresql.org/docs/11/static/functions-formatting.html
+    'TO_CHAR TO_DATE TO_NUMBER TO_TIMESTAMP ' +
+    // https://www.postgresql.org/docs/11/static/functions-datetime.html
+    'AGE CLOCK_TIMESTAMP|10 DATE_PART DATE_TRUNC ISFINITE JUSTIFY_DAYS JUSTIFY_HOURS JUSTIFY_INTERVAL ' +
+    'MAKE_DATE MAKE_INTERVAL|10 MAKE_TIME MAKE_TIMESTAMP|10 MAKE_TIMESTAMPTZ|10 NOW STATEMENT_TIMESTAMP|10 ' +
+    'TIMEOFDAY TRANSACTION_TIMESTAMP|10 ' +
+    // https://www.postgresql.org/docs/11/static/functions-enum.html
+    'ENUM_FIRST ENUM_LAST ENUM_RANGE ' +
+    // https://www.postgresql.org/docs/11/static/functions-geometry.html
+    'AREA CENTER DIAMETER HEIGHT ISCLOSED ISOPEN NPOINTS PCLOSE POPEN RADIUS WIDTH ' +
+    'BOX BOUND_BOX CIRCLE LINE LSEG PATH POLYGON ' +
+    // https://www.postgresql.org/docs/11/static/functions-net.html
+    'ABBREV BROADCAST HOST HOSTMASK MASKLEN NETMASK NETWORK SET_MASKLEN TEXT INET_SAME_FAMILY' +
+    'INET_MERGE MACADDR8_SET7BIT ' +
+    // https://www.postgresql.org/docs/11/static/functions-textsearch.html
+    'ARRAY_TO_TSVECTOR GET_CURRENT_TS_CONFIG NUMNODE PLAINTO_TSQUERY PHRASETO_TSQUERY WEBSEARCH_TO_TSQUERY ' +
+    'QUERYTREE SETWEIGHT STRIP TO_TSQUERY TO_TSVECTOR JSON_TO_TSVECTOR JSONB_TO_TSVECTOR TS_DELETE ' +
+    'TS_FILTER TS_HEADLINE TS_RANK TS_RANK_CD TS_REWRITE TSQUERY_PHRASE TSVECTOR_TO_ARRAY ' +
+    'TSVECTOR_UPDATE_TRIGGER TSVECTOR_UPDATE_TRIGGER_COLUMN ' +
+    // https://www.postgresql.org/docs/11/static/functions-xml.html
+    'XMLCOMMENT XMLCONCAT XMLELEMENT XMLFOREST XMLPI XMLROOT ' +
+    'XMLEXISTS XML_IS_WELL_FORMED XML_IS_WELL_FORMED_DOCUMENT XML_IS_WELL_FORMED_CONTENT ' +
+    'XPATH XPATH_EXISTS XMLTABLE XMLNAMESPACES ' +
+    'TABLE_TO_XML TABLE_TO_XMLSCHEMA TABLE_TO_XML_AND_XMLSCHEMA ' +
+    'QUERY_TO_XML QUERY_TO_XMLSCHEMA QUERY_TO_XML_AND_XMLSCHEMA ' +
+    'CURSOR_TO_XML CURSOR_TO_XMLSCHEMA ' +
+    'SCHEMA_TO_XML SCHEMA_TO_XMLSCHEMA SCHEMA_TO_XML_AND_XMLSCHEMA ' +
+    'DATABASE_TO_XML DATABASE_TO_XMLSCHEMA DATABASE_TO_XML_AND_XMLSCHEMA ' +
+    'XMLATTRIBUTES ' +
+    // https://www.postgresql.org/docs/11/static/functions-json.html
+    'TO_JSON TO_JSONB ARRAY_TO_JSON ROW_TO_JSON JSON_BUILD_ARRAY JSONB_BUILD_ARRAY JSON_BUILD_OBJECT ' +
+    'JSONB_BUILD_OBJECT JSON_OBJECT JSONB_OBJECT JSON_ARRAY_LENGTH JSONB_ARRAY_LENGTH JSON_EACH ' +
+    'JSONB_EACH JSON_EACH_TEXT JSONB_EACH_TEXT JSON_EXTRACT_PATH JSONB_EXTRACT_PATH ' +
+    'JSON_OBJECT_KEYS JSONB_OBJECT_KEYS JSON_POPULATE_RECORD JSONB_POPULATE_RECORD JSON_POPULATE_RECORDSET ' +
+    'JSONB_POPULATE_RECORDSET JSON_ARRAY_ELEMENTS JSONB_ARRAY_ELEMENTS JSON_ARRAY_ELEMENTS_TEXT ' +
+    'JSONB_ARRAY_ELEMENTS_TEXT JSON_TYPEOF JSONB_TYPEOF JSON_TO_RECORD JSONB_TO_RECORD JSON_TO_RECORDSET ' +
+    'JSONB_TO_RECORDSET JSON_STRIP_NULLS JSONB_STRIP_NULLS JSONB_SET JSONB_INSERT JSONB_PRETTY ' +
+    // https://www.postgresql.org/docs/11/static/functions-sequence.html
+    'CURRVAL LASTVAL NEXTVAL SETVAL ' +
+    // https://www.postgresql.org/docs/11/static/functions-conditional.html
+    'COALESCE NULLIF GREATEST LEAST ' +
+    // https://www.postgresql.org/docs/11/static/functions-array.html
+    'ARRAY_APPEND ARRAY_CAT ARRAY_NDIMS ARRAY_DIMS ARRAY_FILL ARRAY_LENGTH ARRAY_LOWER ARRAY_POSITION ' +
+    'ARRAY_POSITIONS ARRAY_PREPEND ARRAY_REMOVE ARRAY_REPLACE ARRAY_TO_STRING ARRAY_UPPER CARDINALITY ' +
+    'STRING_TO_ARRAY UNNEST ' +
+    // https://www.postgresql.org/docs/11/static/functions-range.html
+    'ISEMPTY LOWER_INC UPPER_INC LOWER_INF UPPER_INF RANGE_MERGE ' +
+    // https://www.postgresql.org/docs/11/static/functions-srf.html
+    'GENERATE_SERIES GENERATE_SUBSCRIPTS ' +
+    // https://www.postgresql.org/docs/11/static/functions-info.html
+    'CURRENT_DATABASE CURRENT_QUERY CURRENT_SCHEMA|10 CURRENT_SCHEMAS|10 INET_CLIENT_ADDR INET_CLIENT_PORT ' +
+    'INET_SERVER_ADDR INET_SERVER_PORT ROW_SECURITY_ACTIVE FORMAT_TYPE ' +
+    'TO_REGCLASS TO_REGPROC TO_REGPROCEDURE TO_REGOPER TO_REGOPERATOR TO_REGTYPE TO_REGNAMESPACE TO_REGROLE ' +
+    'COL_DESCRIPTION OBJ_DESCRIPTION SHOBJ_DESCRIPTION ' +
+    'TXID_CURRENT TXID_CURRENT_IF_ASSIGNED TXID_CURRENT_SNAPSHOT TXID_SNAPSHOT_XIP TXID_SNAPSHOT_XMAX ' +
+    'TXID_SNAPSHOT_XMIN TXID_VISIBLE_IN_SNAPSHOT TXID_STATUS ' +
+    // https://www.postgresql.org/docs/11/static/functions-admin.html
+    'CURRENT_SETTING SET_CONFIG BRIN_SUMMARIZE_NEW_VALUES BRIN_SUMMARIZE_RANGE BRIN_DESUMMARIZE_RANGE ' +
+    'GIN_CLEAN_PENDING_LIST ' +
+    // https://www.postgresql.org/docs/11/static/functions-trigger.html
+    'SUPPRESS_REDUNDANT_UPDATES_TRIGGER ' +
+    // ihttps://www.postgresql.org/docs/devel/static/lo-funcs.html
+    'LO_FROM_BYTEA LO_PUT LO_GET LO_CREAT LO_CREATE LO_UNLINK LO_IMPORT LO_EXPORT LOREAD LOWRITE ' +
+    //
+    'GROUPING CAST ';
+
+    var FUNCTIONS_RE = 
+      FUNCTIONS.trim()
+               .split(' ')
+               .map( function(val) { return val.split('|')[0]; } )
+               .join('|');
+
+    return {
+        aliases: ['postgres','postgresql'],
+        case_insensitive: true,
+        keywords: {
+          keyword:
+            SQL_KW + PLPGSQL_KW + ROLE_ATTRS,
+          built_in:
+            SQL_BI + PLPGSQL_BI + PLPGSQL_EXCEPTIONS,
+        },
+        // Forbid some cunstructs from other languages to improve autodetect. In fact
+        // "[a-z]:" is legal (as part of array slice), but improbabal.
+        illegal: /:==|\W\s*\(\*|(^|\s)\$[a-z]|{{|[a-z]:\s*$|\.\.\.|TO:|DO:/,
+        contains: [
+          // special handling of some words, which are reserved only in some contexts
+          {
+            className: 'keyword',
+            variants: [
+              { begin: /\bTEXT\s*SEARCH\b/ },
+              { begin: /\b(PRIMARY|FOREIGN|FOR(\s+NO)?)\s+KEY\b/ },
+              { begin: /\bPARALLEL\s+(UNSAFE|RESTRICTED|SAFE)\b/ },
+              { begin: /\bSTORAGE\s+(PLAIN|EXTERNAL|EXTENDED|MAIN)\b/ },
+              { begin: /\bMATCH\s+(FULL|PARTIAL|SIMPLE)\b/ },
+              { begin: /\bNULLS\s+(FIRST|LAST)\b/ },
+              { begin: /\bEVENT\s+TRIGGER\b/ },
+              { begin: /\b(MAPPING|OR)\s+REPLACE\b/ },
+              { begin: /\b(FROM|TO)\s+(PROGRAM|STDIN|STDOUT)\b/ },
+              { begin: /\b(SHARE|EXCLUSIVE)\s+MODE\b/ },
+              { begin: /\b(LEFT|RIGHT)\s+(OUTER\s+)?JOIN\b/ },
+              { begin: /\b(FETCH|MOVE)\s+(NEXT|PRIOR|FIRST|LAST|ABSOLUTE|RELATIVE|FORWARD|BACKWARD)\b/ },
+              { begin: /\bPRESERVE\s+ROWS\b/ },
+              { begin: /\bDISCARD\s+PLANS\b/ },
+              { begin: /\bREFERENCING\s+(OLD|NEW)\b/ },
+              { begin: /\bSKIP\s+LOCKED\b/ },
+              { begin: /\bGROUPING\s+SETS\b/ },
+              { begin: /\b(BINARY|INSENSITIVE|SCROLL|NO\s+SCROLL)\s+(CURSOR|FOR)\b/ },
+              { begin: /\b(WITH|WITHOUT)\s+HOLD\b/ },
+              { begin: /\bWITH\s+(CASCADED|LOCAL)\s+CHECK\s+OPTION\b/ },
+              { begin: /\bEXCLUDE\s+(TIES|NO\s+OTHERS)\b/ },
+              { begin: /\bFORMAT\s+(TEXT|XML|JSON|YAML)\b/ },
+              { begin: /\bSET\s+((SESSION|LOCAL)\s+)?NAMES\b/ },
+              { begin: /\bIS\s+(NOT\s+)?UNKNOWN\b/ },
+              { begin: /\bSECURITY\s+LABEL\b/ },
+              { begin: /\bSTANDALONE\s+(YES|NO|NO\s+VALUE)\b/ },
+              { begin: /\bWITH\s+(NO\s+)?DATA\b/ },
+              { begin: /\b(FOREIGN|SET)\s+DATA\b/ },
+              { begin: /\bSET\s+(CATALOG|CONSTRAINTS)\b/ },
+              { begin: /\b(WITH|FOR)\s+ORDINALITY\b/ },
+              { begin: /\bIS\s+(NOT\s+)?DOCUMENT\b/ },
+              { begin: /\bXML\s+OPTION\s+(DOCUMENT|CONTENT)\b/ },
+              { begin: /\b(STRIP|PRESERVE)\s+WHITESPACE\b/ },
+              { begin: /\bNO\s+(ACTION|MAXVALUE|MINVALUE)\b/ },
+              { begin: /\bPARTITION\s+BY\s+(RANGE|LIST|HASH)\b/ },
+              { begin: /\bAT\s+TIME\s+ZONE\b/ },
+              { begin: /\bGRANTED\s+BY\b/ },
+              { begin: /\bRETURN\s+(QUERY|NEXT)\b/ },
+              { begin: /\b(ATTACH|DETACH)\s+PARTITION\b/ },
+              { begin: /\bFORCE\s+ROW\s+LEVEL\s+SECURITY\b/ },
+              { begin: /\b(INCLUDING|EXCLUDING)\s+(COMMENTS|CONSTRAINTS|DEFAULTS|IDENTITY|INDEXES|STATISTICS|STORAGE|ALL)\b/ },
+              { begin: /\bAS\s+(ASSIGNMENT|IMPLICIT|PERMISSIVE|RESTRICTIVE|ENUM|RANGE)\b/ }
+            ]
+          },
+          // functions named as keywords, followed by '('
+          {
+            begin: /\b(FORMAT|FAMILY|VERSION)\s*\(/,
+            //keywords: { built_in: 'FORMAT FAMILY VERSION' }
+          },
+          // INCLUDE ( ... ) in index_parameters in CREATE TABLE
+          {
+            begin: /\bINCLUDE\s*\(/,
+            keywords: 'INCLUDE'
+          },
+          // not highlight RANGE if not in frame_clause (not 100% correct, but seems satisfactory)
+          {
+            begin: /\bRANGE(?!\s*(BETWEEN|UNBOUNDED|CURRENT|[-0-9]+))/
+          },
+          // disable highlighting in commands CREATE AGGREGATE/COLLATION/DATABASE/OPERTOR/TEXT SEARCH .../TYPE
+          // and in PL/pgSQL RAISE ... USING
+          {
+            begin: /\b(VERSION|OWNER|TEMPLATE|TABLESPACE|CONNECTION\s+LIMIT|PROCEDURE|RESTRICT|JOIN|PARSER|COPY|START|END|COLLATION|INPUT|ANALYZE|STORAGE|LIKE|DEFAULT|DELIMITER|ENCODING|COLUMN|CONSTRAINT|TABLE|SCHEMA)\s*=/
+          },
+          // PG_smth; HAS_some_PRIVILEGE
+          {
+            //className: 'built_in',
+            begin: /\b(PG_\w+?|HAS_[A-Z_]+_PRIVILEGE)\b/,
+            relevance: 10
+          },
+          // extract
+          {
+            begin: /\bEXTRACT\s*\(/,
+            end: /\bFROM\b/,
+            returnEnd: true,
+            keywords: {
+              //built_in: 'EXTRACT',
+              type:     'CENTURY DAY DECADE DOW DOY EPOCH HOUR ISODOW ISOYEAR MICROSECONDS ' +
+                        'MILLENNIUM MILLISECONDS MINUTE MONTH QUARTER SECOND TIMEZONE TIMEZONE_HOUR ' +
+                        'TIMEZONE_MINUTE WEEK YEAR'
+            }
+          },
+          // xmlelement, xmlpi - special NAME
+          {
+            begin: /\b(XMLELEMENT|XMLPI)\s*\(\s*NAME/,
+            keywords: {
+              //built_in: 'XMLELEMENT XMLPI',
+              keyword:  'NAME'
+            }
+          },
+          // xmlparse, xmlserialize
+          {
+            begin: /\b(XMLPARSE|XMLSERIALIZE)\s*\(\s*(DOCUMENT|CONTENT)/,
+            keywords: {
+              //built_in: 'XMLPARSE XMLSERIALIZE',
+              keyword:  'DOCUMENT CONTENT'
+            }
+          },
+          // Sequences. We actually skip everything between CACHE|INCREMENT|MAXVALUE|MINVALUE and
+          // nearest following numeric constant. Without with trick we find a lot of "keywords"
+          // in 'avrasm' autodetection test...
+          {
+            beginKeywords: 'CACHE INCREMENT MAXVALUE MINVALUE',
+            end: hljs.C_NUMBER_RE,
+            returnEnd: true,
+            keywords: 'BY CACHE INCREMENT MAXVALUE MINVALUE'
+          },
+          // WITH|WITHOUT TIME ZONE as part of datatype
+          {
+            className: 'type',
+            begin: /\b(WITH|WITHOUT)\s+TIME\s+ZONE\b/
+          },
+          // INTERVAL optional fields
+          {
+            className: 'type',
+            begin: /\bINTERVAL\s+(YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)(\s+TO\s+(MONTH|HOUR|MINUTE|SECOND))?\b/
+          },
+          // Pseudo-types which allowed only as return type
+          {
+            begin: /\bRETURNS\s+(LANGUAGE_HANDLER|TRIGGER|EVENT_TRIGGER|FDW_HANDLER|INDEX_AM_HANDLER|TSM_HANDLER)\b/,
+            keywords: {
+              keyword: 'RETURNS',
+              type: 'LANGUAGE_HANDLER TRIGGER EVENT_TRIGGER FDW_HANDLER INDEX_AM_HANDLER TSM_HANDLER'
+            }
+          },
+          // Known functions - only when followed by '('
+          {
+            begin: '\\b(' + FUNCTIONS_RE + ')\\s*\\('
+            //keywords: { built_in: FUNCTIONS }
+          },
+          // Types
+          {
+            begin: '\\.(' + TYPES_RE + ')\\b' // prevent highlight as type, say, 'oid' in 'pgclass.oid'
+          },
+          {
+            begin: '\\b(' + TYPES_RE + ')\\s+PATH\\b', // in XMLTABLE
+            keywords: {
+              keyword: 'PATH', // hopefully no one would use PATH type in XMLTABLE...
+              type: TYPES.replace('PATH ','')
+            }
+          },
+          {
+            className: 'type',
+            begin: '\\b(' + TYPES_RE + ')\\b'
+          },
+          // Strings, see https://www.postgresql.org/docs/11/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS
+          {
+            className: 'string',
+            begin: '\'', end: '\'',
+            contains: [{begin: '\'\''}]
+          },
+          {
+            className: 'string',
+            begin: '(e|E|u&|U&)\'', end: '\'',
+            contains: [{begin: '\\\\.'}],
+            relevance: 10
+          },
+          {
+            begin: DOLLAR_STRING,
+            endSameAsBegin: true,
+            contains: [
+              {
+                // actually we want them all except SQL; listed are those with known implementations
+                // and XML + JSON just in case
+                subLanguage: ['pgsql','perl','python','tcl','r','lua','java','php','ruby','bash','scheme','xml','json'],
+                endsWithParent: true
+              }
+            ]
+          },
+          // identifiers in quotes
+          {
+            begin: '"', end: '"',
+            contains: [{begin: '""'}]
+          },
+          // numbers
+          hljs.C_NUMBER_MODE,
+          // comments
+          hljs.C_BLOCK_COMMENT_MODE,
+          COMMENT_MODE,
+          // PL/pgSQL staff
+          // %ROWTYPE, %TYPE, $n
+          {
+            className: 'meta',
+            variants: [
+              {begin: '%(ROW)?TYPE', relevance: 10}, // %TYPE, %ROWTYPE
+              {begin: '\\$\\d+'},                    // $n
+              {begin: '^#\\w', end: '$'}             // #compiler option
+            ]
+          },
+          // <<labeles>>
+          {
+            className: 'symbol',
+            begin: LABEL,
+            relevance: 10
+          }
+        ]
+  };
+};
+});
 ___scope___.file("lib/languages/php.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
@@ -23655,7 +28562,7 @@ module.exports = function(hljs) {
   };
   var NUMBER = {variants: [hljs.BINARY_NUMBER_MODE, hljs.C_NUMBER_MODE]};
   return {
-    aliases: ['php3', 'php4', 'php5', 'php6'],
+    aliases: ['php', 'php3', 'php4', 'php5', 'php6', 'php7'],
     case_insensitive: true,
     keywords:
       'and include_once list abstract global private echo interface as static endswitch ' +
@@ -23757,6 +28664,14 @@ module.exports = function(hljs) {
       NUMBER
     ]
   };
+};
+});
+___scope___.file("lib/languages/plaintext.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+    return {
+        disableAutodetect: true
+    };
 };
 });
 ___scope___.file("lib/languages/pony.js", function(exports, require, module, __filename, __dirname){
@@ -24107,12 +29022,84 @@ module.exports = function(hljs) {
   };
 };
 });
+___scope___.file("lib/languages/properties.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+
+  // whitespaces: space, tab, formfeed
+  var WS0 = '[ \\t\\f]*';
+  var WS1 = '[ \\t\\f]+';
+  // delimiter
+  var DELIM = '(' + WS0+'[:=]'+WS0+ '|' + WS1 + ')';
+  var KEY_ALPHANUM = '([^\\\\\\W:= \\t\\f\\n]|\\\\.)+';
+  var KEY_OTHER = '([^\\\\:= \\t\\f\\n]|\\\\.)+';
+
+  var DELIM_AND_VALUE = {
+          // skip DELIM
+          end: DELIM,
+          relevance: 0,
+          starts: {
+            // value: everything until end of line (again, taking into account backslashes)
+            className: 'string',
+            end: /$/,
+            relevance: 0,
+            contains: [
+              { begin: '\\\\\\n' }
+            ]
+          }
+        };
+
+  return {
+    case_insensitive: true,
+    illegal: /\S/,
+    contains: [
+      hljs.COMMENT('^\\s*[!#]', '$'),
+      // key: everything until whitespace or = or : (taking into account backslashes)
+      // case of a "normal" key
+      {
+        begin: KEY_ALPHANUM + DELIM,
+        returnBegin: true,
+        contains: [
+          {
+            className: 'attr',
+            begin: KEY_ALPHANUM,
+            endsParent: true,
+            relevance: 0
+          }
+        ],
+        starts: DELIM_AND_VALUE
+      },
+      // case of key containing non-alphanumeric chars => relevance = 0
+      {
+        begin: KEY_OTHER + DELIM,
+        returnBegin: true,
+        relevance: 0,
+        contains: [
+          {
+            className: 'meta',
+            begin: KEY_OTHER,
+            endsParent: true,
+            relevance: 0
+          }
+        ],
+        starts: DELIM_AND_VALUE
+      },
+      // case of an empty key
+      {
+        className: 'attr',
+        relevance: 0,
+        begin: KEY_OTHER + WS0 + '$'
+      }
+    ]
+  };
+};
+});
 ___scope___.file("lib/languages/protobuf.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
   return {
     keywords: {
-      keyword: 'package import option optional required repeated group',
+      keyword: 'package import option optional required repeated group oneof',
       built_in: 'double float int32 int64 uint32 uint64 sint32 sint64 ' +
         'fixed32 fixed64 sfixed32 sfixed64 bool string bytes',
       literal: 'true false'
@@ -24348,21 +29335,21 @@ module.exports = function(hljs) {
     variants: [
       {
         begin: /(u|b)?r?'''/, end: /'''/,
-        contains: [PROMPT],
+        contains: [hljs.BACKSLASH_ESCAPE, PROMPT],
         relevance: 10
       },
       {
         begin: /(u|b)?r?"""/, end: /"""/,
-        contains: [PROMPT],
+        contains: [hljs.BACKSLASH_ESCAPE, PROMPT],
         relevance: 10
       },
       {
         begin: /(fr|rf|f)'''/, end: /'''/,
-        contains: [PROMPT, SUBST]
+        contains: [hljs.BACKSLASH_ESCAPE, PROMPT, SUBST]
       },
       {
         begin: /(fr|rf|f)"""/, end: /"""/,
-        contains: [PROMPT, SUBST]
+        contains: [hljs.BACKSLASH_ESCAPE, PROMPT, SUBST]
       },
       {
         begin: /(u|r|ur)'/, end: /'/,
@@ -24380,11 +29367,11 @@ module.exports = function(hljs) {
       },
       {
         begin: /(fr|rf|f)'/, end: /'/,
-        contains: [SUBST]
+        contains: [hljs.BACKSLASH_ESCAPE, SUBST]
       },
       {
         begin: /(fr|rf|f)"/, end: /"/,
-        contains: [SUBST]
+        contains: [hljs.BACKSLASH_ESCAPE, SUBST]
       },
       hljs.APOS_STRING_MODE,
       hljs.QUOTE_STRING_MODE
@@ -24704,6 +29691,308 @@ module.exports = function(hljs) {
           {begin: "'", end: "'"}
         ]
       }
+    ]
+  };
+};
+});
+___scope___.file("lib/languages/reasonml.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+  function orReValues(ops){
+    return ops
+    .map(function(op) {
+      return op
+        .split('')
+        .map(function(char) {
+          return '\\' + char;
+        })
+        .join('');
+    })
+    .join('|');
+  }
+
+  var RE_IDENT = '~?[a-z$_][0-9a-zA-Z$_]*';
+  var RE_MODULE_IDENT = '`?[A-Z$_][0-9a-zA-Z$_]*';
+
+  var RE_PARAM_TYPEPARAM = '\'?[a-z$_][0-9a-z$_]*';
+  var RE_PARAM_TYPE = '\s*:\s*[a-z$_][0-9a-z$_]*(\(\s*(' + RE_PARAM_TYPEPARAM + '\s*(,' + RE_PARAM_TYPEPARAM + ')*)?\s*\))?';
+  var RE_PARAM = RE_IDENT + '(' + RE_PARAM_TYPE + ')?(' + RE_PARAM_TYPE + ')?';
+  var RE_OPERATOR = "(" + orReValues(['||', '&&', '++', '**', '+.', '*', '/', '*.', '/.', '...', '|>']) + "|==|===)";
+  var RE_OPERATOR_SPACED = "\\s+" + RE_OPERATOR + "\\s+";
+
+  var KEYWORDS = {
+    keyword:
+      'and as asr assert begin class constraint do done downto else end exception external' +
+      'for fun function functor if in include inherit initializer' +
+      'land lazy let lor lsl lsr lxor match method mod module mutable new nonrec' +
+      'object of open or private rec sig struct then to try type val virtual when while with',
+    built_in:
+      'array bool bytes char exn|5 float int int32 int64 list lazy_t|5 nativeint|5 ref string unit ',
+    literal:
+      'true false'
+  };
+
+  var RE_NUMBER = '\\b(0[xX][a-fA-F0-9_]+[Lln]?|' +
+    '0[oO][0-7_]+[Lln]?|' +
+    '0[bB][01_]+[Lln]?|' +
+    '[0-9][0-9_]*([Lln]|(\\.[0-9_]*)?([eE][-+]?[0-9_]+)?)?)';
+
+  var NUMBER_MODE = {
+    className: 'number',
+    relevance: 0,
+    variants: [
+      {
+        begin: RE_NUMBER
+      },
+      {
+        begin: '\\(\\-' + RE_NUMBER + '\\)'
+      }
+    ]
+  };
+
+  var OPERATOR_MODE = {
+    className: 'operator',
+    relevance: 0,
+    begin: RE_OPERATOR
+  };
+  var LIST_CONTENTS_MODES = [
+    {
+      className: 'identifier',
+      relevance: 0,
+      begin: RE_IDENT
+    },
+    OPERATOR_MODE,
+    NUMBER_MODE
+  ];
+
+  var MODULE_ACCESS_CONTENTS = [
+    hljs.QUOTE_STRING_MODE,
+    OPERATOR_MODE,
+    {
+      className: 'module',
+      begin: "\\b" + RE_MODULE_IDENT, returnBegin: true,
+      end: "\.",
+      contains: [
+        {
+          className: 'identifier',
+          begin: RE_MODULE_IDENT,
+          relevance: 0
+        }
+      ]
+    }
+  ];
+
+  var PARAMS_CONTENTS = [
+    {
+      className: 'module',
+      begin: "\\b" + RE_MODULE_IDENT, returnBegin: true,
+      end: "\.",
+      relevance: 0,
+      contains: [
+        {
+          className: 'identifier',
+          begin: RE_MODULE_IDENT,
+          relevance: 0
+        }
+      ]
+    }
+  ];
+
+  var PARAMS_MODE = {
+    begin: RE_IDENT,
+    end: '(,|\\n|\\))',
+    relevance: 0,
+    contains: [
+      OPERATOR_MODE,
+      {
+        className: 'typing',
+        begin: ':',
+        end: '(,|\\n)',
+        returnBegin: true,
+        relevance: 0,
+        contains: PARAMS_CONTENTS
+      }
+    ]
+  };
+
+  var FUNCTION_BLOCK_MODE = {
+    className: 'function',
+    relevance: 0,
+    keywords: KEYWORDS,
+    variants: [
+      {
+        begin: '\\s(\\(\\.?.*?\\)|' + RE_IDENT + ')\\s*=>',
+        end: '\\s*=>',
+        returnBegin: true,
+        relevance: 0,
+        contains: [
+          {
+            className: 'params',
+            variants: [
+              {
+                begin: RE_IDENT
+              },
+              {
+                begin: RE_PARAM
+              },
+              {
+                begin: /\(\s*\)/,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        begin: '\\s\\(\\.?[^;\\|]*\\)\\s*=>',
+        end: '\\s=>',
+        returnBegin: true,
+        relevance: 0,
+        contains: [
+          {
+            className: 'params',
+            relevance: 0,
+            variants: [
+              PARAMS_MODE
+            ]
+          }
+        ]
+      },
+      {
+        begin: '\\(\\.\\s' + RE_IDENT + '\\)\\s*=>'
+      }
+    ]
+  };
+  MODULE_ACCESS_CONTENTS.push(FUNCTION_BLOCK_MODE);
+
+  var CONSTRUCTOR_MODE = {
+    className: 'constructor',
+    begin: RE_MODULE_IDENT + '\\(',
+    end: '\\)',
+    illegal: '\\n',
+    keywords: KEYWORDS,
+    contains: [
+      hljs.QUOTE_STRING_MODE,
+      OPERATOR_MODE,
+      {
+        className: 'params',
+        begin: '\\b' + RE_IDENT
+      }
+    ]
+  };
+
+  var PATTERN_MATCH_BLOCK_MODE = {
+    className: 'pattern-match',
+    begin: '\\|',
+    returnBegin: true,
+    keywords: KEYWORDS,
+    end: '=>',
+    relevance: 0,
+    contains: [
+      CONSTRUCTOR_MODE,
+      OPERATOR_MODE,
+      {
+        relevance: 0,
+        className: 'constructor',
+        begin: RE_MODULE_IDENT
+      }
+    ]
+  };
+
+  var MODULE_ACCESS_MODE = {
+    className: 'module-access',
+    keywords: KEYWORDS,
+    returnBegin: true,
+    variants: [
+      {
+        begin: "\\b(" + RE_MODULE_IDENT + "\\.)+" + RE_IDENT
+      },
+      {
+        begin: "\\b(" + RE_MODULE_IDENT + "\\.)+\\(",
+        end: "\\)",
+        returnBegin: true,
+        contains: [
+          FUNCTION_BLOCK_MODE,
+          {
+            begin: '\\(',
+            end: '\\)',
+            skip: true
+          }
+        ].concat(MODULE_ACCESS_CONTENTS)
+      },
+      {
+        begin: "\\b(" + RE_MODULE_IDENT + "\\.)+{",
+        end: "}"
+      }
+    ],
+    contains: MODULE_ACCESS_CONTENTS
+  };
+
+  PARAMS_CONTENTS.push(MODULE_ACCESS_MODE);
+
+  return {
+    aliases: ['re'],
+    keywords: KEYWORDS,
+    illegal: '(:\\-|:=|\\${|\\+=)',
+    contains: [
+      hljs.COMMENT('/\\*', '\\*/', { illegal: '^(\\#,\\/\\/)' }),
+      {
+        className: 'character',
+        begin: '\'(\\\\[^\']+|[^\'])\'',
+        illegal: '\\n',
+        relevance: 0
+      },
+      hljs.QUOTE_STRING_MODE,
+      {
+        className: 'literal',
+        begin: '\\(\\)',
+        relevance: 0
+      },
+      {
+        className: 'literal',
+        begin: '\\[\\|',
+        end: '\\|\\]',
+        relevance:  0,
+        contains: LIST_CONTENTS_MODES
+      },
+      {
+        className: 'literal',
+        begin: '\\[',
+        end: '\\]',
+        relevance: 0,
+        contains: LIST_CONTENTS_MODES
+      },
+      CONSTRUCTOR_MODE,
+      {
+        className: 'operator',
+        begin: RE_OPERATOR_SPACED,
+        illegal: '\\-\\->',
+        relevance: 0
+      },
+      NUMBER_MODE,
+      hljs.C_LINE_COMMENT_MODE,
+      PATTERN_MATCH_BLOCK_MODE,
+      FUNCTION_BLOCK_MODE,
+      {
+        className: 'module-def',
+        begin: "\\bmodule\\s+" + RE_IDENT + "\\s+" + RE_MODULE_IDENT + "\\s+=\\s+{",
+        end: "}",
+        returnBegin: true,
+        keywords: KEYWORDS,
+        relevance: 0,
+        contains: [
+          {
+            className: 'module',
+            relevance: 0,
+            begin: RE_MODULE_IDENT
+          },
+          {
+            begin: '{',
+            end: '}',
+            skip: true
+          }
+        ].concat(MODULE_ACCESS_CONTENTS)
+      },
+      MODULE_ACCESS_MODE
     ]
   };
 };
@@ -25178,6 +30467,134 @@ module.exports = function(hljs) {
   };
 };
 });
+___scope___.file("lib/languages/sas.js", function(exports, require, module, __filename, __dirname){
+
+module.exports = function(hljs) {
+
+    // Data step and PROC SQL statements
+    var SAS_KEYWORDS = ''+
+        'do if then else end until while '+
+        ''+
+        'abort array attrib by call cards cards4 catname continue '+
+        'datalines datalines4 delete delim delimiter display dm drop '+
+        'endsas error file filename footnote format goto in infile '+
+        'informat input keep label leave length libname link list '+
+        'lostcard merge missing modify options output out page put '+
+        'redirect remove rename replace retain return select set skip '+
+        'startsas stop title update waitsas where window x systask '+
+        ''+
+        'add and alter as cascade check create delete describe '+
+        'distinct drop foreign from group having index insert into in '+
+        'key like message modify msgtype not null on or order primary '+
+        'references reset restrict select set table unique update '+
+        'validate view where';
+
+    // Built-in SAS functions
+    var SAS_FUN = ''+
+        'abs|addr|airy|arcos|arsin|atan|attrc|attrn|band|'+
+        'betainv|blshift|bnot|bor|brshift|bxor|byte|cdf|ceil|'+
+        'cexist|cinv|close|cnonct|collate|compbl|compound|'+
+        'compress|cos|cosh|css|curobs|cv|daccdb|daccdbsl|'+
+        'daccsl|daccsyd|dacctab|dairy|date|datejul|datepart|'+
+        'datetime|day|dclose|depdb|depdbsl|depdbsl|depsl|'+
+        'depsl|depsyd|depsyd|deptab|deptab|dequote|dhms|dif|'+
+        'digamma|dim|dinfo|dnum|dopen|doptname|doptnum|dread|'+
+        'dropnote|dsname|erf|erfc|exist|exp|fappend|fclose|'+
+        'fcol|fdelete|fetch|fetchobs|fexist|fget|fileexist|'+
+        'filename|fileref|finfo|finv|fipname|fipnamel|'+
+        'fipstate|floor|fnonct|fnote|fopen|foptname|foptnum|'+
+        'fpoint|fpos|fput|fread|frewind|frlen|fsep|fuzz|'+
+        'fwrite|gaminv|gamma|getoption|getvarc|getvarn|hbound|'+
+        'hms|hosthelp|hour|ibessel|index|indexc|indexw|input|'+
+        'inputc|inputn|int|intck|intnx|intrr|irr|jbessel|'+
+        'juldate|kurtosis|lag|lbound|left|length|lgamma|'+
+        'libname|libref|log|log10|log2|logpdf|logpmf|logsdf|'+
+        'lowcase|max|mdy|mean|min|minute|mod|month|mopen|'+
+        'mort|n|netpv|nmiss|normal|note|npv|open|ordinal|'+
+        'pathname|pdf|peek|peekc|pmf|point|poisson|poke|'+
+        'probbeta|probbnml|probchi|probf|probgam|probhypr|'+
+        'probit|probnegb|probnorm|probt|put|putc|putn|qtr|'+
+        'quote|ranbin|rancau|ranexp|rangam|range|rank|rannor|'+
+        'ranpoi|rantbl|rantri|ranuni|repeat|resolve|reverse|'+
+        'rewind|right|round|saving|scan|sdf|second|sign|'+
+        'sin|sinh|skewness|soundex|spedis|sqrt|std|stderr|'+
+        'stfips|stname|stnamel|substr|sum|symget|sysget|'+
+        'sysmsg|sysprod|sysrc|system|tan|tanh|time|timepart|'+
+        'tinv|tnonct|today|translate|tranwrd|trigamma|'+
+        'trim|trimn|trunc|uniform|upcase|uss|var|varfmt|'+
+        'varinfmt|varlabel|varlen|varname|varnum|varray|'+
+        'varrayx|vartype|verify|vformat|vformatd|vformatdx|'+
+        'vformatn|vformatnx|vformatw|vformatwx|vformatx|'+
+        'vinarray|vinarrayx|vinformat|vinformatd|vinformatdx|'+
+        'vinformatn|vinformatnx|vinformatw|vinformatwx|'+
+        'vinformatx|vlabel|vlabelx|vlength|vlengthx|vname|'+
+        'vnamex|vtype|vtypex|weekday|year|yyq|zipfips|zipname|'+
+        'zipnamel|zipstate';
+
+    // Built-in macro functions
+    var SAS_MACRO_FUN = 'bquote|nrbquote|cmpres|qcmpres|compstor|'+
+        'datatyp|display|do|else|end|eval|global|goto|'+
+        'if|index|input|keydef|label|left|length|let|'+
+        'local|lowcase|macro|mend|nrbquote|nrquote|'+
+        'nrstr|put|qcmpres|qleft|qlowcase|qscan|'+
+        'qsubstr|qsysfunc|qtrim|quote|qupcase|scan|str|'+
+        'substr|superq|syscall|sysevalf|sysexec|sysfunc|'+
+        'sysget|syslput|sysprod|sysrc|sysrput|then|to|'+
+        'trim|unquote|until|upcase|verify|while|window';
+
+    return {
+        aliases: ['sas', 'SAS'],
+        case_insensitive: true, // SAS is case-insensitive
+        keywords: {
+            literal:
+                'null missing _all_ _automatic_ _character_ _infile_ '+
+                '_n_ _name_ _null_ _numeric_ _user_ _webout_',
+            meta:
+                SAS_KEYWORDS
+        },
+        contains: [
+            {
+                // Distinct highlight for proc <proc>, data, run, quit
+                className: 'keyword',
+                begin: /^\s*(proc [\w\d_]+|data|run|quit)[\s\;]/
+            },
+            {
+                // Macro variables
+                className: 'variable',
+                begin: /\&[a-zA-Z_\&][a-zA-Z0-9_]*\.?/
+            },
+            {
+                // Special emphasis for datalines|cards
+                className: 'emphasis',
+                begin: /^\s*datalines|cards.*;/,
+                end: /^\s*;\s*$/
+            },
+            {   // Built-in macro variables take precedence
+                className: 'built_in',
+                begin: '%(' + SAS_MACRO_FUN + ')'
+            },
+            {
+                // User-defined macro functions highlighted after
+                className: 'name',
+                begin: /%[a-zA-Z_][a-zA-Z_0-9]*/
+            },
+            {
+                className: 'meta',
+                begin: '[^%](' + SAS_FUN + ')[\(]'
+            },
+            {
+                className: 'string',
+                variants: [
+                    hljs.APOS_STRING_MODE,
+                    hljs.QUOTE_STRING_MODE
+                ]
+            },
+            hljs.COMMENT('\\*', ';'),
+            hljs.C_BLOCK_COMMENT_MODE
+        ]
+    };
+};
+});
 ___scope___.file("lib/languages/scala.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
@@ -25609,7 +31026,7 @@ module.exports = function(hljs) {
         starts: {
           end: '$', subLanguage: 'bash'
         }
-      },
+      }
     ]
   }
 };
@@ -25834,60 +31251,63 @@ module.exports = function(hljs) {
     keywords: {
       keyword:
         'case catch default do else exit exitWith for forEach from if ' +
-        'switch then throw to try waitUntil while with',
+        'private switch then throw to try waitUntil while with',
       built_in:
         'abs accTime acos action actionIDs actionKeys actionKeysImages actionKeysNames ' +
         'actionKeysNamesArray actionName actionParams activateAddons activatedAddons activateKey ' +
         'add3DENConnection add3DENEventHandler add3DENLayer addAction addBackpack addBackpackCargo ' +
         'addBackpackCargoGlobal addBackpackGlobal addCamShake addCuratorAddons addCuratorCameraArea ' +
         'addCuratorEditableObjects addCuratorEditingArea addCuratorPoints addEditorObject addEventHandler ' +
-        'addGoggles addGroupIcon addHandgunItem addHeadgear addItem addItemCargo addItemCargoGlobal ' +
-        'addItemPool addItemToBackpack addItemToUniform addItemToVest addLiveStats addMagazine ' +
-        'addMagazineAmmoCargo addMagazineCargo addMagazineCargoGlobal addMagazineGlobal addMagazinePool ' +
-        'addMagazines addMagazineTurret addMenu addMenuItem addMissionEventHandler addMPEventHandler ' +
-        'addMusicEventHandler addOwnedMine addPlayerScores addPrimaryWeaponItem ' +
+        'addForce addGoggles addGroupIcon addHandgunItem addHeadgear addItem addItemCargo ' +
+        'addItemCargoGlobal addItemPool addItemToBackpack addItemToUniform addItemToVest addLiveStats ' +
+        'addMagazine addMagazineAmmoCargo addMagazineCargo addMagazineCargoGlobal addMagazineGlobal ' +
+        'addMagazinePool addMagazines addMagazineTurret addMenu addMenuItem addMissionEventHandler ' +
+        'addMPEventHandler addMusicEventHandler addOwnedMine addPlayerScores addPrimaryWeaponItem ' +
         'addPublicVariableEventHandler addRating addResources addScore addScoreSide addSecondaryWeaponItem ' +
-        'addSwitchableUnit addTeamMember addToRemainsCollector addUniform addVehicle addVest addWaypoint ' +
-        'addWeapon addWeaponCargo addWeaponCargoGlobal addWeaponGlobal addWeaponItem addWeaponPool ' +
-        'addWeaponTurret agent agents AGLToASL aimedAtTarget aimPos airDensityRTD airportSide ' +
-        'AISFinishHeal alive all3DENEntities allControls allCurators allCutLayers allDead allDeadMen ' +
-        'allDisplays allGroups allMapMarkers allMines allMissionObjects allow3DMode allowCrewInImmobile ' +
-        'allowCuratorLogicIgnoreAreas allowDamage allowDammage allowFileOperations allowFleeing allowGetIn ' +
-        'allowSprint allPlayers allSites allTurrets allUnits allUnitsUAV allVariables ammo and animate ' +
-        'animateDoor animateSource animationNames animationPhase animationSourcePhase animationState ' +
-        'append apply armoryPoints arrayIntersect asin ASLToAGL ASLToATL assert assignAsCargo ' +
-        'assignAsCargoIndex assignAsCommander assignAsDriver assignAsGunner assignAsTurret assignCurator ' +
-        'assignedCargo assignedCommander assignedDriver assignedGunner assignedItems assignedTarget ' +
-        'assignedTeam assignedVehicle assignedVehicleRole assignItem assignTeam assignToAirport atan atan2 ' +
-        'atg ATLToASL attachedObject attachedObjects attachedTo attachObject attachTo attackEnabled ' +
-        'backpack backpackCargo backpackContainer backpackItems backpackMagazines backpackSpaceFor ' +
-        'behaviour benchmark binocular blufor boundingBox boundingBoxReal boundingCenter breakOut breakTo ' +
-        'briefingName buildingExit buildingPos buttonAction buttonSetAction cadetMode call callExtension ' +
-        'camCommand camCommit camCommitPrepared camCommitted camConstuctionSetParams camCreate camDestroy ' +
-        'cameraEffect cameraEffectEnableHUD cameraInterest cameraOn cameraView campaignConfigFile ' +
-        'camPreload camPreloaded camPrepareBank camPrepareDir camPrepareDive camPrepareFocus camPrepareFov ' +
-        'camPrepareFovRange camPreparePos camPrepareRelPos camPrepareTarget camSetBank camSetDir ' +
-        'camSetDive camSetFocus camSetFov camSetFovRange camSetPos camSetRelPos camSetTarget camTarget ' +
-        'camUseNVG canAdd canAddItemToBackpack canAddItemToUniform canAddItemToVest ' +
-        'cancelSimpleTaskDestination canFire canMove canSlingLoad canStand canSuspend canUnloadInCombat ' +
-        'canVehicleCargo captive captiveNum cbChecked cbSetChecked ceil channelEnabled cheatsEnabled ' +
-        'checkAIFeature checkVisibility civilian className clearAllItemsFromBackpack clearBackpackCargo ' +
-        'clearBackpackCargoGlobal clearGroupIcons clearItemCargo clearItemCargoGlobal clearItemPool ' +
-        'clearMagazineCargo clearMagazineCargoGlobal clearMagazinePool clearOverlay clearRadio ' +
-        'clearWeaponCargo clearWeaponCargoGlobal clearWeaponPool clientOwner closeDialog closeDisplay ' +
-        'closeOverlay collapseObjectTree collect3DENHistory combatMode commandArtilleryFire commandChat ' +
-        'commander commandFire commandFollow commandFSM commandGetOut commandingMenu commandMove ' +
-        'commandRadio commandStop commandSuppressiveFire commandTarget commandWatch comment commitOverlay ' +
-        'compile compileFinal completedFSM composeText configClasses configFile configHierarchy configName ' +
-        'configNull configProperties configSourceAddonList configSourceMod configSourceModList ' +
-        'connectTerminalToUAV controlNull controlsGroupCtrl copyFromClipboard copyToClipboard ' +
-        'copyWaypoints cos count countEnemy countFriendly countSide countType countUnknown ' +
-        'create3DENComposition create3DENEntity createAgent createCenter createDialog createDiaryLink ' +
-        'createDiaryRecord createDiarySubject createDisplay createGearDialog createGroup ' +
-        'createGuardedPoint createLocation createMarker createMarkerLocal createMenu createMine ' +
-        'createMissionDisplay createMPCampaignDisplay createSimpleObject createSimpleTask createSite ' +
-        'createSoundSource createTask createTeam createTrigger createUnit createVehicle createVehicleCrew ' +
-        'createVehicleLocal crew ctrlActivate ctrlAddEventHandler ctrlAngle ctrlAutoScrollDelay ' +
+        'addSwitchableUnit addTeamMember addToRemainsCollector addTorque addUniform addVehicle addVest ' +
+        'addWaypoint addWeapon addWeaponCargo addWeaponCargoGlobal addWeaponGlobal addWeaponItem ' +
+        'addWeaponPool addWeaponTurret admin agent agents AGLToASL aimedAtTarget aimPos airDensityRTD ' +
+        'airplaneThrottle airportSide AISFinishHeal alive all3DENEntities allAirports allControls ' +
+        'allCurators allCutLayers allDead allDeadMen allDisplays allGroups allMapMarkers allMines ' +
+        'allMissionObjects allow3DMode allowCrewInImmobile allowCuratorLogicIgnoreAreas allowDamage ' +
+        'allowDammage allowFileOperations allowFleeing allowGetIn allowSprint allPlayers allSimpleObjects ' +
+        'allSites allTurrets allUnits allUnitsUAV allVariables ammo ammoOnPylon and animate animateBay ' +
+        'animateDoor animatePylon animateSource animationNames animationPhase animationSourcePhase ' +
+        'animationState append apply armoryPoints arrayIntersect asin ASLToAGL ASLToATL assert ' +
+        'assignAsCargo assignAsCargoIndex assignAsCommander assignAsDriver assignAsGunner assignAsTurret ' +
+        'assignCurator assignedCargo assignedCommander assignedDriver assignedGunner assignedItems ' +
+        'assignedTarget assignedTeam assignedVehicle assignedVehicleRole assignItem assignTeam ' +
+        'assignToAirport atan atan2 atg ATLToASL attachedObject attachedObjects attachedTo attachObject ' +
+        'attachTo attackEnabled backpack backpackCargo backpackContainer backpackItems backpackMagazines ' +
+        'backpackSpaceFor behaviour benchmark binocular boundingBox boundingBoxReal boundingCenter ' +
+        'breakOut breakTo briefingName buildingExit buildingPos buttonAction buttonSetAction cadetMode ' +
+        'call callExtension camCommand camCommit camCommitPrepared camCommitted camConstuctionSetParams ' +
+        'camCreate camDestroy cameraEffect cameraEffectEnableHUD cameraInterest cameraOn cameraView ' +
+        'campaignConfigFile camPreload camPreloaded camPrepareBank camPrepareDir camPrepareDive ' +
+        'camPrepareFocus camPrepareFov camPrepareFovRange camPreparePos camPrepareRelPos camPrepareTarget ' +
+        'camSetBank camSetDir camSetDive camSetFocus camSetFov camSetFovRange camSetPos camSetRelPos ' +
+        'camSetTarget camTarget camUseNVG canAdd canAddItemToBackpack canAddItemToUniform canAddItemToVest ' +
+        'cancelSimpleTaskDestination canFire canMove canSlingLoad canStand canSuspend ' +
+        'canTriggerDynamicSimulation canUnloadInCombat canVehicleCargo captive captiveNum cbChecked ' +
+        'cbSetChecked ceil channelEnabled cheatsEnabled checkAIFeature checkVisibility className ' +
+        'clearAllItemsFromBackpack clearBackpackCargo clearBackpackCargoGlobal clearGroupIcons ' +
+        'clearItemCargo clearItemCargoGlobal clearItemPool clearMagazineCargo clearMagazineCargoGlobal ' +
+        'clearMagazinePool clearOverlay clearRadio clearWeaponCargo clearWeaponCargoGlobal clearWeaponPool ' +
+        'clientOwner closeDialog closeDisplay closeOverlay collapseObjectTree collect3DENHistory ' +
+        'collectiveRTD combatMode commandArtilleryFire commandChat commander commandFire commandFollow ' +
+        'commandFSM commandGetOut commandingMenu commandMove commandRadio commandStop ' +
+        'commandSuppressiveFire commandTarget commandWatch comment commitOverlay compile compileFinal ' +
+        'completedFSM composeText configClasses configFile configHierarchy configName configProperties ' +
+        'configSourceAddonList configSourceMod configSourceModList confirmSensorTarget ' +
+        'connectTerminalToUAV controlsGroupCtrl copyFromClipboard copyToClipboard copyWaypoints cos count ' +
+        'countEnemy countFriendly countSide countType countUnknown create3DENComposition create3DENEntity ' +
+        'createAgent createCenter createDialog createDiaryLink createDiaryRecord createDiarySubject ' +
+        'createDisplay createGearDialog createGroup createGuardedPoint createLocation createMarker ' +
+        'createMarkerLocal createMenu createMine createMissionDisplay createMPCampaignDisplay ' +
+        'createSimpleObject createSimpleTask createSite createSoundSource createTask createTeam ' +
+        'createTrigger createUnit createVehicle createVehicleCrew createVehicleLocal crew ctAddHeader ' +
+        'ctAddRow ctClear ctCurSel ctData ctFindHeaderRows ctFindRowHeader ctHeaderControls ctHeaderCount ' +
+        'ctRemoveHeaders ctRemoveRows ctrlActivate ctrlAddEventHandler ctrlAngle ctrlAutoScrollDelay ' +
         'ctrlAutoScrollRewind ctrlAutoScrollSpeed ctrlChecked ctrlClassName ctrlCommit ctrlCommitted ' +
         'ctrlCreate ctrlDelete ctrlEnable ctrlEnabled ctrlFade ctrlHTMLLoaded ctrlIDC ctrlIDD ' +
         'ctrlMapAnimAdd ctrlMapAnimClear ctrlMapAnimCommit ctrlMapAnimDone ctrlMapCursor ctrlMapMouseOver ' +
@@ -25900,141 +31320,160 @@ module.exports = function(hljs) {
         'ctrlSetFontH6B ctrlSetFontHeight ctrlSetFontHeightH1 ctrlSetFontHeightH2 ctrlSetFontHeightH3 ' +
         'ctrlSetFontHeightH4 ctrlSetFontHeightH5 ctrlSetFontHeightH6 ctrlSetFontHeightSecondary ' +
         'ctrlSetFontP ctrlSetFontPB ctrlSetFontSecondary ctrlSetForegroundColor ctrlSetModel ' +
-        'ctrlSetModelDirAndUp ctrlSetModelScale ctrlSetPosition ctrlSetScale ctrlSetStructuredText ' +
-        'ctrlSetText ctrlSetTextColor ctrlSetTooltip ctrlSetTooltipColorBox ctrlSetTooltipColorShade ' +
-        'ctrlSetTooltipColorText ctrlShow ctrlShown ctrlText ctrlTextHeight ctrlType ctrlVisible ' +
-        'curatorAddons curatorCamera curatorCameraArea curatorCameraAreaCeiling curatorCoef ' +
-        'curatorEditableObjects curatorEditingArea curatorEditingAreaType curatorMouseOver curatorPoints ' +
-        'curatorRegisteredObjects curatorSelected curatorWaypointCost current3DENOperation currentChannel ' +
-        'currentCommand currentMagazine currentMagazineDetail currentMagazineDetailTurret ' +
-        'currentMagazineTurret currentMuzzle currentNamespace currentTask currentTasks currentThrowable ' +
-        'currentVisionMode currentWaypoint currentWeapon currentWeaponMode currentWeaponTurret ' +
-        'currentZeroing cursorObject cursorTarget customChat customRadio cutFadeOut cutObj cutRsc cutText ' +
-        'damage date dateToNumber daytime deActivateKey debriefingText debugFSM debugLog deg ' +
-        'delete3DENEntities deleteAt deleteCenter deleteCollection deleteEditorObject deleteGroup ' +
-        'deleteIdentity deleteLocation deleteMarker deleteMarkerLocal deleteRange deleteResources ' +
-        'deleteSite deleteStatus deleteTeam deleteVehicle deleteVehicleCrew deleteWaypoint detach ' +
-        'detectedMines diag_activeMissionFSMs diag_activeScripts diag_activeSQFScripts ' +
-        'diag_activeSQSScripts diag_captureFrame diag_captureSlowFrame diag_codePerformance diag_drawMode ' +
-        'diag_enable diag_enabled diag_fps diag_fpsMin diag_frameNo diag_list diag_log diag_logSlowFrame ' +
-        'diag_mergeConfigFile diag_recordTurretLimits diag_tickTime diag_toggle dialog diarySubjectExists ' +
-        'didJIP didJIPOwner difficulty difficultyEnabled difficultyEnabledRTD difficultyOption direction ' +
-        'directSay disableAI disableCollisionWith disableConversation disableDebriefingStats ' +
+        'ctrlSetModelDirAndUp ctrlSetModelScale ctrlSetPixelPrecision ctrlSetPosition ctrlSetScale ' +
+        'ctrlSetStructuredText ctrlSetText ctrlSetTextColor ctrlSetTooltip ctrlSetTooltipColorBox ' +
+        'ctrlSetTooltipColorShade ctrlSetTooltipColorText ctrlShow ctrlShown ctrlText ctrlTextHeight ' +
+        'ctrlTextWidth ctrlType ctrlVisible ctRowControls ctRowCount ctSetCurSel ctSetData ' +
+        'ctSetHeaderTemplate ctSetRowTemplate ctSetValue ctValue curatorAddons curatorCamera ' +
+        'curatorCameraArea curatorCameraAreaCeiling curatorCoef curatorEditableObjects curatorEditingArea ' +
+        'curatorEditingAreaType curatorMouseOver curatorPoints curatorRegisteredObjects curatorSelected ' +
+        'curatorWaypointCost current3DENOperation currentChannel currentCommand currentMagazine ' +
+        'currentMagazineDetail currentMagazineDetailTurret currentMagazineTurret currentMuzzle ' +
+        'currentNamespace currentTask currentTasks currentThrowable currentVisionMode currentWaypoint ' +
+        'currentWeapon currentWeaponMode currentWeaponTurret currentZeroing cursorObject cursorTarget ' +
+        'customChat customRadio cutFadeOut cutObj cutRsc cutText damage date dateToNumber daytime ' +
+        'deActivateKey debriefingText debugFSM debugLog deg delete3DENEntities deleteAt deleteCenter ' +
+        'deleteCollection deleteEditorObject deleteGroup deleteGroupWhenEmpty deleteIdentity ' +
+        'deleteLocation deleteMarker deleteMarkerLocal deleteRange deleteResources deleteSite deleteStatus ' +
+        'deleteTeam deleteVehicle deleteVehicleCrew deleteWaypoint detach detectedMines ' +
+        'diag_activeMissionFSMs diag_activeScripts diag_activeSQFScripts diag_activeSQSScripts ' +
+        'diag_captureFrame diag_captureFrameToFile diag_captureSlowFrame diag_codePerformance ' +
+        'diag_drawMode diag_enable diag_enabled diag_fps diag_fpsMin diag_frameNo diag_lightNewLoad ' +
+        'diag_list diag_log diag_logSlowFrame diag_mergeConfigFile diag_recordTurretLimits ' +
+        'diag_setLightNew diag_tickTime diag_toggle dialog diarySubjectExists didJIP didJIPOwner ' +
+        'difficulty difficultyEnabled difficultyEnabledRTD difficultyOption direction directSay disableAI ' +
+        'disableCollisionWith disableConversation disableDebriefingStats disableMapIndicators ' +
         'disableNVGEquipment disableRemoteSensors disableSerialization disableTIEquipment ' +
-        'disableUAVConnectability disableUserInput displayAddEventHandler displayCtrl displayNull ' +
-        'displayParent displayRemoveAllEventHandlers displayRemoveEventHandler displaySetEventHandler ' +
-        'dissolveTeam distance distance2D distanceSqr distributionRegion do3DENAction doArtilleryFire ' +
-        'doFire doFollow doFSM doGetOut doMove doorPhase doStop doSuppressiveFire doTarget doWatch ' +
-        'drawArrow drawEllipse drawIcon drawIcon3D drawLine drawLine3D drawLink drawLocation drawPolygon ' +
-        'drawRectangle driver drop east echo edit3DENMissionAttributes editObject editorSetEventHandler ' +
-        'effectiveCommander emptyPositions enableAI enableAIFeature enableAimPrecision enableAttack ' +
-        'enableAudioFeature enableCamShake enableCaustics enableChannel enableCollisionWith enableCopilot ' +
-        'enableDebriefingStats enableDiagLegend enableEndDialog enableEngineArtillery enableEnvironment ' +
-        'enableFatigue enableGunLights enableIRLasers enableMimics enablePersonTurret enableRadio ' +
-        'enableReload enableRopeAttach enableSatNormalOnDetail enableSaving enableSentences ' +
-        'enableSimulation enableSimulationGlobal enableStamina enableTeamSwitch enableUAVConnectability ' +
-        'enableUAVWaypoints enableVehicleCargo endLoadingScreen endMission engineOn enginesIsOnRTD ' +
-        'enginesRpmRTD enginesTorqueRTD entities estimatedEndServerTime estimatedTimeLeft ' +
-        'evalObjectArgument everyBackpack everyContainer exec execEditorScript execFSM execVM exp ' +
-        'expectedDestination exportJIPMessages eyeDirection eyePos face faction fadeMusic fadeRadio ' +
-        'fadeSound fadeSpeech failMission fillWeaponsFromPool find findCover findDisplay findEditorObject ' +
-        'findEmptyPosition findEmptyPositionReady findNearestEnemy finishMissionInit finite fire ' +
-        'fireAtTarget firstBackpack flag flagOwner flagSide flagTexture fleeing floor flyInHeight ' +
-        'flyInHeightASL fog fogForecast fogParams forceAddUniform forcedMap forceEnd forceMap forceRespawn ' +
-        'forceSpeed forceWalk forceWeaponFire forceWeatherChange forEachMember forEachMemberAgent ' +
-        'forEachMemberTeam format formation formationDirection formationLeader formationMembers ' +
-        'formationPosition formationTask formatText formLeader freeLook fromEditor fuel fullCrew ' +
-        'gearIDCAmmoCount gearSlotAmmoCount gearSlotData get3DENActionState get3DENAttribute get3DENCamera ' +
-        'get3DENConnections get3DENEntity get3DENEntityID get3DENGrid get3DENIconsVisible ' +
-        'get3DENLayerEntities get3DENLinesVisible get3DENMissionAttribute get3DENMouseOver get3DENSelected ' +
-        'getAimingCoef getAllHitPointsDamage getAllOwnedMines getAmmoCargo getAnimAimPrecision ' +
+        'disableUAVConnectability disableUserInput displayAddEventHandler displayCtrl displayParent ' +
+        'displayRemoveAllEventHandlers displayRemoveEventHandler displaySetEventHandler dissolveTeam ' +
+        'distance distance2D distanceSqr distributionRegion do3DENAction doArtilleryFire doFire doFollow ' +
+        'doFSM doGetOut doMove doorPhase doStop doSuppressiveFire doTarget doWatch drawArrow drawEllipse ' +
+        'drawIcon drawIcon3D drawLine drawLine3D drawLink drawLocation drawPolygon drawRectangle ' +
+        'drawTriangle driver drop dynamicSimulationDistance dynamicSimulationDistanceCoef ' +
+        'dynamicSimulationEnabled dynamicSimulationSystemEnabled echo edit3DENMissionAttributes editObject ' +
+        'editorSetEventHandler effectiveCommander emptyPositions enableAI enableAIFeature ' +
+        'enableAimPrecision enableAttack enableAudioFeature enableAutoStartUpRTD enableAutoTrimRTD ' +
+        'enableCamShake enableCaustics enableChannel enableCollisionWith enableCopilot ' +
+        'enableDebriefingStats enableDiagLegend enableDynamicSimulation enableDynamicSimulationSystem ' +
+        'enableEndDialog enableEngineArtillery enableEnvironment enableFatigue enableGunLights ' +
+        'enableInfoPanelComponent enableIRLasers enableMimics enablePersonTurret enableRadio enableReload ' +
+        'enableRopeAttach enableSatNormalOnDetail enableSaving enableSentences enableSimulation ' +
+        'enableSimulationGlobal enableStamina enableTeamSwitch enableTraffic enableUAVConnectability ' +
+        'enableUAVWaypoints enableVehicleCargo enableVehicleSensor enableWeaponDisassembly ' +
+        'endLoadingScreen endMission engineOn enginesIsOnRTD enginesRpmRTD enginesTorqueRTD entities ' +
+        'environmentEnabled estimatedEndServerTime estimatedTimeLeft evalObjectArgument everyBackpack ' +
+        'everyContainer exec execEditorScript execFSM execVM exp expectedDestination exportJIPMessages ' +
+        'eyeDirection eyePos face faction fadeMusic fadeRadio fadeSound fadeSpeech failMission ' +
+        'fillWeaponsFromPool find findCover findDisplay findEditorObject findEmptyPosition ' +
+        'findEmptyPositionReady findIf findNearestEnemy finishMissionInit finite fire fireAtTarget ' +
+        'firstBackpack flag flagAnimationPhase flagOwner flagSide flagTexture fleeing floor flyInHeight ' +
+        'flyInHeightASL fog fogForecast fogParams forceAddUniform forcedMap forceEnd forceFlagTexture ' +
+        'forceFollowRoad forceMap forceRespawn forceSpeed forceWalk forceWeaponFire forceWeatherChange ' +
+        'forEachMember forEachMemberAgent forEachMemberTeam forgetTarget format formation ' +
+        'formationDirection formationLeader formationMembers formationPosition formationTask formatText ' +
+        'formLeader freeLook fromEditor fuel fullCrew gearIDCAmmoCount gearSlotAmmoCount gearSlotData ' +
+        'get3DENActionState get3DENAttribute get3DENCamera get3DENConnections get3DENEntity ' +
+        'get3DENEntityID get3DENGrid get3DENIconsVisible get3DENLayerEntities get3DENLinesVisible ' +
+        'get3DENMissionAttribute get3DENMouseOver get3DENSelected getAimingCoef getAllEnvSoundControllers ' +
+        'getAllHitPointsDamage getAllOwnedMines getAllSoundControllers getAmmoCargo getAnimAimPrecision ' +
         'getAnimSpeedCoef getArray getArtilleryAmmo getArtilleryComputerSettings getArtilleryETA ' +
         'getAssignedCuratorLogic getAssignedCuratorUnit getBackpackCargo getBleedingRemaining ' +
         'getBurningValue getCameraViewDirection getCargoIndex getCenterOfMass getClientState ' +
-        'getClientStateNumber getConnectedUAV getCustomAimingCoef getDammage getDescription getDir ' +
-        'getDirVisual getDLCs getEditorCamera getEditorMode getEditorObjectScope getElevationOffset ' +
-        'getFatigue getFriend getFSMVariable getFuelCargo getGroupIcon getGroupIconParams getGroupIcons ' +
-        'getHideFrom getHit getHitIndex getHitPointDamage getItemCargo getMagazineCargo getMarkerColor ' +
-        'getMarkerPos getMarkerSize getMarkerType getMass getMissionConfig getMissionConfigValue ' +
-        'getMissionDLCs getMissionLayerEntities getModelInfo getMousePosition getNumber getObjectArgument ' +
-        'getObjectChildren getObjectDLC getObjectMaterials getObjectProxy getObjectTextures getObjectType ' +
-        'getObjectViewDistance getOxygenRemaining getPersonUsedDLCs getPilotCameraDirection ' +
-        'getPilotCameraPosition getPilotCameraRotation getPilotCameraTarget getPlayerChannel ' +
-        'getPlayerScores getPlayerUID getPos getPosASL getPosASLVisual getPosASLW getPosATL ' +
-        'getPosATLVisual getPosVisual getPosWorld getRelDir getRelPos getRemoteSensorsDisabled ' +
-        'getRepairCargo getResolution getShadowDistance getShotParents getSlingLoad getSpeed getStamina ' +
-        'getStatValue getSuppression getTerrainHeightASL getText getUnitLoadout getUnitTrait getVariable ' +
-        'getVehicleCargo getWeaponCargo getWeaponSway getWPPos glanceAt globalChat globalRadio goggles ' +
-        'goto group groupChat groupFromNetId groupIconSelectable groupIconsVisible groupId groupOwner ' +
-        'groupRadio groupSelectedUnits groupSelectUnit grpNull gunner gusts halt handgunItems ' +
+        'getClientStateNumber getCompatiblePylonMagazines getConnectedUAV getContainerMaxLoad ' +
+        'getCursorObjectParams getCustomAimCoef getDammage getDescription getDir getDirVisual ' +
+        'getDLCAssetsUsage getDLCAssetsUsageByName getDLCs getEditorCamera getEditorMode ' +
+        'getEditorObjectScope getElevationOffset getEnvSoundController getFatigue getForcedFlagTexture ' +
+        'getFriend getFSMVariable getFuelCargo getGroupIcon getGroupIconParams getGroupIcons getHideFrom ' +
+        'getHit getHitIndex getHitPointDamage getItemCargo getMagazineCargo getMarkerColor getMarkerPos ' +
+        'getMarkerSize getMarkerType getMass getMissionConfig getMissionConfigValue getMissionDLCs ' +
+        'getMissionLayerEntities getModelInfo getMousePosition getMusicPlayedTime getNumber ' +
+        'getObjectArgument getObjectChildren getObjectDLC getObjectMaterials getObjectProxy ' +
+        'getObjectTextures getObjectType getObjectViewDistance getOxygenRemaining getPersonUsedDLCs ' +
+        'getPilotCameraDirection getPilotCameraPosition getPilotCameraRotation getPilotCameraTarget ' +
+        'getPlateNumber getPlayerChannel getPlayerScores getPlayerUID getPos getPosASL getPosASLVisual ' +
+        'getPosASLW getPosATL getPosATLVisual getPosVisual getPosWorld getPylonMagazines getRelDir ' +
+        'getRelPos getRemoteSensorsDisabled getRepairCargo getResolution getShadowDistance getShotParents ' +
+        'getSlingLoad getSoundController getSoundControllerResult getSpeed getStamina getStatValue ' +
+        'getSuppression getTerrainGrid getTerrainHeightASL getText getTotalDLCUsageTime getUnitLoadout ' +
+        'getUnitTrait getUserMFDText getUserMFDvalue getVariable getVehicleCargo getWeaponCargo ' +
+        'getWeaponSway getWingsOrientationRTD getWingsPositionRTD getWPPos glanceAt globalChat globalRadio ' +
+        'goggles goto group groupChat groupFromNetId groupIconSelectable groupIconsVisible groupId ' +
+        'groupOwner groupRadio groupSelectedUnits groupSelectUnit gunner gusts halt handgunItems ' +
         'handgunMagazine handgunWeapon handsHit hasInterface hasPilotCamera hasWeapon hcAllGroups ' +
         'hcGroupParams hcLeader hcRemoveAllGroups hcRemoveGroup hcSelected hcSelectGroup hcSetGroup ' +
         'hcShowBar hcShownBar headgear hideBody hideObject hideObjectGlobal hideSelection hint hintC ' +
         'hintCadet hintSilent hmd hostMission htmlLoad HUDMovementLevels humidity image importAllGroups ' +
-        'importance in inArea inAreaArray incapacitatedState independent inflame inflamed ' +
-        'inGameUISetEventHandler inheritsFrom initAmbientLife inPolygon inputAction inRangeOfArtillery ' +
-        'insertEditorObject intersect is3DEN is3DENMultiplayer isAbleToBreathe isAgent isArray ' +
-        'isAutoHoverOn isAutonomous isAutotest isBleeding isBurning isClass isCollisionLightOn ' +
-        'isCopilotEnabled isDedicated isDLCAvailable isEngineOn isEqualTo isEqualType isEqualTypeAll ' +
-        'isEqualTypeAny isEqualTypeArray isEqualTypeParams isFilePatchingEnabled isFlashlightOn ' +
-        'isFlatEmpty isForcedWalk isFormationLeader isHidden isInRemainsCollector ' +
-        'isInstructorFigureEnabled isIRLaserOn isKeyActive isKindOf isLightOn isLocalized isManualFire ' +
-        'isMarkedForCollection isMultiplayer isMultiplayerSolo isNil isNull isNumber isObjectHidden ' +
-        'isObjectRTD isOnRoad isPipEnabled isPlayer isRealTime isRemoteExecuted isRemoteExecutedJIP ' +
-        'isServer isShowing3DIcons isSprintAllowed isStaminaEnabled isSteamMission ' +
-        'isStreamFriendlyUIEnabled isText isTouchingGround isTurnedOut isTutHintsEnabled isUAVConnectable ' +
-        'isUAVConnected isUniformAllowed isVehicleCargo isWalking isWeaponDeployed isWeaponRested ' +
-        'itemCargo items itemsWithMagazines join joinAs joinAsSilent joinSilent joinString kbAddDatabase ' +
-        'kbAddDatabaseTargets kbAddTopic kbHasTopic kbReact kbRemoveTopic kbTell kbWasSaid keyImage ' +
-        'keyName knowsAbout land landAt landResult language laserTarget lbAdd lbClear lbColor lbCurSel ' +
-        'lbData lbDelete lbIsSelected lbPicture lbSelection lbSetColor lbSetCurSel lbSetData lbSetPicture ' +
-        'lbSetPictureColor lbSetPictureColorDisabled lbSetPictureColorSelected lbSetSelectColor ' +
-        'lbSetSelectColorRight lbSetSelected lbSetTooltip lbSetValue lbSize lbSort lbSortByValue lbText ' +
-        'lbValue leader leaderboardDeInit leaderboardGetRows leaderboardInit leaveVehicle libraryCredits ' +
+        'importance in inArea inAreaArray incapacitatedState inflame inflamed infoPanel ' +
+        'infoPanelComponentEnabled infoPanelComponents infoPanels inGameUISetEventHandler inheritsFrom ' +
+        'initAmbientLife inPolygon inputAction inRangeOfArtillery insertEditorObject intersect is3DEN ' +
+        'is3DENMultiplayer isAbleToBreathe isAgent isArray isAutoHoverOn isAutonomous isAutotest ' +
+        'isBleeding isBurning isClass isCollisionLightOn isCopilotEnabled isDamageAllowed isDedicated ' +
+        'isDLCAvailable isEngineOn isEqualTo isEqualType isEqualTypeAll isEqualTypeAny isEqualTypeArray ' +
+        'isEqualTypeParams isFilePatchingEnabled isFlashlightOn isFlatEmpty isForcedWalk isFormationLeader ' +
+        'isGroupDeletedWhenEmpty isHidden isInRemainsCollector isInstructorFigureEnabled isIRLaserOn ' +
+        'isKeyActive isKindOf isLaserOn isLightOn isLocalized isManualFire isMarkedForCollection ' +
+        'isMultiplayer isMultiplayerSolo isNil isNull isNumber isObjectHidden isObjectRTD isOnRoad ' +
+        'isPipEnabled isPlayer isRealTime isRemoteExecuted isRemoteExecutedJIP isServer isShowing3DIcons ' +
+        'isSimpleObject isSprintAllowed isStaminaEnabled isSteamMission isStreamFriendlyUIEnabled isText ' +
+        'isTouchingGround isTurnedOut isTutHintsEnabled isUAVConnectable isUAVConnected isUIContext ' +
+        'isUniformAllowed isVehicleCargo isVehicleRadarOn isVehicleSensorEnabled isWalking ' +
+        'isWeaponDeployed isWeaponRested itemCargo items itemsWithMagazines join joinAs joinAsSilent ' +
+        'joinSilent joinString kbAddDatabase kbAddDatabaseTargets kbAddTopic kbHasTopic kbReact ' +
+        'kbRemoveTopic kbTell kbWasSaid keyImage keyName knowsAbout land landAt landResult language ' +
+        'laserTarget lbAdd lbClear lbColor lbColorRight lbCurSel lbData lbDelete lbIsSelected lbPicture ' +
+        'lbPictureRight lbSelection lbSetColor lbSetColorRight lbSetCurSel lbSetData lbSetPicture ' +
+        'lbSetPictureColor lbSetPictureColorDisabled lbSetPictureColorSelected lbSetPictureRight ' +
+        'lbSetPictureRightColor lbSetPictureRightColorDisabled lbSetPictureRightColorSelected ' +
+        'lbSetSelectColor lbSetSelectColorRight lbSetSelected lbSetText lbSetTextRight lbSetTooltip ' +
+        'lbSetValue lbSize lbSort lbSortByValue lbText lbTextRight lbValue leader leaderboardDeInit ' +
+        'leaderboardGetRows leaderboardInit leaderboardRequestRowsFriends leaderboardsRequestUploadScore ' +
+        'leaderboardsRequestUploadScoreKeepBest leaderboardState leaveVehicle libraryCredits ' +
         'libraryDisclaimers lifeState lightAttachObject lightDetachObject lightIsOn lightnings limitSpeed ' +
-        'linearConversion lineBreak lineIntersects lineIntersectsObjs lineIntersectsSurfaces ' +
-        'lineIntersectsWith linkItem list listObjects ln lnbAddArray lnbAddColumn lnbAddRow lnbClear ' +
-        'lnbColor lnbCurSelRow lnbData lnbDeleteColumn lnbDeleteRow lnbGetColumnsPosition lnbPicture ' +
-        'lnbSetColor lnbSetColumnsPos lnbSetCurSelRow lnbSetData lnbSetPicture lnbSetText lnbSetValue ' +
-        'lnbSize lnbText lnbValue load loadAbs loadBackpack loadFile loadGame loadIdentity loadMagazine ' +
-        'loadOverlay loadStatus loadUniform loadVest local localize locationNull locationPosition lock ' +
-        'lockCameraTo lockCargo lockDriver locked lockedCargo lockedDriver lockedTurret lockIdentity ' +
-        'lockTurret lockWP log logEntities logNetwork logNetworkTerminate lookAt lookAtPos magazineCargo ' +
-        'magazines magazinesAllTurrets magazinesAmmo magazinesAmmoCargo magazinesAmmoFull magazinesDetail ' +
-        'magazinesDetailBackpack magazinesDetailUniform magazinesDetailVest magazinesTurret ' +
-        'magazineTurretAmmo mapAnimAdd mapAnimClear mapAnimCommit mapAnimDone mapCenterOnCamera ' +
-        'mapGridPosition markAsFinishedOnSteam markerAlpha markerBrush markerColor markerDir markerPos ' +
-        'markerShape markerSize markerText markerType max members menuAction menuAdd menuChecked menuClear ' +
-        'menuCollapse menuData menuDelete menuEnable menuEnabled menuExpand menuHover menuPicture ' +
-        'menuSetAction menuSetCheck menuSetData menuSetPicture menuSetValue menuShortcut menuShortcutText ' +
-        'menuSize menuSort menuText menuURL menuValue min mineActive mineDetectedBy missionConfigFile ' +
-        'missionDifficulty missionName missionNamespace missionStart missionVersion mod modelToWorld ' +
-        'modelToWorldVisual modParams moonIntensity moonPhase morale move move3DENCamera moveInAny ' +
-        'moveInCargo moveInCommander moveInDriver moveInGunner moveInTurret moveObjectToEnd moveOut ' +
-        'moveTime moveTo moveToCompleted moveToFailed musicVolume name nameSound nearEntities ' +
-        'nearestBuilding nearestLocation nearestLocations nearestLocationWithDubbing nearestObject ' +
-        'nearestObjects nearestTerrainObjects nearObjects nearObjectsReady nearRoads nearSupplies ' +
-        'nearTargets needReload netId netObjNull newOverlay nextMenuItemIndex nextWeatherChange nMenuItems ' +
-        'not numberToDate objectCurators objectFromNetId objectParent objNull objStatus onBriefingGroup ' +
-        'onBriefingNotes onBriefingPlan onBriefingTeamSwitch onCommandModeChanged onDoubleClick ' +
-        'onEachFrame onGroupIconClick onGroupIconOverEnter onGroupIconOverLeave onHCGroupSelectionChanged ' +
-        'onMapSingleClick onPlayerConnected onPlayerDisconnected onPreloadFinished onPreloadStarted ' +
-        'onShowNewObject onTeamSwitch openCuratorInterface openDLCPage openMap openYoutubeVideo opfor or ' +
-        'orderGetIn overcast overcastForecast owner param params parseNumber parseText parsingNamespace ' +
-        'particlesQuality pi pickWeaponPool pitch pixelGrid pixelGridBase pixelGridNoUIScale pixelH pixelW ' +
+        'linearConversion lineIntersects lineIntersectsObjs lineIntersectsSurfaces lineIntersectsWith ' +
+        'linkItem list listObjects listRemoteTargets listVehicleSensors ln lnbAddArray lnbAddColumn ' +
+        'lnbAddRow lnbClear lnbColor lnbCurSelRow lnbData lnbDeleteColumn lnbDeleteRow ' +
+        'lnbGetColumnsPosition lnbPicture lnbSetColor lnbSetColumnsPos lnbSetCurSelRow lnbSetData ' +
+        'lnbSetPicture lnbSetText lnbSetValue lnbSize lnbSort lnbSortByValue lnbText lnbValue load loadAbs ' +
+        'loadBackpack loadFile loadGame loadIdentity loadMagazine loadOverlay loadStatus loadUniform ' +
+        'loadVest local localize locationPosition lock lockCameraTo lockCargo lockDriver locked ' +
+        'lockedCargo lockedDriver lockedTurret lockIdentity lockTurret lockWP log logEntities logNetwork ' +
+        'logNetworkTerminate lookAt lookAtPos magazineCargo magazines magazinesAllTurrets magazinesAmmo ' +
+        'magazinesAmmoCargo magazinesAmmoFull magazinesDetail magazinesDetailBackpack ' +
+        'magazinesDetailUniform magazinesDetailVest magazinesTurret magazineTurretAmmo mapAnimAdd ' +
+        'mapAnimClear mapAnimCommit mapAnimDone mapCenterOnCamera mapGridPosition markAsFinishedOnSteam ' +
+        'markerAlpha markerBrush markerColor markerDir markerPos markerShape markerSize markerText ' +
+        'markerType max members menuAction menuAdd menuChecked menuClear menuCollapse menuData menuDelete ' +
+        'menuEnable menuEnabled menuExpand menuHover menuPicture menuSetAction menuSetCheck menuSetData ' +
+        'menuSetPicture menuSetValue menuShortcut menuShortcutText menuSize menuSort menuText menuURL ' +
+        'menuValue min mineActive mineDetectedBy missionConfigFile missionDifficulty missionName ' +
+        'missionNamespace missionStart missionVersion mod modelToWorld modelToWorldVisual ' +
+        'modelToWorldVisualWorld modelToWorldWorld modParams moonIntensity moonPhase morale move ' +
+        'move3DENCamera moveInAny moveInCargo moveInCommander moveInDriver moveInGunner moveInTurret ' +
+        'moveObjectToEnd moveOut moveTime moveTo moveToCompleted moveToFailed musicVolume name nameSound ' +
+        'nearEntities nearestBuilding nearestLocation nearestLocations nearestLocationWithDubbing ' +
+        'nearestObject nearestObjects nearestTerrainObjects nearObjects nearObjectsReady nearRoads ' +
+        'nearSupplies nearTargets needReload netId netObjNull newOverlay nextMenuItemIndex ' +
+        'nextWeatherChange nMenuItems not numberOfEnginesRTD numberToDate objectCurators objectFromNetId ' +
+        'objectParent objStatus onBriefingGroup onBriefingNotes onBriefingPlan onBriefingTeamSwitch ' +
+        'onCommandModeChanged onDoubleClick onEachFrame onGroupIconClick onGroupIconOverEnter ' +
+        'onGroupIconOverLeave onHCGroupSelectionChanged onMapSingleClick onPlayerConnected ' +
+        'onPlayerDisconnected onPreloadFinished onPreloadStarted onShowNewObject onTeamSwitch ' +
+        'openCuratorInterface openDLCPage openMap openSteamApp openYoutubeVideo or orderGetIn overcast ' +
+        'overcastForecast owner param params parseNumber parseSimpleArray parseText parsingNamespace ' +
+        'particlesQuality pickWeaponPool pitch pixelGrid pixelGridBase pixelGridNoUIScale pixelH pixelW ' +
         'playableSlotsNumber playableUnits playAction playActionNow player playerRespawnTime playerSide ' +
         'playersNumber playGesture playMission playMove playMoveNow playMusic playScriptedMission ' +
         'playSound playSound3D position positionCameraToWorld posScreenToWorld posWorldToScreen ' +
         'ppEffectAdjust ppEffectCommit ppEffectCommitted ppEffectCreate ppEffectDestroy ppEffectEnable ' +
         'ppEffectEnabled ppEffectForceInNVG precision preloadCamera preloadObject preloadSound ' +
         'preloadTitleObj preloadTitleRsc preprocessFile preprocessFileLineNumbers primaryWeapon ' +
-        'primaryWeaponItems primaryWeaponMagazine priority private processDiaryLink productVersion ' +
-        'profileName profileNamespace profileNameSteam progressLoadingScreen progressPosition ' +
-        'progressSetPosition publicVariable publicVariableClient publicVariableServer pushBack ' +
-        'pushBackUnique putWeaponPool queryItemsPool queryMagazinePool queryWeaponPool rad radioChannelAdd ' +
-        'radioChannelCreate radioChannelRemove radioChannelSetCallSign radioChannelSetLabel radioVolume ' +
-        'rain rainbow random rank rankId rating rectangular registeredTasks registerTask reload ' +
-        'reloadEnabled remoteControl remoteExec remoteExecCall remove3DENConnection remove3DENEventHandler ' +
+        'primaryWeaponItems primaryWeaponMagazine priority processDiaryLink productVersion profileName ' +
+        'profileNamespace profileNameSteam progressLoadingScreen progressPosition progressSetPosition ' +
+        'publicVariable publicVariableClient publicVariableServer pushBack pushBackUnique putWeaponPool ' +
+        'queryItemsPool queryMagazinePool queryWeaponPool rad radioChannelAdd radioChannelCreate ' +
+        'radioChannelRemove radioChannelSetCallSign radioChannelSetLabel radioVolume rain rainbow random ' +
+        'rank rankId rating rectangular registeredTasks registerTask reload reloadEnabled remoteControl ' +
+        'remoteExec remoteExecCall remoteExecutedOwner remove3DENConnection remove3DENEventHandler ' +
         'remove3DENLayer removeAction removeAll3DENEventHandlers removeAllActions removeAllAssignedItems ' +
         'removeAllContainers removeAllCuratorAddons removeAllCuratorCameraAreas ' +
         'removeAllCuratorEditingAreas removeAllEventHandlers removeAllHandgunItems removeAllItems ' +
@@ -26048,69 +31487,77 @@ module.exports = function(hljs) {
         'removeMagazineTurret removeMenuItem removeMissionEventHandler removeMPEventHandler ' +
         'removeMusicEventHandler removeOwnedMine removePrimaryWeaponItem removeSecondaryWeaponItem ' +
         'removeSimpleTask removeSwitchableUnit removeTeamMember removeUniform removeVest removeWeapon ' +
-        'removeWeaponGlobal removeWeaponTurret requiredVersion resetCamShake resetSubgroupDirection ' +
-        'resistance resize resources respawnVehicle restartEditorCamera reveal revealMine reverse ' +
-        'reversedMouseY roadAt roadsConnectedTo roleDescription ropeAttachedObjects ropeAttachedTo ' +
-        'ropeAttachEnabled ropeAttachTo ropeCreate ropeCut ropeDestroy ropeDetach ropeEndPosition ' +
-        'ropeLength ropes ropeUnwind ropeUnwound rotorsForcesRTD rotorsRpmRTD round runInitScript ' +
-        'safeZoneH safeZoneW safeZoneWAbs safeZoneX safeZoneXAbs safeZoneY save3DENInventory saveGame ' +
-        'saveIdentity saveJoysticks saveOverlay saveProfileNamespace saveStatus saveVar savingEnabled say ' +
-        'say2D say3D scopeName score scoreSide screenshot screenToWorld scriptDone scriptName scriptNull ' +
-        'scudState secondaryWeapon secondaryWeaponItems secondaryWeaponMagazine select selectBestPlaces ' +
+        'removeWeaponAttachmentCargo removeWeaponCargo removeWeaponGlobal removeWeaponTurret ' +
+        'reportRemoteTarget requiredVersion resetCamShake resetSubgroupDirection resize resources ' +
+        'respawnVehicle restartEditorCamera reveal revealMine reverse reversedMouseY roadAt ' +
+        'roadsConnectedTo roleDescription ropeAttachedObjects ropeAttachedTo ropeAttachEnabled ' +
+        'ropeAttachTo ropeCreate ropeCut ropeDestroy ropeDetach ropeEndPosition ropeLength ropes ' +
+        'ropeUnwind ropeUnwound rotorsForcesRTD rotorsRpmRTD round runInitScript safeZoneH safeZoneW ' +
+        'safeZoneWAbs safeZoneX safeZoneXAbs safeZoneY save3DENInventory saveGame saveIdentity ' +
+        'saveJoysticks saveOverlay saveProfileNamespace saveStatus saveVar savingEnabled say say2D say3D ' +
+        'scopeName score scoreSide screenshot screenToWorld scriptDone scriptName scudState ' +
+        'secondaryWeapon secondaryWeaponItems secondaryWeaponMagazine select selectBestPlaces ' +
         'selectDiarySubject selectedEditorObjects selectEditorObject selectionNames selectionPosition ' +
-        'selectLeader selectMax selectMin selectNoPlayer selectPlayer selectRandom selectWeapon ' +
-        'selectWeaponTurret sendAUMessage sendSimpleCommand sendTask sendTaskResult sendUDPMessage ' +
-        'serverCommand serverCommandAvailable serverCommandExecutable serverName serverTime set ' +
-        'set3DENAttribute set3DENAttributes set3DENGrid set3DENIconsVisible set3DENLayer ' +
-        'set3DENLinesVisible set3DENMissionAttributes set3DENModelsVisible set3DENObjectType ' +
-        'set3DENSelected setAccTime setAirportSide setAmmo setAmmoCargo setAnimSpeedCoef setAperture ' +
-        'setApertureNew setArmoryPoints setAttributes setAutonomous setBehaviour setBleedingRemaining ' +
-        'setCameraInterest setCamShakeDefParams setCamShakeParams setCamUseTi setCaptive setCenterOfMass ' +
-        'setCollisionLight setCombatMode setCompassOscillation setCuratorCameraAreaCeiling setCuratorCoef ' +
-        'setCuratorEditingAreaType setCuratorWaypointCost setCurrentChannel setCurrentTask ' +
-        'setCurrentWaypoint setCustomAimCoef setDamage setDammage setDate setDebriefingText ' +
-        'setDefaultCamera setDestination setDetailMapBlendPars setDir setDirection setDrawIcon ' +
-        'setDropInterval setEditorMode setEditorObjectScope setEffectCondition setFace setFaceAnimation ' +
-        'setFatigue setFlagOwner setFlagSide setFlagTexture setFog setFormation setFormationTask ' +
-        'setFormDir setFriend setFromEditor setFSMVariable setFuel setFuelCargo setGroupIcon ' +
-        'setGroupIconParams setGroupIconsSelectable setGroupIconsVisible setGroupId setGroupIdGlobal ' +
-        'setGroupOwner setGusts setHideBehind setHit setHitIndex setHitPointDamage setHorizonParallaxCoef ' +
-        'setHUDMovementLevels setIdentity setImportance setLeader setLightAmbient setLightAttenuation ' +
-        'setLightBrightness setLightColor setLightDayLight setLightFlareMaxDistance setLightFlareSize ' +
-        'setLightIntensity setLightnings setLightUseFlare setLocalWindParams setMagazineTurretAmmo ' +
-        'setMarkerAlpha setMarkerAlphaLocal setMarkerBrush setMarkerBrushLocal setMarkerColor ' +
-        'setMarkerColorLocal setMarkerDir setMarkerDirLocal setMarkerPos setMarkerPosLocal setMarkerShape ' +
-        'setMarkerShapeLocal setMarkerSize setMarkerSizeLocal setMarkerText setMarkerTextLocal ' +
-        'setMarkerType setMarkerTypeLocal setMass setMimic setMousePosition setMusicEffect ' +
-        'setMusicEventHandler setName setNameSound setObjectArguments setObjectMaterial ' +
-        'setObjectMaterialGlobal setObjectProxy setObjectTexture setObjectTextureGlobal ' +
-        'setObjectViewDistance setOvercast setOwner setOxygenRemaining setParticleCircle setParticleClass ' +
-        'setParticleFire setParticleParams setParticleRandom setPilotCameraDirection ' +
-        'setPilotCameraRotation setPilotCameraTarget setPilotLight setPiPEffect setPitch setPlayable ' +
-        'setPlayerRespawnTime setPos setPosASL setPosASL2 setPosASLW setPosATL setPosition setPosWorld ' +
-        'setRadioMsg setRain setRainbow setRandomLip setRank setRectangular setRepairCargo ' +
-        'setShadowDistance setShotParents setSide setSimpleTaskAlwaysVisible setSimpleTaskCustomData ' +
+        'selectLeader selectMax selectMin selectNoPlayer selectPlayer selectRandom selectRandomWeighted ' +
+        'selectWeapon selectWeaponTurret sendAUMessage sendSimpleCommand sendTask sendTaskResult ' +
+        'sendUDPMessage serverCommand serverCommandAvailable serverCommandExecutable serverName serverTime ' +
+        'set set3DENAttribute set3DENAttributes set3DENGrid set3DENIconsVisible set3DENLayer ' +
+        'set3DENLinesVisible set3DENLogicType set3DENMissionAttribute set3DENMissionAttributes ' +
+        'set3DENModelsVisible set3DENObjectType set3DENSelected setAccTime setActualCollectiveRTD ' +
+        'setAirplaneThrottle setAirportSide setAmmo setAmmoCargo setAmmoOnPylon setAnimSpeedCoef ' +
+        'setAperture setApertureNew setArmoryPoints setAttributes setAutonomous setBehaviour ' +
+        'setBleedingRemaining setBrakesRTD setCameraInterest setCamShakeDefParams setCamShakeParams ' +
+        'setCamUseTI setCaptive setCenterOfMass setCollisionLight setCombatMode setCompassOscillation ' +
+        'setConvoySeparation setCuratorCameraAreaCeiling setCuratorCoef setCuratorEditingAreaType ' +
+        'setCuratorWaypointCost setCurrentChannel setCurrentTask setCurrentWaypoint setCustomAimCoef ' +
+        'setCustomWeightRTD setDamage setDammage setDate setDebriefingText setDefaultCamera setDestination ' +
+        'setDetailMapBlendPars setDir setDirection setDrawIcon setDriveOnPath setDropInterval ' +
+        'setDynamicSimulationDistance setDynamicSimulationDistanceCoef setEditorMode setEditorObjectScope ' +
+        'setEffectCondition setEngineRPMRTD setFace setFaceAnimation setFatigue setFeatureType ' +
+        'setFlagAnimationPhase setFlagOwner setFlagSide setFlagTexture setFog setFormation ' +
+        'setFormationTask setFormDir setFriend setFromEditor setFSMVariable setFuel setFuelCargo ' +
+        'setGroupIcon setGroupIconParams setGroupIconsSelectable setGroupIconsVisible setGroupId ' +
+        'setGroupIdGlobal setGroupOwner setGusts setHideBehind setHit setHitIndex setHitPointDamage ' +
+        'setHorizonParallaxCoef setHUDMovementLevels setIdentity setImportance setInfoPanel setLeader ' +
+        'setLightAmbient setLightAttenuation setLightBrightness setLightColor setLightDayLight ' +
+        'setLightFlareMaxDistance setLightFlareSize setLightIntensity setLightnings setLightUseFlare ' +
+        'setLocalWindParams setMagazineTurretAmmo setMarkerAlpha setMarkerAlphaLocal setMarkerBrush ' +
+        'setMarkerBrushLocal setMarkerColor setMarkerColorLocal setMarkerDir setMarkerDirLocal ' +
+        'setMarkerPos setMarkerPosLocal setMarkerShape setMarkerShapeLocal setMarkerSize ' +
+        'setMarkerSizeLocal setMarkerText setMarkerTextLocal setMarkerType setMarkerTypeLocal setMass ' +
+        'setMimic setMousePosition setMusicEffect setMusicEventHandler setName setNameSound ' +
+        'setObjectArguments setObjectMaterial setObjectMaterialGlobal setObjectProxy setObjectTexture ' +
+        'setObjectTextureGlobal setObjectViewDistance setOvercast setOwner setOxygenRemaining ' +
+        'setParticleCircle setParticleClass setParticleFire setParticleParams setParticleRandom ' +
+        'setPilotCameraDirection setPilotCameraRotation setPilotCameraTarget setPilotLight setPiPEffect ' +
+        'setPitch setPlateNumber setPlayable setPlayerRespawnTime setPos setPosASL setPosASL2 setPosASLW ' +
+        'setPosATL setPosition setPosWorld setPylonLoadOut setPylonsPriority setRadioMsg setRain ' +
+        'setRainbow setRandomLip setRank setRectangular setRepairCargo setRotorBrakeRTD setShadowDistance ' +
+        'setShotParents setSide setSimpleTaskAlwaysVisible setSimpleTaskCustomData ' +
         'setSimpleTaskDescription setSimpleTaskDestination setSimpleTaskTarget setSimpleTaskType ' +
         'setSimulWeatherLayers setSize setSkill setSlingLoad setSoundEffect setSpeaker setSpeech ' +
         'setSpeedMode setStamina setStaminaScheme setStatValue setSuppression setSystemOfUnits ' +
-        'setTargetAge setTaskResult setTaskState setTerrainGrid setText setTimeMultiplier setTitleEffect ' +
-        'setTriggerActivation setTriggerArea setTriggerStatements setTriggerText setTriggerTimeout ' +
-        'setTriggerType setType setUnconscious setUnitAbility setUnitLoadout setUnitPos setUnitPosWeak ' +
-        'setUnitRank setUnitRecoilCoefficient setUnitTrait setUnloadInCombat setUserActionText setVariable ' +
-        'setVectorDir setVectorDirAndUp setVectorUp setVehicleAmmo setVehicleAmmoDef setVehicleArmor ' +
-        'setVehicleCargo setVehicleId setVehicleLock setVehiclePosition setVehicleTiPars setVehicleVarName ' +
-        'setVelocity setVelocityTransformation setViewDistance setVisibleIfTreeCollapsed setWaves ' +
-        'setWaypointBehaviour setWaypointCombatMode setWaypointCompletionRadius setWaypointDescription ' +
-        'setWaypointForceBehaviour setWaypointFormation setWaypointHousePosition setWaypointLoiterRadius ' +
-        'setWaypointLoiterType setWaypointName setWaypointPosition setWaypointScript setWaypointSpeed ' +
-        'setWaypointStatements setWaypointTimeout setWaypointType setWaypointVisible ' +
-        'setWeaponReloadingTime setWind setWindDir setWindForce setWindStr setWPPos show3DIcons showChat ' +
-        'showCinemaBorder showCommandingMenu showCompass showCuratorCompass showGPS showHUD showLegend ' +
-        'showMap shownArtilleryComputer shownChat shownCompass shownCuratorCompass showNewEditorObject ' +
-        'shownGPS shownHUD shownMap shownPad shownRadio shownScoretable shownUAVFeed shownWarrant ' +
-        'shownWatch showPad showRadio showScoretable showSubtitles showUAVFeed showWarrant showWatch ' +
-        'showWaypoint showWaypoints side sideAmbientLife sideChat sideEmpty sideEnemy sideFriendly ' +
-        'sideLogic sideRadio sideUnknown simpleTasks simulationEnabled simulCloudDensity ' +
+        'setTargetAge setTaskMarkerOffset setTaskResult setTaskState setTerrainGrid setText ' +
+        'setTimeMultiplier setTitleEffect setTrafficDensity setTrafficDistance setTrafficGap ' +
+        'setTrafficSpeed setTriggerActivation setTriggerArea setTriggerStatements setTriggerText ' +
+        'setTriggerTimeout setTriggerType setType setUnconscious setUnitAbility setUnitLoadout setUnitPos ' +
+        'setUnitPosWeak setUnitRank setUnitRecoilCoefficient setUnitTrait setUnloadInCombat ' +
+        'setUserActionText setUserMFDText setUserMFDvalue setVariable setVectorDir setVectorDirAndUp ' +
+        'setVectorUp setVehicleAmmo setVehicleAmmoDef setVehicleArmor setVehicleCargo setVehicleId ' +
+        'setVehicleLock setVehiclePosition setVehicleRadar setVehicleReceiveRemoteTargets ' +
+        'setVehicleReportOwnPosition setVehicleReportRemoteTargets setVehicleTIPars setVehicleVarName ' +
+        'setVelocity setVelocityModelSpace setVelocityTransformation setViewDistance ' +
+        'setVisibleIfTreeCollapsed setWantedRPMRTD setWaves setWaypointBehaviour setWaypointCombatMode ' +
+        'setWaypointCompletionRadius setWaypointDescription setWaypointForceBehaviour setWaypointFormation ' +
+        'setWaypointHousePosition setWaypointLoiterRadius setWaypointLoiterType setWaypointName ' +
+        'setWaypointPosition setWaypointScript setWaypointSpeed setWaypointStatements setWaypointTimeout ' +
+        'setWaypointType setWaypointVisible setWeaponReloadingTime setWind setWindDir setWindForce ' +
+        'setWindStr setWingForceScaleRTD setWPPos show3DIcons showChat showCinemaBorder showCommandingMenu ' +
+        'showCompass showCuratorCompass showGPS showHUD showLegend showMap shownArtilleryComputer ' +
+        'shownChat shownCompass shownCuratorCompass showNewEditorObject shownGPS shownHUD shownMap ' +
+        'shownPad shownRadio shownScoretable shownUAVFeed shownWarrant shownWatch showPad showRadio ' +
+        'showScoretable showSubtitles showUAVFeed showWarrant showWatch showWaypoint showWaypoints side ' +
+        'sideChat sideEnemy sideFriendly sideRadio simpleTasks simulationEnabled simulCloudDensity ' +
         'simulCloudOcclusion simulInClouds simulWeatherSync sin size sizeOf skill skillFinal skipTime ' +
         'sleep sliderPosition sliderRange sliderSetPosition sliderSetRange sliderSetSpeed sliderSpeed ' +
         'slingLoadAssistantShown soldierMagazines someAmmo sort soundVolume spawn speaker speed speedMode ' +
@@ -26119,38 +31566,42 @@ module.exports = function(hljs) {
         'switchableUnits switchAction switchCamera switchGesture switchLight switchMove ' +
         'synchronizedObjects synchronizedTriggers synchronizedWaypoints synchronizeObjectsAdd ' +
         'synchronizeObjectsRemove synchronizeTrigger synchronizeWaypoint systemChat systemOfUnits tan ' +
-        'targetKnowledge targetsAggregate targetsQuery taskAlwaysVisible taskChildren taskCompleted ' +
-        'taskCustomData taskDescription taskDestination taskHint taskMarkerOffset taskNull taskParent ' +
-        'taskResult taskState taskType teamMember teamMemberNull teamName teams teamSwitch ' +
-        'teamSwitchEnabled teamType terminate terrainIntersect terrainIntersectASL text textLog ' +
-        'textLogFormat tg time timeMultiplier titleCut titleFadeOut titleObj titleRsc titleText toArray ' +
-        'toFixed toLower toString toUpper triggerActivated triggerActivation triggerArea ' +
-        'triggerAttachedVehicle triggerAttachObject triggerAttachVehicle triggerStatements triggerText ' +
+        'targetKnowledge targets targetsAggregate targetsQuery taskAlwaysVisible taskChildren ' +
+        'taskCompleted taskCustomData taskDescription taskDestination taskHint taskMarkerOffset taskParent ' +
+        'taskResult taskState taskType teamMember teamName teams teamSwitch teamSwitchEnabled teamType ' +
+        'terminate terrainIntersect terrainIntersectASL terrainIntersectAtASL text textLog textLogFormat ' +
+        'tg time timeMultiplier titleCut titleFadeOut titleObj titleRsc titleText toArray toFixed toLower ' +
+        'toString toUpper triggerActivated triggerActivation triggerArea triggerAttachedVehicle ' +
+        'triggerAttachObject triggerAttachVehicle triggerDynamicSimulation triggerStatements triggerText ' +
         'triggerTimeout triggerTimeoutCurrent triggerType turretLocal turretOwner turretUnit tvAdd tvClear ' +
-        'tvCollapse tvCount tvCurSel tvData tvDelete tvExpand tvPicture tvSetCurSel tvSetData tvSetPicture ' +
-        'tvSetPictureColor tvSetPictureColorDisabled tvSetPictureColorSelected tvSetPictureRight ' +
-        'tvSetPictureRightColor tvSetPictureRightColorDisabled tvSetPictureRightColorSelected tvSetText ' +
-        'tvSetTooltip tvSetValue tvSort tvSortByValue tvText tvTooltip tvValue type typeName typeOf ' +
-        'UAVControl uiNamespace uiSleep unassignCurator unassignItem unassignTeam unassignVehicle ' +
-        'underwater uniform uniformContainer uniformItems uniformMagazines unitAddons unitAimPosition ' +
-        'unitAimPositionVisual unitBackpack unitIsUAV unitPos unitReady unitRecoilCoefficient units ' +
-        'unitsBelowHeight unlinkItem unlockAchievement unregisterTask updateDrawIcon updateMenuItem ' +
-        'updateObjectTree useAISteeringComponent useAudioTimeForMoves vectorAdd vectorCos ' +
-        'vectorCrossProduct vectorDiff vectorDir vectorDirVisual vectorDistance vectorDistanceSqr ' +
-        'vectorDotProduct vectorFromTo vectorMagnitude vectorMagnitudeSqr vectorMultiply vectorNormalized ' +
-        'vectorUp vectorUpVisual vehicle vehicleCargoEnabled vehicleChat vehicleRadio vehicles ' +
-        'vehicleVarName velocity velocityModelSpace verifySignature vest vestContainer vestItems ' +
-        'vestMagazines viewDistance visibleCompass visibleGPS visibleMap visiblePosition ' +
-        'visiblePositionASL visibleScoretable visibleWatch waves waypointAttachedObject ' +
+        'tvCollapse tvCollapseAll tvCount tvCurSel tvData tvDelete tvExpand tvExpandAll tvPicture ' +
+        'tvSetColor tvSetCurSel tvSetData tvSetPicture tvSetPictureColor tvSetPictureColorDisabled ' +
+        'tvSetPictureColorSelected tvSetPictureRight tvSetPictureRightColor tvSetPictureRightColorDisabled ' +
+        'tvSetPictureRightColorSelected tvSetText tvSetTooltip tvSetValue tvSort tvSortByValue tvText ' +
+        'tvTooltip tvValue type typeName typeOf UAVControl uiNamespace uiSleep unassignCurator ' +
+        'unassignItem unassignTeam unassignVehicle underwater uniform uniformContainer uniformItems ' +
+        'uniformMagazines unitAddons unitAimPosition unitAimPositionVisual unitBackpack unitIsUAV unitPos ' +
+        'unitReady unitRecoilCoefficient units unitsBelowHeight unlinkItem unlockAchievement ' +
+        'unregisterTask updateDrawIcon updateMenuItem updateObjectTree useAISteeringComponent ' +
+        'useAudioTimeForMoves userInputDisabled vectorAdd vectorCos vectorCrossProduct vectorDiff ' +
+        'vectorDir vectorDirVisual vectorDistance vectorDistanceSqr vectorDotProduct vectorFromTo ' +
+        'vectorMagnitude vectorMagnitudeSqr vectorModelToWorld vectorModelToWorldVisual vectorMultiply ' +
+        'vectorNormalized vectorUp vectorUpVisual vectorWorldToModel vectorWorldToModelVisual vehicle ' +
+        'vehicleCargoEnabled vehicleChat vehicleRadio vehicleReceiveRemoteTargets vehicleReportOwnPosition ' +
+        'vehicleReportRemoteTargets vehicles vehicleVarName velocity velocityModelSpace verifySignature ' +
+        'vest vestContainer vestItems vestMagazines viewDistance visibleCompass visibleGPS visibleMap ' +
+        'visiblePosition visiblePositionASL visibleScoretable visibleWatch waves waypointAttachedObject ' +
         'waypointAttachedVehicle waypointAttachObject waypointAttachVehicle waypointBehaviour ' +
         'waypointCombatMode waypointCompletionRadius waypointDescription waypointForceBehaviour ' +
         'waypointFormation waypointHousePosition waypointLoiterRadius waypointLoiterType waypointName ' +
         'waypointPosition waypoints waypointScript waypointsEnabledUAV waypointShow waypointSpeed ' +
         'waypointStatements waypointTimeout waypointTimeoutCurrent waypointType waypointVisible ' +
         'weaponAccessories weaponAccessoriesCargo weaponCargo weaponDirection weaponInertia weaponLowered ' +
-        'weapons weaponsItems weaponsItemsCargo weaponState weaponsTurret weightRTD west WFSideText wind',
+        'weapons weaponsItems weaponsItemsCargo weaponState weaponsTurret weightRTD WFSideText wind ',
       literal:
-        'true false nil'
+        'blufor civilian configNull controlNull displayNull east endl false grpNull independent lineBreak ' +
+        'locationNull nil objNull opfor pi resistance scriptNull sideAmbientLife sideEmpty sideLogic ' +
+        'sideUnknown taskNull teamMemberNull true west',
     },
     contains: [
       hljs.C_LINE_COMMENT_MODE,
@@ -26161,7 +31612,7 @@ module.exports = function(hljs) {
       STRINGS,
       CPP.preprocessor
     ],
-    illegal: /#/
+    illegal: /#|^\$ /
   };
 };
 });
@@ -26171,7 +31622,7 @@ module.exports = function(hljs) {
   var COMMENT_MODE = hljs.COMMENT('--', '$');
   return {
     case_insensitive: true,
-    illegal: /[<>{}*#]/,
+    illegal: /[<>{}*]/,
     contains: [
       {
         beginKeywords:
@@ -26179,12 +31630,12 @@ module.exports = function(hljs) {
           'delete do handler insert load replace select truncate update set show pragma grant ' +
           'merge describe use explain help declare prepare execute deallocate release ' +
           'unlock purge reset change stop analyze cache flush optimize repair kill ' +
-          'install uninstall checksum restore check backup revoke comment',
+          'install uninstall checksum restore check backup revoke comment with',
         end: /;/, endsWithParent: true,
         lexemes: /[\w\.]+/,
         keywords: {
           keyword:
-            'abort abs absolute acc acce accep accept access accessed accessible account acos action activate add ' +
+            'as abort abs absolute acc acce accep accept access accessed accessible account acos action activate add ' +
             'addtime admin administer advanced advise aes_decrypt aes_encrypt after agent aggregate ali alia alias ' +
             'allocate allow alter always analyze ancillary and any anydata anydataset anyschema anytype apply ' +
             'archive archived archivelog are as asc ascii asin assembly assertion associate asynchronous at atan ' +
@@ -26219,7 +31670,7 @@ module.exports = function(hljs) {
             'execu execut execute exempt exists exit exp expire explain export export_set extended extent external ' +
             'external_1 external_2 externally extract failed failed_login_attempts failover failure far fast ' +
             'feature_set feature_value fetch field fields file file_name_convert filesystem_like_logging final ' +
-            'finish first first_value fixed flash_cache flashback floor flush following follows for forall force ' +
+            'finish first first_value fixed flash_cache flashback floor flush following follows for forall force foreign ' +
             'form forma format found found_rows freelist freelists freepools fresh from from_base64 from_days ' +
             'ftp full function general generated get get_format get_lock getdate getutcdate global global_name ' +
             'globally go goto grant grants greatest group group_concat group_id grouping grouping_id groups ' +
@@ -26244,7 +31695,7 @@ module.exports = function(hljs) {
             'nocheck nocompress nocopy nocycle nodelay nodiscardfile noentityescaping noguarantee nokeep nologfile ' +
             'nomapping nomaxvalue nominimize nominvalue nomonitoring none noneditionable nonschema noorder ' +
             'nopr nopro noprom nopromp noprompt norely noresetlogs noreverse normal norowdependencies noschemacheck ' +
-            'noswitch not nothing notice notrim novalidate now nowait nth_value nullif nulls num numb numbe ' +
+            'noswitch not nothing notice notnull notrim novalidate now nowait nth_value nullif nulls num numb numbe ' +
             'nvarchar nvarchar2 object ocicoll ocidate ocidatetime ociduration ociinterval ociloblocator ocinumber ' +
             'ociref ocirefcursor ocirowid ocistring ocitype oct octet_length of off offline offset oid oidindex old ' +
             'on online only opaque open operations operator optimal optimize option optionally or oracle oracle_date ' +
@@ -26285,7 +31736,7 @@ module.exports = function(hljs) {
             'timezone_minute timezone_region to to_base64 to_date to_days to_seconds todatetimeoffset trace tracking ' +
             'transaction transactional translate translation treat trigger trigger_nestlevel triggers trim truncate ' +
             'try_cast try_convert try_parse type ub1 ub2 ub4 ucase unarchived unbounded uncompress ' +
-            'under undo unhex unicode uniform uninstall union unique unix_timestamp unknown unlimited unlock unpivot ' +
+            'under undo unhex unicode uniform uninstall union unique unix_timestamp unknown unlimited unlock unnest unpivot ' +
             'unrecoverable unsafe unsigned until untrusted unusable unused update updated upgrade upped upper upsert ' +
             'url urowid usable usage use use_stored_outlines user user_data user_resources users using utc_date ' +
             'utc_timestamp uuid uuid_short validate validate_password_strength validation valist value values var ' +
@@ -26295,10 +31746,10 @@ module.exports = function(hljs) {
             'xdb xml xmlagg xmlattributes xmlcast xmlcolattval xmlelement xmlexists xmlforest xmlindex xmlnamespaces ' +
             'xmlpi xmlquery xmlroot xmlschema xmlserialize xmltable xmltype xor year year_to_month years yearweek',
           literal:
-            'true false null',
+            'true false null unknown',
           built_in:
-            'array bigint binary bit blob boolean char character date dec decimal float int int8 integer interval number ' +
-            'numeric real record serial serial8 smallint text varchar varying void'
+            'array bigint binary bit blob bool boolean char character date dec decimal float int int8 integer interval number ' +
+            'numeric real record serial serial8 smallint text time timestamp varchar varying void'
         },
         contains: [
           {
@@ -26318,11 +31769,13 @@ module.exports = function(hljs) {
           },
           hljs.C_NUMBER_MODE,
           hljs.C_BLOCK_COMMENT_MODE,
-          COMMENT_MODE
+          COMMENT_MODE,
+          hljs.HASH_COMMENT_MODE
         ]
       },
       hljs.C_BLOCK_COMMENT_MODE,
-      COMMENT_MODE
+      COMMENT_MODE,
+      hljs.HASH_COMMENT_MODE
     ]
   };
 };
@@ -26997,8 +32450,10 @@ ___scope___.file("lib/languages/swift.js", function(exports, require, module, __
 
 module.exports = function(hljs) {
   var SWIFT_KEYWORDS = {
-      keyword: '__COLUMN__ __FILE__ __FUNCTION__ __LINE__ as as! as? associativity ' +
-        'break case catch class continue convenience default defer deinit didSet do ' +
+      keyword: '#available #colorLiteral #column #else #elseif #endif #file ' +
+        '#fileLiteral #function #if #imageLiteral #line #selector #sourceLocation ' +
+        '_ __COLUMN__ __FILE__ __FUNCTION__ __LINE__ Any as as! as? associatedtype ' +
+        'associativity break case catch class continue convenience default defer deinit didSet do ' +
         'dynamic dynamicType else enum extension fallthrough false fileprivate final for func ' +
         'get guard if import in indirect infix init inout internal is lazy left let ' +
         'mutating nil none nonmutating open operator optional override postfix precedence ' +
@@ -27041,20 +32496,25 @@ module.exports = function(hljs) {
     keywords: SWIFT_KEYWORDS,
     contains: [] // assigned later
   };
+  var STRING = {
+    className: 'string',
+    contains: [hljs.BACKSLASH_ESCAPE, SUBST],
+    variants: [
+      {begin: /"""/, end: /"""/},
+      {begin: /"/, end: /"/},
+    ]
+  };
   var NUMBERS = {
       className: 'number',
       begin: '\\b([\\d_]+(\\.[\\deE_]+)?|0x[a-fA-F0-9_]+(\\.[a-fA-F0-9p_]+)?|0b[01_]+|0o[0-7_]+)\\b',
       relevance: 0
   };
-  var QUOTE_STRING_MODE = hljs.inherit(hljs.QUOTE_STRING_MODE, {
-    contains: [SUBST, hljs.BACKSLASH_ESCAPE]
-  });
   SUBST.contains = [NUMBERS];
 
   return {
     keywords: SWIFT_KEYWORDS,
     contains: [
-      QUOTE_STRING_MODE,
+      STRING,
       hljs.C_LINE_COMMENT_MODE,
       BLOCK_COMMENT,
       TYPE,
@@ -27076,7 +32536,7 @@ module.exports = function(hljs) {
             contains: [
               'self',
               NUMBERS,
-              QUOTE_STRING_MODE,
+              STRING,
               hljs.C_BLOCK_COMMENT_MODE,
               {begin: ':'} // relevance booster
             ],
@@ -27097,8 +32557,8 @@ module.exports = function(hljs) {
       },
       {
         className: 'meta', // @attributes
-        begin: '(@warn_unused_result|@exported|@lazy|@noescape|' +
-                  '@NSCopying|@NSManaged|@objc|@convention|@required|' +
+        begin: '(@discardableResult|@warn_unused_result|@exported|@lazy|@noescape|' +
+                  '@NSCopying|@NSManaged|@objc|@objcMembers|@convention|@required|' +
                   '@noreturn|@IBAction|@IBDesignable|@IBInspectable|@IBOutlet|' +
                   '@infix|@prefix|@postfix|@autoclosure|@testable|@available|' +
                   '@nonobjc|@NSApplicationMain|@UIApplicationMain)'
@@ -27219,6 +32679,10 @@ module.exports = function(hljs) {
         excludeBegin: true,
         excludeEnd: true,
         relevance: 0
+      },
+      { // local tags
+        className: 'type',
+        begin: '!' + hljs.UNDERSCORE_IDENT_RE,
       },
       { // data type
         className: 'type',
@@ -27607,6 +33071,7 @@ module.exports = function(hljs) {
 ___scope___.file("lib/languages/typescript.js", function(exports, require, module, __filename, __dirname){
 
 module.exports = function(hljs) {
+  var JS_IDENT_RE = '[A-Za-z$_][0-9A-Za-z$_]*';
   var KEYWORDS = {
     keyword:
       'in if for while finally var new function do return void else break catch ' +
@@ -27624,6 +33089,38 @@ module.exports = function(hljs) {
       'Float64Array Int16Array Int32Array Int8Array Uint16Array Uint32Array ' +
       'Uint8Array Uint8ClampedArray ArrayBuffer DataView JSON Intl arguments require ' +
       'module console window document any number boolean string void Promise'
+  };
+
+  var DECORATOR = {
+    className: 'meta',
+    begin: '@' + JS_IDENT_RE,
+  };
+
+  var ARGS =
+  {
+    begin: '\\(',
+    end: /\)/,
+    keywords: KEYWORDS,
+    contains: [
+      'self',
+      hljs.QUOTE_STRING_MODE,
+      hljs.APOS_STRING_MODE,
+      hljs.NUMBER_MODE
+    ]
+  };
+
+  var PARAMS = {
+    className: 'params',
+    begin: /\(/, end: /\)/,
+    excludeBegin: true,
+    excludeEnd: true,
+    keywords: KEYWORDS,
+    contains: [
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      DECORATOR,
+      ARGS
+    ]
   };
 
   return {
@@ -27702,19 +33199,8 @@ module.exports = function(hljs) {
         keywords: KEYWORDS,
         contains: [
           'self',
-          hljs.inherit(hljs.TITLE_MODE, {begin: /[A-Za-z$_][0-9A-Za-z$_]*/}),
-          {
-            className: 'params',
-            begin: /\(/, end: /\)/,
-            excludeBegin: true,
-            excludeEnd: true,
-            keywords: KEYWORDS,
-            contains: [
-              hljs.C_LINE_COMMENT_MODE,
-              hljs.C_BLOCK_COMMENT_MODE
-            ],
-            illegal: /["'\(]/
-          }
+          hljs.inherit(hljs.TITLE_MODE, { begin: JS_IDENT_RE }),
+          PARAMS
         ],
         illegal: /%/,
         relevance: 0 // () => {} is more typical in TypeScript
@@ -27723,23 +33209,12 @@ module.exports = function(hljs) {
         beginKeywords: 'constructor', end: /\{/, excludeEnd: true,
         contains: [
           'self',
-          {
-            className: 'params',
-            begin: /\(/, end: /\)/,
-            excludeBegin: true,
-            excludeEnd: true,
-            keywords: KEYWORDS,
-            contains: [
-              hljs.C_LINE_COMMENT_MODE,
-              hljs.C_BLOCK_COMMENT_MODE
-            ],
-            illegal: /["'\(]/
-          }
+          PARAMS
         ]
       },
       { // prevent references like module.id from being higlighted as module definitions
         begin: /module\./,
-        keywords: {built_in: 'module'},
+        keywords: { built_in: 'module' },
         relevance: 0
       },
       {
@@ -27755,9 +33230,8 @@ module.exports = function(hljs) {
       {
         begin: '\\.' + hljs.IDENT_RE, relevance: 0 // hack: prevents detection of keywords after dots
       },
-      {
-        className: 'meta', begin: '@[A-Za-z]+'
-      }
+      DECORATOR,
+      ARGS
     ]
   };
 };
@@ -27840,7 +33314,7 @@ module.exports = function(hljs) {
       literal:
         'true false nothing'
     },
-    illegal: '//|{|}|endif|gosub|variant|wend', /* reserved deprecated keywords */
+    illegal: '//|{|}|endif|gosub|variant|wend|^\\$ ', /* reserved deprecated keywords */
     contains: [
       hljs.inherit(hljs.QUOTE_STRING_MODE, {contains: [{begin: '""'}]}),
       hljs.COMMENT(
@@ -28051,17 +33525,17 @@ module.exports = function(hljs) {
         'begin block body buffer bus case component configuration constant context cover disconnect ' +
         'downto default else elsif end entity exit fairness file for force function generate ' +
         'generic group guarded if impure in inertial inout is label library linkage literal ' +
-        'loop map mod nand new next nor not null of on open or others out package port ' +
+        'loop map mod nand new next nor not null of on open or others out package parameter port ' +
         'postponed procedure process property protected pure range record register reject ' +
         'release rem report restrict restrict_guarantee return rol ror select sequence ' +
         'severity shared signal sla sll sra srl strong subtype then to transport type ' +
-        'unaffected units until use variable vmode vprop vunit wait when while with xnor xor',
+        'unaffected units until use variable view vmode vprop vunit wait when while with xnor xor',
       built_in:
         'boolean bit character ' +
         'integer time delay_length natural positive ' +
         'string bit_vector file_open_kind file_open_status ' +
         'std_logic std_logic_vector unsigned signed boolean_vector integer_vector ' +
-        'std_ulogic std_ulogic_vector unresolved_unsigned u_unsigned unresolved_signed u_signed' +
+        'std_ulogic std_ulogic_vector unresolved_unsigned u_unsigned unresolved_signed u_signed ' +
         'real_vector time_vector',
       literal:
         'false true note warning error failure ' +  // severity_level
@@ -28157,7 +33631,11 @@ module.exports = function(hljs) {
     illegal: /;/,
     contains: [
       hljs.NUMBER_MODE,
-      hljs.APOS_STRING_MODE,
+      {
+        className: 'string',
+        begin: '\'', end: '\'',
+        illegal: '\\n'
+      },
 
       /*
       A double quote can start either a string or a line comment. Strings are
@@ -35460,493 +40938,493 @@ module.exports = MetisMenu;
 });
 return ___scope___.entry = "dist/cjs/index.js";
 });
-FuseBox.pkg("nprogress", {}, function(___scope___){
-___scope___.file("nprogress.css", function(exports, require, module, __filename, __dirname){
+FuseBox.pkg("toastr", {}, function(___scope___){
+___scope___.file("build/toastr.css", function(exports, require, module, __filename, __dirname){
 
 
-require("fuse-box-css")("nprogress.css", "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 2px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n\n  -webkit-transform: rotate(3deg) translate(0px, -4px);\n      -ms-transform: rotate(3deg) translate(0px, -4px);\n          transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n")
+require("fuse-box-css")("build/toastr.css", ".toast-title {\n  font-weight: bold;\n}\n.toast-message {\n  -ms-word-wrap: break-word;\n  word-wrap: break-word;\n}\n.toast-message a,\n.toast-message label {\n  color: #FFFFFF;\n}\n.toast-message a:hover {\n  color: #CCCCCC;\n  text-decoration: none;\n}\n.toast-close-button {\n  position: relative;\n  right: -0.3em;\n  top: -0.3em;\n  float: right;\n  font-size: 20px;\n  font-weight: bold;\n  color: #FFFFFF;\n  -webkit-text-shadow: 0 1px 0 #ffffff;\n  text-shadow: 0 1px 0 #ffffff;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n  line-height: 1;\n}\n.toast-close-button:hover,\n.toast-close-button:focus {\n  color: #000000;\n  text-decoration: none;\n  cursor: pointer;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n.rtl .toast-close-button {\n  left: -0.3em;\n  float: left;\n  right: 0.3em;\n}\n/*Additional properties for button version\n iOS requires the button element instead of an anchor tag.\n If you want the anchor version, it requires `href=\"#\"`.*/\nbutton.toast-close-button {\n  padding: 0;\n  cursor: pointer;\n  background: transparent;\n  border: 0;\n  -webkit-appearance: none;\n}\n.toast-top-center {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-center {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-full-width {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-full-width {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-left {\n  top: 12px;\n  left: 12px;\n}\n.toast-top-right {\n  top: 12px;\n  right: 12px;\n}\n.toast-bottom-right {\n  right: 12px;\n  bottom: 12px;\n}\n.toast-bottom-left {\n  bottom: 12px;\n  left: 12px;\n}\n#toast-container {\n  position: fixed;\n  z-index: 999999;\n  pointer-events: none;\n  /*overrides*/\n}\n#toast-container * {\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n#toast-container > div {\n  position: relative;\n  pointer-events: auto;\n  overflow: hidden;\n  margin: 0 0 6px;\n  padding: 15px 15px 15px 50px;\n  width: 300px;\n  -moz-border-radius: 3px 3px 3px 3px;\n  -webkit-border-radius: 3px 3px 3px 3px;\n  border-radius: 3px 3px 3px 3px;\n  background-position: 15px center;\n  background-repeat: no-repeat;\n  -moz-box-shadow: 0 0 12px #999999;\n  -webkit-box-shadow: 0 0 12px #999999;\n  box-shadow: 0 0 12px #999999;\n  color: #FFFFFF;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n}\n#toast-container > div.rtl {\n  direction: rtl;\n  padding: 15px 50px 15px 15px;\n  background-position: right 15px center;\n}\n#toast-container > div:hover {\n  -moz-box-shadow: 0 0 12px #000000;\n  -webkit-box-shadow: 0 0 12px #000000;\n  box-shadow: 0 0 12px #000000;\n  opacity: 1;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);\n  filter: alpha(opacity=100);\n  cursor: pointer;\n}\n#toast-container > .toast-info {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-error {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHOSURBVEhLrZa/SgNBEMZzh0WKCClSCKaIYOED+AAKeQQLG8HWztLCImBrYadgIdY+gIKNYkBFSwu7CAoqCgkkoGBI/E28PdbLZmeDLgzZzcx83/zZ2SSXC1j9fr+I1Hq93g2yxH4iwM1vkoBWAdxCmpzTxfkN2RcyZNaHFIkSo10+8kgxkXIURV5HGxTmFuc75B2RfQkpxHG8aAgaAFa0tAHqYFfQ7Iwe2yhODk8+J4C7yAoRTWI3w/4klGRgR4lO7Rpn9+gvMyWp+uxFh8+H+ARlgN1nJuJuQAYvNkEnwGFck18Er4q3egEc/oO+mhLdKgRyhdNFiacC0rlOCbhNVz4H9FnAYgDBvU3QIioZlJFLJtsoHYRDfiZoUyIxqCtRpVlANq0EU4dApjrtgezPFad5S19Wgjkc0hNVnuF4HjVA6C7QrSIbylB+oZe3aHgBsqlNqKYH48jXyJKMuAbiyVJ8KzaB3eRc0pg9VwQ4niFryI68qiOi3AbjwdsfnAtk0bCjTLJKr6mrD9g8iq/S/B81hguOMlQTnVyG40wAcjnmgsCNESDrjme7wfftP4P7SP4N3CJZdvzoNyGq2c/HWOXJGsvVg+RA/k2MC/wN6I2YA2Pt8GkAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-success {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==\") !important;\n}\n#toast-container > .toast-warning {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=\") !important;\n}\n#toast-container.toast-top-center > div,\n#toast-container.toast-bottom-center > div {\n  width: 300px;\n  margin-left: auto;\n  margin-right: auto;\n}\n#toast-container.toast-top-full-width > div,\n#toast-container.toast-bottom-full-width > div {\n  width: 96%;\n  margin-left: auto;\n  margin-right: auto;\n}\n.toast {\n  background-color: #030303;\n}\n.toast-success {\n  background-color: #51A351;\n}\n.toast-error {\n  background-color: #BD362F;\n}\n.toast-info {\n  background-color: #2F96B4;\n}\n.toast-warning {\n  background-color: #F89406;\n}\n.toast-progress {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  height: 4px;\n  background-color: #000000;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n/*Responsive Design*/\n@media all and (max-width: 240px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 11em;\n  }\n  #toast-container > div.rtl {\n    padding: 8px 50px 8px 8px;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n  #toast-container .rtl .toast-close-button {\n    left: -0.2em;\n    right: 0.2em;\n  }\n}\n@media all and (min-width: 241px) and (max-width: 480px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 18em;\n  }\n  #toast-container > div.rtl {\n    padding: 8px 50px 8px 8px;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n  #toast-container .rtl .toast-close-button {\n    left: -0.2em;\n    right: 0.2em;\n  }\n}\n@media all and (min-width: 481px) and (max-width: 768px) {\n  #toast-container > div {\n    padding: 15px 15px 15px 50px;\n    width: 25em;\n  }\n  #toast-container > div.rtl {\n    padding: 15px 50px 15px 15px;\n  }\n}\n")
 });
-___scope___.file("nprogress.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("toastr.js", function(exports, require, module, __filename, __dirname){
 
-/* NProgress, (c) 2013, 2014 Rico Sta. Cruz - http://ricostacruz.com/nprogress
- * @license MIT */
+/*
+ * Toastr
+ * Copyright 2012-2015
+ * Authors: John Papa, Hans Fjällemark, and Tim Ferrell.
+ * All Rights Reserved.
+ * Use, reproduction, distribution, and modification of this code is subject to the terms and
+ * conditions of the MIT license, available at http://www.opensource.org/licenses/mit-license.php
+ *
+ * ARIA Support: Greta Krafsig
+ *
+ * Project: https://github.com/CodeSeven/toastr
+ */
+/* global define */
+(function (define) {
+    define(['jquery'], function ($) {
+        return (function () {
+            var $container;
+            var listener;
+            var toastId = 0;
+            var toastType = {
+                error: 'error',
+                info: 'info',
+                success: 'success',
+                warning: 'warning'
+            };
 
-;(function(root, factory) {
+            var toastr = {
+                clear: clear,
+                remove: remove,
+                error: error,
+                getContainer: getContainer,
+                info: info,
+                options: {},
+                subscribe: subscribe,
+                success: success,
+                version: '2.1.4',
+                warning: warning
+            };
 
-  if (typeof define === 'function' && define.amd) {
-    define(factory);
-  } else if (typeof exports === 'object') {
-    module.exports = factory();
-  } else {
-    root.NProgress = factory();
-  }
+            var previousToast;
 
-})(this, function() {
-  var NProgress = {};
+            return toastr;
 
-  NProgress.version = '0.2.0';
+            ////////////////
 
-  var Settings = NProgress.settings = {
-    minimum: 0.08,
-    easing: 'ease',
-    positionUsing: '',
-    speed: 200,
-    trickle: true,
-    trickleRate: 0.02,
-    trickleSpeed: 800,
-    showSpinner: true,
-    barSelector: '[role="bar"]',
-    spinnerSelector: '[role="spinner"]',
-    parent: 'body',
-    template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-  };
+            function error(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.error,
+                    iconClass: getOptions().iconClasses.error,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
 
-  /**
-   * Updates configuration.
-   *
-   *     NProgress.configure({
-   *       minimum: 0.1
-   *     });
-   */
-  NProgress.configure = function(options) {
-    var key, value;
-    for (key in options) {
-      value = options[key];
-      if (value !== undefined && options.hasOwnProperty(key)) Settings[key] = value;
-    }
+            function getContainer(options, create) {
+                if (!options) { options = getOptions(); }
+                $container = $('#' + options.containerId);
+                if ($container.length) {
+                    return $container;
+                }
+                if (create) {
+                    $container = createContainer(options);
+                }
+                return $container;
+            }
 
-    return this;
-  };
+            function info(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.info,
+                    iconClass: getOptions().iconClasses.info,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
 
-  /**
-   * Last number.
-   */
+            function subscribe(callback) {
+                listener = callback;
+            }
 
-  NProgress.status = null;
+            function success(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.success,
+                    iconClass: getOptions().iconClasses.success,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
 
-  /**
-   * Sets the progress bar status, where `n` is a number from `0.0` to `1.0`.
-   *
-   *     NProgress.set(0.4);
-   *     NProgress.set(1.0);
-   */
+            function warning(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.warning,
+                    iconClass: getOptions().iconClasses.warning,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
 
-  NProgress.set = function(n) {
-    var started = NProgress.isStarted();
+            function clear($toastElement, clearOptions) {
+                var options = getOptions();
+                if (!$container) { getContainer(options); }
+                if (!clearToast($toastElement, options, clearOptions)) {
+                    clearContainer(options);
+                }
+            }
 
-    n = clamp(n, Settings.minimum, 1);
-    NProgress.status = (n === 1 ? null : n);
+            function remove($toastElement) {
+                var options = getOptions();
+                if (!$container) { getContainer(options); }
+                if ($toastElement && $(':focus', $toastElement).length === 0) {
+                    removeToast($toastElement);
+                    return;
+                }
+                if ($container.children().length) {
+                    $container.remove();
+                }
+            }
 
-    var progress = NProgress.render(!started),
-        bar      = progress.querySelector(Settings.barSelector),
-        speed    = Settings.speed,
-        ease     = Settings.easing;
+            // internal functions
 
-    progress.offsetWidth; /* Repaint */
+            function clearContainer (options) {
+                var toastsToClear = $container.children();
+                for (var i = toastsToClear.length - 1; i >= 0; i--) {
+                    clearToast($(toastsToClear[i]), options);
+                }
+            }
 
-    queue(function(next) {
-      // Set positionUsing if it hasn't already been set
-      if (Settings.positionUsing === '') Settings.positionUsing = NProgress.getPositioningCSS();
+            function clearToast ($toastElement, options, clearOptions) {
+                var force = clearOptions && clearOptions.force ? clearOptions.force : false;
+                if ($toastElement && (force || $(':focus', $toastElement).length === 0)) {
+                    $toastElement[options.hideMethod]({
+                        duration: options.hideDuration,
+                        easing: options.hideEasing,
+                        complete: function () { removeToast($toastElement); }
+                    });
+                    return true;
+                }
+                return false;
+            }
 
-      // Add transition
-      css(bar, barPositionCSS(n, speed, ease));
+            function createContainer(options) {
+                $container = $('<div/>')
+                    .attr('id', options.containerId)
+                    .addClass(options.positionClass);
 
-      if (n === 1) {
-        // Fade out
-        css(progress, { 
-          transition: 'none', 
-          opacity: 1 
-        });
-        progress.offsetWidth; /* Repaint */
+                $container.appendTo($(options.target));
+                return $container;
+            }
 
-        setTimeout(function() {
-          css(progress, { 
-            transition: 'all ' + speed + 'ms linear', 
-            opacity: 0 
-          });
-          setTimeout(function() {
-            NProgress.remove();
-            next();
-          }, speed);
-        }, speed);
-      } else {
-        setTimeout(next, speed);
-      }
+            function getDefaults() {
+                return {
+                    tapToDismiss: true,
+                    toastClass: 'toast',
+                    containerId: 'toast-container',
+                    debug: false,
+
+                    showMethod: 'fadeIn', //fadeIn, slideDown, and show are built into jQuery
+                    showDuration: 300,
+                    showEasing: 'swing', //swing and linear are built into jQuery
+                    onShown: undefined,
+                    hideMethod: 'fadeOut',
+                    hideDuration: 1000,
+                    hideEasing: 'swing',
+                    onHidden: undefined,
+                    closeMethod: false,
+                    closeDuration: false,
+                    closeEasing: false,
+                    closeOnHover: true,
+
+                    extendedTimeOut: 1000,
+                    iconClasses: {
+                        error: 'toast-error',
+                        info: 'toast-info',
+                        success: 'toast-success',
+                        warning: 'toast-warning'
+                    },
+                    iconClass: 'toast-info',
+                    positionClass: 'toast-top-right',
+                    timeOut: 5000, // Set timeOut and extendedTimeOut to 0 to make it sticky
+                    titleClass: 'toast-title',
+                    messageClass: 'toast-message',
+                    escapeHtml: false,
+                    target: 'body',
+                    closeHtml: '<button type="button">&times;</button>',
+                    closeClass: 'toast-close-button',
+                    newestOnTop: true,
+                    preventDuplicates: false,
+                    progressBar: false,
+                    progressClass: 'toast-progress',
+                    rtl: false
+                };
+            }
+
+            function publish(args) {
+                if (!listener) { return; }
+                listener(args);
+            }
+
+            function notify(map) {
+                var options = getOptions();
+                var iconClass = map.iconClass || options.iconClass;
+
+                if (typeof (map.optionsOverride) !== 'undefined') {
+                    options = $.extend(options, map.optionsOverride);
+                    iconClass = map.optionsOverride.iconClass || iconClass;
+                }
+
+                if (shouldExit(options, map)) { return; }
+
+                toastId++;
+
+                $container = getContainer(options, true);
+
+                var intervalId = null;
+                var $toastElement = $('<div/>');
+                var $titleElement = $('<div/>');
+                var $messageElement = $('<div/>');
+                var $progressElement = $('<div/>');
+                var $closeElement = $(options.closeHtml);
+                var progressBar = {
+                    intervalId: null,
+                    hideEta: null,
+                    maxHideTime: null
+                };
+                var response = {
+                    toastId: toastId,
+                    state: 'visible',
+                    startTime: new Date(),
+                    options: options,
+                    map: map
+                };
+
+                personalizeToast();
+
+                displayToast();
+
+                handleEvents();
+
+                publish(response);
+
+                if (options.debug && console) {
+                    console.log(response);
+                }
+
+                return $toastElement;
+
+                function escapeHtml(source) {
+                    if (source == null) {
+                        source = '';
+                    }
+
+                    return source
+                        .replace(/&/g, '&amp;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                }
+
+                function personalizeToast() {
+                    setIcon();
+                    setTitle();
+                    setMessage();
+                    setCloseButton();
+                    setProgressBar();
+                    setRTL();
+                    setSequence();
+                    setAria();
+                }
+
+                function setAria() {
+                    var ariaValue = '';
+                    switch (map.iconClass) {
+                        case 'toast-success':
+                        case 'toast-info':
+                            ariaValue =  'polite';
+                            break;
+                        default:
+                            ariaValue = 'assertive';
+                    }
+                    $toastElement.attr('aria-live', ariaValue);
+                }
+
+                function handleEvents() {
+                    if (options.closeOnHover) {
+                        $toastElement.hover(stickAround, delayedHideToast);
+                    }
+
+                    if (!options.onclick && options.tapToDismiss) {
+                        $toastElement.click(hideToast);
+                    }
+
+                    if (options.closeButton && $closeElement) {
+                        $closeElement.click(function (event) {
+                            if (event.stopPropagation) {
+                                event.stopPropagation();
+                            } else if (event.cancelBubble !== undefined && event.cancelBubble !== true) {
+                                event.cancelBubble = true;
+                            }
+
+                            if (options.onCloseClick) {
+                                options.onCloseClick(event);
+                            }
+
+                            hideToast(true);
+                        });
+                    }
+
+                    if (options.onclick) {
+                        $toastElement.click(function (event) {
+                            options.onclick(event);
+                            hideToast();
+                        });
+                    }
+                }
+
+                function displayToast() {
+                    $toastElement.hide();
+
+                    $toastElement[options.showMethod](
+                        {duration: options.showDuration, easing: options.showEasing, complete: options.onShown}
+                    );
+
+                    if (options.timeOut > 0) {
+                        intervalId = setTimeout(hideToast, options.timeOut);
+                        progressBar.maxHideTime = parseFloat(options.timeOut);
+                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
+                        if (options.progressBar) {
+                            progressBar.intervalId = setInterval(updateProgress, 10);
+                        }
+                    }
+                }
+
+                function setIcon() {
+                    if (map.iconClass) {
+                        $toastElement.addClass(options.toastClass).addClass(iconClass);
+                    }
+                }
+
+                function setSequence() {
+                    if (options.newestOnTop) {
+                        $container.prepend($toastElement);
+                    } else {
+                        $container.append($toastElement);
+                    }
+                }
+
+                function setTitle() {
+                    if (map.title) {
+                        var suffix = map.title;
+                        if (options.escapeHtml) {
+                            suffix = escapeHtml(map.title);
+                        }
+                        $titleElement.append(suffix).addClass(options.titleClass);
+                        $toastElement.append($titleElement);
+                    }
+                }
+
+                function setMessage() {
+                    if (map.message) {
+                        var suffix = map.message;
+                        if (options.escapeHtml) {
+                            suffix = escapeHtml(map.message);
+                        }
+                        $messageElement.append(suffix).addClass(options.messageClass);
+                        $toastElement.append($messageElement);
+                    }
+                }
+
+                function setCloseButton() {
+                    if (options.closeButton) {
+                        $closeElement.addClass(options.closeClass).attr('role', 'button');
+                        $toastElement.prepend($closeElement);
+                    }
+                }
+
+                function setProgressBar() {
+                    if (options.progressBar) {
+                        $progressElement.addClass(options.progressClass);
+                        $toastElement.prepend($progressElement);
+                    }
+                }
+
+                function setRTL() {
+                    if (options.rtl) {
+                        $toastElement.addClass('rtl');
+                    }
+                }
+
+                function shouldExit(options, map) {
+                    if (options.preventDuplicates) {
+                        if (map.message === previousToast) {
+                            return true;
+                        } else {
+                            previousToast = map.message;
+                        }
+                    }
+                    return false;
+                }
+
+                function hideToast(override) {
+                    var method = override && options.closeMethod !== false ? options.closeMethod : options.hideMethod;
+                    var duration = override && options.closeDuration !== false ?
+                        options.closeDuration : options.hideDuration;
+                    var easing = override && options.closeEasing !== false ? options.closeEasing : options.hideEasing;
+                    if ($(':focus', $toastElement).length && !override) {
+                        return;
+                    }
+                    clearTimeout(progressBar.intervalId);
+                    return $toastElement[method]({
+                        duration: duration,
+                        easing: easing,
+                        complete: function () {
+                            removeToast($toastElement);
+                            clearTimeout(intervalId);
+                            if (options.onHidden && response.state !== 'hidden') {
+                                options.onHidden();
+                            }
+                            response.state = 'hidden';
+                            response.endTime = new Date();
+                            publish(response);
+                        }
+                    });
+                }
+
+                function delayedHideToast() {
+                    if (options.timeOut > 0 || options.extendedTimeOut > 0) {
+                        intervalId = setTimeout(hideToast, options.extendedTimeOut);
+                        progressBar.maxHideTime = parseFloat(options.extendedTimeOut);
+                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
+                    }
+                }
+
+                function stickAround() {
+                    clearTimeout(intervalId);
+                    progressBar.hideEta = 0;
+                    $toastElement.stop(true, true)[options.showMethod](
+                        {duration: options.showDuration, easing: options.showEasing}
+                    );
+                }
+
+                function updateProgress() {
+                    var percentage = ((progressBar.hideEta - (new Date().getTime())) / progressBar.maxHideTime) * 100;
+                    $progressElement.width(percentage + '%');
+                }
+            }
+
+            function getOptions() {
+                return $.extend({}, getDefaults(), toastr.options);
+            }
+
+            function removeToast($toastElement) {
+                if (!$container) { $container = getContainer(); }
+                if ($toastElement.is(':visible')) {
+                    return;
+                }
+                $toastElement.remove();
+                $toastElement = null;
+                if ($container.children().length === 0) {
+                    $container.remove();
+                    previousToast = undefined;
+                }
+            }
+
+        })();
     });
-
-    return this;
-  };
-
-  NProgress.isStarted = function() {
-    return typeof NProgress.status === 'number';
-  };
-
-  /**
-   * Shows the progress bar.
-   * This is the same as setting the status to 0%, except that it doesn't go backwards.
-   *
-   *     NProgress.start();
-   *
-   */
-  NProgress.start = function() {
-    if (!NProgress.status) NProgress.set(0);
-
-    var work = function() {
-      setTimeout(function() {
-        if (!NProgress.status) return;
-        NProgress.trickle();
-        work();
-      }, Settings.trickleSpeed);
-    };
-
-    if (Settings.trickle) work();
-
-    return this;
-  };
-
-  /**
-   * Hides the progress bar.
-   * This is the *sort of* the same as setting the status to 100%, with the
-   * difference being `done()` makes some placebo effect of some realistic motion.
-   *
-   *     NProgress.done();
-   *
-   * If `true` is passed, it will show the progress bar even if its hidden.
-   *
-   *     NProgress.done(true);
-   */
-
-  NProgress.done = function(force) {
-    if (!force && !NProgress.status) return this;
-
-    return NProgress.inc(0.3 + 0.5 * Math.random()).set(1);
-  };
-
-  /**
-   * Increments by a random amount.
-   */
-
-  NProgress.inc = function(amount) {
-    var n = NProgress.status;
-
-    if (!n) {
-      return NProgress.start();
+}(typeof define === 'function' && define.amd ? define : function (deps, factory) {
+    if (typeof module !== 'undefined' && module.exports) { //Node
+        module.exports = factory(require('jquery'));
     } else {
-      if (typeof amount !== 'number') {
-        amount = (1 - n) * clamp(Math.random() * n, 0.1, 0.95);
-      }
-
-      n = clamp(n + amount, 0, 0.994);
-      return NProgress.set(n);
+        window.toastr = factory(window.jQuery);
     }
-  };
-
-  NProgress.trickle = function() {
-    return NProgress.inc(Math.random() * Settings.trickleRate);
-  };
-
-  /**
-   * Waits for all supplied jQuery promises and
-   * increases the progress as the promises resolve.
-   *
-   * @param $promise jQUery Promise
-   */
-  (function() {
-    var initial = 0, current = 0;
-
-    NProgress.promise = function($promise) {
-      if (!$promise || $promise.state() === "resolved") {
-        return this;
-      }
-
-      if (current === 0) {
-        NProgress.start();
-      }
-
-      initial++;
-      current++;
-
-      $promise.always(function() {
-        current--;
-        if (current === 0) {
-            initial = 0;
-            NProgress.done();
-        } else {
-            NProgress.set((initial - current) / initial);
-        }
-      });
-
-      return this;
-    };
-
-  })();
-
-  /**
-   * (Internal) renders the progress bar markup based on the `template`
-   * setting.
-   */
-
-  NProgress.render = function(fromStart) {
-    if (NProgress.isRendered()) return document.getElementById('nprogress');
-
-    addClass(document.documentElement, 'nprogress-busy');
-    
-    var progress = document.createElement('div');
-    progress.id = 'nprogress';
-    progress.innerHTML = Settings.template;
-
-    var bar      = progress.querySelector(Settings.barSelector),
-        perc     = fromStart ? '-100' : toBarPerc(NProgress.status || 0),
-        parent   = document.querySelector(Settings.parent),
-        spinner;
-    
-    css(bar, {
-      transition: 'all 0 linear',
-      transform: 'translate3d(' + perc + '%,0,0)'
-    });
-
-    if (!Settings.showSpinner) {
-      spinner = progress.querySelector(Settings.spinnerSelector);
-      spinner && removeElement(spinner);
-    }
-
-    if (parent != document.body) {
-      addClass(parent, 'nprogress-custom-parent');
-    }
-
-    parent.appendChild(progress);
-    return progress;
-  };
-
-  /**
-   * Removes the element. Opposite of render().
-   */
-
-  NProgress.remove = function() {
-    removeClass(document.documentElement, 'nprogress-busy');
-    removeClass(document.querySelector(Settings.parent), 'nprogress-custom-parent');
-    var progress = document.getElementById('nprogress');
-    progress && removeElement(progress);
-  };
-
-  /**
-   * Checks if the progress bar is rendered.
-   */
-
-  NProgress.isRendered = function() {
-    return !!document.getElementById('nprogress');
-  };
-
-  /**
-   * Determine which positioning CSS rule to use.
-   */
-
-  NProgress.getPositioningCSS = function() {
-    // Sniff on document.body.style
-    var bodyStyle = document.body.style;
-
-    // Sniff prefixes
-    var vendorPrefix = ('WebkitTransform' in bodyStyle) ? 'Webkit' :
-                       ('MozTransform' in bodyStyle) ? 'Moz' :
-                       ('msTransform' in bodyStyle) ? 'ms' :
-                       ('OTransform' in bodyStyle) ? 'O' : '';
-
-    if (vendorPrefix + 'Perspective' in bodyStyle) {
-      // Modern browsers with 3D support, e.g. Webkit, IE10
-      return 'translate3d';
-    } else if (vendorPrefix + 'Transform' in bodyStyle) {
-      // Browsers without 3D support, e.g. IE9
-      return 'translate';
-    } else {
-      // Browsers without translate() support, e.g. IE7-8
-      return 'margin';
-    }
-  };
-
-  /**
-   * Helpers
-   */
-
-  function clamp(n, min, max) {
-    if (n < min) return min;
-    if (n > max) return max;
-    return n;
-  }
-
-  /**
-   * (Internal) converts a percentage (`0..1`) to a bar translateX
-   * percentage (`-100%..0%`).
-   */
-
-  function toBarPerc(n) {
-    return (-1 + n) * 100;
-  }
-
-
-  /**
-   * (Internal) returns the correct CSS for changing the bar's
-   * position given an n percentage, and speed and ease from Settings
-   */
-
-  function barPositionCSS(n, speed, ease) {
-    var barCSS;
-
-    if (Settings.positionUsing === 'translate3d') {
-      barCSS = { transform: 'translate3d('+toBarPerc(n)+'%,0,0)' };
-    } else if (Settings.positionUsing === 'translate') {
-      barCSS = { transform: 'translate('+toBarPerc(n)+'%,0)' };
-    } else {
-      barCSS = { 'margin-left': toBarPerc(n)+'%' };
-    }
-
-    barCSS.transition = 'all '+speed+'ms '+ease;
-
-    return barCSS;
-  }
-
-  /**
-   * (Internal) Queues a function to be executed.
-   */
-
-  var queue = (function() {
-    var pending = [];
-    
-    function next() {
-      var fn = pending.shift();
-      if (fn) {
-        fn(next);
-      }
-    }
-
-    return function(fn) {
-      pending.push(fn);
-      if (pending.length == 1) next();
-    };
-  })();
-
-  /**
-   * (Internal) Applies css properties to an element, similar to the jQuery 
-   * css method.
-   *
-   * While this helper does assist with vendor prefixed property names, it 
-   * does not perform any manipulation of values prior to setting styles.
-   */
-
-  var css = (function() {
-    var cssPrefixes = [ 'Webkit', 'O', 'Moz', 'ms' ],
-        cssProps    = {};
-
-    function camelCase(string) {
-      return string.replace(/^-ms-/, 'ms-').replace(/-([\da-z])/gi, function(match, letter) {
-        return letter.toUpperCase();
-      });
-    }
-
-    function getVendorProp(name) {
-      var style = document.body.style;
-      if (name in style) return name;
-
-      var i = cssPrefixes.length,
-          capName = name.charAt(0).toUpperCase() + name.slice(1),
-          vendorName;
-      while (i--) {
-        vendorName = cssPrefixes[i] + capName;
-        if (vendorName in style) return vendorName;
-      }
-
-      return name;
-    }
-
-    function getStyleProp(name) {
-      name = camelCase(name);
-      return cssProps[name] || (cssProps[name] = getVendorProp(name));
-    }
-
-    function applyCss(element, prop, value) {
-      prop = getStyleProp(prop);
-      element.style[prop] = value;
-    }
-
-    return function(element, properties) {
-      var args = arguments,
-          prop, 
-          value;
-
-      if (args.length == 2) {
-        for (prop in properties) {
-          value = properties[prop];
-          if (value !== undefined && properties.hasOwnProperty(prop)) applyCss(element, prop, value);
-        }
-      } else {
-        applyCss(element, args[1], args[2]);
-      }
-    }
-  })();
-
-  /**
-   * (Internal) Determines if an element or space separated list of class names contains a class name.
-   */
-
-  function hasClass(element, name) {
-    var list = typeof element == 'string' ? element : classList(element);
-    return list.indexOf(' ' + name + ' ') >= 0;
-  }
-
-  /**
-   * (Internal) Adds a class to an element.
-   */
-
-  function addClass(element, name) {
-    var oldList = classList(element),
-        newList = oldList + name;
-
-    if (hasClass(oldList, name)) return; 
-
-    // Trim the opening space.
-    element.className = newList.substring(1);
-  }
-
-  /**
-   * (Internal) Removes a class from an element.
-   */
-
-  function removeClass(element, name) {
-    var oldList = classList(element),
-        newList;
-
-    if (!hasClass(element, name)) return;
-
-    // Replace the class name.
-    newList = oldList.replace(' ' + name + ' ', ' ');
-
-    // Trim the opening and closing spaces.
-    element.className = newList.substring(1, newList.length - 1);
-  }
-
-  /**
-   * (Internal) Gets a space separated list of the class names on the element. 
-   * The list is wrapped with a single space on each end to facilitate finding 
-   * matches within the list.
-   */
-
-  function classList(element) {
-    return (' ' + (element.className || '') + ' ').replace(/\s+/gi, ' ');
-  }
-
-  /**
-   * (Internal) Removes an element from the DOM.
-   */
-
-  function removeElement(element) {
-    element && element.parentNode && element.parentNode.removeChild(element);
-  }
-
-  return NProgress;
-});
-
+}));
 
 });
-return ___scope___.entry = "nprogress.js";
+return ___scope___.entry = "toastr.js";
 });
 FuseBox.pkg("font-awesome", {}, function(___scope___){
 ___scope___.file("css/font-awesome.css", function(exports, require, module, __filename, __dirname){
@@ -44575,6 +50053,37 @@ var someProp = function someProp(data, props) {
 
 /***/ })
 /******/ ]);
+});
+___scope___.file("jquery.float-label/jquery.float-label.js", function(exports, require, module, __filename, __dirname){
+
+$(document).ready(function(e) {
+    if ($('.at-float-label input').length) {
+        var at_float_on_class = "on";
+        var at_float_show_class = "show";
+        $('.float-input').on('at-check-value', function() {
+                var _at_label = $(this).closest('.at-float-label').find('.float-label');
+                if (this.value !== '') {
+                    _at_label.addClass(at_float_show_class);
+                } else {
+                    _at_label.removeClass(at_float_show_class);
+                }
+            })
+            .on("keyup", function() {
+                $(this).trigger("at-check-value");
+            })
+            .on("focus", function() {
+                $(this).closest(".at-float-label").find('.float-label').addClass(at_float_on_class);
+            })
+            .on("blur", function() {
+                $(this).closest(".at-float-label").find('.float-label').removeClass(at_float_on_class);
+            }).trigger("at-check-value");
+    }
+});
+});
+___scope___.file("jquery.float-label/jquery.float-label.css", function(exports, require, module, __filename, __dirname){
+
+
+require("fuse-box-css")("jquery.float-label/jquery.float-label.css", ".at-float-label {\r\n      position: relative;\r\n      padding-top: 18px;\r\n  }\r\n  .at-float-label-rtl {\r\n      right: 0;\r\n  }\r\n  .at-float-label-ltr {\r\n      left: 0;\r\n  }\r\n  .at-float-label>.float-input {}\r\n  .at-float-label>.float-input:focus {}\r\n  .at-float-label>.float-label {\r\n      position: absolute;\r\n      top: 3px;\r\n      -webkit-transition: top .3s ease-in-out, opacity .3s ease-in-out;\r\n      transition: top .3s ease-in-out, opacity .3s ease-in-out;\r\n      opacity: 0;\r\n      font-size: 13px;\r\n  }\r\n  .at-float-label>.float-label.show {\r\n      /* color: black;*/\r\n      top: -3px;\r\n      opacity: 1;\r\n  }\r\n  .at-float-label>.float-label.on {}")
 });
 return ___scope___.entry = "index.js";
 });
@@ -56031,7 +61540,7 @@ var ParserImplementation = exports.ParserImplementation = function () {
 
         buffer.push(fromCharCode(_unescaped));
         marker = this.idx;
-      } else if (this.ch === 0) {
+      } else if (this.ch === 0 || this.idx >= this.len) {
         this.err('Unterminated quote');
       } else {
         this.next();
@@ -59298,9 +64807,9 @@ var _aureliaLoader = require('aurelia-loader');
 
 var _aureliaPath = require('aurelia-path');
 
-var _aureliaDependencyInjection = require('aurelia-dependency-injection');
-
 var _aureliaBinding = require('aurelia-binding');
+
+var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
 var _aureliaTaskQueue = require('aurelia-task-queue');
 
@@ -59644,6 +65153,10 @@ var ViewCompileInstruction = exports.ViewCompileInstruction = function ViewCompi
 ViewCompileInstruction.normal = new ViewCompileInstruction();
 
 var BehaviorInstruction = exports.BehaviorInstruction = function () {
+  function BehaviorInstruction() {
+    
+  }
+
   BehaviorInstruction.enhance = function enhance() {
     var instruction = new BehaviorInstruction();
     instruction.enhance = true;
@@ -59683,31 +65196,32 @@ var BehaviorInstruction = exports.BehaviorInstruction = function () {
     return instruction;
   };
 
-  function BehaviorInstruction() {
-    
-
-    this.initiatedByBehavior = false;
-    this.enhance = false;
-    this.partReplacements = null;
-    this.viewFactory = null;
-    this.originalAttrName = null;
-    this.skipContentProcessing = false;
-    this.contentFactory = null;
-    this.viewModel = null;
-    this.anchorIsContainer = false;
-    this.host = null;
-    this.attributes = null;
-    this.type = null;
-    this.attrName = null;
-    this.inheritBindingContext = false;
-  }
-
   return BehaviorInstruction;
 }();
+
+var biProto = BehaviorInstruction.prototype;
+biProto.initiatedByBehavior = false;
+biProto.enhance = false;
+biProto.partReplacements = null;
+biProto.viewFactory = null;
+biProto.originalAttrName = null;
+biProto.skipContentProcessing = false;
+biProto.contentFactory = null;
+biProto.viewModel = null;
+biProto.anchorIsContainer = false;
+biProto.host = null;
+biProto.attributes = null;
+biProto.type = null;
+biProto.attrName = null;
+biProto.inheritBindingContext = false;
 
 BehaviorInstruction.normal = new BehaviorInstruction();
 
 var TargetInstruction = exports.TargetInstruction = (_temp = _class = function () {
+  function TargetInstruction() {
+    
+  }
+
   TargetInstruction.shadowSlot = function shadowSlot(parentInjectorId) {
     var instruction = new TargetInstruction();
     instruction.parentInjectorId = parentInjectorId;
@@ -59718,6 +65232,13 @@ var TargetInstruction = exports.TargetInstruction = (_temp = _class = function (
   TargetInstruction.contentExpression = function contentExpression(expression) {
     var instruction = new TargetInstruction();
     instruction.contentExpression = expression;
+    return instruction;
+  };
+
+  TargetInstruction.letElement = function letElement(expressions) {
+    var instruction = new TargetInstruction();
+    instruction.expressions = expressions;
+    instruction.letElement = true;
     return instruction;
   };
 
@@ -59753,33 +65274,34 @@ var TargetInstruction = exports.TargetInstruction = (_temp = _class = function (
     return instruction;
   };
 
-  function TargetInstruction() {
-    
-
-    this.injectorId = null;
-    this.parentInjectorId = null;
-
-    this.shadowSlot = false;
-    this.slotName = null;
-    this.slotFallbackFactory = null;
-
-    this.contentExpression = null;
-
-    this.expressions = null;
-    this.behaviorInstructions = null;
-    this.providers = null;
-
-    this.viewFactory = null;
-
-    this.anchorIsContainer = false;
-    this.elementInstruction = null;
-    this.lifting = false;
-
-    this.values = null;
-  }
-
   return TargetInstruction;
 }(), _class.noExpressions = Object.freeze([]), _temp);
+
+
+var tiProto = TargetInstruction.prototype;
+
+tiProto.injectorId = null;
+tiProto.parentInjectorId = null;
+
+tiProto.shadowSlot = false;
+tiProto.slotName = null;
+tiProto.slotFallbackFactory = null;
+
+tiProto.contentExpression = null;
+tiProto.letElement = false;
+
+tiProto.expressions = null;
+tiProto.expressions = null;
+tiProto.providers = null;
+
+tiProto.viewFactory = null;
+
+tiProto.anchorIsContainer = false;
+tiProto.elementInstruction = null;
+tiProto.lifting = false;
+
+tiProto.values = null;
+
 var viewStrategy = exports.viewStrategy = _aureliaMetadata.protocol.create('aurelia:view-strategy', {
   validate: function validate(target) {
     if (!(typeof target.loadViewFactory === 'function')) {
@@ -59938,7 +65460,7 @@ var StaticViewStrategy = exports.StaticViewStrategy = (_dec6 = viewStrategy(), _
   function StaticViewStrategy(config) {
     
 
-    if (typeof config === 'string' || config instanceof HTMLTemplateElement) {
+    if (typeof config === 'string' || config instanceof _aureliaPal.DOM.Element && config.tagName === 'TEMPLATE') {
       config = {
         template: config
       };
@@ -59947,6 +65469,7 @@ var StaticViewStrategy = exports.StaticViewStrategy = (_dec6 = viewStrategy(), _
     this.dependencies = config.dependencies || [];
     this.factoryIsReady = false;
     this.onReady = null;
+    this.moduleId = 'undefined';
   }
 
   StaticViewStrategy.prototype.loadViewFactory = function loadViewFactory(viewEngine, compileInstruction, loadContext, target) {
@@ -59989,25 +65512,28 @@ var StaticViewStrategy = exports.StaticViewStrategy = (_dec6 = viewStrategy(), _
 
         if (typeof dep === 'function') {
           resource = viewResources.autoRegister(container, dep);
+          if (resource.elementName !== null) {
+            elDeps.push(resource);
+          }
         } else if (dep && (typeof dep === 'undefined' ? 'undefined' : _typeof(dep)) === 'object') {
           for (var _key2 in dep) {
             var exported = dep[_key2];
             if (typeof exported === 'function') {
               resource = viewResources.autoRegister(container, exported);
+              if (resource.elementName !== null) {
+                elDeps.push(resource);
+              }
             }
           }
         } else {
           throw new Error('dependency neither function nor object. Received: "' + (typeof dep === 'undefined' ? 'undefined' : _typeof(dep)) + '"');
-        }
-        if (resource.elementName !== null) {
-          elDeps.push(resource);
         }
       }
 
       return Promise.all(elDeps.map(function (el) {
         return el.load(container, el.target);
       })).then(function () {
-        var factory = viewCompiler.compile(_this2.template, viewResources, compileInstruction);
+        var factory = _this2.template !== null ? viewCompiler.compile(_this2.template, viewResources, compileInstruction) : null;
         _this2.factoryIsReady = true;
         _this2.factory = factory;
         return factory;
@@ -60115,6 +65641,10 @@ var BindingLanguage = exports.BindingLanguage = function () {
 
   BindingLanguage.prototype.createAttributeInstruction = function createAttributeInstruction(resources, element, info, existingInstruction) {
     mi('createAttributeInstruction');
+  };
+
+  BindingLanguage.prototype.createLetExpressions = function createLetExpressions(resources, element) {
+    mi('createLetExpressions');
   };
 
   BindingLanguage.prototype.inspectTextContent = function inspectTextContent(resources, value) {
@@ -61508,13 +67038,11 @@ var ViewSlot = exports.ViewSlot = function () {
     var children = this.children;
     var ii = children.length;
 
-    if (this.isAttached) {
-      for (var i = 0; i < ii; ++i) {
-        if (returnToCache) {
-          children[i].returnToCache();
-        } else {
-          children[i].detached();
-        }
+    for (var i = 0; i < ii; ++i) {
+      if (returnToCache) {
+        children[i].returnToCache();
+      } else if (this.isAttached) {
+        children[i].detached();
       }
     }
 
@@ -61676,6 +67204,14 @@ function applyInstructions(containers, element, instruction, controllers, bindin
     _aureliaPal.DOM.replaceNode(commentAnchor, element);
     shadowSlots[instruction.slotName] = slot;
     controllers.push(slot);
+    return;
+  }
+
+  if (instruction.letElement) {
+    for (i = 0, ii = expressions.length; i < ii; ++i) {
+      bindings.push(expressions[i].createBinding());
+    }
+    element.parentNode.removeChild(element);
     return;
   }
 
@@ -61972,6 +67508,8 @@ function makeShadowSlot(compiler, resources, node, instructions, parentInjectorI
   return auShadowSlot;
 }
 
+var defaultLetHandler = BindingLanguage.prototype.createLetExpressions;
+
 var ViewCompiler = exports.ViewCompiler = (_dec7 = (0, _aureliaDependencyInjection.inject)(BindingLanguage, ViewResources), _dec7(_class13 = function () {
   function ViewCompiler(bindingLanguage, resources) {
     
@@ -62214,6 +67752,13 @@ var ViewCompiler = exports.ViewCompiler = (_dec7 = (0, _aureliaDependencyInjecti
       viewFactory.part = node.getAttribute('part');
     } else {
       type = resources.getElement(node.getAttribute('as-element') || tagName);
+
+      if (tagName === 'let' && !type && bindingLanguage.createLetExpressions !== defaultLetHandler) {
+        expressions = bindingLanguage.createLetExpressions(resources, node);
+        auTargetID = makeIntoInstructionTarget(node);
+        instructions[auTargetID] = TargetInstruction.letElement(expressions);
+        return node.nextSibling;
+      }
       if (type) {
         elementInstruction = BehaviorInstruction.element(node, type);
         type.processAttributes(this, resources, node, attributes, elementInstruction);
@@ -63915,11 +69460,11 @@ var ChildObserverBinder = function () {
       } else {
         while (current) {
           if (this.matches(current)) {
-            var value = current.au && current.au.controller ? current.au.controller.viewModel : current;
-            this.viewModel[this.property] = value;
+            var _value = current.au && current.au.controller ? current.au.controller.viewModel : current;
+            this.viewModel[this.property] = _value;
 
             if (this.changeHandler !== null) {
-              this.viewModel[this.changeHandler](value);
+              this.viewModel[this.changeHandler](_value);
             }
 
             break;
@@ -63933,11 +69478,11 @@ var ChildObserverBinder = function () {
 
   ChildObserverBinder.prototype.onRemove = function onRemove(element) {
     if (this.matches(element)) {
-      var value = element.au && element.au.controller ? element.au.controller.viewModel : element;
+      var _value2 = element.au && element.au.controller ? element.au.controller.viewModel : element;
 
       if (this.all) {
         var items = this.viewModel[this.property] || (this.viewModel[this.property] = []);
-        var index = items.indexOf(value);
+        var index = items.indexOf(_value2);
 
         if (index !== -1) {
           items.splice(index, 1);
@@ -63954,13 +69499,13 @@ var ChildObserverBinder = function () {
 
   ChildObserverBinder.prototype.onAdd = function onAdd(element) {
     if (this.matches(element)) {
-      var value = element.au && element.au.controller ? element.au.controller.viewModel : element;
+      var _value3 = element.au && element.au.controller ? element.au.controller.viewModel : element;
 
       if (this.all) {
         var items = this.viewModel[this.property] || (this.viewModel[this.property] = []);
 
         if (this.selector === '*') {
-          items.push(value);
+          items.push(_value3);
           return true;
         }
 
@@ -63975,14 +69520,14 @@ var ChildObserverBinder = function () {
           prev = prev.previousElementSibling;
         }
 
-        items.splice(index, 0, value);
+        items.splice(index, 0, _value3);
         return true;
       }
 
-      this.viewModel[this.property] = value;
+      this.viewModel[this.property] = _value3;
 
       if (this.changeHandler !== null) {
-        this.viewModel[this.changeHandler](value);
+        this.viewModel[this.changeHandler](_value3);
       }
     }
 
@@ -64429,7 +69974,7 @@ var TemplatingEngine = exports.TemplatingEngine = (_dec11 = (0, _aureliaDependen
       instruction = { element: instruction };
     }
 
-    var compilerInstructions = {};
+    var compilerInstructions = { letExpressions: [] };
     var resources = instruction.resources || this._container.get(ViewResources);
 
     this._viewCompiler._compileNode(instruction.element, resources, compilerInstructions, instruction.element.parentNode, 'root', true);
@@ -65665,6 +71210,477 @@ function initialize() {
 });
 return ___scope___.entry = "dist/commonjs/aurelia-pal-browser.js";
 });
+FuseBox.pkg("aurelia-animator-css", {}, function(___scope___){
+___scope___.file("dist/commonjs/aurelia-animator-css.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CssAnimator = undefined;
+exports.configure = configure;
+
+var _aureliaTemplating = require('aurelia-templating');
+
+var _aureliaPal = require('aurelia-pal');
+
+
+
+var CssAnimator = exports.CssAnimator = function () {
+  function CssAnimator() {
+    
+
+    this.useAnimationDoneClasses = false;
+    this.animationEnteredClass = 'au-entered';
+    this.animationLeftClass = 'au-left';
+    this.isAnimating = false;
+
+    this.verifyKeyframesExist = true;
+  }
+
+  CssAnimator.prototype._addMultipleEventListener = function _addMultipleEventListener(el, s, fn) {
+    var evts = s.split(' ');
+    for (var i = 0, ii = evts.length; i < ii; ++i) {
+      el.addEventListener(evts[i], fn, false);
+    }
+  };
+
+  CssAnimator.prototype._removeMultipleEventListener = function _removeMultipleEventListener(el, s, fn) {
+    var evts = s.split(' ');
+    for (var i = 0, ii = evts.length; i < ii; ++i) {
+      el.removeEventListener(evts[i], fn, false);
+    }
+  };
+
+  CssAnimator.prototype._getElementAnimationDelay = function _getElementAnimationDelay(element) {
+    var styl = _aureliaPal.DOM.getComputedStyle(element);
+    var prop = void 0;
+    var delay = void 0;
+
+    if (styl.getPropertyValue('animation-delay')) {
+      prop = 'animation-delay';
+    } else if (styl.getPropertyValue('-webkit-animation-delay')) {
+      prop = '-webkit-animation-delay';
+    } else if (styl.getPropertyValue('-moz-animation-delay')) {
+      prop = '-moz-animation-delay';
+    } else {
+      return 0;
+    }
+
+    delay = styl.getPropertyValue(prop);
+    delay = Number(delay.replace(/[^\d\.]/g, ''));
+
+    return delay * 1000;
+  };
+
+  CssAnimator.prototype._getElementAnimationNames = function _getElementAnimationNames(element) {
+    var styl = _aureliaPal.DOM.getComputedStyle(element);
+    var prefix = void 0;
+
+    if (styl.getPropertyValue('animation-name')) {
+      prefix = '';
+    } else if (styl.getPropertyValue('-webkit-animation-name')) {
+      prefix = '-webkit-';
+    } else if (styl.getPropertyValue('-moz-animation-name')) {
+      prefix = '-moz-';
+    } else {
+      return [];
+    }
+
+    var animationNames = styl.getPropertyValue(prefix + 'animation-name');
+    return animationNames ? animationNames.split(' ') : [];
+  };
+
+  CssAnimator.prototype._performSingleAnimate = function _performSingleAnimate(element, className) {
+    var _this = this;
+
+    this._triggerDOMEvent(_aureliaTemplating.animationEvent.animateBegin, element);
+
+    return this.addClass(element, className, true).then(function (result) {
+      _this._triggerDOMEvent(_aureliaTemplating.animationEvent.animateActive, element);
+
+      if (result !== false) {
+        return _this.removeClass(element, className, true).then(function () {
+          _this._triggerDOMEvent(_aureliaTemplating.animationEvent.animateDone, element);
+        });
+      }
+
+      return false;
+    }).catch(function () {
+      _this._triggerDOMEvent(_aureliaTemplating.animationEvent.animateTimeout, element);
+    });
+  };
+
+  CssAnimator.prototype._triggerDOMEvent = function _triggerDOMEvent(eventType, element) {
+    var evt = _aureliaPal.DOM.createCustomEvent(eventType, { bubbles: true, cancelable: true, detail: element });
+    _aureliaPal.DOM.dispatchEvent(evt);
+  };
+
+  CssAnimator.prototype._animationChangeWithValidKeyframe = function _animationChangeWithValidKeyframe(animationNames, prevAnimationNames) {
+    var newAnimationNames = animationNames.filter(function (name) {
+      return prevAnimationNames.indexOf(name) === -1;
+    });
+
+    if (newAnimationNames.length === 0) {
+      return false;
+    }
+
+    if (!this.verifyKeyframesExist) {
+      return true;
+    }
+
+    var keyframesRuleType = window.CSSRule.KEYFRAMES_RULE || window.CSSRule.MOZ_KEYFRAMES_RULE || window.CSSRule.WEBKIT_KEYFRAMES_RULE;
+
+    var styleSheets = document.styleSheets;
+
+    try {
+      for (var i = 0; i < styleSheets.length; ++i) {
+        var cssRules = null;
+
+        try {
+          cssRules = styleSheets[i].cssRules;
+        } catch (e) {}
+
+        if (!cssRules) {
+          continue;
+        }
+
+        for (var j = 0; j < cssRules.length; ++j) {
+          var cssRule = cssRules[j];
+
+          if (cssRule.type === keyframesRuleType) {
+            if (newAnimationNames.indexOf(cssRule.name) !== -1) {
+              return true;
+            }
+          }
+        }
+      }
+    } catch (e) {}
+
+    return false;
+  };
+
+  CssAnimator.prototype.animate = function animate(element, className) {
+    var _this2 = this;
+
+    if (Array.isArray(element)) {
+      return Promise.all(element.map(function (el) {
+        return _this2._performSingleAnimate(el, className);
+      }));
+    }
+
+    return this._performSingleAnimate(element, className);
+  };
+
+  CssAnimator.prototype.runSequence = function runSequence(animations) {
+    var _this3 = this;
+
+    this._triggerDOMEvent(_aureliaTemplating.animationEvent.sequenceBegin, null);
+
+    return animations.reduce(function (p, anim) {
+      return p.then(function () {
+        return _this3.animate(anim.element, anim.className);
+      });
+    }, Promise.resolve(true)).then(function () {
+      _this3._triggerDOMEvent(_aureliaTemplating.animationEvent.sequenceDone, null);
+    });
+  };
+
+  CssAnimator.prototype._stateAnim = function _stateAnim(element, direction, doneClass) {
+    var _this4 = this;
+
+    var auClass = 'au-' + direction;
+    var auClassActive = auClass + '-active';
+    return new Promise(function (resolve, reject) {
+      var classList = element.classList;
+
+      _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Begin'], element);
+
+      if (_this4.useAnimationDoneClasses) {
+        classList.remove(_this4.animationEnteredClass);
+        classList.remove(_this4.animationLeftClass);
+      }
+
+      classList.add(auClass);
+      var prevAnimationNames = _this4._getElementAnimationNames(element);
+
+      var _animStart = void 0;
+      var animHasStarted = false;
+      _this4._addMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart = function animStart(evAnimStart) {
+        if (evAnimStart.target !== element) {
+          return;
+        }
+        animHasStarted = true;
+        _this4.isAnimating = true;
+
+        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Active'], element);
+
+        evAnimStart.stopPropagation();
+
+        evAnimStart.target.removeEventListener(evAnimStart.type, _animStart);
+      }, false);
+
+      var _animEnd = void 0;
+      _this4._addMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd = function animEnd(evAnimEnd) {
+        if (!animHasStarted) {
+          return;
+        }
+        if (evAnimEnd.target !== element) {
+          return;
+        }
+
+        evAnimEnd.stopPropagation();
+
+        classList.remove(auClassActive);
+        classList.remove(auClass);
+
+        evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd);
+
+        if (_this4.useAnimationDoneClasses && doneClass !== undefined && doneClass !== null) {
+          classList.add(doneClass);
+        }
+
+        _this4.isAnimating = false;
+        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Done'], element);
+
+        resolve(true);
+      }, false);
+
+      var parent = element.parentElement;
+      var attrib = 'data-animator-pending' + direction;
+
+      var cleanupAnimation = function cleanupAnimation() {
+        var animationNames = _this4._getElementAnimationNames(element);
+        if (!_this4._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
+          classList.remove(auClassActive);
+          classList.remove(auClass);
+
+          _this4._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd);
+          _this4._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart);
+
+          _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Timeout'], element);
+          resolve(false);
+        }
+        parent && parent.setAttribute(attrib, +(parent.getAttribute(attrib) || 1) - 1);
+      };
+
+      if (parent !== null && parent !== undefined && (parent.classList.contains('au-stagger') || parent.classList.contains('au-stagger-' + direction))) {
+        var offset = +(parent.getAttribute(attrib) || 0);
+        parent.setAttribute(attrib, offset + 1);
+        var delay = _this4._getElementAnimationDelay(parent) * offset;
+        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent.staggerNext, element);
+
+        setTimeout(function () {
+          classList.add(auClassActive);
+          cleanupAnimation();
+        }, delay);
+      } else {
+        classList.add(auClassActive);
+        cleanupAnimation();
+      }
+    });
+  };
+
+  CssAnimator.prototype.enter = function enter(element) {
+    return this._stateAnim(element, 'enter', this.animationEnteredClass);
+  };
+
+  CssAnimator.prototype.leave = function leave(element) {
+    return this._stateAnim(element, 'leave', this.animationLeftClass);
+  };
+
+  CssAnimator.prototype.removeClass = function removeClass(element, className) {
+    var _this5 = this;
+
+    var suppressEvents = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
+    return new Promise(function (resolve, reject) {
+      var classList = element.classList;
+
+      if (!classList.contains(className) && !classList.contains(className + '-add')) {
+        resolve(false);
+        return;
+      }
+
+      if (suppressEvents !== true) {
+        _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassBegin, element);
+      }
+
+      if (classList.contains(className + '-add')) {
+        classList.remove(className + '-add');
+        classList.add(className);
+      }
+
+      classList.remove(className);
+      var prevAnimationNames = _this5._getElementAnimationNames(element);
+
+      var _animStart2 = void 0;
+      var animHasStarted = false;
+      _this5._addMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart2 = function animStart(evAnimStart) {
+        if (evAnimStart.target !== element) {
+          return;
+        }
+        animHasStarted = true;
+        _this5.isAnimating = true;
+
+        if (suppressEvents !== true) {
+          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassActive, element);
+        }
+
+        evAnimStart.stopPropagation();
+
+        evAnimStart.target.removeEventListener(evAnimStart.type, _animStart2);
+      }, false);
+
+      var _animEnd2 = void 0;
+      _this5._addMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd2 = function animEnd(evAnimEnd) {
+        if (!animHasStarted) {
+          return;
+        }
+        if (evAnimEnd.target !== element) {
+          return;
+        }
+
+        if (!element.classList.contains(className + '-remove')) {
+          resolve(true);
+        }
+
+        evAnimEnd.stopPropagation();
+
+        classList.remove(className);
+
+        classList.remove(className + '-remove');
+
+        evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd2);
+
+        _this5.isAnimating = false;
+
+        if (suppressEvents !== true) {
+          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassDone, element);
+        }
+
+        resolve(true);
+      }, false);
+
+      classList.add(className + '-remove');
+
+      var animationNames = _this5._getElementAnimationNames(element);
+      if (!_this5._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
+        classList.remove(className + '-remove');
+        classList.remove(className);
+
+        _this5._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd2);
+        _this5._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart2);
+
+        if (suppressEvents !== true) {
+          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassTimeout, element);
+        }
+
+        resolve(false);
+      }
+    });
+  };
+
+  CssAnimator.prototype.addClass = function addClass(element, className) {
+    var _this6 = this;
+
+    var suppressEvents = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
+    return new Promise(function (resolve, reject) {
+      var classList = element.classList;
+
+      if (suppressEvents !== true) {
+        _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassBegin, element);
+      }
+
+      if (classList.contains(className + '-remove')) {
+        classList.remove(className + '-remove');
+        classList.remove(className);
+      }
+
+      var _animStart3 = void 0;
+      var animHasStarted = false;
+      _this6._addMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart3 = function animStart(evAnimStart) {
+        if (evAnimStart.target !== element) {
+          return;
+        }
+        animHasStarted = true;
+        _this6.isAnimating = true;
+
+        if (suppressEvents !== true) {
+          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassActive, element);
+        }
+
+        evAnimStart.stopPropagation();
+
+        evAnimStart.target.removeEventListener(evAnimStart.type, _animStart3);
+      }, false);
+
+      var _animEnd3 = void 0;
+      _this6._addMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd3 = function animEnd(evAnimEnd) {
+        if (!animHasStarted) {
+          return;
+        }
+        if (evAnimEnd.target !== element) {
+          return;
+        }
+
+        if (!element.classList.contains(className + '-add')) {
+          resolve(true);
+        }
+
+        evAnimEnd.stopPropagation();
+
+        classList.add(className);
+
+        classList.remove(className + '-add');
+
+        evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd3);
+
+        _this6.isAnimating = false;
+
+        if (suppressEvents !== true) {
+          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassDone, element);
+        }
+
+        resolve(true);
+      }, false);
+
+      var prevAnimationNames = _this6._getElementAnimationNames(element);
+
+      classList.add(className + '-add');
+
+      var animationNames = _this6._getElementAnimationNames(element);
+      if (!_this6._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
+        classList.remove(className + '-add');
+        classList.add(className);
+
+        _this6._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd3);
+        _this6._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart3);
+
+        if (suppressEvents !== true) {
+          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassTimeout, element);
+        }
+
+        resolve(false);
+      }
+    });
+  };
+
+  return CssAnimator;
+}();
+
+function configure(config, callback) {
+  var animator = config.container.get(CssAnimator);
+  config.container.get(_aureliaTemplating.TemplatingEngine).configureAnimator(animator);
+  if (typeof callback === 'function') {
+    callback(animator);
+  }
+}
+});
+return ___scope___.entry = "dist/commonjs/aurelia-animator-css.js";
+});
 FuseBox.pkg("aurelia-logging-console", {}, function(___scope___){
 ___scope___.file("dist/commonjs/aurelia-logging-console.js", function(exports, require, module, __filename, __dirname){
 
@@ -65737,9 +71753,9 @@ ___scope___.file("dist/commonjs/aurelia-templating-binding.js", function(exports
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TemplatingBindingLanguage = exports.SyntaxInterpreter = exports.ChildInterpolationBinding = exports.InterpolationBinding = exports.InterpolationBindingExpression = exports.AttributeMap = undefined;
+exports.TemplatingBindingLanguage = exports.SyntaxInterpreter = exports.LetInterpolationBinding = exports.LetInterpolationBindingExpression = exports.LetBinding = exports.LetExpression = exports.ChildInterpolationBinding = exports.InterpolationBinding = exports.InterpolationBindingExpression = exports.AttributeMap = undefined;
 
-var _class, _temp, _dec, _class2, _class3, _temp2, _class4, _temp3;
+var _class, _temp, _dec, _class2, _dec2, _class3, _class4, _temp2, _class5, _temp3;
 
 exports.configure = configure;
 
@@ -66037,7 +72053,165 @@ var ChildInterpolationBinding = exports.ChildInterpolationBinding = (_dec = (0, 
 
   return ChildInterpolationBinding;
 }()) || _class2);
-var SyntaxInterpreter = exports.SyntaxInterpreter = (_temp2 = _class3 = function () {
+
+var LetExpression = exports.LetExpression = function () {
+  function LetExpression(observerLocator, targetProperty, sourceExpression, lookupFunctions, toBindingContext) {
+    
+
+    this.observerLocator = observerLocator;
+    this.sourceExpression = sourceExpression;
+    this.targetProperty = targetProperty;
+    this.lookupFunctions = lookupFunctions;
+    this.toBindingContext = toBindingContext;
+  }
+
+  LetExpression.prototype.createBinding = function createBinding() {
+    return new LetBinding(this.observerLocator, this.sourceExpression, this.targetProperty, this.lookupFunctions, this.toBindingContext);
+  };
+
+  return LetExpression;
+}();
+
+var LetBinding = exports.LetBinding = (_dec2 = (0, _aureliaBinding.connectable)(), _dec2(_class3 = function () {
+  function LetBinding(observerLocator, sourceExpression, targetProperty, lookupFunctions, toBindingContext) {
+    
+
+    this.observerLocator = observerLocator;
+    this.sourceExpression = sourceExpression;
+    this.targetProperty = targetProperty;
+    this.lookupFunctions = lookupFunctions;
+    this.source = null;
+    this.target = null;
+    this.toBindingContext = toBindingContext;
+  }
+
+  LetBinding.prototype.updateTarget = function updateTarget() {
+    var value = this.sourceExpression.evaluate(this.source, this.lookupFunctions);
+    this.target[this.targetProperty] = value;
+  };
+
+  LetBinding.prototype.call = function call(context) {
+    if (!this.isBound) {
+      return;
+    }
+    if (context === _aureliaBinding.sourceContext) {
+      this.updateTarget();
+      return;
+    }
+    throw new Error('Unexpected call context ' + context);
+  };
+
+  LetBinding.prototype.bind = function bind(source) {
+    if (this.isBound) {
+      if (this.source === source) {
+        return;
+      }
+      this.unbind();
+    }
+
+    this.isBound = true;
+    this.source = source;
+    this.target = this.toBindingContext ? source.bindingContext : source.overrideContext;
+
+    if (this.sourceExpression.bind) {
+      this.sourceExpression.bind(this, source, this.lookupFunctions);
+    }
+
+    (0, _aureliaBinding.enqueueBindingConnect)(this);
+  };
+
+  LetBinding.prototype.unbind = function unbind() {
+    if (!this.isBound) {
+      return;
+    }
+    this.isBound = false;
+    if (this.sourceExpression.unbind) {
+      this.sourceExpression.unbind(this, this.source);
+    }
+    this.source = null;
+    this.target = null;
+    this.unobserve(true);
+  };
+
+  LetBinding.prototype.connect = function connect() {
+    if (!this.isBound) {
+      return;
+    }
+    this.updateTarget();
+    this.sourceExpression.connect(this, this.source);
+  };
+
+  return LetBinding;
+}()) || _class3);
+
+var LetInterpolationBindingExpression = exports.LetInterpolationBindingExpression = function () {
+  function LetInterpolationBindingExpression(observerLocator, targetProperty, parts, lookupFunctions, toBindingContext) {
+    
+
+    this.observerLocator = observerLocator;
+    this.targetProperty = targetProperty;
+    this.parts = parts;
+    this.lookupFunctions = lookupFunctions;
+    this.toBindingContext = toBindingContext;
+  }
+
+  LetInterpolationBindingExpression.prototype.createBinding = function createBinding() {
+    return new LetInterpolationBinding(this.observerLocator, this.targetProperty, this.parts, this.lookupFunctions, this.toBindingContext);
+  };
+
+  return LetInterpolationBindingExpression;
+}();
+
+var LetInterpolationBinding = exports.LetInterpolationBinding = function () {
+  function LetInterpolationBinding(observerLocator, targetProperty, parts, lookupFunctions, toBindingContext) {
+    
+
+    this.observerLocator = observerLocator;
+    this.parts = parts;
+    this.targetProperty = targetProperty;
+    this.lookupFunctions = lookupFunctions;
+    this.toBindingContext = toBindingContext;
+    this.target = null;
+  }
+
+  LetInterpolationBinding.prototype.bind = function bind(source) {
+    if (this.isBound) {
+      if (this.source === source) {
+        return;
+      }
+      this.unbind();
+    }
+
+    this.isBound = true;
+    this.source = source;
+    this.target = this.toBindingContext ? source.bindingContext : source.overrideContext;
+
+    this.interpolationBinding = this.createInterpolationBinding();
+    this.interpolationBinding.bind(source);
+  };
+
+  LetInterpolationBinding.prototype.unbind = function unbind() {
+    if (!this.isBound) {
+      return;
+    }
+    this.isBound = false;
+    this.source = null;
+    this.target = null;
+    this.interpolationBinding.unbind();
+    this.interpolationBinding = null;
+  };
+
+  LetInterpolationBinding.prototype.createInterpolationBinding = function createInterpolationBinding() {
+    if (this.parts.length === 3) {
+      return new ChildInterpolationBinding(this.target, this.observerLocator, this.parts[1], _aureliaBinding.bindingMode.oneWay, this.lookupFunctions, this.targetProperty, this.parts[0], this.parts[2]);
+    }
+    return new InterpolationBinding(this.observerLocator, this.parts, this.target, this.targetProperty, _aureliaBinding.bindingMode.oneWay, this.lookupFunctions);
+  };
+
+  return LetInterpolationBinding;
+}();
+
+var SyntaxInterpreter = exports.SyntaxInterpreter = (_temp2 = _class4 = function () {
   function SyntaxInterpreter(parser, observerLocator, eventManager, attributeMap) {
     
 
@@ -66237,14 +72411,14 @@ var SyntaxInterpreter = exports.SyntaxInterpreter = (_temp2 = _class3 = function
   };
 
   return SyntaxInterpreter;
-}(), _class3.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, _aureliaBinding.EventManager, AttributeMap], _temp2);
+}(), _class4.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, _aureliaBinding.EventManager, AttributeMap], _temp2);
 
 
 SyntaxInterpreter.prototype['one-way'] = SyntaxInterpreter.prototype['to-view'];
 
 var info = {};
 
-var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _class4 = function (_BindingLanguage) {
+var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _class5 = function (_BindingLanguage) {
   _inherits(TemplatingBindingLanguage, _BindingLanguage);
 
   function TemplatingBindingLanguage(parser, observerLocator, syntaxInterpreter, attributeMap) {
@@ -66258,6 +72432,7 @@ var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _c
     _this.emptyStringExpression = _this.parser.parse('\'\'');
     syntaxInterpreter.language = _this;
     _this.attributeMap = attributeMap;
+    _this.toBindingContextAttr = 'to-binding-context';
     return _this;
   }
 
@@ -66313,6 +72488,51 @@ var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _c
     }
 
     return instruction;
+  };
+
+  TemplatingBindingLanguage.prototype.createLetExpressions = function createLetExpressions(resources, letElement) {
+    var expressions = [];
+    var attributes = letElement.attributes;
+
+    var attr = void 0;
+
+    var parts = void 0;
+    var attrName = void 0;
+    var attrValue = void 0;
+    var command = void 0;
+    var toBindingContextAttr = this.toBindingContextAttr;
+    var toBindingContext = letElement.hasAttribute(toBindingContextAttr);
+    for (var i = 0, ii = attributes.length; ii > i; ++i) {
+      attr = attributes[i];
+      attrName = attr.name;
+      attrValue = attr.nodeValue;
+      parts = attrName.split('.');
+
+      if (attrName === toBindingContextAttr) {
+        continue;
+      }
+
+      if (parts.length === 2) {
+        command = parts[1];
+        if (command !== 'bind') {
+          LogManager.getLogger('templating-binding-language').warn('Detected invalid let command. Expected "' + parts[0] + '.bind", given "' + attrName + '"');
+          continue;
+        }
+        expressions.push(new LetExpression(this.observerLocator, (0, _aureliaBinding.camelCase)(parts[0]), this.parser.parse(attrValue), resources.lookupFunctions, toBindingContext));
+      } else {
+        attrName = (0, _aureliaBinding.camelCase)(attrName);
+        parts = this.parseInterpolation(resources, attrValue);
+        if (parts === null) {
+          LogManager.getLogger('templating-binding-language').warn('Detected string literal in let bindings. Did you mean "' + attrName + '.bind=' + attrValue + '" or "' + attrName + '=${' + attrValue + '}" ?');
+        }
+        if (parts) {
+          expressions.push(new LetInterpolationBindingExpression(this.observerLocator, attrName, parts, resources.lookupFunctions, toBindingContext));
+        } else {
+          expressions.push(new LetExpression(this.observerLocator, attrName, new _aureliaBinding.LiteralString(attrValue), resources.lookupFunctions, toBindingContext));
+        }
+      }
+    }
+    return expressions;
   };
 
   TemplatingBindingLanguage.prototype.inspectTextContent = function inspectTextContent(resources, value) {
@@ -66397,7 +72617,7 @@ var TemplatingBindingLanguage = exports.TemplatingBindingLanguage = (_temp3 = _c
   };
 
   return TemplatingBindingLanguage;
-}(_aureliaTemplating.BindingLanguage), _class4.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, SyntaxInterpreter, AttributeMap], _temp3);
+}(_aureliaTemplating.BindingLanguage), _class5.inject = [_aureliaBinding.Parser, _aureliaBinding.ObserverLocator, SyntaxInterpreter, AttributeMap], _temp3);
 function configure(config) {
   config.container.registerSingleton(_aureliaTemplating.BindingLanguage, TemplatingBindingLanguage);
   config.container.registerAlias(_aureliaTemplating.BindingLanguage, TemplatingBindingLanguage);
@@ -69952,7 +76172,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RouterViewLocator = exports.RouterView = undefined;
 
-var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
@@ -70011,7 +76231,11 @@ function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customElement)('router-view'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaRouter.Router, _aureliaTemplating.ViewLocator, _aureliaTemplating.CompositionTransaction, _aureliaTemplating.CompositionEngine), _dec(_class = (0, _aureliaTemplating.noView)(_class = _dec2(_class = (_class2 = function () {
+var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customElement)('router-view'), _dec(_class = (0, _aureliaTemplating.noView)(_class = (_class2 = function () {
+  RouterView.inject = function inject() {
+    return [_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaRouter.Router, _aureliaTemplating.ViewLocator, _aureliaTemplating.CompositionTransaction, _aureliaTemplating.CompositionEngine];
+  };
+
   function RouterView(element, container, viewSlot, router, viewLocator, compositionTransaction, compositionEngine) {
     
 
@@ -70163,7 +76387,7 @@ var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customEleme
 }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'layoutModel', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: null
-})), _class2)) || _class) || _class) || _class);
+})), _class2)) || _class) || _class);
 
 var RouterViewLocator = exports.RouterViewLocator = function () {
   function RouterViewLocator() {
@@ -70196,11 +76420,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RouteHref = undefined;
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class;
+var _dec, _dec2, _dec3, _dec4, _class;
 
 var _aureliaTemplating = require('aurelia-templating');
-
-var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
 var _aureliaRouter = require('aurelia-router');
 
@@ -70216,7 +76438,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var logger = LogManager.getLogger('route-href');
 
-var RouteHref = exports.RouteHref = (_dec = (0, _aureliaTemplating.customAttribute)('route-href'), _dec2 = (0, _aureliaTemplating.bindable)({ name: 'route', changeHandler: 'processChange', primaryProperty: true }), _dec3 = (0, _aureliaTemplating.bindable)({ name: 'params', changeHandler: 'processChange' }), _dec4 = (0, _aureliaTemplating.bindable)({ name: 'attribute', defaultValue: 'href' }), _dec5 = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _aureliaPal.DOM.Element), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = _dec5(_class = function () {
+var RouteHref = exports.RouteHref = (_dec = (0, _aureliaTemplating.customAttribute)('route-href'), _dec2 = (0, _aureliaTemplating.bindable)({ name: 'route', changeHandler: 'processChange', primaryProperty: true }), _dec3 = (0, _aureliaTemplating.bindable)({ name: 'params', changeHandler: 'processChange' }), _dec4 = (0, _aureliaTemplating.bindable)({ name: 'attribute', defaultValue: 'href' }), _dec(_class = _dec2(_class = _dec3(_class = _dec4(_class = function () {
+  RouteHref.inject = function inject() {
+    return [_aureliaRouter.Router, _aureliaPal.DOM.Element];
+  };
+
   function RouteHref(router, element) {
     
 
@@ -70264,7 +76490,7 @@ var RouteHref = exports.RouteHref = (_dec = (0, _aureliaTemplating.customAttribu
   };
 
   return RouteHref;
-}()) || _class) || _class) || _class) || _class) || _class);
+}()) || _class) || _class) || _class) || _class);
 });
 return ___scope___.entry = "dist/commonjs/aurelia-templating-router.js";
 });
@@ -71087,6 +77313,7 @@ var Router = exports.Router = function () {
     this.isNavigatingRefresh = false;
     this.isNavigatingForward = false;
     this.isNavigatingBack = false;
+    this.couldDeactivate = false;
     this.navigation = [];
     this.currentInstruction = null;
     this.viewPortDefaults = {};
@@ -71550,6 +77777,8 @@ function processDeactivatable(navigationInstruction, callbackName, next, ignoreR
       }
     }
 
+    navigationInstruction.router.couldDeactivate = true;
+
     return next();
   }
 
@@ -71906,9 +78135,13 @@ var PipelineProvider = exports.PipelineProvider = function () {
   PipelineProvider.prototype.createPipeline = function createPipeline() {
     var _this9 = this;
 
+    var useCanDeactivateStep = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
     var pipeline = new Pipeline();
     this.steps.forEach(function (step) {
-      return pipeline.addStep(_this9.container.get(step));
+      if (useCanDeactivateStep || step !== CanDeactivatePreviousStep) {
+        pipeline.addStep(_this9.container.get(step));
+      }
     });
     return pipeline;
   };
@@ -72103,7 +78336,7 @@ var AppRouter = exports.AppRouter = function (_Router) {
         throw new Error('Maximum navigation attempts exceeded. Giving up.');
       }
 
-      var pipeline = _this14.pipelineProvider.createPipeline();
+      var pipeline = _this14.pipelineProvider.createPipeline(!_this14.couldDeactivate);
 
       return pipeline.run(instruction).then(function (result) {
         return processResult(instruction, result, instructionCount, _this14);
@@ -72181,6 +78414,7 @@ function resolveInstruction(instruction, result, isInnerInstruction, router) {
     router.isNavigatingRefresh = false;
     router.isNavigatingForward = false;
     router.isNavigatingBack = false;
+    router.couldDeactivate = false;
 
     var eventName = void 0;
 
@@ -73592,14 +79826,9 @@ function configure(frameworkConfig, callback) {
     else {
         config.useDefaults();
     }
-    applyConfig();
+    return applyConfig();
 }
 exports.configure = configure;
-__export(require("./ux-dialog"));
-__export(require("./ux-dialog-header"));
-__export(require("./ux-dialog-body"));
-__export(require("./ux-dialog-footer"));
-__export(require("./attach-focus"));
 __export(require("./dialog-settings"));
 __export(require("./dialog-configuration"));
 __export(require("./renderer"));
@@ -73618,11 +79847,11 @@ var dialog_renderer_1 = require("./dialog-renderer");
 var aurelia_pal_1 = require("aurelia-pal");
 var defaultRenderer = dialog_renderer_1.DialogRenderer;
 var resources = {
-    'ux-dialog': aurelia_pal_1.PLATFORM.moduleName('./ux-dialog'),
-    'ux-dialog-header': aurelia_pal_1.PLATFORM.moduleName('./ux-dialog-header'),
-    'ux-dialog-body': aurelia_pal_1.PLATFORM.moduleName('./ux-dialog-body'),
-    'ux-dialog-footer': aurelia_pal_1.PLATFORM.moduleName('./ux-dialog-footer'),
-    'attach-focus': aurelia_pal_1.PLATFORM.moduleName('./attach-focus')
+    'ux-dialog': function () { return Promise.resolve().then(function () { return require('./resources/ux-dialog'); }).then(function (m) { return m.UxDialog; }); },
+    'ux-dialog-header': function () { return Promise.resolve().then(function () { return require('./resources/ux-dialog-header'); }).then(function (m) { return m.UxDialogHeader; }); },
+    'ux-dialog-body': function () { return Promise.resolve().then(function () { return require('./resources/ux-dialog-body'); }).then(function (m) { return m.UxDialogBody; }); },
+    'ux-dialog-footer': function () { return Promise.resolve().then(function () { return require('./resources/ux-dialog-footer'); }).then(function (m) { return m.UxDialogFooter; }); },
+    'attach-focus': function () { return Promise.resolve().then(function () { return require('./resources/attach-focus'); }).then(function (m) { return m.AttachFocus; }); }
 };
 // tslint:disable-next-line:max-line-length
 var defaultCSSText = "ux-dialog-container,ux-dialog-overlay{position:fixed;top:0;right:0;bottom:0;left:0}ux-dialog-overlay{opacity:0}ux-dialog-overlay.active{opacity:1}ux-dialog-container{display:block;transition:opacity .2s linear;opacity:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}ux-dialog-container.active{opacity:1}ux-dialog-container>div{padding:30px}ux-dialog-container>div>div{display:block;min-width:300px;width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;height:-moz-fit-content;height:-webkit-fit-content;height:fit-content;margin:auto}ux-dialog-container,ux-dialog-container>div,ux-dialog-container>div>div{outline:0}ux-dialog{display:table;box-shadow:0 5px 15px rgba(0,0,0,.5);border:1px solid rgba(0,0,0,.2);border-radius:5px;padding:3px;min-width:300px;width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;height:-moz-fit-content;height:-webkit-fit-content;height:fit-content;margin:auto;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;background:#fff}ux-dialog>ux-dialog-header{display:block;padding:16px;border-bottom:1px solid #e5e5e5}ux-dialog>ux-dialog-header>button{float:right;border:none;display:block;width:32px;height:32px;background:0 0;font-size:22px;line-height:16px;margin:-14px -16px 0 0;padding:0;cursor:pointer}ux-dialog>ux-dialog-body{display:block;padding:16px}ux-dialog>ux-dialog-footer{display:block;padding:6px;border-top:1px solid #e5e5e5;text-align:right}ux-dialog>ux-dialog-footer button{color:#333;background-color:#fff;padding:6px 12px;font-size:14px;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;background-image:none;border:1px solid #ccc;border-radius:4px;margin:5px 0 5px 5px}ux-dialog>ux-dialog-footer button:disabled{cursor:default;opacity:.45}ux-dialog>ux-dialog-footer button:hover:enabled{color:#333;background-color:#e6e6e6;border-color:#adadad}.ux-dialog-open{overflow:hidden}";
@@ -73642,9 +79871,12 @@ var DialogConfiguration = /** @class */ (function () {
     DialogConfiguration.prototype._apply = function () {
         var _this = this;
         this.fwConfig.transient(renderer_1.Renderer, this.renderer);
-        this.resources.forEach(function (resourceName) { return _this.fwConfig.globalResources(resources[resourceName]); });
         if (this.cssText) {
             aurelia_pal_1.DOM.injectStyles(this.cssText);
+        }
+        if (this.resources.length) {
+            return Promise.all(this.resources.map(function (name) { return resources[name](); }))
+                .then(function (modules) { _this.fwConfig.globalResources(modules); });
         }
     };
     /**
@@ -73786,7 +80018,7 @@ exports.transitionEvent = (function () {
             MozTransition: 'transitionend',
             WebkitTransition: 'webkitTransitionEnd'
         };
-        for (var t in transitions) {
+        for (var t in transitions) { // tslint:disable-line:prefer-const
             if (el.style[t] !== undefined) {
                 transition = transitions[t];
                 return transition;
@@ -73986,17 +80218,17 @@ var DialogRenderer = /** @class */ (function () {
         return this.awaitTransition(function () { return _this.setAsInactive(); }, dialogController.settings.ignoreTransitions)
             .then(function () { _this.detach(dialogController); });
     };
+    var DialogRenderer_1;
     DialogRenderer.dialogControllers = [];
     DialogRenderer = DialogRenderer_1 = __decorate([
         aurelia_dependency_injection_1.transient()
     ], DialogRenderer);
     return DialogRenderer;
-    var DialogRenderer_1;
 }());
 exports.DialogRenderer = DialogRenderer;
 
 });
-___scope___.file("dist/commonjs/ux-dialog.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("dist/commonjs/resources/ux-dialog.js", function(exports, require, module, __filename, __dirname){
 
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -74019,7 +80251,7 @@ var UxDialog = /** @class */ (function () {
 exports.UxDialog = UxDialog;
 
 });
-___scope___.file("dist/commonjs/ux-dialog-header.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("dist/commonjs/resources/ux-dialog-header.js", function(exports, require, module, __filename, __dirname){
 
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -74030,7 +80262,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_templating_1 = require("aurelia-templating");
-var dialog_controller_1 = require("./dialog-controller");
+var dialog_controller_1 = require("../dialog-controller");
 var UxDialogHeader = /** @class */ (function () {
     function UxDialogHeader(controller) {
         this.controller = controller;
@@ -74225,7 +80457,7 @@ function createDialogCancelError(output) {
 exports.createDialogCancelError = createDialogCancelError;
 
 });
-___scope___.file("dist/commonjs/ux-dialog-body.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("dist/commonjs/resources/ux-dialog-body.js", function(exports, require, module, __filename, __dirname){
 
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -74248,7 +80480,7 @@ var UxDialogBody = /** @class */ (function () {
 exports.UxDialogBody = UxDialogBody;
 
 });
-___scope___.file("dist/commonjs/ux-dialog-footer.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("dist/commonjs/resources/ux-dialog-footer.js", function(exports, require, module, __filename, __dirname){
 
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -74259,7 +80491,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_templating_1 = require("aurelia-templating");
-var dialog_controller_1 = require("./dialog-controller");
+var dialog_controller_1 = require("../dialog-controller");
 /**
  * View-model for footer of Dialog.
  */
@@ -74286,6 +80518,7 @@ var UxDialogFooter = /** @class */ (function () {
             this.buttons = ['Cancel', 'Ok'];
         }
     };
+    var UxDialogFooter_1;
     /**
      * @internal
      */
@@ -74302,12 +80535,11 @@ var UxDialogFooter = /** @class */ (function () {
         aurelia_templating_1.inlineView("\n  <template>\n    <slot></slot>\n    <template if.bind=\"buttons.length > 0\">\n      <button type=\"button\"\n        class=\"btn btn-default\"\n        repeat.for=\"button of buttons\"\n        click.trigger=\"close(button)\">\n        ${button}\n      </button>\n    </template>\n  </template>\n")
     ], UxDialogFooter);
     return UxDialogFooter;
-    var UxDialogFooter_1;
 }());
 exports.UxDialogFooter = UxDialogFooter;
 
 });
-___scope___.file("dist/commonjs/attach-focus.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("dist/commonjs/resources/attach-focus.js", function(exports, require, module, __filename, __dirname){
 
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -74317,6 +80549,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_binding_1 = require("aurelia-binding");
 var aurelia_templating_1 = require("aurelia-templating");
 var aurelia_pal_1 = require("aurelia-pal");
 var AttachFocus = /** @class */ (function () {
@@ -74324,21 +80557,18 @@ var AttachFocus = /** @class */ (function () {
         this.element = element;
         this.value = true;
     }
+    AttachFocus.prototype.attached = function () {
+        if (this.value === '' || (this.value && this.value !== 'false')) {
+            this.element.focus();
+        }
+    };
     /**
      * @internal
      */
     // tslint:disable-next-line:member-ordering
-    AttachFocus.inject = function () { return [aurelia_pal_1.DOM.Element]; };
-    AttachFocus.prototype.attached = function () {
-        if (this.value && this.value !== 'false') {
-            this.element.focus();
-        }
-    };
-    AttachFocus.prototype.valueChanged = function (newValue) {
-        this.value = newValue;
-    };
+    AttachFocus.inject = [aurelia_pal_1.DOM.Element];
     AttachFocus = __decorate([
-        aurelia_templating_1.customAttribute('attach-focus')
+        aurelia_templating_1.customAttribute('attach-focus', aurelia_binding_1.bindingMode.oneTime)
     ], AttachFocus);
     return AttachFocus;
 }());
@@ -74350,7 +80580,6 @@ ___scope___.file("dist/commonjs/dialog-service.js", function(exports, require, m
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
-var aurelia_metadata_1 = require("aurelia-metadata");
 var aurelia_templating_1 = require("aurelia-templating");
 var dialog_settings_1 = require("./dialog-settings");
 var dialog_cancel_error_1 = require("./dialog-cancel-error");
@@ -74402,17 +80631,10 @@ var DialogService = /** @class */ (function () {
         };
     };
     DialogService.prototype.ensureViewModel = function (compositionContext) {
-        if (typeof compositionContext.viewModel === 'function') {
-            var moduleId = aurelia_metadata_1.Origin.get(compositionContext.viewModel).moduleId;
-            if (!moduleId) {
-                return Promise.reject(new Error("Can not resolve \"moduleId\" of \"" + compositionContext.viewModel.name + "\"."));
-            }
-            compositionContext.viewModel = moduleId;
+        if (typeof compositionContext.viewModel === 'object') {
+            return Promise.resolve(compositionContext);
         }
-        if (typeof compositionContext.viewModel === 'string') {
-            return this.compositionEngine.ensureViewModel(compositionContext);
-        }
-        return Promise.resolve(compositionContext);
+        return this.compositionEngine.ensureViewModel(compositionContext);
     };
     DialogService.prototype._cancelOperation = function (rejectOnCancel) {
         if (!rejectOnCancel) {
@@ -80522,7 +86744,7 @@ moment.tz.load(require('./data/packed/latest.json'));
 ___scope___.file("moment-timezone.js", function(exports, require, module, __filename, __dirname){
 
 //! moment-timezone.js
-//! version : 0.5.21
+//! version : 0.5.23
 //! Copyright (c) JS Foundation and other contributors
 //! license : MIT
 //! github.com/moment/moment-timezone
@@ -80547,7 +86769,7 @@ ___scope___.file("moment-timezone.js", function(exports, require, module, __file
 	// 	return moment;
 	// }
 
-	var VERSION = "0.5.21",
+	var VERSION = "0.5.23",
 		zones = {},
 		links = {},
 		names = {},
@@ -81148,6 +87370,22 @@ ___scope___.file("humanize-duration.js", function(exports, require, module, __fi
 // HumanizeDuration.js - https://git.io/j0HgmQ
 
 ;(function () {
+  // This has to be defined separately because of a bug: we want to alias
+  // `gr` and `el` for backwards-compatiblity. In a breaking change, we can
+  // remove `gr` entirely.
+  // See https://github.com/EvanHahn/HumanizeDuration.js/issues/143 for more.
+  var greek = {
+    y: function (c) { return c === 1 ? 'χρόνος' : 'χρόνια' },
+    mo: function (c) { return c === 1 ? 'μήνας' : 'μήνες' },
+    w: function (c) { return c === 1 ? 'εβδομάδα' : 'εβδομάδες' },
+    d: function (c) { return c === 1 ? 'μέρα' : 'μέρες' },
+    h: function (c) { return c === 1 ? 'ώρα' : 'ώρες' },
+    m: function (c) { return c === 1 ? 'λεπτό' : 'λεπτά' },
+    s: function (c) { return c === 1 ? 'δευτερόλεπτο' : 'δευτερόλεπτα' },
+    ms: function (c) { return c === 1 ? 'χιλιοστό του δευτερολέπτου' : 'χιλιοστά του δευτερολέπτου' },
+    decimal: ','
+  }
+
   var languages = {
     ar: {
       y: function (c) { return c === 1 ? 'سنة' : 'سنوات' },
@@ -81155,7 +87393,9 @@ ___scope___.file("humanize-duration.js", function(exports, require, module, __fi
       w: function (c) { return c === 1 ? 'أسبوع' : 'أسابيع' },
       d: function (c) { return c === 1 ? 'يوم' : 'أيام' },
       h: function (c) { return c === 1 ? 'ساعة' : 'ساعات' },
-      m: function (c) { return c === 1 ? 'دقيقة' : 'دقائق' },
+      m: function (c) {
+        return ['دقيقة', 'دقائق'][getArabicForm(c)]
+      },
       s: function (c) { return c === 1 ? 'ثانية' : 'ثواني' },
       ms: function (c) { return c === 1 ? 'جزء من الثانية' : 'أجزاء من الثانية' },
       decimal: ','
@@ -81215,6 +87455,7 @@ ___scope___.file("humanize-duration.js", function(exports, require, module, __fi
       ms: function (c) { return 'Millisekunde' + (c === 1 ? '' : 'n') },
       decimal: ','
     },
+    el: greek,
     en: {
       y: function (c) { return 'year' + (c === 1 ? '' : 's') },
       mo: function (c) { return 'month' + (c === 1 ? '' : 's') },
@@ -81270,17 +87511,7 @@ ___scope___.file("humanize-duration.js", function(exports, require, module, __fi
       ms: function (c) { return 'milliseconde' + (c >= 2 ? 's' : '') },
       decimal: ','
     },
-    gr: {
-      y: function (c) { return c === 1 ? 'χρόνος' : 'χρόνια' },
-      mo: function (c) { return c === 1 ? 'μήνας' : 'μήνες' },
-      w: function (c) { return c === 1 ? 'εβδομάδα' : 'εβδομάδες' },
-      d: function (c) { return c === 1 ? 'μέρα' : 'μέρες' },
-      h: function (c) { return c === 1 ? 'ώρα' : 'ώρες' },
-      m: function (c) { return c === 1 ? 'λεπτό' : 'λεπτά' },
-      s: function (c) { return c === 1 ? 'δευτερόλεπτο' : 'δευτερόλεπτα' },
-      ms: function (c) { return c === 1 ? 'χιλιοστό του δευτερολέπτου' : 'χιλιοστά του δευτερολέπτου' },
-      decimal: ','
-    },
+    gr: greek,
     hr: {
       y: function (c) {
         if (c % 10 === 2 || c % 10 === 3 || c % 10 === 4) {
@@ -81788,10 +88019,17 @@ ___scope___.file("humanize-duration.js", function(exports, require, module, __fi
     }
   }
 
+  // Internal helper function for Arabic language.
+  function getArabicForm (c) {
+    if (c <= 2) { return 0 }
+    if (c > 2 && c < 11) { return 1 }
+    return 0
+  }
+
   humanizeDuration.getSupportedLanguages = function getSupportedLanguages () {
     var result = []
     for (var language in languages) {
-      if (languages.hasOwnProperty(language)) {
+      if (languages.hasOwnProperty(language) && language !== 'gr') {
         result.push(language)
       }
     }
@@ -95929,488 +102167,2005 @@ ___scope___.file("jquery.lazy.js", function(exports, require, module, __filename
 });
 return ___scope___.entry = "jquery.lazy.js";
 });
-FuseBox.pkg("toastr", {}, function(___scope___){
-___scope___.file("toastr.js", function(exports, require, module, __filename, __dirname){
+FuseBox.pkg("qrcode-generator-ts", {}, function(___scope___){
+___scope___.file("js/index.js", function(exports, require, module, __filename, __dirname){
 
-/*
- * Toastr
- * Copyright 2012-2015
- * Authors: John Papa, Hans Fjällemark, and Tim Ferrell.
- * All Rights Reserved.
- * Use, reproduction, distribution, and modification of this code is subject to the terms and
- * conditions of the MIT license, available at http://www.opensource.org/licenses/mit-license.php
- *
- * ARIA Support: Greta Krafsig
- *
- * Project: https://github.com/CodeSeven/toastr
- */
-/* global define */
-(function (define) {
-    define(['jquery'], function ($) {
-        return (function () {
-            var $container;
-            var listener;
-            var toastId = 0;
-            var toastType = {
-                error: 'error',
-                info: 'info',
-                success: 'success',
-                warning: 'warning'
-            };
+"use strict";
+var QRCode_1 = require('./qrcode/QRCode');
+exports.QRCode = QRCode_1.QRCode;
+var ErrorCorrectLevel_1 = require('./qrcode/ErrorCorrectLevel');
+exports.ErrorCorrectLevel = ErrorCorrectLevel_1.ErrorCorrectLevel;
+var QRNumber_1 = require('./qrcode/QRNumber');
+exports.QRNumber = QRNumber_1.QRNumber;
+var QRAlphaNum_1 = require('./qrcode/QRAlphaNum');
+exports.QRAlphaNum = QRAlphaNum_1.QRAlphaNum;
+var QR8BitByte_1 = require('./qrcode/QR8BitByte');
+exports.QR8BitByte = QR8BitByte_1.QR8BitByte;
+var QRKanji_1 = require('./qrcode/QRKanji');
+exports.QRKanji = QRKanji_1.QRKanji;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("js/qrcode/QRCode.js", function(exports, require, module, __filename, __dirname){
 
-            var toastr = {
-                clear: clear,
-                remove: remove,
-                error: error,
-                getContainer: getContainer,
-                info: info,
-                options: {},
-                subscribe: subscribe,
-                success: success,
-                version: '2.1.4',
-                warning: warning
-            };
-
-            var previousToast;
-
-            return toastr;
-
-            ////////////////
-
-            function error(message, title, optionsOverride) {
-                return notify({
-                    type: toastType.error,
-                    iconClass: getOptions().iconClasses.error,
-                    message: message,
-                    optionsOverride: optionsOverride,
-                    title: title
-                });
-            }
-
-            function getContainer(options, create) {
-                if (!options) { options = getOptions(); }
-                $container = $('#' + options.containerId);
-                if ($container.length) {
-                    return $container;
-                }
-                if (create) {
-                    $container = createContainer(options);
-                }
-                return $container;
-            }
-
-            function info(message, title, optionsOverride) {
-                return notify({
-                    type: toastType.info,
-                    iconClass: getOptions().iconClasses.info,
-                    message: message,
-                    optionsOverride: optionsOverride,
-                    title: title
-                });
-            }
-
-            function subscribe(callback) {
-                listener = callback;
-            }
-
-            function success(message, title, optionsOverride) {
-                return notify({
-                    type: toastType.success,
-                    iconClass: getOptions().iconClasses.success,
-                    message: message,
-                    optionsOverride: optionsOverride,
-                    title: title
-                });
-            }
-
-            function warning(message, title, optionsOverride) {
-                return notify({
-                    type: toastType.warning,
-                    iconClass: getOptions().iconClasses.warning,
-                    message: message,
-                    optionsOverride: optionsOverride,
-                    title: title
-                });
-            }
-
-            function clear($toastElement, clearOptions) {
-                var options = getOptions();
-                if (!$container) { getContainer(options); }
-                if (!clearToast($toastElement, options, clearOptions)) {
-                    clearContainer(options);
-                }
-            }
-
-            function remove($toastElement) {
-                var options = getOptions();
-                if (!$container) { getContainer(options); }
-                if ($toastElement && $(':focus', $toastElement).length === 0) {
-                    removeToast($toastElement);
-                    return;
-                }
-                if ($container.children().length) {
-                    $container.remove();
-                }
-            }
-
-            // internal functions
-
-            function clearContainer (options) {
-                var toastsToClear = $container.children();
-                for (var i = toastsToClear.length - 1; i >= 0; i--) {
-                    clearToast($(toastsToClear[i]), options);
-                }
-            }
-
-            function clearToast ($toastElement, options, clearOptions) {
-                var force = clearOptions && clearOptions.force ? clearOptions.force : false;
-                if ($toastElement && (force || $(':focus', $toastElement).length === 0)) {
-                    $toastElement[options.hideMethod]({
-                        duration: options.hideDuration,
-                        easing: options.hideEasing,
-                        complete: function () { removeToast($toastElement); }
-                    });
-                    return true;
-                }
-                return false;
-            }
-
-            function createContainer(options) {
-                $container = $('<div/>')
-                    .attr('id', options.containerId)
-                    .addClass(options.positionClass);
-
-                $container.appendTo($(options.target));
-                return $container;
-            }
-
-            function getDefaults() {
-                return {
-                    tapToDismiss: true,
-                    toastClass: 'toast',
-                    containerId: 'toast-container',
-                    debug: false,
-
-                    showMethod: 'fadeIn', //fadeIn, slideDown, and show are built into jQuery
-                    showDuration: 300,
-                    showEasing: 'swing', //swing and linear are built into jQuery
-                    onShown: undefined,
-                    hideMethod: 'fadeOut',
-                    hideDuration: 1000,
-                    hideEasing: 'swing',
-                    onHidden: undefined,
-                    closeMethod: false,
-                    closeDuration: false,
-                    closeEasing: false,
-                    closeOnHover: true,
-
-                    extendedTimeOut: 1000,
-                    iconClasses: {
-                        error: 'toast-error',
-                        info: 'toast-info',
-                        success: 'toast-success',
-                        warning: 'toast-warning'
-                    },
-                    iconClass: 'toast-info',
-                    positionClass: 'toast-top-right',
-                    timeOut: 5000, // Set timeOut and extendedTimeOut to 0 to make it sticky
-                    titleClass: 'toast-title',
-                    messageClass: 'toast-message',
-                    escapeHtml: false,
-                    target: 'body',
-                    closeHtml: '<button type="button">&times;</button>',
-                    closeClass: 'toast-close-button',
-                    newestOnTop: true,
-                    preventDuplicates: false,
-                    progressBar: false,
-                    progressClass: 'toast-progress',
-                    rtl: false
-                };
-            }
-
-            function publish(args) {
-                if (!listener) { return; }
-                listener(args);
-            }
-
-            function notify(map) {
-                var options = getOptions();
-                var iconClass = map.iconClass || options.iconClass;
-
-                if (typeof (map.optionsOverride) !== 'undefined') {
-                    options = $.extend(options, map.optionsOverride);
-                    iconClass = map.optionsOverride.iconClass || iconClass;
-                }
-
-                if (shouldExit(options, map)) { return; }
-
-                toastId++;
-
-                $container = getContainer(options, true);
-
-                var intervalId = null;
-                var $toastElement = $('<div/>');
-                var $titleElement = $('<div/>');
-                var $messageElement = $('<div/>');
-                var $progressElement = $('<div/>');
-                var $closeElement = $(options.closeHtml);
-                var progressBar = {
-                    intervalId: null,
-                    hideEta: null,
-                    maxHideTime: null
-                };
-                var response = {
-                    toastId: toastId,
-                    state: 'visible',
-                    startTime: new Date(),
-                    options: options,
-                    map: map
-                };
-
-                personalizeToast();
-
-                displayToast();
-
-                handleEvents();
-
-                publish(response);
-
-                if (options.debug && console) {
-                    console.log(response);
-                }
-
-                return $toastElement;
-
-                function escapeHtml(source) {
-                    if (source == null) {
-                        source = '';
-                    }
-
-                    return source
-                        .replace(/&/g, '&amp;')
-                        .replace(/"/g, '&quot;')
-                        .replace(/'/g, '&#39;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;');
-                }
-
-                function personalizeToast() {
-                    setIcon();
-                    setTitle();
-                    setMessage();
-                    setCloseButton();
-                    setProgressBar();
-                    setRTL();
-                    setSequence();
-                    setAria();
-                }
-
-                function setAria() {
-                    var ariaValue = '';
-                    switch (map.iconClass) {
-                        case 'toast-success':
-                        case 'toast-info':
-                            ariaValue =  'polite';
-                            break;
-                        default:
-                            ariaValue = 'assertive';
-                    }
-                    $toastElement.attr('aria-live', ariaValue);
-                }
-
-                function handleEvents() {
-                    if (options.closeOnHover) {
-                        $toastElement.hover(stickAround, delayedHideToast);
-                    }
-
-                    if (!options.onclick && options.tapToDismiss) {
-                        $toastElement.click(hideToast);
-                    }
-
-                    if (options.closeButton && $closeElement) {
-                        $closeElement.click(function (event) {
-                            if (event.stopPropagation) {
-                                event.stopPropagation();
-                            } else if (event.cancelBubble !== undefined && event.cancelBubble !== true) {
-                                event.cancelBubble = true;
-                            }
-
-                            if (options.onCloseClick) {
-                                options.onCloseClick(event);
-                            }
-
-                            hideToast(true);
-                        });
-                    }
-
-                    if (options.onclick) {
-                        $toastElement.click(function (event) {
-                            options.onclick(event);
-                            hideToast();
-                        });
-                    }
-                }
-
-                function displayToast() {
-                    $toastElement.hide();
-
-                    $toastElement[options.showMethod](
-                        {duration: options.showDuration, easing: options.showEasing, complete: options.onShown}
-                    );
-
-                    if (options.timeOut > 0) {
-                        intervalId = setTimeout(hideToast, options.timeOut);
-                        progressBar.maxHideTime = parseFloat(options.timeOut);
-                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
-                        if (options.progressBar) {
-                            progressBar.intervalId = setInterval(updateProgress, 10);
-                        }
-                    }
-                }
-
-                function setIcon() {
-                    if (map.iconClass) {
-                        $toastElement.addClass(options.toastClass).addClass(iconClass);
-                    }
-                }
-
-                function setSequence() {
-                    if (options.newestOnTop) {
-                        $container.prepend($toastElement);
-                    } else {
-                        $container.append($toastElement);
-                    }
-                }
-
-                function setTitle() {
-                    if (map.title) {
-                        var suffix = map.title;
-                        if (options.escapeHtml) {
-                            suffix = escapeHtml(map.title);
-                        }
-                        $titleElement.append(suffix).addClass(options.titleClass);
-                        $toastElement.append($titleElement);
-                    }
-                }
-
-                function setMessage() {
-                    if (map.message) {
-                        var suffix = map.message;
-                        if (options.escapeHtml) {
-                            suffix = escapeHtml(map.message);
-                        }
-                        $messageElement.append(suffix).addClass(options.messageClass);
-                        $toastElement.append($messageElement);
-                    }
-                }
-
-                function setCloseButton() {
-                    if (options.closeButton) {
-                        $closeElement.addClass(options.closeClass).attr('role', 'button');
-                        $toastElement.prepend($closeElement);
-                    }
-                }
-
-                function setProgressBar() {
-                    if (options.progressBar) {
-                        $progressElement.addClass(options.progressClass);
-                        $toastElement.prepend($progressElement);
-                    }
-                }
-
-                function setRTL() {
-                    if (options.rtl) {
-                        $toastElement.addClass('rtl');
-                    }
-                }
-
-                function shouldExit(options, map) {
-                    if (options.preventDuplicates) {
-                        if (map.message === previousToast) {
-                            return true;
-                        } else {
-                            previousToast = map.message;
-                        }
-                    }
-                    return false;
-                }
-
-                function hideToast(override) {
-                    var method = override && options.closeMethod !== false ? options.closeMethod : options.hideMethod;
-                    var duration = override && options.closeDuration !== false ?
-                        options.closeDuration : options.hideDuration;
-                    var easing = override && options.closeEasing !== false ? options.closeEasing : options.hideEasing;
-                    if ($(':focus', $toastElement).length && !override) {
-                        return;
-                    }
-                    clearTimeout(progressBar.intervalId);
-                    return $toastElement[method]({
-                        duration: duration,
-                        easing: easing,
-                        complete: function () {
-                            removeToast($toastElement);
-                            clearTimeout(intervalId);
-                            if (options.onHidden && response.state !== 'hidden') {
-                                options.onHidden();
-                            }
-                            response.state = 'hidden';
-                            response.endTime = new Date();
-                            publish(response);
-                        }
-                    });
-                }
-
-                function delayedHideToast() {
-                    if (options.timeOut > 0 || options.extendedTimeOut > 0) {
-                        intervalId = setTimeout(hideToast, options.extendedTimeOut);
-                        progressBar.maxHideTime = parseFloat(options.extendedTimeOut);
-                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
-                    }
-                }
-
-                function stickAround() {
-                    clearTimeout(intervalId);
-                    progressBar.hideEta = 0;
-                    $toastElement.stop(true, true)[options.showMethod](
-                        {duration: options.showDuration, easing: options.showEasing}
-                    );
-                }
-
-                function updateProgress() {
-                    var percentage = ((progressBar.hideEta - (new Date().getTime())) / progressBar.maxHideTime) * 100;
-                    $progressElement.width(percentage + '%');
-                }
-            }
-
-            function getOptions() {
-                return $.extend({}, getDefaults(), toastr.options);
-            }
-
-            function removeToast($toastElement) {
-                if (!$container) { $container = getContainer(); }
-                if ($toastElement.is(':visible')) {
-                    return;
-                }
-                $toastElement.remove();
-                $toastElement = null;
-                if ($container.children().length === 0) {
-                    $container.remove();
-                    previousToast = undefined;
-                }
-            }
-
-        })();
-    });
-}(typeof define === 'function' && define.amd ? define : function (deps, factory) {
-    if (typeof module !== 'undefined' && module.exports) { //Node
-        module.exports = factory(require('jquery'));
-    } else {
-        window.toastr = factory(window.jQuery);
+"use strict";
+var stringToBytes_SJIS_1 = require('../text/stringToBytes_SJIS');
+var GIFImage_1 = require('../image/GIFImage');
+var ErrorCorrectLevel_1 = require('./ErrorCorrectLevel');
+var QRData_1 = require('./QRData');
+var QR8BitByte_1 = require('./QR8BitByte');
+var QRUtil_1 = require('./QRUtil');
+var RSBlock_1 = require('./RSBlock');
+var BitBuffer_1 = require('./BitBuffer');
+var Polynomial_1 = require('./Polynomial');
+'use strict';
+var QRCode = (function () {
+    function QRCode() {
+        this.typeNumber = 1;
+        this.errorCorrectLevel = ErrorCorrectLevel_1.ErrorCorrectLevel.L;
+        this.qrDataList = [];
     }
-}));
+    QRCode.prototype.getTypeNumber = function () {
+        return this.typeNumber;
+    };
+    QRCode.prototype.setTypeNumber = function (typeNumber) {
+        this.typeNumber = typeNumber;
+    };
+    QRCode.prototype.getErrorCorrectLevel = function () {
+        return this.errorCorrectLevel;
+    };
+    QRCode.prototype.setErrorCorrectLevel = function (errorCorrectLevel) {
+        this.errorCorrectLevel = errorCorrectLevel;
+    };
+    QRCode.prototype.clearData = function () {
+        this.qrDataList = [];
+    };
+    QRCode.prototype.addData = function (qrData) {
+        if (qrData instanceof QRData_1.QRData) {
+            this.qrDataList.push(qrData);
+        }
+        else if (typeof qrData === 'string') {
+            this.qrDataList.push(new QR8BitByte_1.QR8BitByte(qrData));
+        }
+        else {
+            throw typeof qrData;
+        }
+    };
+    QRCode.prototype.getDataCount = function () {
+        return this.qrDataList.length;
+    };
+    QRCode.prototype.getData = function (index) {
+        return this.qrDataList[index];
+    };
+    QRCode.prototype.isDark = function (row, col) {
+        if (this.modules[row][col] != null) {
+            return this.modules[row][col];
+        }
+        else {
+            return false;
+        }
+    };
+    QRCode.prototype.getModuleCount = function () {
+        return this.moduleCount;
+    };
+    QRCode.prototype.make = function () {
+        this.makeImpl(false, this.getBestMaskPattern());
+    };
+    QRCode.prototype.getBestMaskPattern = function () {
+        var minLostPoint = 0;
+        var pattern = 0;
+        for (var i = 0; i < 8; i += 1) {
+            this.makeImpl(true, i);
+            var lostPoint = QRUtil_1.QRUtil.getLostPoint(this);
+            if (i == 0 || minLostPoint > lostPoint) {
+                minLostPoint = lostPoint;
+                pattern = i;
+            }
+        }
+        return pattern;
+    };
+    QRCode.prototype.makeImpl = function (test, maskPattern) {
+        this.moduleCount = this.typeNumber * 4 + 17;
+        this.modules = [];
+        for (var i = 0; i < this.moduleCount; i += 1) {
+            this.modules.push([]);
+            for (var j = 0; j < this.moduleCount; j += 1) {
+                this.modules[i].push(null);
+            }
+        }
+        this.setupPositionProbePattern(0, 0);
+        this.setupPositionProbePattern(this.moduleCount - 7, 0);
+        this.setupPositionProbePattern(0, this.moduleCount - 7);
+        this.setupPositionAdjustPattern();
+        this.setupTimingPattern();
+        this.setupTypeInfo(test, maskPattern);
+        if (this.typeNumber >= 7) {
+            this.setupTypeNumber(test);
+        }
+        var data = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.qrDataList);
+        this.mapData(data, maskPattern);
+    };
+    QRCode.prototype.mapData = function (data, maskPattern) {
+        var inc = -1;
+        var row = this.moduleCount - 1;
+        var bitIndex = 7;
+        var byteIndex = 0;
+        var maskFunc = QRUtil_1.QRUtil.getMaskFunc(maskPattern);
+        for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+            if (col == 6) {
+                col -= 1;
+            }
+            while (true) {
+                for (var c = 0; c < 2; c += 1) {
+                    if (this.modules[row][col - c] == null) {
+                        var dark = false;
+                        if (byteIndex < data.length) {
+                            dark = (((data[byteIndex] >>> bitIndex) & 1) == 1);
+                        }
+                        var mask = maskFunc(row, col - c);
+                        if (mask) {
+                            dark = !dark;
+                        }
+                        this.modules[row][col - c] = dark;
+                        bitIndex -= 1;
+                        if (bitIndex == -1) {
+                            byteIndex += 1;
+                            bitIndex = 7;
+                        }
+                    }
+                }
+                row += inc;
+                if (row < 0 || this.moduleCount <= row) {
+                    row -= inc;
+                    inc = -inc;
+                    break;
+                }
+            }
+        }
+    };
+    QRCode.prototype.setupPositionAdjustPattern = function () {
+        var pos = QRUtil_1.QRUtil.getPatternPosition(this.typeNumber);
+        for (var i = 0; i < pos.length; i += 1) {
+            for (var j = 0; j < pos.length; j += 1) {
+                var row = pos[i];
+                var col = pos[j];
+                if (this.modules[row][col] != null) {
+                    continue;
+                }
+                for (var r = -2; r <= 2; r += 1) {
+                    for (var c = -2; c <= 2; c += 1) {
+                        if (r == -2 || r == 2 || c == -2 || c == 2
+                            || (r == 0 && c == 0)) {
+                            this.modules[row + r][col + c] = true;
+                        }
+                        else {
+                            this.modules[row + r][col + c] = false;
+                        }
+                    }
+                }
+            }
+        }
+    };
+    QRCode.prototype.setupPositionProbePattern = function (row, col) {
+        for (var r = -1; r <= 7; r += 1) {
+            for (var c = -1; c <= 7; c += 1) {
+                if (row + r <= -1 || this.moduleCount <= row + r
+                    || col + c <= -1 || this.moduleCount <= col + c) {
+                    continue;
+                }
+                if ((0 <= r && r <= 6 && (c == 0 || c == 6))
+                    || (0 <= c && c <= 6 && (r == 0 || r == 6))
+                    || (2 <= r && r <= 4 && 2 <= c && c <= 4)) {
+                    this.modules[row + r][col + c] = true;
+                }
+                else {
+                    this.modules[row + r][col + c] = false;
+                }
+            }
+        }
+    };
+    QRCode.prototype.setupTimingPattern = function () {
+        for (var r = 8; r < this.moduleCount - 8; r += 1) {
+            if (this.modules[r][6] != null) {
+                continue;
+            }
+            this.modules[r][6] = r % 2 == 0;
+        }
+        for (var c = 8; c < this.moduleCount - 8; c += 1) {
+            if (this.modules[6][c] != null) {
+                continue;
+            }
+            this.modules[6][c] = c % 2 == 0;
+        }
+    };
+    QRCode.prototype.setupTypeNumber = function (test) {
+        var bits = QRUtil_1.QRUtil.getBCHTypeNumber(this.typeNumber);
+        for (var i = 0; i < 18; i += 1) {
+            this.modules[~~(i / 3)][i % 3 + this.moduleCount - 8 - 3] =
+                !test && ((bits >> i) & 1) == 1;
+        }
+        for (var i = 0; i < 18; i += 1) {
+            this.modules[i % 3 + this.moduleCount - 8 - 3][~~(i / 3)] =
+                !test && ((bits >> i) & 1) == 1;
+        }
+    };
+    QRCode.prototype.setupTypeInfo = function (test, maskPattern) {
+        var data = (this.errorCorrectLevel << 3) | maskPattern;
+        var bits = QRUtil_1.QRUtil.getBCHTypeInfo(data);
+        for (var i = 0; i < 15; i += 1) {
+            var mod = !test && ((bits >> i) & 1) == 1;
+            if (i < 6) {
+                this.modules[i][8] = mod;
+            }
+            else if (i < 8) {
+                this.modules[i + 1][8] = mod;
+            }
+            else {
+                this.modules[this.moduleCount - 15 + i][8] = mod;
+            }
+        }
+        for (var i = 0; i < 15; i += 1) {
+            var mod = !test && ((bits >> i) & 1) == 1;
+            if (i < 8) {
+                this.modules[8][this.moduleCount - i - 1] = mod;
+            }
+            else if (i < 9) {
+                this.modules[8][15 - i - 1 + 1] = mod;
+            }
+            else {
+                this.modules[8][15 - i - 1] = mod;
+            }
+        }
+        this.modules[this.moduleCount - 8][8] = !test;
+    };
+    QRCode.createData = function (typeNumber, errorCorrectLevel, dataArray) {
+        var rsBlocks = RSBlock_1.RSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+        var buffer = new BitBuffer_1.BitBuffer();
+        for (var i = 0; i < dataArray.length; i += 1) {
+            var data = dataArray[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), data.getLengthInBits(typeNumber));
+            data.write(buffer);
+        }
+        var totalDataCount = 0;
+        for (var i = 0; i < rsBlocks.length; i += 1) {
+            totalDataCount += rsBlocks[i].getDataCount();
+        }
+        if (buffer.getLengthInBits() > totalDataCount * 8) {
+            throw 'code length overflow. ('
+                + buffer.getLengthInBits()
+                + '>'
+                + totalDataCount * 8
+                + ')';
+        }
+        if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+            buffer.put(0, 4);
+        }
+        while (buffer.getLengthInBits() % 8 != 0) {
+            buffer.putBit(false);
+        }
+        while (true) {
+            if (buffer.getLengthInBits() >= totalDataCount * 8) {
+                break;
+            }
+            buffer.put(QRCode.PAD0, 8);
+            if (buffer.getLengthInBits() >= totalDataCount * 8) {
+                break;
+            }
+            buffer.put(QRCode.PAD1, 8);
+        }
+        return QRCode.createBytes(buffer, rsBlocks);
+    };
+    QRCode.createBytes = function (buffer, rsBlocks) {
+        var offset = 0;
+        var maxDcCount = 0;
+        var maxEcCount = 0;
+        var dcdata = [];
+        var ecdata = [];
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+            dcdata.push([]);
+            ecdata.push([]);
+        }
+        function createNumArray(len) {
+            var a = [];
+            for (var i = 0; i < len; i += 1) {
+                a.push(0);
+            }
+            return a;
+        }
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+            var dcCount = rsBlocks[r].getDataCount();
+            var ecCount = rsBlocks[r].getTotalCount() - dcCount;
+            maxDcCount = Math.max(maxDcCount, dcCount);
+            maxEcCount = Math.max(maxEcCount, ecCount);
+            dcdata[r] = createNumArray(dcCount);
+            for (var i = 0; i < dcdata[r].length; i += 1) {
+                dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+            }
+            offset += dcCount;
+            var rsPoly = QRUtil_1.QRUtil.getErrorCorrectPolynomial(ecCount);
+            var rawPoly = new Polynomial_1.Polynomial(dcdata[r], rsPoly.getLength() - 1);
+            var modPoly = rawPoly.mod(rsPoly);
+            ecdata[r] = createNumArray(rsPoly.getLength() - 1);
+            for (var i = 0; i < ecdata[r].length; i += 1) {
+                var modIndex = i + modPoly.getLength() - ecdata[r].length;
+                ecdata[r][i] = (modIndex >= 0) ? modPoly.getAt(modIndex) : 0;
+            }
+        }
+        var totalCodeCount = 0;
+        for (var i = 0; i < rsBlocks.length; i += 1) {
+            totalCodeCount += rsBlocks[i].getTotalCount();
+        }
+        var data = createNumArray(totalCodeCount);
+        var index = 0;
+        for (var i = 0; i < maxDcCount; i += 1) {
+            for (var r = 0; r < rsBlocks.length; r += 1) {
+                if (i < dcdata[r].length) {
+                    data[index] = dcdata[r][i];
+                    index += 1;
+                }
+            }
+        }
+        for (var i = 0; i < maxEcCount; i += 1) {
+            for (var r = 0; r < rsBlocks.length; r += 1) {
+                if (i < ecdata[r].length) {
+                    data[index] = ecdata[r][i];
+                    index += 1;
+                }
+            }
+        }
+        return data;
+    };
+    QRCode.prototype.toDataURL = function (cellSize, margin) {
+        if (cellSize === void 0) { cellSize = 2; }
+        if (margin === void 0) { margin = cellSize * 4; }
+        var mods = this.getModuleCount();
+        var size = cellSize * mods + margin * 2;
+        var gif = new GIFImage_1.GIFImage(size, size);
+        for (var y = 0; y < size; y += 1) {
+            for (var x = 0; x < size; x += 1) {
+                if (margin <= x && x < size - margin &&
+                    margin <= y && y < size - margin &&
+                    this.isDark(~~((y - margin) / cellSize), ~~((x - margin) / cellSize))) {
+                    gif.setPixel(x, y, 0);
+                }
+                else {
+                    gif.setPixel(x, y, 1);
+                }
+            }
+        }
+        return gif.toDataURL();
+    };
+    QRCode.PAD0 = 0xEC;
+    QRCode.PAD1 = 0x11;
+    QRCode.stringToBytes = stringToBytes_SJIS_1.stringToBytes_SJIS;
+    return QRCode;
+}());
+exports.QRCode = QRCode;
+//# sourceMappingURL=QRCode.js.map
+});
+___scope___.file("js/text/stringToBytes_SJIS.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var createStringToBytes_1 = require('./createStringToBytes');
+'use strict';
+exports.stringToBytes_SJIS = createStringToBytes_1.createStringToBytes('AAAAAAABAAEAAgACAAMAAwAEAAQABQAFAAYABgAHAAcACAAIAAkACQAKAAoACwALAAwADAANAA0ADgAOAA8ADwAQABAAEQARABIAEgATABMAFAAUABUAFQAWABYAFwAXABgAGAAZABkAGgAaABsAGwAcABwAHQAdAB4AHgAfAB8AIAAgACEAIQAiACIAIwAjACQAJAAlACUAJgAmACcAJwAoACgAKQApACoAKgArACsALAAsAC0ALQAuAC4ALwAvADAAMAAxADEAMgAyADMAMwA0ADQANQA1ADYANgA3ADcAOAA4ADkAOQA6ADoAOwA7ADwAPAA9AD0APgA+AD8APwBAAEAAQQBBAEIAQgBDAEMARABEAEUARQBGAEYARwBHAEgASABJAEkASgBKAEsASwBMAEwATQBNAE4ATgBPAE8AUABQAFEAUQBSAFIAUwBTAFQAVABVAFUAVgBWAFcAVwBYAFgAWQBZAFoAWgBbAFsAXABcAF0AXQBeAF4AXwBfAGAAYABhAGEAYgBiAGMAYwBkAGQAZQBlAGYAZgBnAGcAaABoAGkAaQBqAGoAawBrAGwAbABtAG0AbgBuAG8AbwBwAHAAcQBxAHIAcgBzAHMAdAB0AHUAdQB2AHYAdwB3AHgAeAB5AHkAegB6AHsAewB8AHwAfQB9AH4AfgB\/AH8AooGRAKOBkgCngZgAqIFOAKyBygCwgYsAsYF9ALSBTAC2gfcA14F+APeBgAORg58DkoOgA5ODoQOUg6IDlYOjA5aDpAOXg6UDmIOmA5mDpwOag6gDm4OpA5yDqgOdg6sDnoOsA5+DrQOgg64DoYOvA6ODsAOkg7EDpYOyA6aDswOng7QDqIO1A6mDtgOxg78DsoPAA7ODwQO0g8IDtYPDA7aDxAO3g8UDuIPGA7mDxwO6g8gDu4PJA7yDygO9g8sDvoPMA7+DzQPAg84DwYPPA8OD0APEg9EDxYPSA8aD0wPHg9QDyIPVA8mD1gQBhEYEEIRABBGEQQQShEIEE4RDBBSERAQVhEUEFoRHBBeESAQYhEkEGYRKBBqESwQbhEwEHIRNBB2ETgQehE8EH4RQBCCEUQQhhFIEIoRTBCOEVAQkhFUEJYRWBCaEVwQnhFgEKIRZBCmEWgQqhFsEK4RcBCyEXQQthF4ELoRfBC+EYAQwhHAEMYRxBDKEcgQzhHMENIR0BDWEdQQ2hHcEN4R4BDiEeQQ5hHoEOoR7BDuEfAQ8hH0EPYR+BD6EgAQ\/hIEEQISCBEGEgwRChIQEQ4SFBESEhgRFhIcERoSIBEeEiQRIhIoESYSLBEqEjARLhI0ETISOBE2EjwROhJAET4SRBFGEdiAQgV0gFIFcIBaBYSAYgWUgGYFmIByBZyAdgWggIIH1ICGB9iAlgWQgJoFjIDCB8SAygYwgM4GNIDuBpiEDgY4hK4HwIZCBqSGRgaohkoGoIZOBqyHSgcsh1IHMIgCBzSICgd0iA4HOIgeB3iIIgbgiC4G5IhKBfCIageMiHYHlIh6BhyIggdoiJ4HIIiiBySIpgb8iKoG+IiuB5yIsgegiNIGIIjWB5iI9geQiUoHgImCBgiJhgd8iZoGFImeBhiJqgeEia4HiIoKBvCKDgb0ihoG6IoeBuyKlgdsjEoHcJQCEnyUBhKolAoSgJQOEqyUMhKElD4SsJRCEoiUThK0lFISkJReEryUYhKMlG4SuJRyEpSUdhLolIIS1JSOEsCUkhKclJYS8JSiEtyUrhLIlLISmJS+EtiUwhLslM4SxJTSEqCU3hLglOIS9JTuEsyU8hKklP4S5JUKEviVLhLQloIGhJaGBoCWygaMls4GiJbyBpSW9gaQlxoGfJceBniXLgZslzoGdJc+BnCXvgfwmBYGaJgaBmSZAgYomQoGJJmqB9CZtgfMmb4HyMACBQDABgUEwAoFCMAOBVjAFgVgwBoFZMAeBWjAIgXEwCYFyMAqBczALgXQwDIF1MA2BdjAOgXcwD4F4MBCBeTARgXowEoGnMBOBrDAUgWswFYFsMByBYDBBgp8wQoKgMEOCoTBEgqIwRYKjMEaCpDBHgqUwSIKmMEmCpzBKgqgwS4KpMEyCqjBNgqswToKsME+CrTBQgq4wUYKvMFKCsDBTgrEwVIKyMFWCszBWgrQwV4K1MFiCtjBZgrcwWoK4MFuCuTBcgrowXYK7MF6CvDBfgr0wYIK+MGGCvzBigsAwY4LBMGSCwjBlgsMwZoLEMGeCxTBogsYwaYLHMGqCyDBrgskwbILKMG2CyzBugswwb4LNMHCCzjBxgs8wcoLQMHOC0TB0gtIwdYLTMHaC1DB3gtUweILWMHmC1zB6gtgwe4LZMHyC2jB9gtswfoLcMH+C3TCAgt4wgYLfMIKC4DCDguEwhILiMIWC4zCGguQwh4LlMIiC5jCJgucwioLoMIuC6TCMguowjYLrMI6C7DCPgu0wkILuMJGC7zCSgvAwk4LxMJuBSjCcgUswnYFUMJ6BVTChg0AwooNBMKODQjCkg0MwpYNEMKaDRTCng0YwqINHMKmDSDCqg0kwq4NKMKyDSzCtg0wwroNNMK+DTjCwg08wsYNQMLKDUTCzg1IwtINTMLWDVDC2g1Uwt4NWMLiDVzC5g1gwuoNZMLuDWjC8g1swvYNcML6DXTC\/g14wwINfMMGDYDDCg2Eww4NiMMSDYzDFg2QwxoNlMMeDZjDIg2cwyYNoMMqDaTDLg2owzINrMM2DbDDOg20wz4NuMNCDbzDRg3Aw0oNxMNODcjDUg3Mw1YN0MNaDdTDXg3Yw2IN3MNmDeDDag3kw24N6MNyDezDdg3ww3oN9MN+DfjDgg4Aw4YOBMOKDgjDjg4Mw5IOEMOWDhTDmg4Yw54OHMOiDiDDpg4kw6oOKMOuDizDsg4ww7YONMO6DjjDvg48w8IOQMPGDkTDyg5Iw84OTMPSDlDD1g5Uw9oOWMPuBRTD8gVsw\/YFSMP6BU04AiOpOAZKaTgOOtU4HlpxOCI\/kTgmOT04Kj+NOC4m6Tg2Vc04Ol15OEJigThGJTk4Uio5OFZihThaQok4XmcBOGIt1ThmVuE4ej+VOIZe8TiaVwE4qmKJOLZKGTjGYo04yi\/hONpikTjiK2045kk9OO47lTjyYpU4\/mKZOQpinTkOUVE5Fi3ZOS5RWTk2T4U5OjMFOT5ZSTlXlaE5WmKhOV4\/mTliYqU5ZibNOXYvjTl6M7k5fludOYpukTnGXkE5zk\/tOfoqjToCLVE6CmKpOhZirToaXuU6Il1xOiZGIToqYrU6LjpZOjJPxTo6YsE6RiV1OkozdTpSM3E6ViOROmJhqTpmYaU6bjbFOnIifTp6YsU6fmLJOoJizTqGWU06imLROpIzwTqWI5U6mlpJOqIucTquLnU6si55OrZLgTq6Xuk6wmLVOs5i2TraYt066kGxOwI9ZTsGQbU7CmLxOxJi6TsaYu07Hi3dOyo2hTsuJ7k7NmLlOzpi4Ts+Vp07UjmVO1Y5kTtaRvE7XmL1O2JV0TtmQ5U7dgVdO3pi+Tt+YwE7jkeNO5JffTuWIyE7tmL9O7om8TvCLwk7ykodO9oyPTveYwU77lENPAYrpTwmYwk8KiMlPDYzeTw6K6k8PlZpPEJSwTxGLeE8aie9PHJjlTx2TYE8vlIxPMJjETzSUuk82l+BPOJBMTzqOZk88jpdPPYm+T0OSz09GkkFPR5jIT02Iyk9OkuFPT49aT1CNsk9Rl0NPU5HMT1WJvU9XmMdPWZddT1qYw09bmMVPXI3sT12Yxk9em0NPaZjOT2+Y0U9wmM9Pc4nAT3WVuU92mMlPe5jNT3yM8U9\/jmdPg4qkT4aY0k+ImMpPi5fhT42OmE+PmMtPkZjQT5aY00+YmMxPm4ufT52Iy0+gi6BPoYm\/T6ubRE+tlplPrpWOT6+M8k+1kE5Ptpe1T7+V1k\/CjFdPw5GjT8SJ4k\/Kj3JPzpjXT9CY3E\/RmNpP1JjVT9eRrU\/YmNhP2pjbT9uY2U\/dldtP35jWT+GQTU\/jlpNP5JjdT+WY3k\/uj0NP75jrT\/OUb0\/1lVVP9pjmT\/iV7k\/6ibRP\/pjqUAWY5FAGmO1QCZFxUAuMwlANlHtQD+DFUBGY7FASk3xQFJjhUBaM9FAZjPNQGpjfUB+O2FAhmOdQI5XtUCSSbFAlmONQJoyRUCiY4FApmOhQKpjiUCuXz1AsmOlQLZhgUDaL5FA5jJBQQ5juUEeY71BImPNQSYjMUE+VzlBQmPJQVZjxUFaY9VBamPRQXJLiUGWMklBsmPZQco7DUHSRpFB1kuNQdov0UHiY91B9i1VQgJj4UIWY+lCNllRQkYyGUJiOUFCZlPVQmpj5UKyNw1Ctl2JQspj8ULOZQlC0mPtQtY3CULePnVC+jFhQwplDUMWLzVDJmUBQyplBUM2TrVDPkZxQ0YuhUNWWbFDWmURQ2pe7UN6ZRVDjmUhQ5ZlGUOeRbVDtmUdQ7plJUPWZS1D5mUpQ+5XGUQCLVlEBmU1RAplOUQSJrVEJmUxREo7yURSZUVEVmVBRFplPURiY1FEamVJRH4+eUSGZU1Eql0RRMpbXUTeZVVE6mVRRO5lXUTyZVlE\/mVhRQJlZUUGI8lFDjLNRRIxaUUWPW1FGkptRR4uiUUiQ5lFJjPVRS42OUUyZW1FNlsZRTpNlUVCOmVFSmVpRVJlcUVqTfVFcipVRYpldUWWT\/FFokVNRaZlfUWqZYFFrlKpRbIz2UW2YWlFumWFRcYukUXWVulF2kbRRd4vvUXiTVFF8jJNRgJliUYKZY1GFk+BRhol+UYmZZlGKjftRjJllUY2NxFGPmWdRkOPsUZGZaFGSlmBRk5lpUZWZalGWmWtRl4\/nUZmOylGgiqVRopluUaSZbFGllrtRppltUaiVeVGpmW9RqplwUauZcVGsk35RsJl1UbGZc1GymXRRs5lyUbSN4VG1mXZRtpboUbeX4lG9mXdRxJCmUcWZeFHGj3lRyZl5UcuSnFHMl71RzZOAUdaZw1HbmXpR3OqjUd2Lw1HgmXtR4ZZ9UeaPiFHnkfpR6Zl9UeqT4lHtmX5R8JmAUfGKTVH1mYFR9oulUfiTylH5iZpR+o9vUf2Un1H+mYJSAJOBUgOQblIEmYNSBpWqUgeQ2FIIiqBSCoqnUguZhFIOmYZSEYxZUhSZhVIXl\/FSHY+JUiSUu1IllcpSJ5mHUimXmFIqmYhSLpmJUjCTnlIzmYpSNpCnUjeN\/FI4jJRSOZmLUjqOaFI7jY9SQ5LkUkSZjVJHkaVSSo3tUkuZjlJMmY9STZFPUk+ZjFJUmZFSVpZVUluNhFJemZBSY4yVUmSN3FJllI1SaZmUUmqZklJvlZtScI\/oUnGZm1JyioRSc5mVUnSZk1J1kW5SfZmXUn+ZllKDimNSh4yAUoiZnFKJl6tSjZmYUpGZnVKSmZpSlJmZUpuXzVKfjPdSoInBUqOX8lKpj5VSqpN3UquNhVKsmaBSrZmhUrGX41K0mEpStZmjUrmM+FK8maJSvopOUsGZpFLDlnVSxZK6UseXRVLJlddSzZmlUtLo01LVk65S15mmUtiKqFLZlrFS3Y+fUt6Zp1LfleVS4JmrUuKQqFLjmahS5IvOUuaZqVLniqlS8oxNUvOZrFL1ma1S+JmuUvmZr1L6jtlS\/oz5Uv+W3FMBluZTApP1UwWV71MGmbBTCJmxUw2Zs1MPmbVTEJm0UxWZtlMWibtTF5ZrUxmN+lMambdTHZF4UyCPoFMhi6dTI5m4UyqU2VMvmblTMZm6UzOZu1M4mbxTOZVDUzqL5lM7iONTP5O9U0CZvVNBj1xTQ5DnU0WZv1NGmb5TR4+hU0iM31NJmcFTSpS8U02ZwlNRlNpTUpGyU1OR7FNUi6ZTV5PsU1iSUFNalI5TXJZtU16ZxFNgkOhTZoxUU2mZxVNumcZTb4lLU3CI81NxiutTc5GmU3SLcFN1l5FTd5nJU3iJtVN7mchTf4uoU4KZylOElu9TlpnLU5iX0FOajPpTn4y0U6CZzFOlmc5TppnNU6iQflOpiVhTrYl9U66Zz1OwmdBTs4y1U7aZ0VO7i45Two5RU8OZ0lPIlpRTyY2zU8qLeVPLl0ZTzJFvU82UvVPOjvtT1I9mU9aO5lPXjvNT2Y+WU9uUvlPfmdVT4YliU+KRcFPjjPtT5IzDU+WL5VPomdlT6ZJAU+qR\/FPri6lT7I+iU+2Z2lPumdhT74nCU\/CR5FPxjrZT8o5qU\/OJRVP2ipBT942GU\/iOaVP6mdtUAZncVAOLaFQEimVUCI2HVAmLZ1QKkt1UC4lEVAyTr1QNlrxUDo1AVA+XmVQQk2ZUEYz8VBuMTlQdmeVUH4vhVCCWaVQmlNtUKZnkVCuK3FQsmd9ULZngVC6Z4lQ2meNUOIt6VDmQgVQ7latUPJnhVD2Z3VQ+jOFUQJneVEKYQ1RGlfBUSJLmVEmM4FRKjZBUTpnmVFGT21RfmepUaI78VGqO9FRwme1UcZnrVHOWoVR1mehUdpnxVHeZ7FR7me9UfIzEVH2WvVSAmfBUhJnyVIaZ9FSLje5UjJhhVI6Z6VSPmedUkJnzVJKZ7lSimfZUpJpCVKWZ+FSomfxUq5pAVKyZ+VSvml1Uso3nVLOKUFS4mfdUvJpEVL2I9FS+mkNUwIijVMGVaVTCmkFUxJn6VMeZ9VTImftUyY3GVNiaRVThiPVU4ppOVOWaRlTmmkdU6I+jVOmWiVTtmkxU7ppLVPKTTlT6mk1U\/ZpKVQSJU1UGjbRVB5BPVQ+aSFUQk4JVFJpJVRaIoFUumlNVL5dCVTGPpVUzmllVOJpYVTmaT1U+kcFVQJpQVUSR7VVFmlVVRo+kVUyaUlVPluJVU4xbVVaaVlVXmldVXJpUVV2aWlVjmlFVe5pgVXyaZVV+mmFVgJpcVYOaZlWEkVBVh5poVYmNQVWKml5Vi5KdVZiaYlWZmltVmoqrVZyK7FWdioVVnppjVZ+aX1WnjJZVqJppVamaZ1WqkXJVq4tpVayLqlWummRVsIvyVbaJY1XEmm1VxZprVceapVXUmnBV2ppqVdyablXfmmxV445rVeSab1X3mnJV+Zp3Vf2adVX+mnRWBpJRVgmJw1YUmnFWFppzVhePplYYiVJWG5p2VimJ3FYvmoJWMY\/6VjKafVY0mntWNpp8VjiaflZCiVxWTJFYVk6aeFZQmnlWW4qaVmSagVZoiu1WapqEVmuagFZsmoNWdJWsVniT01Z6lLZWgJqGVoaahVaHimRWipqHVo+ailaUmolWoJqIVqKUWFalmotWrpqMVrSajla2mo1WvJqQVsCak1bBmpFWwpqPVsOaklbImpRWzpqVVtGallbTmpdW15qYVtiZZFbajvpW245sVt6J8VbgiPZW45JjVu6amVbwjaJW8ojNVvOQfVb5mppW+ozFVv2NkVb\/mpxXAJqbVwOV3lcEmp1XCJqfVwmanlcLmqBXDZqhVw+Ml1cSiYBXE5qiVxaapFcYmqNXHJqmVx+TeVcmmqdXJ4izVyiN3VctjFxXMJJuVzeaqFc4mqlXO5qrV0CarFdCjeJXR4vPV0qWVldOmqpXT5qtV1CNv1dRjUJXYZqxV2SNo1dmklJXaZquV2qS2Fd\/mrJXgpCCV4iasFeJmrNXi4xeV5OatFegmrVXoo1DV6OKX1ekmrdXqpq4V7CauVezmrZXwJqvV8OaulfGmrtXy5aEV86P6VfSmr1X05q+V9SavFfWmsBX3JRXV9+I5lfglXVX45rBV\/SP+1f3jrdX+ZR8V\/qK7lf8jelYAJZ4WAKTsFgFjJhYBpHNWAqav1gLmsJYFZHCWBmaw1gdmsRYIZrGWCSS51gqiqxYL+qfWDCJgVgxlfFYNI\/qWDWTZ1g6jeRYPZrMWECVu1hBl9tYSonyWEuayFhRkVlYUprLWFSTg1hXk2hYWJOEWFmUt1hakstYXo3HWGKax1hpiZZYa5NVWHCayVhymsVYdZBvWHmazVh+j21Yg4urWIWazliTleZYl5GdWJySxFifmtBYqJZuWKua0ViumtZYs5WtWLia1Vi5ms9YuprSWLua1Fi+jaRYwZXHWMWa11jHkmRYyonzWMyP61jRmtlY05rYWNWNiFjXmtpY2JrcWNma21jcmt5Y3prTWN+a4Fjkmt9Y5ZrdWOuObVjskHBY7pFzWO+a4VjwkLpY8YjrWPKUhFj3ktlY+ZrjWPqa4lj7muRY\/JrlWP2a5lkCmudZCZXPWQqa6FkPicRZEJrpWRWXW1kWik9ZGJnHWRmPZ1kakb1ZG5rqWRyW6VkilrJZJZrsWSeR5Vkpk1ZZKpG+WSuVdlksmu1ZLZruWS6Jm1kxjrhZMprvWTeIzlk4mvBZPprxWUSJgllHiu9ZSJPeWUmV8llOmvVZT5F0WVCa9FlRjF9ZVJZ6WVWa81lXk4VZWJr3WVqa9llgmvlZYpr4WWWJnFlnmvpZaI+nWWma\/FlqkkRZbJr7WW6VsVlzj5dZdJN6WXibQFl9jURZgZtBWYKUQFmDlNxZhJbPWYqURFmNm0pZk4tXWZaXZFmZlq1Zm5uqWZ2bQlmjm0VZpZHDWaiWV1msk2lZsptGWbmWhVm7jchZvo+oWcabR1nJjm9Zy45uWdCIt1nRjMZZ05CpWdSIz1nZm0tZ2ptMWdybSVnliVdZ5oqtWeibSFnqlsNZ65VQWfaIpln7iPdZ\/45wWgGI0FoDiKFaCZtRWhGbT1oYlrpaGptSWhybUFofm05aIJBQWiWbTVopldhaL4ziWjWbVlo2m1daPI+pWkCbU1pBmEtaRpRrWkmbVVpajaVaYptYWmaVd1pqm1labJtUWn+WuVqSlH1amptaWpuVUVq8m1tavZtfWr6bXFrBicVawpteWsmOuVrLm11azIyZWtCba1rWm2Ra15thWuGShFrjm2Ba5ptiWumbY1r6m2Va+5tmWwmK8FsLm2hbDJtnWxabaVsij+xbKptsWyyS2lswiWRbMptqWzabbVs+m25bQJtxW0Obb1tFm3BbUI5xW1GbcltUjUVbVZtzW1eOmltYkbZbWpt0W1ubdVtcjnlbXY1GW1+W0Ftji0dbZIzHW2WbdltmindbaZt3W2uRt1twm3hbcZuhW3ObeVt1m3pbeJt7W3qbfVuAm35bg5uAW4WR7luHiUZbiI7nW4mIwFuLkXZbjIquW42Os1uPjUdblZOGW5ePQFuYiq9bmZKIW5qS6FubiLZbnItYW52V81ufjsBbootxW6OQ6VukjrpbpZdHW6abgVuui3tbsI3JW7OKUVu0iYNbtY+qW7aJxlu4m4JbuZdlW7+PaFvCjuJbw5uDW8SK8VvFk9BbxpanW8ebhFvJm4VbzJV4W9Cbh1vSiqZb04v1W9SbhlvbirBb3ZBRW96bi1vfjkBb4YnHW+Kbilvkm4hb5ZuMW+abiVvnlEpb6J7LW+mQUlvrm41b7pe+W\/Cbjlvzm5Bb9ZKeW\/abj1v4kKFb+o6bW\/6Rzlv\/jvVcAZWVXAKQ6lwEjstcBZuRXAaPq1wHm5JcCJuTXAmI0VwKkbhcC5BxXA2blFwOk7FcD4+sXBGPrVwTm5VcFpDrXBqPrlwgm5ZcIpuXXCSW3lwom5hcLYvEXDGPQVw4m5lcOZuaXDqO2lw7kEtcPJPyXD2Qc1w+lPZcP5RBXECLx1xBm5tcRYuPXEabnFxIi\/xcSpPNXEuJrlxNjnJcTpudXE+boFxQm59cUYv7XFObnlxVk1dcXpGuXGCTalxhjsZcZJF3XGWXmlxsm6JcbpujXG+T1FxxjlJcdpulXHmbplyMm6dckIryXJGbqFyUm6lcoYmqXKiRWlypiuJcq5urXKyWplyxkdBcs4p4XLabrVy3m69cuIrdXLubrFy8m65cvpuxXMWbsFzHm7Jc2ZuzXOCTu1zhi6xc6InjXOmbtFzqm7lc7Zu3XO+V9VzwlfRc9pOHXPqbtlz7j3Nc\/Zu1XQeQkl0Lm7pdDo3oXRGbwF0Um8FdFZu7XRaKUl0Xm7xdGJvFXRmbxF0am8NdG5u\/XR+bvl0im8JdKZX2XUubyV1Mm8ZdTpvIXVCXkl1Sm8ddXJu9XWmQk11sm8pdb421XXOby112m8xdgpvPXYSbzl2Hm81di5OIXYybuF2Qm9VdnZvRXaKb0F2sm9JdrpvTXbeb1l26l+RdvJvXXb2b1F3Jm9hdzIreXc2b2V3Sm9td05vaXdab3F3bm91d3ZDsXd6PQl3hj4Rd45GDXeWNSF3mjbZd541JXeiLkF3rm95d7o23XfGMyF3ym99d85akXfSUYl31m+Bd941KXfuKql39kkZd\/ovQXgKOc14DlXpeBpS\/Xgub4V4MivNeEZvkXhaSn14Zm+NeGpviXhub5V4dkuleJZCDXiuOdF4tkMheL5HRXjCLQV4zkqBeNpvmXjeb5144j+1ePZZYXkCb6l5Dm+leRJvoXkWVnV5Hm\/FeTJZ5Xk6b615Um+1eVZaLXleb7F5fm+5eYZSmXmKb715jlbxeZJvwXnKKsV5zlb1edJROXnWb8l52m\/NeeI1LXnmKsl56m\/Ree4y2XnyXY159l0hefor0Xn+b9l6BkqFeg41MXoSPr16HlN1eio+wXo+PmF6VkupelpX3XpeTWF6ajU1enJV7XqCb916mk3hep43AXquMyV6tkutetYjBXraPjl63jU5euJdmXsGb+F7Cm\/lew5RwXsib+l7Jl\/VeyphMXs+b\/F7Qm\/te04pmXtacQF7anENe25xEXt2cQl7flV9e4I+xXuGcRl7inEVe45xBXuicR17pnEhe7JxJXvCcTF7xnEpe85xLXvScTV72iYRe95LsXvicTl76jJpe+4n0XvyUVV7+nE9e\/5P5XwGV2V8DnFBfBJhNXwmcUV8Klb5fC5xUXwyYn18NmK9fD46uXxCT818RnFVfE4t8XxSSol8ViPhfFpxWXxeVpF8YjU9fG5JvXx+S7V8llu1fJoy3XyeMyl8pnFdfLZxYXy+cXl8xjuNfNZKjXzeLrV84nFlfPJVKXz6SZV9BnFpfSJxbX0qLrl9MnFxfTpxdX1GcX19Tk5ZfVpxgX1ecYV9ZnGJfXJxTX12cUl9hnGNfYoxgX2aVRl9pjcpfapVWX2uSpF9slWpfbZxkX3CPsl9xiWVfc5xlX3ecZl95lvBffJTeX3+caV+AiZ1fgZCqX4KcaF+DnGdfhIxhX4WR0l+HnG1fiJxrX4qcal+Ll6VfjIzjX5CPmV+RnGxfkpNrX5OPXV+Xk75fmJxwX5mcb1+enG5foJxxX6GM5F+onHJfqZWcX6qPel+tnHNfrpT3X7OTv1+0kqVfuZNPX7ycdF+9i0pfw5BTX8WVS1\/MivVfzZRFX9acdV\/XjnVf2JZZX9mWWl\/ciZ5f3Zx6X+CSiV\/knHdf64n1X\/Ccq1\/xnHlf9ZRPX\/iceF\/7nHZf\/Y2aX\/+cfGAOnINgD5yJYBCcgWASk3tgFZyGYBaVfGAZnIBgG5yFYByX5WAdjnZgIJHTYCGcfWAli31gJpyIYCeQq2AoiYVgKZyCYCqJ9mArnIdgL4uvYDGchGA6nIpgQZyMYEKclmBDnJRgRpyRYEqckGBLl\/ZgTZySYFCLsGBSjVBgVY+aYFmcmWBanItgX5yPYGCcfmBiifhgY5yTYGSclWBlknBgaI2mYGmJtmBqnI1ga5yYYGycl2Bti7Fgb5GnYHCKhmB1jGJgd5yOYIGcmmCDnJ1ghJyfYImOu2CLnKVgjJLuYI2cm2CSnKNglIn3YJacoWCXnKJgmpyeYJucoGCfjOVgoJdJYKOKs2CmiXhgp5ykYKmUWWCqiKtgspTfYLOce2C0nKpgtZyuYLaW42C4nKdgvJOJYL2crGDFj+5gxpytYMeT1WDRmGZg05ypYNicr2DajZtg3JDJYN+I0mDgnKhg4ZymYOOReWDnnJxg6I5TYPCRxGDxnLtg85F6YPSctmD2nLNg95y0YPmO5GD6nLdg+5y6YQCctWEBj0RhA5y4YQacsmEIlvphCZb5YQ2cvGEOnL1hD4jTYRWcsWEai\/BhG4ikYR+KtGEhnLlhJ5zBYSicwGEsnMVhNJzGYTycxGE9nMdhPpy\/YT+cw2FCnMhhRJzJYUecvmFIjpxhSpzCYUuR1GFMjVFhTZywYU6QVGFTnNZhVZXnYViczGFZnM1hWpzOYV2c1WFfnNRhYpadYWOKtWFlnNJhZ4xkYWiKU2FrnM9hbpe2YW+c0WFwiNRhcZzTYXOcymF0nNBhdZzXYXaMY2F3nMthfpd8YYKXSmGHnNphipzeYY6RnmGQl\/dhkZzfYZSc3GGWnNlhmZzYYZqc3WGkla5hp5OyYamMZWGrnOBhrJzbYa6c4WGyjJthtomvYbqc6WG+irZhw5znYcac6GHHjadhyJzmYcmc5GHKnONhy5zqYcyc4mHNnOxh0In5YeOc7mHmnO1h8pKmYfSc8WH2nO9h95zlYfiMnGH6nPBh\/Jz0Yf2c82H+nPVh\/5zyYgCc9mIInPdiCZz4YgqV6GIMnPpiDZz5Yg6PXmIQkKxiEYnkYhKJ+mIUnPtiFoi9YhqQymIbnPxiHebBYh6dQGIfjIFiIZ1BYiaQ7WIqnUJiLp1DYi+LWWIwnURiMp1FYjOdRmI0kdViOIzLYjuW32I\/lltiQI+KYkGdR2JHkO5iSOe7YkmU4GJLjuhiTY3LYk6dSGJTkcViVZWlYliR72JbnUtiXp1JYmCdTGJjnUpiaJ1NYm6Vr2JxiLVidpV9YnmU4WJ8nU5ifp1RYn+Ps2KAi1pigp1PYoOdVmKEj7RiiZ1QYoqUY2KRl31ikp1SYpOdU2KUnVdilZOKYpadVGKXjVJimJDcYpudZWKclLJinpHwYquU4mKsnatisZX4YrWS72K5lpViu51aYryJn2K9kopiwp1jYsWSU2LGnV1ix51kYsidX2LJnWZiyp1iYsydYWLNlI9iz51bYtCJ+2LRnVli0ouRYtOR8WLUnVVi151YYtiNU2LZkNli24+1YtydYGLdlHFi4IuSYuGKZ2Lsiodi7ZBAYu6daGLvnW1i8Z1pYvOMnWL1nW5i9o5BYveNiWL+j0Vi\/51cYwGOnWMCnWtjB453YwidbGMJiMJjDJ1nYxGSp2MZi5NjH4uyYyedamMoiKVjK43BYy+QVWM6kvBjPZTSYz6dcGM\/kX1jSZGoY0yOSmNNnXFjT51zY1Cdb2NVld9jV5K7Y1yRe2NnlfljaI7MY2mdgGNrnX5jbpCYY3KMnmN2nXhjd4+3Y3qT5mN7lFBjgJ12Y4ORfGOIjvZjiZ17Y4yPtmOOnXVjj516Y5KUcmOWnXRjmIxAY5uKfGOfnXxjoJepY6GNzGOiklRjo515Y6WQ2mOnjVRjqJCEY6mJhmOqkVtjq513Y6yLZGOyjGZjtJLNY7WdfWO7kX5jvp2BY8Cdg2PDkbVjxJ2JY8adhGPJnYZjz5VgY9CS8WPSnYdj1pdLY9qXZ2Pbirdj4YisY+OdhWPpnYJj7or2Y\/SJh2P2nYhj+pdoZAadjGQNkblkD52TZBOdjWQWnYpkF52RZBydcmQmnY5kKJ2SZCyUwGQtk4tkNJ2LZDadj2Q6jGdkPo3vZEKQ22ROnZdkWJNFZGedlGRploBkb52VZHadlmR4lsxkepCgZIOMgmSInZ1kko5UZJOdmmSVnZlkmpRRZJ6Ts2Skk1BkpZ2bZKmdnGSrlY9krZRkZK6OQmSwkO9kspZvZLmKaGS7naNkvJ2eZMGXaWTCnaVkxZ2hZMedomTNkYBk0p2gZNSdXmTYnaRk2p2fZOCdqWThnapk4pNGZOOdrGTmjkNk552nZOyLW2Tvna1k8Z2mZPKdsWT0nbBk9p2vZPqdsmT9nbRk\/o\/vZQCds2UFnbdlGJ21ZRydtmUdnZBlI525ZSSduGUqnZhlK526ZSydrmUvjnhlNJ27ZTWdvGU2nb5lN529ZTidv2U5ifxlO41VZT6V+mU\/kK1lRYzMZUidwWVNncRlT5VxZVGLfmVVncNlVp3CZVeUc2VYncVlWYuzZV2dx2VencZlYoq4ZWOOVWVmk9ZlbIxoZXCQlGVynchldJCuZXWTR2V3lX5leJ3JZYKdymWDnctlh5W2ZYibfGWJkMRljJVrZY6N1mWQlONlkZTBZZeTbGWZl79lm53NZZyOzmWfnc5loYi0ZaSL0mWlkMtlp5WAZaudz2WsjmFlrZJmZa+OemWwkFZlt53QZbmV+2W8iZdlvY57ZcGd02XDndFlxJ3UZcWXt2XGndJly5D5Zcyd1WXPkbBl0p3WZdeK+GXZndhl253XZeCd2WXhndpl4or5ZeWT+mXmklVl54uMZeiOfGXpkYFl7I97Ze2IrmXxndtl+omgZfud32YCjVZmA53eZgaNqWYHj7hmCp3dZgyPuWYOlr5mD42oZhOI1WYUkMxmHJ3kZh+Qr2YgiWZmJY90ZieWhmYojfBmLY+6Zi+QpWY0neNmNZ3hZjad4mY8kotmP55FZkGd6GZCjp5mQ41XZkSd5mZJnedmS5BXZk+d5WZSjk5mXZ3qZl6d6WZfne5mYp3vZmSd62ZmikFmZ53sZmid7WZplNNmbpWBZm+MaWZwnfBmdJCwZnaPu2Z6knFmgYvFZoOd8WaEnfVmh4nJZoid8maJnfRmjp3zZpGPi2aWkmdml4jDZpid9madnfdmopKoZqaX72arjmJmrpXpZrSWXGa4nkFmuZ35Zryd\/Ga+nftmwZ34ZsSeQGbHk9xmyZ36ZtaeQmbZj4xm2p5DZtyXambdlJhm4J5EZuaeRmbpnkdm8J5IZvKLyGbziWdm9I1YZvWeSWb3nkpm+I+RZvmRgmb8mdZm\/ZFdZv6RXGb\/kdZnAI3FZwOY8GcIjI5nCZdMZwuV\/GcNlZ5nD55LZxSN8WcVkr1nFp5MZxeYTmcbll1nHZKpZx6eTWcfivpnJp5OZyeeT2colthnKpaiZyuWlmcslntnLY5EZy6eUWcxjulnNJZwZzaeU2c3nlZnOJ5VZzqK92c9i4BnP55SZ0GeVGdGnldnSZCZZ06Xm2dPiMdnUI3eZ1GRumdTjttnVo\/xZ1meWmdck21nXp5YZ1+RqWdgnllnYY\/wZ2KW22djnltnZJ5cZ2WXiGdqnmFnbY1ZZ2+UdGdwnl5ncZOMZ3Kd3GdzneBndYtuZ3eUZmd8nmBnfo+8Z3+UwmeFnmZnh5T4Z4meXWeLnmNnjJ5iZ5CQzWeVlo1nl5fRZ5qWh2ecicpnnY59Z6CYZ2ehnmVnopCVZ6aeZGepnl9nr4zNZ7Oea2e0nmlntonLZ7eeZ2e4nm1nuZ5zZ8GRxmfElb9nxp51Z8qVQWfOnnRnz5SQZ9CWXmfRirln05D1Z9SPX2fYktFn2pdNZ92ecGfenm9n4p5xZ+SebmfnnnZn6Z5sZ+yeamfunnJn755oZ\/GSjGfzlvZn9I7EZ\/WN8mf7jbhn\/paPZ\/+KYGgCksxoA5PIaASJaGgTkPBoFpCyaBeMSWgennhoIY1aaCKKnGgpnnpoKoqUaCuegWgynn1oNJDxaDiKamg5japoPIppaD2NzWhAnntoQYyFaEKMamhDk41oRp55aEiIxGhNnnxoTp5+aFCLy2hRjEtoU4q6aFSLamhZnoJoXI33aF2WkWhfjlZoY56DaGeVT2h0no9odomxaHeehGh+npVof56FaIGXwGiDnoxohZR+aI2elGiPnodok4iyaJSeiWiXjVtom56LaJ2eimifnoZooJ6RaKKPvWimmutop4zmaKiXnGitnohor5LyaLCKQmixjatos56AaLWekGi2ioFouZ6OaLqekmi8k45oxIr8aMaesGjJlsdoyp6XaMuK+2jNnp5o0pZfaNSen2jVnqFo156laNiemWjakklo35OPaOCeqWjhnpxo456maOeeoGjukFho756qaPKQsWj5nqho+oq7aQCYb2kBnpZpBJ6kaQWI1mkInphpC5a4aQyenWkNkEFpDpLFaQ+ek2kSnqNpGZCaaRqerWkbipFpHIyfaSGer2kinpppI56uaSWep2kmnptpKJ6raSqerGkwnr1pNJPMaTaeomk5nrlpPZ67aT+S1mlKl2tpU5WWaVSetmlVkchpWZ68aVqRXmlcnrNpXZ7AaV6ev2lgk+1pYZ6+aWKT6GlqnsJpa561aW2Lxmlunrhpb498aXOUgGl0nrppdYvJaXeesml4nrRpeZ6xaXyYT2l9inlpfp63aYGewWmCilRpio3laY6JfGmRntJplJhQaZWe1WmbkFlpnJ7UaaCe02mnntBprp7EabGe4WmynsNptJ7Wabuezmm+nslpv57GacGex2nDns9px+qgacqezGnLjVxpzJLGac2RhGnOnspp0J7FadOeyGnYl2xp2ZaKad2ezWnentdp557faeie2GnrnuVp7Z7jafKe3mn5nt1p+5LOaf2RhWn\/nttqAp7ZagWe4GoKnuZqC5Tzagye7GoSnudqE57qahSe5GoXkpRqGZVXahue2moenuJqH4++aiGWzWoinvZqI57paimMoGoqiaFqK4p+ai6e0Wo1j79qNp7uajie9Wo5jvdqOoqSaj2STWpEnutqR57wakie9GpLi7RqWItralme8mpfi0BqYZPJamKe8WpmnvNqcp7tanie72p\/ioBqgJJoaoSe+mqNnvhqjoznapCe92qXn0BqnJ53aqCe+Wqinvtqo578aqqfS2qsn0dqrp6NarOfRmq4n0Vqu59CasGe6GrCn0Rqw59DatGfSWrTmEVq2p9MatuL+Wren0hq359KauiUpWrqn01q+p9RavufTmsEl5NrBZ9Pawqe3GsSn1JrFp9Tax2JVGsfn1VrIIyHayGOn2sji9NrJ4miazKXfms3n1drOJ9WazmfWWs6i1xrPYvUaz6KvGtDn1xrR59ba0mfXWtMicxrTpJWa1CfXmtTir1rVJ9ga1mfX2tbn2FrX59ia2GfY2tijn5rY5Cza2SNn2tmlZBraZXga2qYY2tvjpVrc43Oa3SX8Gt4n2RreZ9la3uOgGt\/n2ZrgJ9na4OfaWuEn2hrhpZ3a4mPfWuKjupri45ja42famuVn2xrlpBCa5ifa2uen21rpJ9ua6qfb2urn3Brr59xa7Gfc2uyn3Jrs590a7SJo2u1kmlrt591a7qORWu7imtrvJ92a7+TYWvAmsprxYtCa8afd2vLn3hrzZXqa86WiGvSk8Vr0595a9SU5GvYlPlr25bRa9+femvrn3xr7J97a++ffmvzn31sCJ+BbA+OgWwRlq9sE5+CbBSfg2wXi0NsG5+EbCOfhmwkn4VsNJCFbDeVWGw4iWlsPpTDbECS82xBj2BsQouBbE6UxGxQjqxsVZ+IbFeKvmxaiZhsXZPwbF6fh2xfjV1sYJJybGKfiWxon5Fsap+KbHCRv2xyi4Jsc5+SbHqMiGx9i0Rsfp+QbIGfjmyCn4tsg5eAbIiSvmyMk9dsjZ+MbJCflGySn5Nsk4xCbJaJq2yZjblsmp+NbJufj2yhlnZsopHybKuWl2yun5xssZ+dbLOJzWy4laZsuZb7bLqfn2y7jqFsvI\/AbL2fmGy+n55sv4mIbMGLtWzEn5VsxZ+abMmQ8mzKlJFszJTlbNOfl2zVlkBs15+ZbNmfomzbn6Bs3Z+bbOGWQWzilGds44uDbOWTRGzoko1s6p+jbO+foWzwkdds8Z+WbPOJam0Ll21tDJ+ubRKfrW0XkPRtGZ+qbRuXjG0ek7RtH5+kbSWSw20piWttKo1ebSufp20yj0ZtM5+sbTWfq202n6ZtOJ+pbTuKiG09n6htPpRobUGXrG1Ej\/JtRZDzbVmftG1an7JtXJVsbWOfr21kn7FtZolZbWmNX21qmFFtbIpcbW6Vgm10l4Ftd4pDbXiQWm15n7NthZ+4bYiPwW2Ml09tjp+1bZOfsG2Vn7ZtmZfcbZuTk22ck8Btr4pVbbKJdG21n7xtuJ+\/bbyXwW3Al4RtxZ\/GbcafwG3Hn71ty5fSbcyfw23Rj2lt0p\/FbdWfym3Yk5Ft2Z\/Ibd6fwm3hkldt5J\/Jbeafvm3on8Rt6p\/LbeuI+m3sn8Ft7p\/MbfGQW23zj35t9ZWjbfeNrG35n7lt+p\/HbfuTWW4FkLRuB4qJbgiNz24Jj8JuCp+7bguPYW4TjGtuFZ+6bhmf0G4aj41uG4y4bh2f324fn9luIIuUbiGTbm4jn9RuJJ\/dbiWIrW4miVFuKYm3biuf1m4skapuLZ\/Nbi6fz24vjWBuOJ\/gbjqf224+n9NuQ5\/abkqWqW5Nn9huTp\/cblaMzm5Yj8NuW5JYbl+f0m5nl05ua5\/Vbm6fzm5vk5Jucp\/Rbnaf125+mHBuf468boCWnm6Cn+FujJSsbo+f7W6QjLlulo+Abpif426cl61unY1hbp+f8G6iiOxupZ\/ubqqf4m6vn+husp\/qbraXbm63n+VuupNNbr2f527Cn+9uxJ\/pbsWWxW7Jn+Ruy46gbsyf\/G7Riopu05\/mbtSf627Vn+xu3ZHqbt6R2G7sn\/Ru75\/6bvKf+G70k0hu9+BCbvif9W7+n\/Zu\/5\/ebwGLmW8ClVlvBo69bwmNl28PmFJvEZ\/ybxPgQW8UiYlvFZGGbyCUmW8iir9vI5f4byuWn28sktBvMZ\/5bzKf+284kVFvPuBAbz+f929Bn\/FvRYrBb1SMiW9Y4E5vW+BJb1yQ9m9fioNvZI+Bb2bgUm9t4EtvbpKqb2\/gSG9wktdvdOBrb3jgRW964ERvfOBNb4DgR2+B4EZvguBMb4SQn2+G4ENvjuBPb5HgUG+XisBvoeBVb6PgVG+k4FZvquBZb7GTYm+z4FNvueBXb8CMg2\/BkfdvwuBRb8OUWm\/G4Fhv1OBdb9XgW2\/Y4F5v2+Bhb9\/gWm\/gjYpv4ZRHb+Sft2\/rl5Rv7OBcb+7gYG\/vkfNv8eBfb\/PgSm\/26Ilv+uBkb\/7gaHAB4GZwCeBicAvgY3AP4GdwEeBlcBWVbXAY4G1wGuBqcBvgaXAd4GxwHpPScB\/gbnAmkpVwJ5HrcCyQo3Aw4G9wMuBxcD7gcHBMn\/NwUeBycFiT5XBj4HNwa4nOcG+TlHBwikRweIuEcHyO3HB9jdBwiZhGcIqQhnCOiYpwkuB1cJngdHCs4HhwrZJZcK7ge3Cv4HZws+B6cLjgeXC5k19wuojXcMiX83DL4H1wz4lHcNnggHDd4H5w3+B8cPHgd3D5lkJw\/eCCcQnggXEUiYtxGeCEcRqVsHEc4INxIZazcSaPxXE2kVJxPI\/EcUmX+XFM4IpxTpD3cVXghnFW4ItxWYmMcWLgiXFklIFxZeCFcWbgiHFnj8ZxaZTPcWzgjHFujs9xfZD4cYTgj3GI4IdxioxGcY\/gjXGUl29xleCQcZnqpHGfj25xqOCRcazgknGxlE1xueCUcb7glXHDlFJxyJOVccngl3HO4Jlx0JfTcdLglnHU4Jhx1YmNcdfgk3Hfmnpx4OCaceWRh3Hmjldx5+Cccezgm3HtkENx7pnXcfXgnXH54J9x++COcfzgnnH\/4KByBpSacg3goXIQ4KJyG+CjcijgpHIqktxyLOCmci3gpXIw4KdyMuCocjWO3XI2lYNyOpbqcjvgqXI84KpyPZF1cj6OonI\/4KtyQOCsckbgrXJHldBySJTFckvgrnJMlHZyUpKrcljgr3JZieVyW4uNcl2WxHJflrRyYYmycmKYU3JnlnFyaZWocnKQtXJ04LByeZPBcn2MoXJ+4LFygI3ScoHgs3KC4LJyh+C0cpLgtXKW4LZyoItdcqLgt3Kn4LhyrIyicq+UxnKy4Lpyto\/zcrnguXLCi7Zyw+C7csTgvXLG4LxyzuC+ctCMz3LS4L9y14vnctmRX3LbjZ1y4ODBcuHgwnLi4MBy6Y7rcuyTxnLti7dy9+DEcviSS3L54MNy\/JhUcv2UgnMK4MdzFuDJcxfgxnMbltJzHODIcx3gynMfl8JzJeDOcyngzXMqkpZzK5RMcy6Mo3Mv4MxzNODLczaXUHM3l1FzPuDPcz+JjnNEjZZzRY6Cc07g0HNP4NFzV+DTc2OPYnNo4NVzauDUc3Dg1nNyimxzdeDYc3jg13N64Npze+DZc4SMunOHl6ZziYvKc4uJpHOWi+hzqYrfc7KX5nOz4Nxzu+Dec8Dg33PCic9zyODbc8qOWHPNkr9zzuDdc97g4nPgjuxz5eDgc+qMXXPtlMdz7uDhc\/Hg\/HP44Odz\/oy7dAOLhXQF4OR0BpeddAmXrnQikfR0JeDmdDLg6HQzl9R0NIvVdDWU+nQ2lGl0OuDpdD\/g63RB4O50VeDqdFng7XRajOh0W4lsdFzg73RekJB0X+DsdGCX2nRj4PJ0ZOqidGng8HRq4PN0b+DldHDg8XRzjbp0duD0dH7g9XSDl550i+D2dJ7g93Si4ON0p+D4dLCKwnS9jqN0yuD5dM\/g+nTU4Pt03IladODhQHTilVp04+FBdOaKonTn4UJ06eFDdO7hRHTw4UZ08eFHdPLhRXT2lXJ09+FJdPjhSHUD4Ut1BOFKdQXhTHUM4U11DeFPdQ7hTnURjZl1E+FRdRXhUHUYisN1GpBydRyTW3Ue4VJ1H5C2dSOOWXUliZl1JuFTdSiXcHUrleF1LOFUdTCTY3Uxl1J1Mo1idTOQXHU3kmp1OJmydTqSrHU7ieZ1POFVdUThVnVG4Vt1SeFZdUrhWHVLncB1TIpFdU3hV3VPiNh1UZSodVSUyHVZl691WuFcdVvhWnVcknt1XZCkdWCUqXVilUx1ZOFedWWXqnVmjGx1Z+FfdWnhXXVqlNR1a+FgdW3hYXVwiNl1c4\/0dXThZnV24WN1d5PrdXjhYnV\/i0V1guFpdYbhZHWH4WV1ieFodYrhZ3WLlUR1jpFhdY+RYHWRi151lOFqdZrha3Wd4Wx1o+FudaXhbXWriXV1seF2dbKU5nWz4XB1teFydbjhdHW5kF11vOF1db3hc3W+jr51wuFvdcPhcXXFlWF1x4\/HdcrheHXN4Xd10uF5ddSOpHXVja112JOXddnhenXbksl13uF8deKXn3Xj4Xt16ZGJdfDhgnXy4YR18+GFdfSSc3X64YN1\/OGAdf7hfXX\/4X52AeGBdgnhiHYL4YZ2DeGHdh\/hiXYg4Yt2IeGMdiLhjXYk4Y52J+GKdjDhkHY04Y92O+GRdkKXw3ZG4ZR2R+GSdkjhk3ZMiuB2Upb8dlaVyHZY4ZZ2XOGVdmHhl3Zi4Zh2Z+GcdmjhmXZp4Zp2auGbdmzhnXZw4Z52cuGfdnbhoHZ44aF2epStdnuTb3Z84aJ2fZSSdn6VU3aA4aN2g+GkdoSTSXaGikZ2h41jdojhpXaL4aZ2juGndpCOSHaT4al2luGodpnhqnaa4at2rpTndrDhrHa04a12t+qJdrjhrna54a92uuGwdr+OTXbC4bF2w5R1dsaWfnbIiW12yol2ds3hsnbS4bR21uGzdteTkHbbkLd23J9Ydt7htXbflr924eG2duOKxHbklNV25eG3dufhuHbq4bl27pbadvKW03b0krx2+JGKdvvhu3b+j4J3AY\/IdwThvncH4b13COG8dwmU+3cLisV3DIyndxvhxHce4cF3H5BedyCWsHck4cB3JeHCdybhw3cp4b93N+HFdzjhxnc6kq13PIrhd0CShXdH4cd3WuHId1vhy3dhkId3Y5PCd2XhzHdmlnJ3aOHJd2vhynd54c93fuHOd3\/hzXeL4dF3juHQd5Hh0nee4dR3oOHTd6WVy3esj3V3rZfEd7Dh1Xezk7V3tuHWd7nh13e74dt3vOHZd73h2ne\/4dh3x+Hcd83h3XfX4d532uHfd9uWtXfc4eB34pbud+Ph4Xflkm1355SKd+mL6Xftklp37uHid++LuHfzkM53\/OHjeAKNu3gM4eR4EuHleBSMpHgVjdN4IOHneCWTdXgmjdR4J4tteDKWQ3g0lGp4OpN2eD+Ne3hF4el4XY\/JeGuXsHhsjWR4b4yleHKUoXh04et4fOHteIGM6XiG4ex4h5L0eIzh73iNilZ4juHqeJGU6HiTiU94lY3qeJeYcXia4e54o+HweKeVyXipkNd4quHyeK\/h83i14fF4uopteLzh+Xi+4fh4wY6leMXh+njG4fV4yuH7eMvh9njQlNZ40eH0eNTh93ja4kF45+JAeOiWgXjs4fx474jpePTiQ3j94kJ5AY\/KeQfiRHkOkWJ5EeJGeRLiRXkZ4kd5JuHmeSrh6Hkr4kl5LOJIeTqOpnk8l+d5Po7QeUDiSnlBjFZ5R4tfeUiLRnlJjoN5UJdTeVPiUHlV4k95VpFjeVfiTHla4k55XY9qeV6QX3lf4k15YOJLeWKUSXllj8t5aJVbeW2N1Xl3k5h5euJReX\/iUnmA4mh5gYvWeYSYXHmFkVR5iuJTeY2J0HmOkvV5j5WfeZ3iVHmmi5p5p+JVeariV3mu4lh5sJRIebPiWXm54lp5uuJbeb2L13m+idF5v5PDecCPR3nBjoR5yeJcecuPSHnRich50pViedXiXXnYlOl535FkeeHiYHnj4mF55JSJeeaQYHnn4l556ZKBeeziX3nwj8x5+4jaegCLSHoI4mJ6C5L2eg3iY3oOkMV6FJareheVQnoY4mR6GeJlehqSdHocl8V6H+JneiDiZnouju16MeJpejKI7no34mx6O+JqejyJ0no9jG16PuJrej+NZXpAjZJ6QpXkekPibXpGlnN6SeJvek2Qz3pOiW56T4m4elCIqnpX4m56YeJwemLicXpjj\/V6aeJyemuKbnpw4nR6dIyKenaLhnp54nV6eovzen3idnp\/kPp6gZPLeoOQ3nqEjfN6iOJ3epKSgnqTkYt6leJ5epbie3qX4nh6mOJ6ep+MQXqp4nx6qoxFeq6Lh3qvl3F6sOJ+erbigHq6iU16v+KDesOKlnrE4oJ6xeKBesfihXrI4n16yuKGesuXp3rN4od6z+KIetKa8nrT4op61eKJetnii3ra4ox63Jezet3ijXrf6O164I\/NeuHijnri4o964492euWTtnrm4pB66pJHeu3ikXrvklt68OKSevaLo3r4mV56+ZJ8evqOsXr\/isZ7AuKTewTioHsG4pZ7CIuIewrilXsL4qJ7D+KUexGPznsY4ph7GeKZexuTSnse4pp7IIp9eyWQeXsmlYR7KOKceyyR5nsz4pd7NeKbezbinXs5jfl7ReKke0aVTXtIlKR7SZOZe0uL2HtM4qN7TeKhe0+Us3tQ4p57UZJ9e1KTm3tUk5p7Vo30e13itntl4qZ7Z+Koe2ziq3tu4qx7cOKpe3Hiqnt04qd7deKle3rin3uGlc17h4nTe4vis3uN4rB7j+K1e5LitHuUlJN7lZale5eOWnuY4q57meK3e5risnuc4rF7neKte5\/ir3uhisd7qpJce62Q+3uxlKB7tOK8e7iUonvAkN97weK5e8SUzXvG4r17x5XRe8mSenvL4rh7zOK6e8\/iu3vd4r574I7Ce+STxHvl4sN75uLCe+niv3vtmFV78+LIe\/bizHv34sl8AOLFfAfixnwN4st8EeLAfBKZ03wT4sd8FOLBfBfiynwf4tB8IYrIfCPizXwn4s58KuLPfCvi0nw34tF8OJT0fD3i03w+l\/p8P5XrfEDi2HxD4tV8TOLUfE2Q0HxP4td8UOLZfFTi1nxW4t18WOLafF\/i23xg4sR8ZOLcfGXi3nxs4t98c5XEfHXi4Hx+luB8gYvMfIKMSHyD4uF8iZWyfIuQiHyNlq58kOLifJKXsXyVlJR8l5FlfJiUU3ybj2x8n4i+fKHi53yi4uV8pOLjfKWKn3ynj898qOLofKvi5nyt4uR8ruLsfLHi63yy4up8s+LpfLni7Xy94u58vpC4fMDi73zC4vF8xeLwfMqM0HzOkVd80uLzfNaTnHzY4vJ83OL0fN6Vs3zfkYx84I1mfOLi9Xznl8Z87+L3fPLi+Hz04vl89uL6fPiOhXz64vt8+4xufP6Lin0Ai0l9AuNAfQSW8X0FjWd9BuL8fQrjQ30LluR9DZRbfRCVUn0Uj4N9FeNCfReO0X0YjWh9GY6GfRqLiX0blbR9HONBfSCRZn0hlmF9Io31fSuOh30sktt9LuNGfS+X3X0wjdd9MuNHfTOQYX0140l9OY\/QfTqNrn0\/40h9Qo9JfUOMvH1EkWd9ReNEfUbjSn1L40V9TIxvfU7jTX1P41F9UIyLfVbjTH1b41V9Xo1pfWGXjX1iiLp9Y+NSfWaLi31o4099buNQfXGTnX1y4059c+NLfXWKR312kOJ9eYymfX3jV32J41R9j+NWfZPjU32ZjHB9mpGxfZvjWH2ckY59n+NlfaLjYX2j41t9q+NffayO+H2tiNt9ruNafa\/jYn2w42Z9sY1qfbKW1H20ktR9teNcfbjjZH2641l9u5Jdfb3jXn2+iLt9v5bIfcfjXX3Ki9l9y5Tqfc+RjX3Rl8590o+PfdXjjn3Y42d92pD8fdzjY33d42h93uNqfeCS933h42195ONpfeiV0n3pisl97JbJfe+I3H3y42x99Jf7ffvja34BiY9+BJPqfgXjbn4J43V+CuNvfgvjdn4S43J+G5Sbfh6OyH4f43R+IeNxfiLjd34j43B+Jo9jfiuWRH4uj2t+MeNzfjLjgH4143t+N+N+fjnjfH4644F+O+N6fj3jYH4+kNF+QZTJfkPjfX5G43h+SpFAfkuMcX5Nj0p+VJBEflWRVX5W44R+WeOGflrjh35d44N+XuOFfmbjeX5n44J+aeOKfmrjiX5tlpp+cIxKfnnjiH5744x+fOOLfn3jj35\/45F+go5bfoPjjX6I45J+ieOTfozjlH6O45p+j5NafpDjln6S45V+k+OXfpTjmH6W45l+m+ObfpzjnH82isp\/OOOdfzrjnn9F459\/TOOgf03joX9O46J\/UOOjf1HjpH9U46Z\/VeOlf1jjp39f46h\/YOOpf2fjrH9o46p\/aeOrf2qN339rjHJ\/bpJ1f3CUsX9yj5B\/dZRsf3eU6394461\/eZzrf4Ljrn+D47B\/hZeFf4bjr3+H47J\/iOOxf4qXcn+M47N\/jpT8f5TjtH+a47d\/neO2f57jtX+j47h\/pIxRf6iRQX+pi2B\/ruO8f6\/juX+y47p\/tuO9f7jjvn+547t\/vYlIf8GJpX\/F48B\/xuPBf8rjwn\/Ml4J\/0o9Lf9TjxH\/V48N\/4JCJf+HjxX\/m48Z\/6ePHf+uK43\/wist\/8+PIf\/njyX\/7lnx\/\/JeDgACXc4ABmFaAA41sgATjzIAFjtKABuPLgAvjzYAMjqeAEJHPgBLjzoAVjWuAF5bVgBjjz4AZ49CAHOPRgCHj0oAo49OAM46ogDaW64A749WAPZJegD\/j1IBG49eASuPWgFLj2IBWkLmAWOPZgFrj2oBelbeAX+PbgGGRj4Bi49yAaOPdgG+X\/IBw4+CAcuPfgHPj3oB0kq6AduPhgHeQRYB54+KAfePjgH6YV4B\/4+SAhOPlgIXj54CG4+aAh5SjgImT94CLmF2AjJSngJPj6YCWj9GAmJVJgJrj6oCb4+iAnYrMgKGM0oCijoiApZTsgKmMqICqlmKArOPtgK3j64CvjW2AsY1ugLKI54C0jeaAupR4gMOI3YDE4\/KAxpJfgMyUd4DOkdmA1uP0gNnj8IDa4\/OA2+PugN3j8YDelkWA4YzTgOSI+4Dl4++A7+P2gPHj94D0k7eA+Iu5gPzkRYD9lFyBAo6JgQWLuoEGkMaBB5hlgQiWrIEJ4\/WBCpDSgRqLcoEb4\/iBI+P6gSnj+YEv4\/uBMZJFgTOUXYE5kq+BPuRCgUbkQYFL4\/yBTpB0gVCVhYFR5ESBU+RDgVSNb4FVmHKBX+RUgWXkSIFm5EmBa47ugW7kR4FwjZiBceRGgXTkSoF4krCBeZWggXqRQoF\/kdqBgOROgYLkT4GD5EuBiORMgYrkTYGPjXCBk+RVgZXkUYGalYaBnJaMgZ2VR4Gg5FCBo+RTgaTkUoGolmOBqeRWgbDkV4GzkVaBteRYgbjkWoG65F6BveRbgb7kWYG\/lF6BwORcgcLkXYHGibCByORkgcnkX4HN5GCB0eRhgdORn4HY5GOB2eRigdrkZYHf5GaB4ORngeOQYoHlieeB5+RogeiX1YHqjqmB7Y9MgfOOioH0knaB+uRpgfvkaoH8iVCB\/uRrggHkbIIC5G2CBeRuggfkb4IIi7uCCZ2oggrkcIIMkOOCDeRxgg6OyYIQ5HKCEpiughbkc4IXldyCGIraghuRQ4Icj3eCHpWRgh+PTYIp5HSCKo1xgivkdYIslMqCLuSEgjPkd4I1kceCNpSVgjeMvYI45HaCOZFEgkDkeIJHkviCWOR6glnkeYJa5HyCXeR7gl\/kfYJi5ICCZOR+gmaKzYJo5IGCauSCgmvkg4Juja+Cb5fHgnHkhYJykEaCdomQgnfkhoJ45IeCfuSIgouI8IKN5ImCkuSKgpmVh4KdjsWCn+SMgqWKSIKmiLCCq+SLgqzkjoKtlG2Cr5BjgrGJ1IKzlkaCuIx8grmL2oK75I2CvYnogsWKoYLRiZGC0uSSgtOX6ILUkduC15VjgtnknoLbidWC3OScgt7kmoLf5JGC4eSPguPkkILljuGC5ovqgueSl4Lrk8+C8YlwgvPklIL05JOC+eSZgvrklYL75JiDApbOgwPkl4MEidaDBYqdgwbkm4MJ5J2DDoxzgxbkoYMX5KqDGOSrgxyIqYMj5LKDKIjvgyvkqYMv5KiDMeSjgzLkooM05KCDNeSfgzaSg4M4kfmDOeSlg0DkpINF5KeDSZGQg0qMdINPiWCDUOSmg1KNcoNYkZGDc+S4g3XkuYN3ideDe4msg3zktoOF5KyDh+S0g4nku4OK5LWDjuSzg5PkloOW5LGDmuStg56KzoOf5K+DoOS6g6LksIOo5LyDquSug6uUnIOxl4mDteS3g73kzYPB5MWDxZCbg8qLZYPMi9uDzuTAg9OJ2YPWj9KD2OTDg9yN2IPfk3CD4OTIg+mV7IPr5L+D74nYg\/CM1IPxlUiD8uTJg\/TkvYP35MaD++TQg\/3kwYQD5MKEBJO4hAfkx4QL5MSEDJZHhA3kyoQOiN6EE+S+hCDkzIQi5MuEKZSLhCrk0oQs5N2EMYqehDXk4IQ45M6EPOTThD2XjoRG5NyESZd0hE6XqIRXkpiEW4qLhGGVkoRi5OKEY5OfhGaIr4Rp5NuEa+TXhGyRkoRt5NGEbuTZhG\/k3oRxlEuEdYiohHfk1oR55N+EepWYhILk2oSE5NWEi4\/ThJCPToSUjqqEmZbWhJyVZoSf5OWEoeTuhK3k2ISyipeEuI\/2hLnk44S75OiEvJGThL\/k5ITB5OuExJJ+hMbk7ITJl3WEyuThhMuKV4TN5OeE0OTqhNGWqoTW5O2E2eTmhNrk6YTslkiE7phAhPTk8YT85PiE\/+TwhQCOwYUG5M+FEZXMhROWoIUU5PeFFeT2hRfk8oUY5POFGolVhR\/k9YUh5O+FJpLThSzk9IUtiPyFNZGghT2VwYVA5PmFQeVAhUOU14VI5PyFSY\/UhUqOx4VL5UKFTou8hVXlQ4VXlZmFWOT7hVrk1IVj5PqFaJhuhWmToIVqlZOFbeVKhXflUIV+5VGFgOVEhYSUloWH5U6FiOVGhYrlSIWQ5VKFkeVHhZTlS4WXiZKFmZPjhZvlTIWc5U+FpOVFhaaRRYWo5UmFqY5GhaqQZIWrjE+FrJbyha6W94Wvj5KFueVWhbrlVIXBmG2FyeVThc2XlYXP5VWF0OVXhdXlWIXc5VuF3eVZheSToYXl5VqF6ZTLherlTYX3j5OF+eVchfrlYYX7kZSF\/uVghgLlQYYG5WKGB5FohgrlXYYL5V+GE+VehhafUIYXn0GGGuVkhiLlY4Ytl5aGL+G6hjDlZYY\/5WaGTeVnhk6M1YZQi3OGVOVphlWZfIZai5WGXJe4hl6L8YZf5WqGZ+VrhmuSjoZx5WyGeZP4hnuIuIaKieGGi+VxhozlcoaT5W2GlY5chqPlboaklGGGqeVvhqrlcIar5XqGr+V0hrDld4a25XOGxOV1hsbldobHjtaGyeV4hsuSYIbNjHWGzophhtTle4bZil6G2+WBht7lfIbf5YCG5JS4hunlfYbs5X6G7ZVnhu6U2Ibv5YKG+JH7hvnljIb75YiG\/onphwDlhocClkmHA+WHhwblhIcI5YWHCeWKhwrljYcN5YuHEeWJhxLlg4cYkneHGuWUhxyWqIcl5ZKHKeWThzTljoc35ZCHO+WRhz\/lj4dJkOSHS5hYh0zlmIdO5ZmHU+Wfh1WQSYdX5ZuHWeWeh1\/llodg5ZWHY+Wgh2aJ2odo5ZyHauWhh27lnYd05ZqHdpKxh3jll4d\/lIiHguWlh42XWoef5aSHouWjh6vlrIev5aaHs+Wuh7qXhoe75bGHveWoh8DlqYfE5a2HxuWwh8flr4fL5aeH0OWqh9Llu4fg5bSH7+Wyh\/Lls4f25biH9+W5h\/mKSYf7i2GH\/uW3iAXloogN5baIDuW6iA\/ltYgR5byIFeW+iBblvYgh5cCIIuW\/iCPleYgn5cSIMeXBiDblwog55cOIO+XFiECMjIhC5ceIROXGiEaPT4hMjXOITZ+liFLlyIhTj3CIV4pYiFnlyYhbiXGIXY\/ViF7lyohhjXSIYuXLiGOI34holVyIa+XMiHCQiohy5dOIdeXQiHeSj4h95dGIfuXOiH+L3IiB5c2IguXUiIiMVYiLkdyIjeXaiJLl1oiWkbOIl+XViJnl2Iie5c+IouXZiKTl24irlO2IruXXiLDl3Iix5d6ItIzRiLXl0oi3iL+Iv+XdiMGN2YjCl\/SIw+XfiMTl4IjFkZWIz5egiNTl4YjVl1SI2OXiiNnl44jcleKI3eXkiN+Nvojhl6GI6OXpiPLl6ojzj9aI9OXoiPiXh4j55eWI\/OXniP2Qu4j+kJ6JAuXmiQTl64kHlaGJCuXtiQzl7IkQioyJEpZKiRPl7okd5fqJHuXwiSXl8Ykq5fKJK+XziTbl94k45fiJO+X2iUHl9IlD5e+JROX1iUzl+YlN6LWJVommiV7l\/Ilfi92JYOX7iWTmQYlm5kCJauZDiW3mQolv5kSJco9QiXTmRYl35kaJfuZHiX+QvImBl3aJg+ZIiYaVoomHlGWJiOZJiYrmSomLjKmJj4tLiZPmS4mWjouJl5RgiZjmTImaim+JoeZNiabmT4mnl5eJqeZOiaqQZYms5lCJr+ZRibLmUomzis+JuuZTib3mVIm\/5lWJwOZWidKKcIna5leJ3OZYid3mWYnjifCJ5pBHiefmWon05luJ+OZcigCMvooCkvmKA+ZdigiMdooKkHWKDOZgig6ToooQ5l+KE4xQihbmXooXkfWKGItMihvmYYod5mKKH4\/XiiOMjYol5mOKKpZLii2Q3Yoxi5aKM5bzijSRaYo25mSKOpBmijuSkIo8j9iKQeZlikbmaIpI5mmKUI28ilGRwIpS5meKVI\/ZilWVXYpb5maKXo6MimCJcopi5m2KY4x3imaOjoppjo2Ka5hsimzmbIpt5muKbpFGinCLbIpxmGKKcopZinOP2op85mqKguZvioTmcIqF5m6Kh4zWiomXX4qMjo+KjZRGipHmc4qTkL6KlZJhipiXVYqa5naKnozqiqCQvYqh5nKKo+Z3iqSM64ql5nSKpuZ1iqjmcYqskOCKrZPHirCSToqyiduKuZTuiryLYoq\/krKKwuZ6isTmeIrHkmuKy5C\/isyK0IrN5nmKz5B6itKXyIrWmF+K2uZ7itvmh4rckrOK3uaGiuDmg4rh5ouK4uaEiuTmgIrmkvqK5+Z+iuvmfIrtl0CK7o6QivHmgYrz5n2K9+aFiviPlIr6jL+K\/pH4iwCWZIsBiXmLAojgiwSTo4sH5omLDOaIiw6T5IsQ5o2LFOaCixbmjIsX5o6LGYyqixrmiosbjXWLHY7TiyDmj4shl3eLJuaSiyjmlYsr5pOLLJVUizPmkIs5i96LPuaUi0HmlotJ5pqLTOaXi07mmYtP5piLVuabi1iOr4ta5p2LW+aci1yViItf5p+LZox4i2vmnots5qCLb+ahi3CLY4tx47+Lco\/3i3Tmoot3jOyLfeaji4DmpIuDjl2Lip3Mi4zmpYuO5qaLkI9Ri5Lmp4uT5qiLluapi5nmqoua5quMN5JKjDrmrIw\/5q6MQeatjEaTpIxI5q+MSpZMjEzmsIxO5rGMUOayjFXms4xak9iMYY\/bjGLmtIxqjYuMa5isjGzmtYx45raMeZVejHrmt4x85r+Mgua4jIXmuoyJ5rmMiua7jIyWZYyN5ryMjua9jJTmvoyY5sCMnYpMjJ6S5YyglYmMoY3gjKKNdoynlW6MqIndjKmUzIyq5sOMq4rRjKyQ04yt5sKMrubHjK+SmYywluGMsubFjLPmxoy0i02MtubIjLeUg4y4kd2Mu5TvjLyTXIy95sSMv5ZmjMCJ6ozB5sqMwphHjMOSwIzEmGSMx46RjMjmyYzKka+MzebajM6RR4zRk\/aM05VvjNrmzYzbjl6M3I6SjN6P3IzglIWM4oyrjOPmzIzk5suM5pWKjOqOv4ztk3GM+ubPjPvm0Iz8jXeM\/ebOjQTm0Y0F5tKNB+bUjQiRoY0K5tONC4rkjQ3m1o0P5tWNEObXjRPm2Y0U5tuNFubcjWSQ1I1mjs2NZ+bdjWuKcY1t5t6NcJGWjXHm341z5uCNdJWLjXeLTo2B5uGNhZK0jYqJeo2Z5uKNo47vjaiQlo2zkauNuubljb7m5I3C5uONy+brjczm6Y3P5uaN1ubojdrm543b5uqN3YuXjd\/m7o3hkNWN4+bvjeiM143q5uyN6+btje+YSI3zkrWN9ZFIjfzm8I3\/5vOOCObxjgnm8o4Kl3iOD5OljhDm9o4d5vSOHub1jh\/m944q50iOMOb6jjTm+4415vmOQub4jkSS+45H50COSOdEjknnQY5K5vyOTOdCjlDnQ45V50qOWedFjl+Q1o5g50eOY+dJjmTnRo5y50yOdI9SjnbnS458502OgedOjoTnUY6F51COh+dPjornU46L51KOjZb0jpHnVY6T51SOlOdWjpnnV46h51mOqudYjquQZ46s51qOr4vrjrDnW46x512OvudejsXnX47G51yOyOdgjsqO1I7L52GOzItPjs2MUo7SjKyO2+dijt+T7o7ik12O4+djjuvnZo74jrKO++dljvznZI79jHmO\/udnjwOKco8F52mPCY3ajwrnaI8M53GPEudrjxPnbY8UleOPFedqjxnnbI8b53CPHOdujx2LUI8f52+PJudyjymUeY8ql9aPL49TjzPnc484l0GPOed1jzvndI8+53iPP5dgj0Lnd49Eio2PRed2j0bne49J53qPTOd5j02TUY9O53yPV+d9j1znfo9fjYyPYYxEj2LngI9j54GPZOeCj5uQaI+c54OPno6rj5\/nhI+j54WPp5mfj6iZno+t54aPruOQj6\/nh4+wkkOPsZBKj7KUX4+354iPupXTj7uS0o+8jZ6Pv5JIj8KJSY\/ElpiPxZB2j86MfY\/Ri9+P1JXUj9rniY\/i54uP5eeKj+aJ3o\/pk\/SP6ueMj+uUl4\/tk1KP7+eNj\/CPcY\/054+P95bAj\/jnno\/555GP+ueSj\/2Sx5AAkd6QAZGXkAOTppAF55CQBot0kAvnmZAN55aQDuejkA+Tp5AQkoCQEeeTkBOS\/JAUk3KQFeeUkBbnmJAXkICQGZSHkBqSypAdkMCQHueXkB+RrJAgkaKQIeeVkCKIp5AjmEGQJ+eakC6R35Axj1SQMpBpkDXnnJA255uQOIjtkDnnnZA8lU6QPuelkEGT2ZBCkIuQRZJ4kEeL9pBJ56SQSpdWkEuJXpBNldWQTonfkE\/nn5BQ56CQUeehkFLnopBTk7mQVJJCkFWI4ZBW56aQWOenkFnqoZBckbuQXueokGCJk5BhkWuQY4ytkGWXeZBo56mQaZNLkG2RmJBujtWQb+eqkHLnrZB1j4WQduerkHeRSpB4kUmQeojikHyXyZB956+Qf5TwkIDnsZCB57CQgueukIPihJCEitKQh+eOkInns5CK57KQj+e0kJGXV5Cjk9+QppZNkKjntZCqjteQr+e2kLHnt5C157iQuJNAkMGI6JDKjXiQzphZkNvnvJDhjFOQ4ue5kOTnupDolZSQ7YpzkPWXWJD3i72Q\/ZNzkQLnvZES576RGee\/kS2TQZEw58GRMufAkUmT0ZFK58KRS49VkUyO3pFNlHqRTpKRkVKO8JFUkIyRVufDkVjnxJFikHyRY+fFkWXnxpFp58eRapePkWyPVpFy58mRc+fIkXWNeZF3jZOReI5fkYLnzJGHj4aRiefLkYvnypGNkeeRkIztkZKQwZGXlK6RnI9YkaLnzZGkj92RqufQkavnzpGv58+RtOfSkbXn0ZG4j\/iRuufTkcDn1JHB59WRxpTOkceN0ZHIjt+RyefWkcvn15HMl6KRzY9kkc6W7JHPl8qR0OfYkdGL4JHW59mR2JNCkdvn3JHcipiR3ZBqkd\/n2pHh59uR45LekeaWdJHni\/qR9efekfbn35H8592R\/+fhkg2T3ZIOimKSEeflkhTn4pIV5+SSHufgkinobpIs5+OSNJfpkjeM2JI\/5+2SRJNTkkXn6JJI5+uSSefpkkvn7pJQ5++SV+fnklrn9JJbiZSSXufmkmKUq5Jk5+qSZo\/eknGNepJ+lmeSgIvikoOPZZKFk7qSkZFMkpPn8pKV5+ySlufxkpiWwZKakraSm+fzkpzn8JKtkUuSt+f3krnn9pLP5\/WS0pZOkuSPm5Lp5\/iS6pXdku2Jc5LylWWS85KSkviLmJL65\/qS\/I18kwaOS5MP5\/mTEJCNkxiQjpMZ6ECTGuhCkyCP+ZMi6EGTI+hDkyaL0ZMolWSTK47gkyyYQpMu5\/yTL432kzKYXpM16EWTOuhEkzvoRpNE5\/uTS5Pnk02TdJNUktWTVuhLk1uSYpNc6EeTYOhIk2yMTJNu6EqTdYyuk3zoSZN+j9+TjIqZk5ToT5OWjb2Tl5GZk5qSyJOnilqTrOhNk63oTpOuksGTsOhMk7noUJPD6FaTyOhZk9DoWJPRk0yT1uhRk9foUpPY6FWT3ehXk+GLvpPk6FqT5ehUk+joU5QD6F6UB+hflBDoYJQT6F2UFOhclBiP4JQZk6iUGuhblCHoZJQr6GKUNehjlDboYZQ4kfaUOuhllEHoZpRE6GiUUYrTlFLoZ5RTlviUWuhzlFvoaZRe6GyUYOhqlGLoa5Rq6G2UcOhvlHXocJR36HGUfOh0lH3ocpR+6HWUf+h3lIHodpV3kreVgJbllYLoeJWDkU2Vh+h5lYmVwpWK6HqVi4pKlY+JW5WRitWVk4rUlZToe5WW6HyVmOh9lZnofpWg6ICVoorWlaOKdJWkjX2VpZS0lafogpWo6IGVreiDlbKJe5W56IaVu+iFlbzohJW+6IeVw+iKlceIxZXK6IiVzOiMlc3oi5XU6I6V1eiNldboj5XYk6yV3OiQleHokZXi6JOV5eiSlhyVjJYh6JSWKOiVliqN45Yu6JaWL+iXljKWaJY7kWqWP4iilkCRyZZC6JiWRJWNlkvom5ZM6JmWTY1+lk\/ompZQjMCWW5XDllzonZZd6J+WXuiell\/ooJZiiUCWY5B3lmSPnJZliteWZuihlmqUhpZs6KOWcIlBlnLoopZzksKWdZfLlnaTqZZ36JyWeJeklnqMr5Z9l3qWhYv3loaXspaIjEeWipHglovkQJaN6KSWjopLlo+Qj5aUinWWleimlpfop5aY6KWWmYyElpuN25acj+GWoIlClqOX15an6KmWqOeslqroqJaw6KyWseiqlrLoq5a06K2WtuiulreX6pa46K+WueiwlruQx5a8lLmWwJCdlsGK5ZbEl1mWxYnrlsaPV5bHjNmWyeizlsvospbMjpOWzei0ls7osZbRjkeW1ei4ltblq5bZmdSW25CXltzotpbil6OW45PvluiJSpbqkOGW6460lvCVtZbyiV+W9pfrlveXi5b56LmW+5NklwCO+ZcE6LqXBui7lweQa5cI6LyXCpfslw3ot5cO6L6XD+jAlxHov5cT6L2XFujBlxnowpcckZqXHonglyTow5cnlraXKujElzDoxZcymEmXOJ5Qlznoxpc96MeXPujIl0LozJdE6MmXRujKl0joy5dJ6M2XUpDCl1aW9ZdZkMOXXOjOl16U8Zdg6M+XYepyl2KWypdk6NCXZujRl2jo0pdpinaXa+jUl22QeJdx6NWXdIxDl3no1pd66NqXfOjYl4Ho2ZeEipOXhejXl4bo25eL6NyXjYjGl4\/o3ZeQ6N6XmI\/il5zo35egi2aXo+jil6bo4Zeo6OCXq+aRl62V2pez6OOXtOjkl8Po5ZfG6OaXyOjnl8vo6JfTitiX3Ojpl+3o6pfulEKX8ujsl\/OJuZf16O+X9ujul\/uJQ5f\/i7+YAZXFmAKSuJgDjaCYBY2AmAaPh5gIkHuYDOjxmA\/o8JgQl2GYEYrmmBKU0JgTk9qYF5CcmBiXzJgajHqYIej0mCTo85gslmqYLZOqmDSJb5g36PWYOOjymDuVcJg8l4qYPej2mEbo95hL6PmYTJHomE2KephOinuYT+j4mFSK55hVjLCYWIromFuTXphel96YZ4zamGvo+phv6PuYcOj8mHHpQJhz6UKYdOlBmKiVl5iq6UOYr+lEmLHpRZi26UaYw+lImMTpR5jG6UmY25TymNzjypjfkEiY4otRmOnpSpjr6UuY7ZmqmO6fWpjvlNGY8oj5mPSIuZj8jpSY\/ZZPmP6P\/JkD6UyZBZbdmQnpTZkKl3uZDIlhmRCOYJkS6U6ZE4nsmRTpT5kY6VCZHelSmR7pU5kg6VWZIelRmSTpVJkoitmZLOlWmS7pV5k96ViZPulZmULpWplF6VyZSelbmUvpXplM6WGZUOldmVHpX5lS6WCZVelimVeLwJmWjvGZl+ljmZjpZJmZjYGZpellmaiKXZmslG6Zrelmma7pZ5mzknmZtJPpmbzpaJnBlJ2ZxJHKmcWJd5nGi+yZyIvtmdCSk5nR6W2Z0ovumdWJ7ZnY6WyZ2+lqmd3pa5nf6WmZ4ul3me3pbpnu6W+Z8elwmfLpcZn46XOZ++lymf+PeJoB6XSaBel2mg6LUpoP6XWaEpGbmhOMsZoZ6XiaKJHLmivpeZowk6uaN+l6mj7pgJpA6X2aQul8mkPpfppF6XuaTemCmlXpgZpX6YSaWovBmlvpg5pf6YWaYumGmmTpiJpl6YeaaemJmmrpi5pr6YqaqI2cmq3pjJqw6Y2auIpbmrzpjprA6Y+axJCRms\/pkJrR6ZGa0+mSmtTpk5rYjYKa3umUmt\/plZri6Zaa4+mXmubpmJrqlK+a6+mamu2VRZru6Zua7+mZmvHpnZr06Zya9+memvvpn5sG6aCbGOmhmxrpopsf6aObIumkmyPppZsl6aabJ+mnmyjpqJsp6ambKumqmy7pq5sv6aybMZ9UmzLprZs74vabPItTm0GKQJtCjbCbQ+mvm0TprptFlqObTemxm07psptP6bCbUemzm1SWgptY6bSbWoubm2+YRJt06bWbg+m3m46IvJuR6bibkpWpm5PptpuW6bmbl+m6m5\/pu5ug6bybqOm9m6qWjpurjkybrY34m66RTpu06b6buenBm8Dpv5vG6cKbyYzvm8rpwJvP6cOb0enEm9LpxZvU6cmb1o5Jm9uR4pvh6cqb4unHm+Ppxpvk6cib6Ix+m\/Dpzpvx6c2b8unMm\/WIsZwE6dicBunUnAjp1ZwJ6dGcCunXnAzp05wNioKcEJhrnBLp1pwT6dKcFOnQnBXpz5wb6dqcIendnCTp3Jwl6ducLZVonC7p2ZwviPGcMOnenDLp4Jw5io+cOunLnDuJVpw+6eKcRunhnEfp35xIkkycUpaQnFeX2Jxa6eOcYOnknGfp5Zx26eaceOnnnOWSuZzn6eic6ZS1nOvp7Zzs6emc8OnqnPOWUJz0lsKc9pPOnQPp7p0G6e+dB5O8nQjp7J0J6eudDomonRLp950V6fadG4mVnR\/p9J0j6fOdJunxnSiKm50q6fCdK46wnSyJp507jYOdPun6nT\/p+Z1B6fidROn1nUbp+51I6fydUOpEnVHqQ51Z6kWdXIlMnV3qQJ1e6kGdYI2UnWGWt51k6kKdbJZRnW\/qSp1y6kadeupLnYfqSJ2J6kedj4x7nZrqTJ2k6k2dqepOnavqSZ2v6fKdsupPnbSS35246lOduupUnbvqUp3B6lGdwupXncTqUJ3G6lWdz+pWndPqWZ3Z6lid5upbne3qXJ3v6l2d8phonfjqWp35kemd+o3rnf3qXp4a6l+eG+pgnh7qYZ516mKeeIyynnnqY5596mSef46tnoHqZZ6I6maei+pnnozqaJ6R6muekuppnpOYW56V6mqel5ftnp3qbJ6fl9mepeptnqaUnp6p6m6equpwnq3qcZ646m+euY2NnrqWy567loOevJv1nr6fgJ6\/lpuexImpnszqc57Ni2+ezup0ns\/qdZ7Q6nae0o2VntTqd57Y4NKe2ZbZntuR4Z7c6nie3ep6nt7qeZ7g6nue5ep8nujqfZ7v6n6e9OqAnvbqgZ736oKe+eqDnvvqhJ786oWe\/eqGnwfqh58I6oifDpNDnxOM258V6oqfIJFsnyHqi58s6oyfO5VAnz7qjZ9K6o6fS+JWn07m2J9P6OufUuqPn1TqkJ9f6pKfYOqTn2HqlJ9il+6fY+qRn2bqlZ9n6pafauqYn2zql59y6pqfduqbn3fqmZ+Nl7Sfleqcn5zqnZ+d4nOfoOqe\/wGBSf8DgZT\/BIGQ\/wWBk\/8GgZX\/CIFp\/wmBav8KgZb\/C4F7\/wyBQ\/8OgUT\/D4Fe\/xCCT\/8RglD\/EoJR\/xOCUv8UglP\/FYJU\/xaCVf8Xglb\/GIJX\/xmCWP8agUb\/G4FH\/xyBg\/8dgYH\/HoGE\/x+BSP8ggZf\/IYJg\/yKCYf8jgmL\/JIJj\/yWCZP8mgmX\/J4Jm\/yiCZ\/8pgmj\/KoJp\/yuCav8sgmv\/LYJs\/y6Cbf8vgm7\/MIJv\/zGCcP8ygnH\/M4Jy\/zSCc\/81gnT\/NoJ1\/zeCdv84gnf\/OYJ4\/zqCef87gW3\/PIFf\/z2Bbv8+gU\/\/P4FR\/0CBTf9BgoH\/QoKC\/0OCg\/9EgoT\/RYKF\/0aChv9Hgof\/SIKI\/0mCif9Kgor\/S4KL\/0yCjP9Ngo3\/ToKO\/0+Cj\/9QgpD\/UYKR\/1KCkv9TgpP\/VIKU\/1WClf9Wgpb\/V4KX\/1iCmP9Zgpn\/WoKa\/1uBb\/9cgWL\/XYFw\/2EAof9iAKL\/YwCj\/2QApP9lAKX\/ZgCm\/2cAp\/9oAKj\/aQCp\/2oAqv9rAKv\/bACs\/20Arf9uAK7\/bwCv\/3AAsP9xALH\/cgCy\/3MAs\/90ALT\/dQC1\/3YAtv93ALf\/eAC4\/3kAuf96ALr\/ewC7\/3wAvP99AL3\/fgC+\/38Av\/+AAMD\/gQDB\/4IAwv+DAMP\/hADE\/4UAxf+GAMb\/hwDH\/4gAyP+JAMn\/igDK\/4sAy\/+MAMz\/jQDN\/44Azv+PAM\/\/kADQ\/5EA0f+SANL\/kwDT\/5QA1P+VANX\/lgDW\/5cA1\/+YANj\/mQDZ\/5oA2v+bANv\/nADc\/50A3f+eAN7\/nwDf\/+OBUP\/lgY8=', 7070);
+//# sourceMappingURL=stringToBytes_SJIS.js.map
+});
+___scope___.file("js/text/createStringToBytes.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var ByteArrayInputStream_1 = require('../io/ByteArrayInputStream');
+var Base64DecodeInputStream_1 = require('../io/Base64DecodeInputStream');
+'use strict';
+function createStringToBytes(unicodeData, numChars) {
+    function toBytes(s) {
+        var bytes = [];
+        for (var i = 0; i < s.length; i += 1) {
+            bytes.push(s.charCodeAt(i));
+        }
+        return bytes;
+    }
+    var unicodeMap = function () {
+        var bin = new Base64DecodeInputStream_1.Base64DecodeInputStream(new ByteArrayInputStream_1.ByteArrayInputStream(toBytes(unicodeData)));
+        var read = function () {
+            var b = bin.readByte();
+            if (b == -1)
+                throw 'eof';
+            return b;
+        };
+        var count = 0;
+        var unicodeMap = {};
+        while (true) {
+            var b0 = bin.readByte();
+            if (b0 == -1)
+                break;
+            var b1 = read();
+            var b2 = read();
+            var b3 = read();
+            var k = String.fromCharCode((b0 << 8) | b1);
+            var v = (b2 << 8) | b3;
+            unicodeMap[k] = v;
+            count += 1;
+        }
+        if (count != numChars) {
+            throw count + '!=' + numChars;
+        }
+        return unicodeMap;
+    }();
+    var unknownChar = '?'.charCodeAt(0);
+    return function (s) {
+        var bytes = [];
+        for (var i = 0; i < s.length; i += 1) {
+            var c = s.charCodeAt(i);
+            if (c < 128) {
+                bytes.push(c);
+            }
+            else {
+                var b = unicodeMap[s.charAt(i)];
+                if (typeof b == 'number') {
+                    if ((b & 0xff) == b) {
+                        bytes.push(b);
+                    }
+                    else {
+                        bytes.push(b >>> 8);
+                        bytes.push(b & 0xff);
+                    }
+                }
+                else {
+                    bytes.push(unknownChar);
+                }
+            }
+        }
+        return bytes;
+    };
+}
+exports.createStringToBytes = createStringToBytes;
+;
+//# sourceMappingURL=createStringToBytes.js.map
+});
+___scope___.file("js/io/ByteArrayInputStream.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var InputStream_1 = require('./InputStream');
+'use strict';
+var ByteArrayInputStream = (function (_super) {
+    __extends(ByteArrayInputStream, _super);
+    function ByteArrayInputStream(bytes) {
+        _super.call(this);
+        this.bytes = bytes;
+        this.pos = 0;
+    }
+    ByteArrayInputStream.prototype.readByte = function () {
+        if (this.pos < this.bytes.length) {
+            var b = this.bytes[this.pos];
+            this.pos += 1;
+            return b;
+        }
+        return -1;
+    };
+    return ByteArrayInputStream;
+}(InputStream_1.InputStream));
+exports.ByteArrayInputStream = ByteArrayInputStream;
+//# sourceMappingURL=ByteArrayInputStream.js.map
+});
+___scope___.file("js/io/InputStream.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+var InputStream = (function () {
+    function InputStream() {
+    }
+    InputStream.prototype.close = function () {
+    };
+    return InputStream;
+}());
+exports.InputStream = InputStream;
+//# sourceMappingURL=InputStream.js.map
+});
+___scope___.file("js/io/Base64DecodeInputStream.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var InputStream_1 = require('./InputStream');
+'use strict';
+var Base64DecodeInputStream = (function (_super) {
+    __extends(Base64DecodeInputStream, _super);
+    function Base64DecodeInputStream(istream) {
+        _super.call(this);
+        this.istream = istream;
+        this.buffer = 0;
+        this.buflen = 0;
+    }
+    Base64DecodeInputStream.prototype.readByte = function () {
+        while (this.buflen < 8) {
+            var c = this.istream.readByte();
+            if (c == -1) {
+                if (this.buflen == 0) {
+                    return -1;
+                }
+                throw 'unexpected end of file./' + this.buflen;
+            }
+            else if (c == '='.charCodeAt(0)) {
+                this.buflen = 0;
+                return -1;
+            }
+            else if (Base64DecodeInputStream.isWhitespace(c)) {
+                continue;
+            }
+            this.buffer = (this.buffer << 6) |
+                Base64DecodeInputStream.decode(c);
+            this.buflen += 6;
+        }
+        var n = (this.buffer >>> (this.buflen - 8)) & 0xff;
+        this.buflen -= 8;
+        return n;
+    };
+    Base64DecodeInputStream.isWhitespace = function (c) {
+        return c == '\v'.charCodeAt(0) ||
+            c == '\t'.charCodeAt(0) ||
+            c == '\r'.charCodeAt(0) ||
+            c == '\n'.charCodeAt(0);
+    };
+    Base64DecodeInputStream.decode = function (c) {
+        if ('A'.charCodeAt(0) <= c && c <= 'Z'.charCodeAt(0)) {
+            return c - 'A'.charCodeAt(0);
+        }
+        else if ('a'.charCodeAt(0) <= c && c <= 'z'.charCodeAt(0)) {
+            return c - 'a'.charCodeAt(0) + 26;
+        }
+        else if ('0'.charCodeAt(0) <= c && c <= '9'.charCodeAt(0)) {
+            return c - '0'.charCodeAt(0) + 52;
+        }
+        else if (c == '+'.charCodeAt(0)) {
+            return 62;
+        }
+        else if (c == '/'.charCodeAt(0)) {
+            return 63;
+        }
+        else {
+            throw 'c:' + c;
+        }
+    };
+    return Base64DecodeInputStream;
+}(InputStream_1.InputStream));
+exports.Base64DecodeInputStream = Base64DecodeInputStream;
+//# sourceMappingURL=Base64DecodeInputStream.js.map
+});
+___scope___.file("js/image/GIFImage.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var Base64_1 = require('../io/Base64');
+var ByteArrayOutputStream_1 = require('../io/ByteArrayOutputStream');
+'use strict';
+var GIFImage = (function () {
+    function GIFImage(width, height) {
+        this.width = width;
+        this.height = height;
+        var size = width * height;
+        this.data = [];
+        for (var i = 0; i < size; i += 1) {
+            this.data.push(0);
+        }
+    }
+    GIFImage.prototype.setPixel = function (x, y, pixel) {
+        if (x < 0 || this.width <= x)
+            throw '!' + x;
+        if (y < 0 || this.height <= y)
+            throw '!' + y;
+        this.data[y * this.width + x] = pixel;
+    };
+    GIFImage.prototype.getPixel = function (x, y) {
+        if (x < 0 || this.width <= x)
+            throw '!' + x;
+        if (y < 0 || this.height <= y)
+            throw '!' + y;
+        return this.data[y * this.width + x];
+    };
+    GIFImage.prototype.write = function (out) {
+        out.writeByte('G'.charCodeAt(0));
+        out.writeByte('I'.charCodeAt(0));
+        out.writeByte('F'.charCodeAt(0));
+        out.writeByte('8'.charCodeAt(0));
+        out.writeByte('7'.charCodeAt(0));
+        out.writeByte('a'.charCodeAt(0));
+        this.writeWord(out, this.width);
+        this.writeWord(out, this.height);
+        out.writeByte(0x80);
+        out.writeByte(0);
+        out.writeByte(0);
+        out.writeByte(0x00);
+        out.writeByte(0x00);
+        out.writeByte(0x00);
+        out.writeByte(0xff);
+        out.writeByte(0xff);
+        out.writeByte(0xff);
+        out.writeByte(','.charCodeAt(0));
+        this.writeWord(out, 0);
+        this.writeWord(out, 0);
+        this.writeWord(out, this.width);
+        this.writeWord(out, this.height);
+        out.writeByte(0);
+        var lzwMinCodeSize = 2;
+        var raster = this.getLZWRaster(lzwMinCodeSize);
+        out.writeByte(lzwMinCodeSize);
+        var offset = 0;
+        while (raster.length - offset > 255) {
+            out.writeByte(255);
+            this.writeBytes(out, raster, offset, 255);
+            offset += 255;
+        }
+        out.writeByte(raster.length - offset);
+        this.writeBytes(out, raster, offset, raster.length - offset);
+        out.writeByte(0x00);
+        out.writeByte(';'.charCodeAt(0));
+    };
+    GIFImage.prototype.getLZWRaster = function (lzwMinCodeSize) {
+        var clearCode = 1 << lzwMinCodeSize;
+        var endCode = (1 << lzwMinCodeSize) + 1;
+        var bitLength = lzwMinCodeSize + 1;
+        var table = new LZWTable();
+        for (var i = 0; i < clearCode; i += 1) {
+            table.add(String.fromCharCode(i));
+        }
+        table.add(String.fromCharCode(clearCode));
+        table.add(String.fromCharCode(endCode));
+        var byteOut = new ByteArrayOutputStream_1.ByteArrayOutputStream();
+        var bitOut = new BitOutputStream(byteOut);
+        try {
+            bitOut.write(clearCode, bitLength);
+            var dataIndex = 0;
+            var s = String.fromCharCode(this.data[dataIndex]);
+            dataIndex += 1;
+            while (dataIndex < this.data.length) {
+                var c = String.fromCharCode(this.data[dataIndex]);
+                dataIndex += 1;
+                if (table.contains(s + c)) {
+                    s = s + c;
+                }
+                else {
+                    bitOut.write(table.indexOf(s), bitLength);
+                    if (table.getSize() < 0xfff) {
+                        if (table.getSize() == (1 << bitLength)) {
+                            bitLength += 1;
+                        }
+                        table.add(s + c);
+                    }
+                    s = c;
+                }
+            }
+            bitOut.write(table.indexOf(s), bitLength);
+            bitOut.write(endCode, bitLength);
+        }
+        finally {
+            bitOut.close();
+        }
+        return byteOut.toByteArray();
+    };
+    GIFImage.prototype.writeWord = function (out, i) {
+        out.writeByte(i & 0xff);
+        out.writeByte((i >>> 8) & 0xff);
+    };
+    GIFImage.prototype.writeBytes = function (out, bytes, off, len) {
+        for (var i = 0; i < len; i += 1) {
+            out.writeByte(bytes[i + off]);
+        }
+    };
+    GIFImage.prototype.toDataURL = function () {
+        var bout = new ByteArrayOutputStream_1.ByteArrayOutputStream();
+        this.write(bout);
+        bout.close();
+        var s = '';
+        var bytes = Base64_1.Base64.encode(bout.toByteArray());
+        for (var i = 0; i < bytes.length; i += 1) {
+            s += String.fromCharCode(bytes[i]);
+        }
+        return 'data:image/gif;base64,' + s;
+    };
+    return GIFImage;
+}());
+exports.GIFImage = GIFImage;
+var LZWTable = (function () {
+    function LZWTable() {
+        this.map = {};
+        this.size = 0;
+    }
+    LZWTable.prototype.add = function (key) {
+        if (this.contains(key)) {
+            throw 'dup key:' + key;
+        }
+        this.map[key] = this.size;
+        this.size += 1;
+    };
+    LZWTable.prototype.getSize = function () {
+        return this.size;
+    };
+    LZWTable.prototype.indexOf = function (key) {
+        return this.map[key];
+    };
+    LZWTable.prototype.contains = function (key) {
+        return typeof this.map[key] != 'undefined';
+    };
+    return LZWTable;
+}());
+var BitOutputStream = (function () {
+    function BitOutputStream(out) {
+        this.out = out;
+        this.bitLength = 0;
+    }
+    BitOutputStream.prototype.write = function (data, length) {
+        if ((data >>> length) != 0) {
+            throw 'length over';
+        }
+        while (this.bitLength + length >= 8) {
+            this.out.writeByte(0xff &
+                ((data << this.bitLength) | this.bitBuffer));
+            length -= (8 - this.bitLength);
+            data >>>= (8 - this.bitLength);
+            this.bitBuffer = 0;
+            this.bitLength = 0;
+        }
+        this.bitBuffer = (data << this.bitLength) | this.bitBuffer;
+        this.bitLength = this.bitLength + length;
+    };
+    BitOutputStream.prototype.flush = function () {
+        if (this.bitLength > 0) {
+            this.out.writeByte(this.bitBuffer);
+        }
+        this.out.flush();
+    };
+    BitOutputStream.prototype.close = function () {
+        this.flush();
+        this.out.close();
+    };
+    return BitOutputStream;
+}());
+//# sourceMappingURL=GIFImage.js.map
+});
+___scope___.file("js/io/Base64.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var ByteArrayInputStream_1 = require('./ByteArrayInputStream');
+var ByteArrayOutputStream_1 = require('./ByteArrayOutputStream');
+var Base64DecodeInputStream_1 = require('./Base64DecodeInputStream');
+var Base64EncodeOutputStream_1 = require('./Base64EncodeOutputStream');
+'use strict';
+var Base64 = (function () {
+    function Base64() {
+        throw 'error';
+    }
+    Base64.encode = function (data) {
+        var bout = new ByteArrayOutputStream_1.ByteArrayOutputStream();
+        try {
+            var ostream = new Base64EncodeOutputStream_1.Base64EncodeOutputStream(bout);
+            try {
+                ostream.writeBytes(data);
+            }
+            finally {
+                ostream.close();
+            }
+        }
+        finally {
+            bout.close();
+        }
+        return bout.toByteArray();
+    };
+    Base64.decode = function (data) {
+        var bout = new ByteArrayOutputStream_1.ByteArrayOutputStream();
+        try {
+            var istream = new Base64DecodeInputStream_1.Base64DecodeInputStream(new ByteArrayInputStream_1.ByteArrayInputStream(data));
+            try {
+                var b;
+                while ((b = istream.readByte()) != -1) {
+                    bout.writeByte(b);
+                }
+            }
+            finally {
+                istream.close();
+            }
+        }
+        finally {
+            bout.close();
+        }
+        return bout.toByteArray();
+    };
+    return Base64;
+}());
+exports.Base64 = Base64;
+//# sourceMappingURL=Base64.js.map
+});
+___scope___.file("js/io/ByteArrayOutputStream.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OutputStream_1 = require('./OutputStream');
+'use strict';
+var ByteArrayOutputStream = (function (_super) {
+    __extends(ByteArrayOutputStream, _super);
+    function ByteArrayOutputStream() {
+        _super.call(this);
+        this.bytes = [];
+    }
+    ByteArrayOutputStream.prototype.writeByte = function (b) {
+        this.bytes.push(b);
+    };
+    ByteArrayOutputStream.prototype.toByteArray = function () {
+        return this.bytes;
+    };
+    return ByteArrayOutputStream;
+}(OutputStream_1.OutputStream));
+exports.ByteArrayOutputStream = ByteArrayOutputStream;
+//# sourceMappingURL=ByteArrayOutputStream.js.map
+});
+___scope___.file("js/io/OutputStream.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+var OutputStream = (function () {
+    function OutputStream() {
+    }
+    OutputStream.prototype.writeBytes = function (bytes) {
+        for (var i = 0; i < bytes.length; i += 1) {
+            this.writeByte(bytes[i]);
+        }
+    };
+    OutputStream.prototype.flush = function () {
+    };
+    OutputStream.prototype.close = function () {
+        this.flush();
+    };
+    return OutputStream;
+}());
+exports.OutputStream = OutputStream;
+//# sourceMappingURL=OutputStream.js.map
+});
+___scope___.file("js/io/Base64EncodeOutputStream.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OutputStream_1 = require('./OutputStream');
+'use strict';
+var Base64EncodeOutputStream = (function (_super) {
+    __extends(Base64EncodeOutputStream, _super);
+    function Base64EncodeOutputStream(ostream) {
+        _super.call(this);
+        this.ostream = ostream;
+        this.buffer = 0;
+        this.buflen = 0;
+        this.length = 0;
+    }
+    Base64EncodeOutputStream.prototype.writeByte = function (n) {
+        this.buffer = (this.buffer << 8) | (n & 0xff);
+        this.buflen += 8;
+        this.length += 1;
+        while (this.buflen >= 6) {
+            this.writeEncoded(this.buffer >>> (this.buflen - 6));
+            this.buflen -= 6;
+        }
+    };
+    Base64EncodeOutputStream.prototype.flush = function () {
+        if (this.buflen > 0) {
+            this.writeEncoded(this.buffer << (6 - this.buflen));
+            this.buffer = 0;
+            this.buflen = 0;
+        }
+        if (this.length % 3 != 0) {
+            var padlen = 3 - this.length % 3;
+            for (var i = 0; i < padlen; i += 1) {
+                this.ostream.writeByte('='.charCodeAt(0));
+            }
+        }
+    };
+    Base64EncodeOutputStream.prototype.writeEncoded = function (b) {
+        this.ostream.writeByte(Base64EncodeOutputStream.encode(b & 0x3f));
+    };
+    Base64EncodeOutputStream.encode = function (n) {
+        if (n < 0) {
+        }
+        else if (n < 26) {
+            return 'A'.charCodeAt(0) + n;
+        }
+        else if (n < 52) {
+            return 'a'.charCodeAt(0) + (n - 26);
+        }
+        else if (n < 62) {
+            return '0'.charCodeAt(0) + (n - 52);
+        }
+        else if (n == 62) {
+            return '+'.charCodeAt(0);
+        }
+        else if (n == 63) {
+            return '/'.charCodeAt(0);
+        }
+        throw 'n:' + n;
+    };
+    return Base64EncodeOutputStream;
+}(OutputStream_1.OutputStream));
+exports.Base64EncodeOutputStream = Base64EncodeOutputStream;
+//# sourceMappingURL=Base64EncodeOutputStream.js.map
+});
+___scope___.file("js/qrcode/ErrorCorrectLevel.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+(function (ErrorCorrectLevel) {
+    ErrorCorrectLevel[ErrorCorrectLevel["L"] = 1] = "L";
+    ErrorCorrectLevel[ErrorCorrectLevel["M"] = 0] = "M";
+    ErrorCorrectLevel[ErrorCorrectLevel["Q"] = 3] = "Q";
+    ErrorCorrectLevel[ErrorCorrectLevel["H"] = 2] = "H";
+})(exports.ErrorCorrectLevel || (exports.ErrorCorrectLevel = {}));
+var ErrorCorrectLevel = exports.ErrorCorrectLevel;
+//# sourceMappingURL=ErrorCorrectLevel.js.map
+});
+___scope___.file("js/qrcode/QRData.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var Mode_1 = require('./Mode');
+'use strict';
+var QRData = (function () {
+    function QRData(mode, data) {
+        this.mode = mode;
+        this.data = data;
+    }
+    QRData.prototype.getMode = function () {
+        return this.mode;
+    };
+    QRData.prototype.getData = function () {
+        return this.data;
+    };
+    QRData.prototype.getLengthInBits = function (typeNumber) {
+        if (1 <= typeNumber && typeNumber < 10) {
+            switch (this.mode) {
+                case Mode_1.Mode.MODE_NUMBER: return 10;
+                case Mode_1.Mode.MODE_ALPHA_NUM: return 9;
+                case Mode_1.Mode.MODE_8BIT_BYTE: return 8;
+                case Mode_1.Mode.MODE_KANJI: return 8;
+                default:
+                    throw 'mode:' + this.mode;
+            }
+        }
+        else if (typeNumber < 27) {
+            switch (this.mode) {
+                case Mode_1.Mode.MODE_NUMBER: return 12;
+                case Mode_1.Mode.MODE_ALPHA_NUM: return 11;
+                case Mode_1.Mode.MODE_8BIT_BYTE: return 16;
+                case Mode_1.Mode.MODE_KANJI: return 10;
+                default:
+                    throw 'mode:' + this.mode;
+            }
+        }
+        else if (typeNumber < 41) {
+            switch (this.mode) {
+                case Mode_1.Mode.MODE_NUMBER: return 14;
+                case Mode_1.Mode.MODE_ALPHA_NUM: return 13;
+                case Mode_1.Mode.MODE_8BIT_BYTE: return 16;
+                case Mode_1.Mode.MODE_KANJI: return 12;
+                default:
+                    throw 'mode:' + this.mode;
+            }
+        }
+        else {
+            throw 'typeNumber:' + typeNumber;
+        }
+    };
+    return QRData;
+}());
+exports.QRData = QRData;
+//# sourceMappingURL=QRData.js.map
+});
+___scope___.file("js/qrcode/Mode.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+(function (Mode) {
+    Mode[Mode["MODE_NUMBER"] = 1] = "MODE_NUMBER";
+    Mode[Mode["MODE_ALPHA_NUM"] = 2] = "MODE_ALPHA_NUM";
+    Mode[Mode["MODE_8BIT_BYTE"] = 4] = "MODE_8BIT_BYTE";
+    Mode[Mode["MODE_KANJI"] = 8] = "MODE_KANJI";
+})(exports.Mode || (exports.Mode = {}));
+var Mode = exports.Mode;
+//# sourceMappingURL=Mode.js.map
+});
+___scope___.file("js/qrcode/QR8BitByte.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var QRCode_1 = require('./QRCode');
+var QRData_1 = require('./QRData');
+var Mode_1 = require('./Mode');
+'use strict';
+var QR8BitByte = (function (_super) {
+    __extends(QR8BitByte, _super);
+    function QR8BitByte(data) {
+        _super.call(this, Mode_1.Mode.MODE_8BIT_BYTE, data);
+    }
+    QR8BitByte.prototype.write = function (buffer) {
+        var data = QRCode_1.QRCode.stringToBytes(this.getData());
+        for (var i = 0; i < data.length; i += 1) {
+            buffer.put(data[i], 8);
+        }
+    };
+    QR8BitByte.prototype.getLength = function () {
+        return QRCode_1.QRCode.stringToBytes(this.getData()).length;
+    };
+    return QR8BitByte;
+}(QRData_1.QRData));
+exports.QR8BitByte = QR8BitByte;
+//# sourceMappingURL=QR8BitByte.js.map
+});
+___scope___.file("js/qrcode/QRUtil.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var Mode_1 = require('./Mode');
+var ErrorCorrectLevel_1 = require('./ErrorCorrectLevel');
+var Polynomial_1 = require('./Polynomial');
+var QRMath_1 = require('./QRMath');
+var MaskPattern_1 = require('./MaskPattern');
+'use strict';
+var QRUtil = (function () {
+    function QRUtil() {
+        throw 'error';
+    }
+    QRUtil.getPatternPosition = function (typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+    QRUtil.getMaxLength = function (typeNumber, mode, errorCorrectLevel) {
+        var t = typeNumber - 1;
+        var e = 0;
+        var m = 0;
+        switch (errorCorrectLevel) {
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.L:
+                e = 0;
+                break;
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.M:
+                e = 1;
+                break;
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.Q:
+                e = 2;
+                break;
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.H:
+                e = 3;
+                break;
+            default:
+                throw 'e:' + errorCorrectLevel;
+        }
+        switch (mode) {
+            case Mode_1.Mode.MODE_NUMBER:
+                m = 0;
+                break;
+            case Mode_1.Mode.MODE_ALPHA_NUM:
+                m = 1;
+                break;
+            case Mode_1.Mode.MODE_8BIT_BYTE:
+                m = 2;
+                break;
+            case Mode_1.Mode.MODE_KANJI:
+                m = 3;
+                break;
+            default:
+                throw 'm:' + mode;
+        }
+        return QRUtil.MAX_LENGTH[t][e][m];
+    };
+    QRUtil.getErrorCorrectPolynomial = function (errorCorrectLength) {
+        var a = new Polynomial_1.Polynomial([1]);
+        for (var i = 0; i < errorCorrectLength; i += 1) {
+            a = a.multiply(new Polynomial_1.Polynomial([1, QRMath_1.QRMath.gexp(i)]));
+        }
+        return a;
+    };
+    QRUtil.getMaskFunc = function (maskPattern) {
+        switch (maskPattern) {
+            case MaskPattern_1.MaskPattern.PATTERN000:
+                return function (i, j) { return (i + j) % 2 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN001:
+                return function (i, j) { return i % 2 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN010:
+                return function (i, j) { return j % 3 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN011:
+                return function (i, j) { return (i + j) % 3 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN100:
+                return function (i, j) { return (~~(i / 2) + ~~(j / 3)) % 2 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN101:
+                return function (i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN110:
+                return function (i, j) { return ((i * j) % 2 + (i * j) % 3) % 2 == 0; };
+            case MaskPattern_1.MaskPattern.PATTERN111:
+                return function (i, j) { return ((i * j) % 3 + (i + j) % 2) % 2 == 0; };
+            default:
+                throw 'mask:' + maskPattern;
+        }
+    };
+    QRUtil.getLostPoint = function (qrCode) {
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        for (var row = 0; row < moduleCount; row += 1) {
+            for (var col = 0; col < moduleCount; col += 1) {
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+                for (var r = -1; r <= 1; r += 1) {
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+                    for (var c = -1; c <= 1; c += 1) {
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+                        if (r == 0 && c == 0) {
+                            continue;
+                        }
+                        if (dark == qrCode.isDark(row + r, col + c)) {
+                            sameCount += 1;
+                        }
+                    }
+                }
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+        for (var row = 0; row < moduleCount - 1; row += 1) {
+            for (var col = 0; col < moduleCount - 1; col += 1) {
+                var count = 0;
+                if (qrCode.isDark(row, col))
+                    count += 1;
+                if (qrCode.isDark(row + 1, col))
+                    count += 1;
+                if (qrCode.isDark(row, col + 1))
+                    count += 1;
+                if (qrCode.isDark(row + 1, col + 1))
+                    count += 1;
+                if (count == 0 || count == 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+        for (var row = 0; row < moduleCount; row += 1) {
+            for (var col = 0; col < moduleCount - 6; col += 1) {
+                if (qrCode.isDark(row, col)
+                    && !qrCode.isDark(row, col + 1)
+                    && qrCode.isDark(row, col + 2)
+                    && qrCode.isDark(row, col + 3)
+                    && qrCode.isDark(row, col + 4)
+                    && !qrCode.isDark(row, col + 5)
+                    && qrCode.isDark(row, col + 6)) {
+                    lostPoint += 40;
+                }
+            }
+        }
+        for (var col = 0; col < moduleCount; col += 1) {
+            for (var row = 0; row < moduleCount - 6; row += 1) {
+                if (qrCode.isDark(row, col)
+                    && !qrCode.isDark(row + 1, col)
+                    && qrCode.isDark(row + 2, col)
+                    && qrCode.isDark(row + 3, col)
+                    && qrCode.isDark(row + 4, col)
+                    && !qrCode.isDark(row + 5, col)
+                    && qrCode.isDark(row + 6, col)) {
+                    lostPoint += 40;
+                }
+            }
+        }
+        var darkCount = 0;
+        for (var col = 0; col < moduleCount; col += 1) {
+            for (var row = 0; row < moduleCount; row += 1) {
+                if (qrCode.isDark(row, col)) {
+                    darkCount += 1;
+                }
+            }
+        }
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+        return lostPoint;
+    };
+    QRUtil.getBCHTypeInfo = function (data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) -
+                QRUtil.getBCHDigit(QRUtil.G15)));
+        }
+        return ((data << 10) | d) ^ QRUtil.G15_MASK;
+    };
+    QRUtil.getBCHTypeNumber = function (data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) -
+                QRUtil.getBCHDigit(QRUtil.G18)));
+        }
+        return (data << 12) | d;
+    };
+    QRUtil.getBCHDigit = function (data) {
+        var digit = 0;
+        while (data != 0) {
+            digit += 1;
+            data >>>= 1;
+        }
+        return digit;
+    };
+    QRUtil.PATTERN_POSITION_TABLE = [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ];
+    QRUtil.MAX_LENGTH = [
+        [[41, 25, 17, 10], [34, 20, 14, 8], [27, 16, 11, 7], [17, 10, 7, 4]],
+        [[77, 47, 32, 20], [63, 38, 26, 16], [48, 29, 20, 12], [34, 20, 14, 8]],
+        [[127, 77, 53, 32], [101, 61, 42, 26], [77, 47, 32, 20], [58, 35, 24, 15]],
+        [[187, 114, 78, 48], [149, 90, 62, 38], [111, 67, 46, 28], [82, 50, 34, 21]],
+        [[255, 154, 106, 65], [202, 122, 84, 52], [144, 87, 60, 37], [106, 64, 44, 27]],
+        [[322, 195, 134, 82], [255, 154, 106, 65], [178, 108, 74, 45], [139, 84, 58, 36]],
+        [[370, 224, 154, 95], [293, 178, 122, 75], [207, 125, 86, 53], [154, 93, 64, 39]],
+        [[461, 279, 192, 118], [365, 221, 152, 93], [259, 157, 108, 66], [202, 122, 84, 52]],
+        [[552, 335, 230, 141], [432, 262, 180, 111], [312, 189, 130, 80], [235, 143, 98, 60]],
+        [[652, 395, 271, 167], [513, 311, 213, 131], [364, 221, 151, 93], [288, 174, 119, 74]]
+    ];
+    QRUtil.G15 = (1 << 10) | (1 << 8) | (1 << 5)
+        | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    QRUtil.G18 = (1 << 12) | (1 << 11) | (1 << 10)
+        | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    QRUtil.G15_MASK = (1 << 14) | (1 << 12) | (1 << 10)
+        | (1 << 4) | (1 << 1);
+    return QRUtil;
+}());
+exports.QRUtil = QRUtil;
+//# sourceMappingURL=QRUtil.js.map
+});
+___scope___.file("js/qrcode/Polynomial.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var QRMath_1 = require('./QRMath');
+'use strict';
+var Polynomial = (function () {
+    function Polynomial(num, shift) {
+        if (shift === void 0) { shift = 0; }
+        var offset = 0;
+        while (offset < num.length && num[offset] == 0) {
+            offset += 1;
+        }
+        this.num = [];
+        var len = num.length - offset;
+        for (var i = 0; i < len; i += 1) {
+            this.num.push(num[offset + i]);
+        }
+        for (var i = 0; i < shift; i += 1) {
+            this.num.push(0);
+        }
+    }
+    Polynomial.prototype.getAt = function (index) {
+        return this.num[index];
+    };
+    Polynomial.prototype.getLength = function () {
+        return this.num.length;
+    };
+    Polynomial.prototype.toString = function () {
+        var buffer = '';
+        for (var i = 0; i < this.getLength(); i += 1) {
+            if (i > 0) {
+                buffer += ',';
+            }
+            buffer += this.getAt(i);
+        }
+        return buffer.toString();
+    };
+    Polynomial.prototype.toLogString = function () {
+        var buffer = '';
+        for (var i = 0; i < this.getLength(); i += 1) {
+            if (i > 0) {
+                buffer += ',';
+            }
+            buffer += QRMath_1.QRMath.glog(this.getAt(i));
+        }
+        return buffer.toString();
+    };
+    Polynomial.prototype.multiply = function (e) {
+        var num = [];
+        var len = this.getLength() + e.getLength() - 1;
+        for (var i = 0; i < len; i += 1) {
+            num.push(0);
+        }
+        for (var i = 0; i < this.getLength(); i += 1) {
+            for (var j = 0; j < e.getLength(); j += 1) {
+                num[i + j] ^= QRMath_1.QRMath.gexp(QRMath_1.QRMath.glog(this.getAt(i)) +
+                    QRMath_1.QRMath.glog(e.getAt(j)));
+            }
+        }
+        return new Polynomial(num);
+    };
+    Polynomial.prototype.mod = function (e) {
+        if (this.getLength() - e.getLength() < 0) {
+            return this;
+        }
+        var ratio = QRMath_1.QRMath.glog(this.getAt(0)) - QRMath_1.QRMath.glog(e.getAt(0));
+        var num = [];
+        for (var i = 0; i < this.getLength(); i += 1) {
+            num.push(this.getAt(i));
+        }
+        for (var i = 0; i < e.getLength(); i += 1) {
+            num[i] ^= QRMath_1.QRMath.gexp(QRMath_1.QRMath.glog(e.getAt(i)) + ratio);
+        }
+        return new Polynomial(num).mod(e);
+    };
+    return Polynomial;
+}());
+exports.Polynomial = Polynomial;
+//# sourceMappingURL=Polynomial.js.map
+});
+___scope___.file("js/qrcode/QRMath.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+var QRMath = (function () {
+    function QRMath() {
+        throw 'error';
+    }
+    QRMath.glog = function (n) {
+        if (n < 1) {
+            throw 'log(' + n + ')';
+        }
+        return QRMath.LOG_TABLE[n];
+    };
+    QRMath.gexp = function (n) {
+        while (n < 0) {
+            n += 255;
+        }
+        while (n >= 256) {
+            n -= 255;
+        }
+        return QRMath.EXP_TABLE[n];
+    };
+    QRMath.initialize = function () {
+        QRMath.EXP_TABLE = [];
+        QRMath.LOG_TABLE = [];
+        for (var i = 0; i < 256; i += 1) {
+            QRMath.EXP_TABLE.push(i < 8 ? 1 << i :
+                QRMath.EXP_TABLE[i - 4] ^
+                    QRMath.EXP_TABLE[i - 5] ^
+                    QRMath.EXP_TABLE[i - 6] ^
+                    QRMath.EXP_TABLE[i - 8]);
+            QRMath.LOG_TABLE.push(0);
+        }
+        for (var i = 0; i < 255; i += 1) {
+            QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]] = i;
+        }
+    }();
+    return QRMath;
+}());
+exports.QRMath = QRMath;
+//# sourceMappingURL=QRMath.js.map
+});
+___scope___.file("js/qrcode/MaskPattern.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+(function (MaskPattern) {
+    MaskPattern[MaskPattern["PATTERN000"] = 0] = "PATTERN000";
+    MaskPattern[MaskPattern["PATTERN001"] = 1] = "PATTERN001";
+    MaskPattern[MaskPattern["PATTERN010"] = 2] = "PATTERN010";
+    MaskPattern[MaskPattern["PATTERN011"] = 3] = "PATTERN011";
+    MaskPattern[MaskPattern["PATTERN100"] = 4] = "PATTERN100";
+    MaskPattern[MaskPattern["PATTERN101"] = 5] = "PATTERN101";
+    MaskPattern[MaskPattern["PATTERN110"] = 6] = "PATTERN110";
+    MaskPattern[MaskPattern["PATTERN111"] = 7] = "PATTERN111";
+})(exports.MaskPattern || (exports.MaskPattern = {}));
+var MaskPattern = exports.MaskPattern;
+//# sourceMappingURL=MaskPattern.js.map
+});
+___scope___.file("js/qrcode/RSBlock.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var ErrorCorrectLevel_1 = require('./ErrorCorrectLevel');
+'use strict';
+var RSBlock = (function () {
+    function RSBlock(totalCount, dataCount) {
+        this.totalCount = totalCount;
+        this.dataCount = dataCount;
+    }
+    RSBlock.prototype.getDataCount = function () {
+        return this.dataCount;
+    };
+    RSBlock.prototype.getTotalCount = function () {
+        return this.totalCount;
+    };
+    RSBlock.getRSBlocks = function (typeNumber, errorCorrectLevel) {
+        var rsBlock = RSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+        var length = rsBlock.length / 3;
+        var list = [];
+        for (var i = 0; i < length; i += 1) {
+            var count = rsBlock[i * 3 + 0];
+            var totalCount = rsBlock[i * 3 + 1];
+            var dataCount = rsBlock[i * 3 + 2];
+            for (var j = 0; j < count; j += 1) {
+                list.push(new RSBlock(totalCount, dataCount));
+            }
+        }
+        return list;
+    };
+    RSBlock.getRsBlockTable = function (typeNumber, errorCorrectLevel) {
+        switch (errorCorrectLevel) {
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.L:
+                return RSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.M:
+                return RSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.Q:
+                return RSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+            case ErrorCorrectLevel_1.ErrorCorrectLevel.H:
+                return RSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+            default:
+                break;
+        }
+        throw 'tn:' + typeNumber + '/ecl:' + errorCorrectLevel;
+    };
+    RSBlock.RS_BLOCK_TABLE = [
+        [1, 26, 19],
+        [1, 26, 16],
+        [1, 26, 13],
+        [1, 26, 9],
+        [1, 44, 34],
+        [1, 44, 28],
+        [1, 44, 22],
+        [1, 44, 16],
+        [1, 70, 55],
+        [1, 70, 44],
+        [2, 35, 17],
+        [2, 35, 13],
+        [1, 100, 80],
+        [2, 50, 32],
+        [2, 50, 24],
+        [4, 25, 9],
+        [1, 134, 108],
+        [2, 67, 43],
+        [2, 33, 15, 2, 34, 16],
+        [2, 33, 11, 2, 34, 12],
+        [2, 86, 68],
+        [4, 43, 27],
+        [4, 43, 19],
+        [4, 43, 15],
+        [2, 98, 78],
+        [4, 49, 31],
+        [2, 32, 14, 4, 33, 15],
+        [4, 39, 13, 1, 40, 14],
+        [2, 121, 97],
+        [2, 60, 38, 2, 61, 39],
+        [4, 40, 18, 2, 41, 19],
+        [4, 40, 14, 2, 41, 15],
+        [2, 146, 116],
+        [3, 58, 36, 2, 59, 37],
+        [4, 36, 16, 4, 37, 17],
+        [4, 36, 12, 4, 37, 13],
+        [2, 86, 68, 2, 87, 69],
+        [4, 69, 43, 1, 70, 44],
+        [6, 43, 19, 2, 44, 20],
+        [6, 43, 15, 2, 44, 16],
+        [4, 101, 81],
+        [1, 80, 50, 4, 81, 51],
+        [4, 50, 22, 4, 51, 23],
+        [3, 36, 12, 8, 37, 13],
+        [2, 116, 92, 2, 117, 93],
+        [6, 58, 36, 2, 59, 37],
+        [4, 46, 20, 6, 47, 21],
+        [7, 42, 14, 4, 43, 15],
+        [4, 133, 107],
+        [8, 59, 37, 1, 60, 38],
+        [8, 44, 20, 4, 45, 21],
+        [12, 33, 11, 4, 34, 12],
+        [3, 145, 115, 1, 146, 116],
+        [4, 64, 40, 5, 65, 41],
+        [11, 36, 16, 5, 37, 17],
+        [11, 36, 12, 5, 37, 13],
+        [5, 109, 87, 1, 110, 88],
+        [5, 65, 41, 5, 66, 42],
+        [5, 54, 24, 7, 55, 25],
+        [11, 36, 12, 7, 37, 13],
+        [5, 122, 98, 1, 123, 99],
+        [7, 73, 45, 3, 74, 46],
+        [15, 43, 19, 2, 44, 20],
+        [3, 45, 15, 13, 46, 16],
+        [1, 135, 107, 5, 136, 108],
+        [10, 74, 46, 1, 75, 47],
+        [1, 50, 22, 15, 51, 23],
+        [2, 42, 14, 17, 43, 15],
+        [5, 150, 120, 1, 151, 121],
+        [9, 69, 43, 4, 70, 44],
+        [17, 50, 22, 1, 51, 23],
+        [2, 42, 14, 19, 43, 15],
+        [3, 141, 113, 4, 142, 114],
+        [3, 70, 44, 11, 71, 45],
+        [17, 47, 21, 4, 48, 22],
+        [9, 39, 13, 16, 40, 14],
+        [3, 135, 107, 5, 136, 108],
+        [3, 67, 41, 13, 68, 42],
+        [15, 54, 24, 5, 55, 25],
+        [15, 43, 15, 10, 44, 16],
+        [4, 144, 116, 4, 145, 117],
+        [17, 68, 42],
+        [17, 50, 22, 6, 51, 23],
+        [19, 46, 16, 6, 47, 17],
+        [2, 139, 111, 7, 140, 112],
+        [17, 74, 46],
+        [7, 54, 24, 16, 55, 25],
+        [34, 37, 13],
+        [4, 151, 121, 5, 152, 122],
+        [4, 75, 47, 14, 76, 48],
+        [11, 54, 24, 14, 55, 25],
+        [16, 45, 15, 14, 46, 16],
+        [6, 147, 117, 4, 148, 118],
+        [6, 73, 45, 14, 74, 46],
+        [11, 54, 24, 16, 55, 25],
+        [30, 46, 16, 2, 47, 17],
+        [8, 132, 106, 4, 133, 107],
+        [8, 75, 47, 13, 76, 48],
+        [7, 54, 24, 22, 55, 25],
+        [22, 45, 15, 13, 46, 16],
+        [10, 142, 114, 2, 143, 115],
+        [19, 74, 46, 4, 75, 47],
+        [28, 50, 22, 6, 51, 23],
+        [33, 46, 16, 4, 47, 17],
+        [8, 152, 122, 4, 153, 123],
+        [22, 73, 45, 3, 74, 46],
+        [8, 53, 23, 26, 54, 24],
+        [12, 45, 15, 28, 46, 16],
+        [3, 147, 117, 10, 148, 118],
+        [3, 73, 45, 23, 74, 46],
+        [4, 54, 24, 31, 55, 25],
+        [11, 45, 15, 31, 46, 16],
+        [7, 146, 116, 7, 147, 117],
+        [21, 73, 45, 7, 74, 46],
+        [1, 53, 23, 37, 54, 24],
+        [19, 45, 15, 26, 46, 16],
+        [5, 145, 115, 10, 146, 116],
+        [19, 75, 47, 10, 76, 48],
+        [15, 54, 24, 25, 55, 25],
+        [23, 45, 15, 25, 46, 16],
+        [13, 145, 115, 3, 146, 116],
+        [2, 74, 46, 29, 75, 47],
+        [42, 54, 24, 1, 55, 25],
+        [23, 45, 15, 28, 46, 16],
+        [17, 145, 115],
+        [10, 74, 46, 23, 75, 47],
+        [10, 54, 24, 35, 55, 25],
+        [19, 45, 15, 35, 46, 16],
+        [17, 145, 115, 1, 146, 116],
+        [14, 74, 46, 21, 75, 47],
+        [29, 54, 24, 19, 55, 25],
+        [11, 45, 15, 46, 46, 16],
+        [13, 145, 115, 6, 146, 116],
+        [14, 74, 46, 23, 75, 47],
+        [44, 54, 24, 7, 55, 25],
+        [59, 46, 16, 1, 47, 17],
+        [12, 151, 121, 7, 152, 122],
+        [12, 75, 47, 26, 76, 48],
+        [39, 54, 24, 14, 55, 25],
+        [22, 45, 15, 41, 46, 16],
+        [6, 151, 121, 14, 152, 122],
+        [6, 75, 47, 34, 76, 48],
+        [46, 54, 24, 10, 55, 25],
+        [2, 45, 15, 64, 46, 16],
+        [17, 152, 122, 4, 153, 123],
+        [29, 74, 46, 14, 75, 47],
+        [49, 54, 24, 10, 55, 25],
+        [24, 45, 15, 46, 46, 16],
+        [4, 152, 122, 18, 153, 123],
+        [13, 74, 46, 32, 75, 47],
+        [48, 54, 24, 14, 55, 25],
+        [42, 45, 15, 32, 46, 16],
+        [20, 147, 117, 4, 148, 118],
+        [40, 75, 47, 7, 76, 48],
+        [43, 54, 24, 22, 55, 25],
+        [10, 45, 15, 67, 46, 16],
+        [19, 148, 118, 6, 149, 119],
+        [18, 75, 47, 31, 76, 48],
+        [34, 54, 24, 34, 55, 25],
+        [20, 45, 15, 61, 46, 16]
+    ];
+    return RSBlock;
+}());
+exports.RSBlock = RSBlock;
+//# sourceMappingURL=RSBlock.js.map
+});
+___scope___.file("js/qrcode/BitBuffer.js", function(exports, require, module, __filename, __dirname){
+
+'use strict';
+var BitBuffer = (function () {
+    function BitBuffer() {
+        this.buffer = [];
+        this.length = 0;
+    }
+    BitBuffer.prototype.getBuffer = function () {
+        return this.buffer;
+    };
+    BitBuffer.prototype.getLengthInBits = function () {
+        return this.length;
+    };
+    BitBuffer.prototype.toString = function () {
+        var buffer = '';
+        for (var i = 0; i < this.getLengthInBits(); i += 1) {
+            buffer += this.getBit(i) ? '1' : '0';
+        }
+        return buffer;
+    };
+    BitBuffer.prototype.getBit = function (index) {
+        return ((this.buffer[~~(index / 8)] >>> (7 - index % 8)) & 1) == 1;
+    };
+    BitBuffer.prototype.put = function (num, length) {
+        for (var i = 0; i < length; i += 1) {
+            this.putBit(((num >>> (length - i - 1)) & 1) == 1);
+        }
+    };
+    BitBuffer.prototype.putBit = function (bit) {
+        if (this.length == this.buffer.length * 8) {
+            this.buffer.push(0);
+        }
+        if (bit) {
+            this.buffer[~~(this.length / 8)] |= (0x80 >>> (this.length % 8));
+        }
+        this.length += 1;
+    };
+    return BitBuffer;
+}());
+exports.BitBuffer = BitBuffer;
+//# sourceMappingURL=BitBuffer.js.map
+});
+___scope___.file("js/qrcode/QRNumber.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var QRData_1 = require('./QRData');
+var Mode_1 = require('./Mode');
+'use strict';
+var QRNumber = (function (_super) {
+    __extends(QRNumber, _super);
+    function QRNumber(data) {
+        _super.call(this, Mode_1.Mode.MODE_NUMBER, data);
+    }
+    QRNumber.prototype.write = function (buffer) {
+        var data = this.getData();
+        var i = 0;
+        while (i + 2 < data.length) {
+            buffer.put(QRNumber.strToNum(data.substring(i, i + 3)), 10);
+            i += 3;
+        }
+        if (i < data.length) {
+            if (data.length - i == 1) {
+                buffer.put(QRNumber.strToNum(data.substring(i, i + 1)), 4);
+            }
+            else if (data.length - i == 2) {
+                buffer.put(QRNumber.strToNum(data.substring(i, i + 2)), 7);
+            }
+        }
+    };
+    QRNumber.prototype.getLength = function () {
+        return this.getData().length;
+    };
+    QRNumber.strToNum = function (s) {
+        var num = 0;
+        for (var i = 0; i < s.length; i += 1) {
+            num = num * 10 + QRNumber.chatToNum(s.charAt(i));
+        }
+        return num;
+    };
+    QRNumber.chatToNum = function (c) {
+        if ('0' <= c && c <= '9') {
+            return c.charCodeAt(0) - '0'.charCodeAt(0);
+        }
+        throw 'illegal char :' + c;
+    };
+    return QRNumber;
+}(QRData_1.QRData));
+exports.QRNumber = QRNumber;
+//# sourceMappingURL=QRNumber.js.map
+});
+___scope___.file("js/qrcode/QRAlphaNum.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var QRData_1 = require('./QRData');
+var Mode_1 = require('./Mode');
+'use strict';
+var QRAlphaNum = (function (_super) {
+    __extends(QRAlphaNum, _super);
+    function QRAlphaNum(data) {
+        _super.call(this, Mode_1.Mode.MODE_ALPHA_NUM, data);
+    }
+    QRAlphaNum.prototype.write = function (buffer) {
+        var s = this.getData();
+        var i = 0;
+        while (i + 1 < s.length) {
+            buffer.put(QRAlphaNum.getCode(s.charAt(i)) * 45 +
+                QRAlphaNum.getCode(s.charAt(i + 1)), 11);
+            i += 2;
+        }
+        if (i < s.length) {
+            buffer.put(QRAlphaNum.getCode(s.charAt(i)), 6);
+        }
+    };
+    QRAlphaNum.prototype.getLength = function () {
+        return this.getData().length;
+    };
+    QRAlphaNum.getCode = function (c) {
+        if ('0' <= c && c <= '9') {
+            return c.charCodeAt(0) - '0'.charCodeAt(0);
+        }
+        else if ('A' <= c && c <= 'Z') {
+            return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+        }
+        else {
+            switch (c) {
+                case ' ': return 36;
+                case '$': return 37;
+                case '%': return 38;
+                case '*': return 39;
+                case '+': return 40;
+                case '-': return 41;
+                case '.': return 42;
+                case '/': return 43;
+                case ':': return 44;
+                default:
+                    throw 'illegal char :' + c;
+            }
+        }
+    };
+    return QRAlphaNum;
+}(QRData_1.QRData));
+exports.QRAlphaNum = QRAlphaNum;
+//# sourceMappingURL=QRAlphaNum.js.map
+});
+___scope___.file("js/qrcode/QRKanji.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var QRData_1 = require('./QRData');
+var Mode_1 = require('./Mode');
+var QRCode_1 = require('./QRCode');
+'use strict';
+var QRKanji = (function (_super) {
+    __extends(QRKanji, _super);
+    function QRKanji(data) {
+        _super.call(this, Mode_1.Mode.MODE_KANJI, data);
+    }
+    QRKanji.prototype.write = function (buffer) {
+        var data = QRCode_1.QRCode.stringToBytes(this.getData());
+        var i = 0;
+        while (i + 1 < data.length) {
+            var c = ((0xff & data[i]) << 8) | (0xff & data[i + 1]);
+            if (0x8140 <= c && c <= 0x9FFC) {
+                c -= 0x8140;
+            }
+            else if (0xE040 <= c && c <= 0xEBBF) {
+                c -= 0xC140;
+            }
+            else {
+                throw 'illegal char at ' + (i + 1) + '/' + c;
+            }
+            c = ((c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+            buffer.put(c, 13);
+            i += 2;
+        }
+        if (i < data.length) {
+            throw 'illegal char at ' + (i + 1);
+        }
+    };
+    QRKanji.prototype.getLength = function () {
+        return QRCode_1.QRCode.stringToBytes(this.getData()).length / 2;
+    };
+    return QRKanji;
+}(QRData_1.QRData));
+exports.QRKanji = QRKanji;
+//# sourceMappingURL=QRKanji.js.map
+});
+return ___scope___.entry = "js/index.js";
+});
+FuseBox.pkg("nanobar", {}, function(___scope___){
+___scope___.file("nanobar.js", function(exports, require, module, __filename, __dirname){
+
+/* http://nanobar.micronube.com/  ||  https://github.com/jacoborus/nanobar/    MIT LICENSE */
+(function (root) {
+  'use strict'
+  // container styles
+  var css = '.nanobar{width:100%;height:4px;z-index:9999;top:0}.bar{width:0;height:100%;transition:height .3s;background:#000}'
+
+  // add required css in head div
+  function addCss () {
+    var s = document.getElementById('nanobarcss')
+
+    // check whether style tag is already inserted
+    if (s === null) {
+      s = document.createElement('style')
+      s.type = 'text/css'
+      s.id = 'nanobarcss'
+      document.head.insertBefore(s, document.head.firstChild)
+      // the world
+      if (!s.styleSheet) return s.appendChild(document.createTextNode(css))
+      // IE
+      s.styleSheet.cssText = css
+    }
+  }
+
+  function addClass (el, cls) {
+    if (el.classList) el.classList.add(cls)
+    else el.className += ' ' + cls
+  }
+
+  // create a progress bar
+  // this will be destroyed after reaching 100% progress
+  function createBar (rm) {
+    // create progress element
+    var el = document.createElement('div'),
+        width = 0,
+        here = 0,
+        on = 0,
+        bar = {
+          el: el,
+          go: go
+        }
+
+    addClass(el, 'bar')
+
+    // animation loop
+    function move () {
+      var dist = width - here
+
+      if (dist < 0.1 && dist > -0.1) {
+        place(here)
+        on = 0
+        if (width === 100) {
+          el.style.height = 0
+          setTimeout(function () {
+            rm(el)
+          }, 300)
+        }
+      } else {
+        place(width - dist / 4)
+        setTimeout(go, 16)
+      }
+    }
+
+    // set bar width
+    function place (num) {
+      width = num
+      el.style.width = width + '%'
+    }
+
+    function go (num) {
+      if (num >= 0) {
+        here = num
+        if (!on) {
+          on = 1
+          move()
+        }
+      } else if (on) {
+        move()
+      }
+    }
+    return bar
+  }
+
+  function Nanobar (opts) {
+    opts = opts || {}
+    // set options
+    var el = document.createElement('div'),
+        applyGo,
+        nanobar = {
+          el: el,
+          go: function (p) {
+            // expand bar
+            applyGo(p)
+            // create new bar when progress reaches 100%
+            if (p === 100) {
+              init()
+            }
+          }
+        }
+
+    // remove element from nanobar container
+    function rm (child) {
+      el.removeChild(child)
+    }
+
+    // create and insert progress var in nanobar container
+    function init () {
+      var bar = createBar(rm)
+      el.appendChild(bar.el)
+      applyGo = bar.go
+    }
+
+    addCss()
+
+    addClass(el, 'nanobar')
+    if (opts.id) el.id = opts.id
+    if (opts.classname) addClass(el, opts.classname)
+
+    // insert container
+    if (opts.target) {
+      // inside a div
+      el.style.position = 'relative'
+      opts.target.insertBefore(el, opts.target.firstChild)
+    } else {
+      // on top of the page
+      el.style.position = 'fixed'
+      document.getElementsByTagName('body')[0].appendChild(el)
+    }
+
+    init()
+    return nanobar
+  }
+
+  if (typeof exports === 'object') {
+    // CommonJS
+    module.exports = Nanobar
+  } else if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([], function () { return Nanobar })
+  } else {
+    // Browser globals
+    root.Nanobar = Nanobar
+  }
+}(this))
 
 });
-return ___scope___.entry = "toastr.js";
+return ___scope___.entry = "nanobar.js";
 });
 FuseBox.import("fuse-box-aurelia-loader")
 FuseBox.import("aurelia-bootstrapper")

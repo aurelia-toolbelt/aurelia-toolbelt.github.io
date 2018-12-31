@@ -10,7 +10,7 @@ module.exports.default =  "<template>\n\n  <a id=\"${id}\" href=\"${href}\" tabi
 });
 ___scope___.file("components/bootstrap/alert/abt-alert.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n  <div ref=\"alert\" class=\"alert alert-${type} ${dismissible == true ? 'alert-dismissible' : ''} ${animate ? 'fade show':''} ${class}\" role=\"alert\" css=\"${style}\">\n    <slot>\n\n    </slot>\n    <button if.bind=\"dismissible == true\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n</template>\n"
+module.exports.default =  "<template>\n  <div show.bind=\"showAlert\" ref=\"alert\" class=\"alert alert-${type} ${dismissible == true ? 'alert-dismissible' : ''} ${animate ? 'fade show':''} ${class}\" role=\"alert\" css=\"${style}\">\n    <slot>\n\n    </slot>\n    <button if.bind=\"dismissible == true\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n\n    <abt-progress class=\"mt-3\" show.bind=\"local_countdown\" height=\"3px\">\n        <abt-progress-bar type=\"${type}\" value.bind=\"local_countdown\" min=\"0\" max=\"${countdown}\"></abt-progress-bar>\n    </abt-progress>\n\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/badge/abt-badge.html", function(exports, require, module, __filename, __dirname){
 
@@ -158,11 +158,19 @@ module.exports.default =  "<template>\n  <div class=\"jumbotron ${fluid? 'jumbot
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup-item.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"listGroupItemTemplate\">\n  \n  <require from=\"./abt-listgroup-item.css\"></require>\n  \n  <a id=\"${id}\" href=\"${href}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''}; ${style}\"\n    class=\"list-group-item list-group-item-action ${class}\">\n    <slot></slot>\n  </a>\n</template>\n"
+module.exports.default =  "<template ref=\"listGroupItemTemplate\">\n  \n  <require from=\"./abt-listgroup-item.css\"></require>\n  \n  <a id=\"${id}\" ref=\"listGroupItem\" click.trigger=\"onClick($event)\" css=\"cursor: ${click || href ? 'pointer' :''}; ${style}\"\n    class=\"list-group-item list-group-item-action ${class}\">\n    <slot></slot>\n  </a>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/listgroup/abt-listgroup.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template ref=\"listGroupTemplate\">\n  <div ref=\"listGroup\" id=\"${id}\" css=\"${style}\" class=\"list-group ${class}\">\n    <slot></slot>\n  </div>\n</template>\n"
+});
+___scope___.file("components/bootstrap/milestone/at-milestone-container.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\n\n  <require from=\"./at-milestone-container.css\"></require>\n\n  <ul class=\"milestones ${topBorder ? 'milestones-bordered-top' : '' } ${ bottomBorder ? 'milestones-bordered-bottom' : '' } ${class}\" css=\"${style}\">\n    <slot>\n    </slot>\n  </ul>\n\n</template>\n"
+});
+___scope___.file("components/bootstrap/milestone/at-milestone.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template>\n\n  <li>\n      <i if.bind=\"icon.length\" class=\"milestone-${type} ${icon} ${class}\" css=\"${style}\"></i>\n    <slot></slot>\n  </li>\n\n</template>\n"
 });
 ___scope___.file("components/bootstrap/modal/abt-modal-body.html", function(exports, require, module, __filename, __dirname){
 
@@ -250,7 +258,7 @@ module.exports.default =  "<template ref=\"popoverTemplate\">\n  <div ref=\"popo
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress-bar.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template ref=\"progressbarTemplate\">\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <div aut-uuid ref=\"progressbar\" class=\"progress-bar ${type? 'bg-'+type : ''} ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} ${class}\"\n    role=\"progressbar\" css=\"width: ${value}%; ${color ? 'background:' + color : ''} ${style}\" aria-valuenow=\"${value}\" aria-valuemin=\"${min}\"\n    aria-valuemax=\"${max}\">\n    <slot>\n      <slot>\n  </div>\n</template>\n"
+module.exports.default =  "<template ref=\"progressbarTemplate\">\n  <require from=\"../../../custom-attributes/vanilla/uuid/aut-uuid\"></require>\n\n  <div aut-uuid ref=\"progressbar\" class=\"progress-bar ${type? 'bg-'+type : ''} ${animated?'progress-bar-animated':''} ${striped?'progress-bar-striped':''} ${class}\"\n    role=\"progressbar\" css=\"width: ${progressBarValue}%; ${color ? 'background:' + color : ''} ${style}\" aria-valuenow=\"${progressBarValue}\" aria-valuemin=\"${min}\"\n    aria-valuemax=\"${max}\">\n    <slot>\n      <slot>\n  </div>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/progressbar/abt-progress.html", function(exports, require, module, __filename, __dirname){
 
@@ -270,7 +278,7 @@ module.exports.default =  "<template class=\"text-${type} star-${type} ${class}\
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template class=\"abt-toggle ${class}\" css=\"${style}\">\n  \n  <require from=\"aureliatoolbelt-thirdparty/bootstrap-toggle/bootstrap-toggle.css\"></require>\n  <require from=\"./abt-toggle.css\"></require>\n\n  <label click.delegate=\"onChanged()\" class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onType}\" data-offstyle=\"${offType}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
+module.exports.default =  "<template class=\"abt-toggle ${class}\" css=\"${style}\">\n  \n  <!-- <require from=\"aureliatoolbelt-thirdparty/bootstrap-toggle/bootstrap-toggle.css\"></require> -->\n  <require from=\"./abt-toggle.css\"></require>\n\n  <label click.delegate=\"onChanged()\" class=\"checkbox-inline\">\n    <input ref=\"checkbox\" type=\"checkbox\" data-toggle=\"toggle\" data-on=\"${on}\" data-off=\"${off}\" data-onstyle=\"${onType}\" data-offstyle=\"${offType}\"\n      data-style=\"${css}\" data-size=\"${size}\" data-width=\"${width}\" data-height=\"${height}\" style=\"cursor: pointer\">\n    <slot></slot>\n  </label>\n</template>\n"
 });
 ___scope___.file("components/bootstrap/tokenize/abt-tokenize-item.html", function(exports, require, module, __filename, __dirname){
 
@@ -324,10 +332,6 @@ ___scope___.file("components/vanilla/mark-down/aut-mark-down.html", function(exp
 
 module.exports.default =  "<template>\n\n  <require from=\"../../bootstrap/toggle/abt-toggle\"></require>\n  <require from=\"../../../value-converters/vanilla/mark-down/markdown-vc\"></require>\n  <require from=\"../../bootstrap/button/abt-button\"></require>\n\n  <!-- <require from=\"../../bootstrap/card/abt-card.html\"></require>\n  <require from=\"../../bootstrap/card/abt-card-body.html\"></require> -->\n\n  <abt-card class=\"mt-3 mb-4\">\n    <abt-card-header if.bind=\"showToolBar\">\n\n      <abt-button size=\"sm\" color=\"secondary\" click.call=\"srcChanged()\">\n        <span slot=\"loading\">\n          <i class=\"fa fa-refresh fa-spin\"></i>\n        </span>\n\n        Reload\n\n      </abt-button>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button click.delegate=\"addText('# ')\" type=\"button\" class=\"btn btn-outline-primary\">h1</button>\n        <button click.delegate=\"addText('## ')\" type=\"button\" class=\"btn btn-outline-primary\">h2</button>\n        <button click.delegate=\"addText('### ')\" type=\"button\" class=\"btn btn-outline-primary\">h3</button>\n        <button click.delegate=\"addText('#### ')\" type=\"button\" class=\"btn btn-outline-primary\">h4</button>\n        <button click.delegate=\"addText('##### ')\" type=\"button\" class=\"btn btn-outline-primary\">h5</button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('****', 2)\">\n          <b>Bold</b>\n        </button>\n        <button type=\"button\" class=\"btn btn-outline-dark\" click.delegate=\"addText('__', 1)\">\n          <em>Italic</em>\n        </button>\n      </div>\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-button outline click.call=\"addText('[]()', 1)\">\n          <b>Link</b>\n        </abt-button>\n        <abt-button outline click.call=\"addText('![]()', 4)\">\n          <em>Image</em>\n        </abt-button>\n      </div>\n\n\n      <div class=\"btn-group btn-group-sm\" role=\"group\">\n        <abt-toggle size=\"mini\" checked.bind=\"showPreview\">\n          Preview\n        </abt-toggle>\n        <abt-toggle size=\"mini\" checked.bind=\"showEditor\">\n          Editor\n        </abt-toggle>\n      </div>\n    </abt-card-header>\n    <abt-card-body if.bind=\"showEditor === true\" style=\"border-left: 3px solid maroon !important;\">\n\n      <textarea ref=\"editor\" class=\"editor\" style=\"\n                  width: 98%;\n                  border: 0px;\n                  min-height: 400px;\" value.bind=\"myText\">\n      </textarea>\n\n    </abt-card-body>\n    <abt-card-footer if.bind=\"showPreview === true\" style=\"min-height: 100px; border-left:4px solid #753B85;\">\n      <div ref=\"preview\" innerhtml.bind=\"myText | md & debounce:200\">\n      </div>\n    </abt-card-footer>\n\n    <div show.bind=\"false\" ref=\"slotContainer\" style=\"visibility: hidden\">\n      <slot></slot>\n    </div>\n\n  </abt-card>\n</template>\n"
 });
-___scope___.file("components/vanilla/microlink/aut-microlink.html", function(exports, require, module, __filename, __dirname){
-
-module.exports.default =  "<template>\n  <div style=\"width: 1px\" class=\"${class}\">\n    <a aut-uuid class=\"micro-link aut-microlink\" ref=\"microlink\" data-rounded=\"${rounded}\" href=\"${url}\">\n    </a>\n  </div>\n</template>\n"
-});
 ___scope___.file("components/vanilla/pretty/aut-checkbox.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\n\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\n    <input type=\"${isCheckBox ? 'checkbox' : 'radio'}\" name.bind=\"name\" checked.bind=\"state\" change.delegate=\"changed()\" disabled.bind=\"disabled\"\n    />\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\n      <label>\n        <slot></slot>\n      </label>\n    </div>\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\n      <label>\n        ${offLabel}\n      </label>\n    </div>\n  </div>\n\n</template>\n"
@@ -335,6 +339,10 @@ module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/p
 ___scope___.file("components/vanilla/pretty/aut-radio.html", function(exports, require, module, __filename, __dirname){
 
 module.exports.default =  "<template>\n\n  <require from='pretty-checkbox/dist/pretty-checkbox.css'></require>\n\n  <div class=\"pretty p-has-focus ${switch ? 'p-switch':'p-default'} ${appearanceCSS} ${thickCss} ${animationCss}\n     ${offColorCss != '' ? 'p-toggle' : ''}\">\n    <input ref=\"radioButton\" type=\"radio\" name.bind=\"name\" disabled.bind=\"disabled\" change.delegate=\"changed()\" />\n    <i if.bind=\"icon\" class=\"${icon}\"></i>\n    <div class=\"state ${colorCss} ${offColorCss != '' && disabled === false ? 'p-on' : ''}\">\n      <label>\n        <slot></slot>\n      </label>\n    </div>\n    <div if.bind=\"offColorCss != ''\" class=\"state ${offColorCss} p-off\">\n      <label>\n        ${offLabel}\n      </label>\n    </div>\n  </div>\n\n</template>\n"
+});
+___scope___.file("components/vanilla/qrcode/at-qrcode.html", function(exports, require, module, __filename, __dirname){
+
+module.exports.default =  "<template class=\"aut-qrcode\">\n  <!-- <canvas ref=\"canvas\"></canvas> -->\n</template>\n"
 });
 ___scope___.file("components/vanilla/raw-html/aut-raw-html.html", function(exports, require, module, __filename, __dirname){
 
@@ -477,15 +485,17 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
 var $ = require("jquery");
 var BootstrapAlert = (function () {
-    function BootstrapAlert(element) {
+    function BootstrapAlert(element, taskQueue) {
         this.element = element;
+        this.taskQueue = taskQueue;
         this.size = 'md';
         this.type = 'primary';
         this.animate = true;
+        this.countdown = 0;
         this.style = '';
         this.class = '';
-        this.showAlert = null;
         this.dismissible = false;
+        this.showAlert = true;
     }
     BootstrapAlert.prototype.attached = function () {
         var _this = this;
@@ -493,6 +503,7 @@ var BootstrapAlert = (function () {
         this.dismissible = onlyDismissibleAttribute || this.dismissible.toString() === 'true';
         var onlyAnimateAttribute = (this.animate === '' && this.element.hasAttribute('animate'));
         this.animate = onlyAnimateAttribute || this.animate === 'true' || this.animate === true;
+        this.countdown = Number(this.countdown);
         if (this.bsClose) {
             $(alert).on('close.bs.alert', function () {
                 if (_this.bsClose) {
@@ -507,13 +518,43 @@ var BootstrapAlert = (function () {
                 }
             });
         }
+        this.taskQueue.queueTask(function () { return _this.afterAttached(); });
+    };
+    BootstrapAlert.prototype.afterAttached = function () {
+        var _this = this;
+        if (this.countdown > 0) {
+            this.alert.addEventListener('mouseover', function () { _this.isHover = true; });
+            this.alert.addEventListener('mouseout', function () { _this.isHover = false; });
+            if (this.showAlert == true) {
+                this.local_countdown = Number(this.countdown);
+                this.countdown_timer = setInterval(function () { return _this.counter(); }, 1000);
+            }
+        }
+    };
+    BootstrapAlert.prototype.counter = function () {
+        if (this.isHover) {
+            return;
+        }
+        this.local_countdown--;
+        if (this.countdownChanged) {
+            this.countdownChanged({ current: this.local_countdown });
+        }
+        if (this.local_countdown === 0) {
+            clearInterval(this.countdown_timer);
+            this.showAlert = false;
+        }
     };
     BootstrapAlert.prototype.showAlertChanged = function (newValue) {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var continueShow, continueHide;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (newValue && this.countdown > 0) {
+                            this.local_countdown = Number(this.countdown);
+                            this.countdown_timer = setInterval(function () { return _this.counter(); }, 1000);
+                        }
                         if (!newValue) return [3, 3];
                         continueShow = true;
                         if (!this.bsShow) return [3, 2];
@@ -556,6 +597,7 @@ var BootstrapAlert = (function () {
                         else {
                             $(this.alert).hide();
                         }
+                        clearInterval(this.countdown_timer);
                         if (this.bsHidden) {
                             this.bsHidden({ target: this.alert });
                         }
@@ -566,6 +608,7 @@ var BootstrapAlert = (function () {
         });
     };
     BootstrapAlert.prototype.detached = function () {
+        clearInterval(this.countdown_timer);
         $(this.alert).alert('close');
         $(this.alert).alert('dispose');
     };
@@ -582,6 +625,10 @@ var BootstrapAlert = (function () {
         __metadata("design:type", Object)
     ], BootstrapAlert.prototype, "animate", void 0);
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], BootstrapAlert.prototype, "countdown", void 0);
+    __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", String)
     ], BootstrapAlert.prototype, "style", void 0);
@@ -591,12 +638,12 @@ var BootstrapAlert = (function () {
     ], BootstrapAlert.prototype, "class", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
-    ], BootstrapAlert.prototype, "showAlert", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Object)
     ], BootstrapAlert.prototype, "dismissible", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Boolean)
+    ], BootstrapAlert.prototype, "showAlert", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
@@ -621,12 +668,17 @@ var BootstrapAlert = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], BootstrapAlert.prototype, "bsClosed", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        __metadata("design:type", Object)
+    ], BootstrapAlert.prototype, "countdownChanged", void 0);
     BootstrapAlert = __decorate([
-        aurelia_dependency_injection_1.inject(Element),
+        aurelia_dependency_injection_1.inject(Element, aurelia_framework_1.TaskQueue),
         aurelia_framework_1.customElement('abt-alert'),
-        __metadata("design:paramtypes", [Object])
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof aurelia_framework_1.TaskQueue !== "undefined" && aurelia_framework_1.TaskQueue) === "function" && _a || Object])
     ], BootstrapAlert);
     return BootstrapAlert;
+    var _a;
 }());
 exports.BootstrapAlert = BootstrapAlert;
 //# sourceMappingURL=abt-alert.js.map
@@ -1995,7 +2047,7 @@ var CarouselCustomElement = (function () {
         this.indicator = false;
         this.interval = 5000;
         this.keyboard = true;
-        this.pause = true;
+        this.pause = false;
         this.ride = false;
         this.wrap = true;
         this.showNavigator = false;
@@ -2007,15 +2059,13 @@ var CarouselCustomElement = (function () {
         this.showNavigator = (this.navigator === '' && this.carouselTemplate.hasAttribute('navigator')) || this.navigator.toString() === 'true';
         this.showIndicator = (this.indicator === '' && this.carouselTemplate.hasAttribute('indicator')) || this.navigator.toString() === 'true';
         this.keyboard = (this.keyboard === '' && this.carouselTemplate.hasAttribute('keyboard')) || this.keyboard.toString() === 'true';
-        this.pause = (this.pause === '' && this.carouselTemplate.hasAttribute('pause')) || this.pause.toString() === 'true';
         this.ride = (this.ride === '' && this.carouselTemplate.hasAttribute('ride')) || this.ride.toString() === 'true';
         this.wrap = (this.wrap === '' && this.carouselTemplate.hasAttribute('wrap')) || this.wrap.toString() === 'true';
         $(this.carousel).carousel({
             interval: this.interval,
             keyboard: this.keyboard,
-            pause: this.pause,
-            ride: this.ride,
-            wrap: this.wrap
+            wrap: this.wrap,
+            pause: this.pause
         });
         if (this.bsSlide) {
             $(this.carousel).on('slide.bs.carousel', function () {
@@ -2301,7 +2351,6 @@ var BootstrapCollapse = (function () {
         $(this.collapse).off('shown.bs.collapse');
         $(this.collapse).off('hide.bs.collapse');
         $(this.collapse).off('hidden.bs.collapse');
-        $(this.collapse).collapse('dispose');
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
@@ -2917,6 +2966,7 @@ function configure(config) {
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/collapse/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/dropdown/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/inputgroup/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/milestone/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/modal/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/navbar/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/navs/index'))
@@ -3223,12 +3273,10 @@ var ListGroupItemCustomElement = (function () {
         }
         if (isDisabled) {
             this.listGroupItem.classList.add('disabled');
-        }
-        if ((this.href || this.click) && !this.listGroupItem.classList.contains('disabled')) {
-            $(this.listGroupItem).removeClass('abt-listgroup-item-disabled');
-        }
-        else {
             $(this.listGroupItem).addClass('abt-listgroup-item-disabled');
+        }
+        if ((this.href || this.click) && !isDisabled) {
+            this.listGroupItem.setAttribute('href', this.href);
         }
         if (this.type) {
             this.listGroupItem.classList.add("list-group-item-" + this.type);
@@ -3343,6 +3391,123 @@ __export(require("./abt-listgroup-item"));
 function configure(config) {
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-listgroup')]);
     config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./abt-listgroup-item')]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
+___scope___.file("components/bootstrap/milestone/at-milestone-container.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var AureliaToolbeltMilestoneContainer = (function () {
+    function AureliaToolbeltMilestoneContainer(element) {
+        this.element = element;
+        this.topBorder = false;
+        this.bottomBorder = false;
+        this.style = '';
+        this.class = '';
+    }
+    AureliaToolbeltMilestoneContainer.prototype.attached = function () {
+        var onlyTopBorderAttribute = (this.topBorder === '' && this.element.hasAttribute('top-border'));
+        this.topBorder = onlyTopBorderAttribute || this.topBorder === 'true' || this.topBorder === true;
+        var onlyBottomBorderAttribute = (this.bottomBorder === '' && this.element.hasAttribute('bottom-border'));
+        this.bottomBorder = onlyBottomBorderAttribute || this.bottomBorder === 'true' || this.bottomBorder === true;
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AureliaToolbeltMilestoneContainer.prototype, "topBorder", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AureliaToolbeltMilestoneContainer.prototype, "bottomBorder", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltMilestoneContainer.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltMilestoneContainer.prototype, "class", void 0);
+    AureliaToolbeltMilestoneContainer = __decorate([
+        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('at-milestone-container'),
+        __metadata("design:paramtypes", [Object])
+    ], AureliaToolbeltMilestoneContainer);
+    return AureliaToolbeltMilestoneContainer;
+}());
+exports.AureliaToolbeltMilestoneContainer = AureliaToolbeltMilestoneContainer;
+//# sourceMappingURL=at-milestone-container.js.map
+});
+___scope___.file("components/bootstrap/milestone/at-milestone.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var AureliaToolbeltMilestone = (function () {
+    function AureliaToolbeltMilestone() {
+        this.type = 'secondary';
+        this.icon = '';
+        this.style = '';
+        this.class = '';
+    }
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltMilestone.prototype, "type", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltMilestone.prototype, "icon", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltMilestone.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltMilestone.prototype, "class", void 0);
+    AureliaToolbeltMilestone = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customElement('at-milestone')
+    ], AureliaToolbeltMilestone);
+    return AureliaToolbeltMilestone;
+}());
+exports.AureliaToolbeltMilestone = AureliaToolbeltMilestone;
+//# sourceMappingURL=at-milestone.js.map
+});
+___scope___.file("components/bootstrap/milestone/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./at-milestone"));
+__export(require("./at-milestone-container"));
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./at-milestone-container'),
+        aurelia_framework_1.PLATFORM.moduleName('./at-milestone')
+    ]);
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -3699,7 +3864,6 @@ var $ = require("jquery");
 var AureliaToolbeltBootstrapModalRenderer = (function () {
     function AureliaToolbeltBootstrapModalRenderer() {
         this.dialogs = [];
-        console.log('Renderer created');
     }
     AureliaToolbeltBootstrapModalRenderer.prototype.getDialogContainer = function () {
         return document.createElement('template');
@@ -4581,8 +4745,9 @@ var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_templating_1 = require("aurelia-templating");
 var $ = require("jquery");
 var BootstrapNavs = (function () {
-    function BootstrapNavs(element) {
+    function BootstrapNavs(element, taskQueue) {
         this.element = element;
+        this.taskQueue = taskQueue;
         this.navsVerticalClass = 'col-sm-3';
         this.contentVerticalClass = 'col-sm-9';
         this.tabs = false;
@@ -4594,6 +4759,7 @@ var BootstrapNavs = (function () {
         this.bePills = false;
     }
     BootstrapNavs.prototype.attached = function () {
+        var _this = this;
         var onlyPillsAttribute = (this.pills === '' && this.element.hasAttribute('pills'));
         this.pills = onlyPillsAttribute || this.pills.toString() === 'true';
         var onlyTabsAttribute = (this.tabs === '' && this.element.hasAttribute('tabs'));
@@ -4610,8 +4776,9 @@ var BootstrapNavs = (function () {
             var error = new Error("The [abt-navs] should have either 'fill' or 'justify' attributes, and not both of them simultaneously.");
             throw error;
         }
-        var children = this.element.children.item(0).children.item(0).getElementsByTagName('a');
-        $(children).tab();
+        this.taskQueue.queueTask(function () { return _this.afterAttached(); });
+    };
+    BootstrapNavs.prototype.afterAttached = function () {
         this.handle_events();
     };
     BootstrapNavs.prototype.handle_events = function () {
@@ -4715,11 +4882,12 @@ var BootstrapNavs = (function () {
         __metadata("design:type", Object)
     ], BootstrapNavs.prototype, "fill", void 0);
     BootstrapNavs = __decorate([
-        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.inject(Element, aurelia_framework_1.TaskQueue),
         aurelia_templating_1.customElement('abt-navs'),
-        __metadata("design:paramtypes", [Object])
+        __metadata("design:paramtypes", [Object, typeof (_a = typeof aurelia_framework_1.TaskQueue !== "undefined" && aurelia_framework_1.TaskQueue) === "function" && _a || Object])
     ], BootstrapNavs);
     return BootstrapNavs;
+    var _a;
 }());
 exports.BootstrapNavs = BootstrapNavs;
 //# sourceMappingURL=abt-navs.js.map
@@ -5610,22 +5778,29 @@ var aurelia_framework_1 = require("aurelia-framework");
 var BootstrapProgressBar = (function () {
     function BootstrapProgressBar() {
         this.value = 0;
-        this.min = 0;
         this.max = 100;
         this.animated = false;
         this.striped = false;
         this.isAnimated = false;
         this.isStriped = false;
+        this.min = 0;
     }
     BootstrapProgressBar.prototype.attached = function () {
         var animated = (this.animated === '' && this.progressbarTemplate.hasAttribute('animated')) || this.animated.toString() === 'true';
         var striped = (this.striped === '' && this.progressbarTemplate.hasAttribute('striped')) || this.striped.toString() === 'true';
         this.value = Number(this.value);
-        this.min = Number(this.min);
         this.max = Number(this.max);
+        if (this.min >= this.max) {
+            Error("Min value (" + this.min + ") should be less than max value ( " + this.max + " )");
+            return;
+        }
         if (this.color && this.gradientColor) {
             this.gradientColorChanged(this.gradientColor);
         }
+    };
+    BootstrapProgressBar.prototype.valueChanged = function (newValue) {
+        newValue = Number(newValue);
+        this.progressBarValue = (newValue * 100) / Number(this.max);
     };
     BootstrapProgressBar.prototype.gradientColorChanged = function (newValue) {
         if (this.progressbar) {
@@ -5656,10 +5831,6 @@ var BootstrapProgressBar = (function () {
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", Object)
     ], BootstrapProgressBar.prototype, "value", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Object)
-    ], BootstrapProgressBar.prototype, "min", void 0);
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Object)
@@ -6093,10 +6264,24 @@ var BootstrapToggleCustomElement = (function () {
     BootstrapToggleCustomElement.prototype.disabledChanged = function (newValue) {
         if (newValue) {
             this.checkbox.setAttribute('disabled', 'disabled');
+            if (this.checkbox.parentElement.children[1]) {
+                this.checkbox.parentElement.classList.add('disabled');
+                this.checkbox.parentElement.classList.add('disabled-cursor');
+                this.checkbox.parentElement.children[1].children[0].classList.add('disabled-cursor');
+                this.checkbox.parentElement.children[1].children[1].classList.add('disabled-cursor');
+                this.checkbox.parentElement.children[1].children[2].classList.add('disabled-cursor');
+            }
         }
         else {
             if (this.checkbox.hasAttribute('disabled')) {
                 this.checkbox.removeAttribute('disabled');
+                if (this.checkbox.parentElement.children[1]) {
+                    this.checkbox.parentElement.classList.remove('disabled');
+                    this.checkbox.parentElement.classList.remove('disabled-cursor');
+                    this.checkbox.parentElement.children[1].children[0].classList.remove('disabled-cursor');
+                    this.checkbox.parentElement.children[1].children[1].classList.remove('disabled-cursor');
+                    this.checkbox.parentElement.children[1].children[2].classList.remove('disabled-cursor');
+                }
             }
         }
     };
@@ -6164,6 +6349,13 @@ var BootstrapToggleCustomElement = (function () {
             width: this.width,
             height: this.height
         });
+        if (this.disabled) {
+            this.checkbox.parentElement.classList.add('disabled');
+            this.checkbox.parentElement.classList.add('disabled-cursor');
+            this.checkbox.parentElement.children[1].children[0].classList.add('disabled-cursor');
+            this.checkbox.parentElement.children[1].children[1].classList.add('disabled-cursor');
+            this.checkbox.parentElement.children[1].children[2].classList.add('disabled-cursor');
+        }
     };
     BootstrapToggleCustomElement.prototype.bind = function () {
         this.disabled = (this.disabled === '' && this.element.hasAttribute('disabled')) || (this.disabled && this.disabled.toString() === 'true');
@@ -7904,11 +8096,11 @@ function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/clock/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/mark-down/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/nprogress/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/nanobar/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/pretty/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/microlink/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/scrollup/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/raw-html/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/qrcode/index'))
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/scrollup/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/divider/index'));
 }
 exports.configure = configure;
@@ -8012,7 +8204,7 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
-___scope___.file("components/vanilla/microlink/aut-microlink.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/nanobar/at-nanobar.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8024,130 +8216,130 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var microlink = require('aureliatoolbelt-thirdparty/microlink/microlink.js');
 var aurelia_framework_1 = require("aurelia-framework");
-var MicrolinkCustomElement = (function () {
-    function MicrolinkCustomElement() {
-        this.class = '';
-        this.round = true;
-        this.url = null;
-    }
-    MicrolinkCustomElement.prototype.afterAttached = function () {
-        microlink("#" + this.microlink.id, { round: this.round });
-    };
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], MicrolinkCustomElement.prototype, "class", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", Boolean)
-    ], MicrolinkCustomElement.prototype, "round", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
-        __metadata("design:type", String)
-    ], MicrolinkCustomElement.prototype, "url", void 0);
-    MicrolinkCustomElement = __decorate([
-        aurelia_framework_1.inject(Element),
-        aurelia_framework_1.customElement('aut-micro-link')
-    ], MicrolinkCustomElement);
-    return MicrolinkCustomElement;
-}());
-exports.MicrolinkCustomElement = MicrolinkCustomElement;
-//# sourceMappingURL=aut-microlink.js.map
-});
-___scope___.file("components/vanilla/microlink/index.js", function(exports, require, module, __filename, __dirname){
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-var aurelia_framework_1 = require("aurelia-framework");
-__export(require("./aut-microlink"));
-function configure(config) {
-    config.globalResources([
-        aurelia_framework_1.PLATFORM.moduleName('./aut-microlink')
-    ]);
-}
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
-});
-___scope___.file("components/vanilla/nprogress/aut-nprogress.js", function(exports, require, module, __filename, __dirname){
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var nprogress = require("nprogress");
-var aurelia_framework_1 = require("aurelia-framework");
-require("nprogress/nprogress.css");
-var NProgressLoadingIndicator = (function () {
-    function NProgressLoadingIndicator() {
+var uuid_1 = require("../../../utilities/vanilla/uuid");
+var Nanobar = require('nanobar');
+var AtNanobar = (function () {
+    function AtNanobar(idGenerator, element) {
+        this.element = element;
+        this.type = 'secondary';
+        this.central = false;
+        this.shadow = true;
+        this.class = 'at-nanobar';
+        this.trickle = true;
+        this.trickleSpeed = 200;
         this.loading = false;
-        this.showSpinner = false;
-        this.easing = 'ease';
-        this.speed = 500;
-        this.color = '#753B85';
-        this.size = 4;
+        this.percent = null;
+        this.increment = 0.5;
+        this.intervalHandlerId = null;
+        this.id = idGenerator.Uuidv4ForId();
     }
-    NProgressLoadingIndicator.prototype.attached = function () {
-        this.showSpinner = this.showSpinner === true || this.showSpinner === 'true';
-        nprogress.configure({ showSpinner: this.showSpinner, easing: this.easing, speed: this.speed });
-        aurelia_framework_1.DOM.injectStyles("#nprogress .bar {\n      background: " + this.color + " !important;\n      height: " + this.size + "px !important;\n    }\n    #nprogress .peg {\n      box-shadow: 0 0 10px " + this.color + ", 0 0 5px " + this.color + " !important;\n    }\n    #nprogress .spinner-icon {\n      border-top-color: " + this.color + " !important;\n      border-left-color: " + this.color + " !important;\n    }", null, null, 'aut-injected-nprogress');
+    AtNanobar.prototype.bind = function () {
+        var onlyCentralAttribute = (this.central === '' && this.element.hasAttribute('central'));
+        this.central = onlyCentralAttribute || this.central.toString() === 'true';
+        var onlyShadowAttribute = (this.shadow === '' && this.element.hasAttribute('shadow'));
+        this.shadow = onlyShadowAttribute || this.shadow.toString() === 'true';
+        var onlyTrickleAttribute = (this.trickle === '' && this.element.hasAttribute('trickle'));
+        this.trickle = onlyTrickleAttribute || this.trickle.toString() === 'true';
+        this.increment = Number(this.increment);
+        this.trickleSpeed = Number(this.trickleSpeed);
+        this.options = {
+            id: this.id,
+            classname: this.class,
+            target: this.parent
+        };
+        var style = "#" + this.id + ">.bar {\n        width: 0;\n        height: 100%;\n        transition: height .3s;\n        background: var(--" + this.type + ");\n        box-shadow: " + (this.shadow ? '0 0 10px ' + ("var(--" + this.type + ")") : '0 0 0') + ";\n        border-radius: 4px;\n        margin: 0 " + (this.central ? 'auto' : '0') + ";\n      }\n    ";
+        aurelia_framework_1.DOM.injectStyles(style);
+        this.nanobar = new Nanobar(this.options);
+        if (this.percent) {
+            this.percentChanged(this.percent);
+        }
     };
-    NProgressLoadingIndicator.prototype.loadingChanged = function (newValue) {
+    AtNanobar.prototype.showNanoBar = function () {
+        var _this = this;
+        var current = 0;
+        if (this.trickle) {
+            this.intervalHandlerId = setInterval(function () {
+                _this.nanobar.go(current);
+                current += _this.increment;
+                if (current >= (100)) {
+                    clearInterval(_this.intervalHandlerId);
+                }
+            }, this.trickleSpeed);
+        }
+    };
+    AtNanobar.prototype.percentChanged = function (newValue) {
+        this.nanobar.go(Number(newValue));
+    };
+    AtNanobar.prototype.loadingChanged = function (newValue) {
+        if (this.intervalHandlerId) {
+            clearInterval(this.intervalHandlerId);
+        }
         if (newValue) {
-            nprogress.start();
+            this.showNanoBar();
         }
         else {
-            nprogress.done();
+            this.nanobar.go(100);
         }
     };
     __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AtNanobar.prototype, "type", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AtNanobar.prototype, "parent", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AtNanobar.prototype, "central", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AtNanobar.prototype, "shadow", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AtNanobar.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Object)
+    ], AtNanobar.prototype, "trickle", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Number)
+    ], AtNanobar.prototype, "trickleSpeed", void 0);
+    __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Object)
-    ], NProgressLoadingIndicator.prototype, "loading", void 0);
+    ], AtNanobar.prototype, "loading", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
-        __metadata("design:type", Object)
-    ], NProgressLoadingIndicator.prototype, "showSpinner", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
-        __metadata("design:type", String)
-    ], NProgressLoadingIndicator.prototype, "easing", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Number)
-    ], NProgressLoadingIndicator.prototype, "speed", void 0);
+    ], AtNanobar.prototype, "percent", void 0);
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
-        __metadata("design:type", String)
-    ], NProgressLoadingIndicator.prototype, "color", void 0);
-    __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
         __metadata("design:type", Number)
-    ], NProgressLoadingIndicator.prototype, "size", void 0);
-    NProgressLoadingIndicator = __decorate([
+    ], AtNanobar.prototype, "increment", void 0);
+    AtNanobar = __decorate([
+        aurelia_framework_1.inject(uuid_1.Uuid, Element),
+        aurelia_framework_1.customElement('at-nanobar'),
         aurelia_framework_1.noView(),
-        aurelia_framework_1.customElement('aut-nprogress')
-    ], NProgressLoadingIndicator);
-    return NProgressLoadingIndicator;
+        __metadata("design:paramtypes", [typeof (_a = typeof uuid_1.Uuid !== "undefined" && uuid_1.Uuid) === "function" && _a || Object, Object])
+    ], AtNanobar);
+    return AtNanobar;
+    var _a;
 }());
-exports.NProgressLoadingIndicator = NProgressLoadingIndicator;
-//# sourceMappingURL=aut-nprogress.js.map
+exports.AtNanobar = AtNanobar;
+//# sourceMappingURL=at-nanobar.js.map
 });
-___scope___.file("components/vanilla/nprogress/index.js", function(exports, require, module, __filename, __dirname){
+___scope___.file("components/vanilla/nanobar/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
-    config.globalResources(aurelia_framework_1.PLATFORM.moduleName('./aut-nprogress'));
+    config.globalResources(aurelia_framework_1.PLATFORM.moduleName('./at-nanobar'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -8491,6 +8683,145 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
+___scope___.file("components/vanilla/qrcode/at-qrcode.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var qrcode_generator_ts_1 = require("qrcode-generator-ts");
+var AureliaToolbeltQrCode = (function () {
+    function AureliaToolbeltQrCode(element) {
+        this.element = element;
+        this.errorCorrectionLevel = qrcode_generator_ts_1.ErrorCorrectLevel.L;
+        this.typeNumber = 5;
+        this.size = 128;
+        this.darkColor = '#000000';
+        this.lightColor = '#ffffff';
+        this.canvas = document.createElement('canvas');
+    }
+    AureliaToolbeltQrCode_1 = AureliaToolbeltQrCode;
+    AureliaToolbeltQrCode.prototype.attached = function () {
+        this.element.appendChild(this.canvas);
+        this.size = Number(this.size);
+        this.typeNumber = Number(this.typeNumber);
+        if (!(1 <= this.typeNumber && this.typeNumber <= 40)) {
+            Error('TypeNumber should be between 1 and 40');
+        }
+        this.errorCorrectionLevel = Number(this.errorCorrectionLevel);
+    };
+    AureliaToolbeltQrCode.prototype.drawBarCodeOnCanvas = function (qr) {
+        var cellSize = Math.floor(this.size / qr.getModuleCount());
+        var margin = cellSize * 4;
+        var size = qr.getModuleCount() * cellSize + margin * 2;
+        this.canvas.width = size;
+        this.canvas.height = size;
+        var ctx = this.canvas.getContext('2d');
+        ctx.fillStyle = this.lightColor;
+        ctx.fillRect(0, 0, size, size);
+        ctx.fillStyle = this.darkColor;
+        for (var row = 0; row < qr.getModuleCount(); row += 1) {
+            for (var col = 0; col < qr.getModuleCount(); col += 1) {
+                if (qr.isDark(row, col)) {
+                    ctx.fillRect(col * cellSize + margin, row * cellSize + margin, cellSize, cellSize);
+                }
+            }
+        }
+    };
+    AureliaToolbeltQrCode.prototype.valueChanged = function (newValue) {
+        if (newValue) {
+            qrcode_generator_ts_1.QRCode.stringToBytes = AureliaToolbeltQrCode_1.stringToBytes_UTF8;
+            var qr = new qrcode_generator_ts_1.QRCode();
+            qr.setTypeNumber(this.typeNumber);
+            qr.setErrorCorrectLevel(this.errorCorrectionLevel);
+            qr.addData(new qrcode_generator_ts_1.QR8BitByte(newValue));
+            qr.make();
+            this.drawBarCodeOnCanvas(qr);
+        }
+    };
+    AureliaToolbeltQrCode.stringToBytes_UTF8 = function (s) {
+        function toUTF8Array(str) {
+            var utf8 = [];
+            for (var i = 0; i < str.length; i++) {
+                var charcode = str.charCodeAt(i);
+                if (charcode < 0x80) {
+                    utf8.push(charcode);
+                }
+                else if (charcode < 0x800) {
+                    utf8.push(0xc0 | (charcode >> 6), 0x80 | (charcode & 0x3f));
+                }
+                else if (charcode < 0xd800 || charcode >= 0xe000) {
+                    utf8.push(0xe0 | (charcode >> 12), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
+                }
+                else {
+                    i++;
+                    charcode = 0x10000 + (((charcode & 0x3ff) << 10)
+                        | (str.charCodeAt(i) & 0x3ff));
+                    utf8.push(0xf0 | (charcode >> 18), 0x80 | ((charcode >> 12) & 0x3f), 0x80 | ((charcode >> 6) & 0x3f), 0x80 | (charcode & 0x3f));
+                }
+            }
+            return utf8;
+        }
+        return toUTF8Array(s);
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltQrCode.prototype, "value", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Object)
+    ], AureliaToolbeltQrCode.prototype, "errorCorrectionLevel", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
+        __metadata("design:type", Number)
+    ], AureliaToolbeltQrCode.prototype, "typeNumber", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", Number)
+    ], AureliaToolbeltQrCode.prototype, "size", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltQrCode.prototype, "darkColor", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltQrCode.prototype, "lightColor", void 0);
+    AureliaToolbeltQrCode = AureliaToolbeltQrCode_1 = __decorate([
+        aurelia_framework_1.inject(Element),
+        aurelia_framework_1.customElement('at-qrcode'),
+        __metadata("design:paramtypes", [Object])
+    ], AureliaToolbeltQrCode);
+    return AureliaToolbeltQrCode;
+    var AureliaToolbeltQrCode_1, _a;
+}());
+exports.AureliaToolbeltQrCode = AureliaToolbeltQrCode;
+//# sourceMappingURL=at-qrcode.js.map
+});
+___scope___.file("components/vanilla/qrcode/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./at-qrcode"));
+function configure(config) {
+    config.globalResources([
+        aurelia_framework_1.PLATFORM.moduleName('./at-qrcode')
+    ]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
 ___scope___.file("components/vanilla/raw-html/aut-raw-html.js", function(exports, require, module, __filename, __dirname){
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -8600,7 +8931,9 @@ var ScrollUpCustomElement = (function () {
     ScrollUpCustomElement.prototype.attached = function () {
         var _this = this;
         this.threshold = Number(this.threshold);
-        window.onscroll = function () { return _this.checkScrollTop(); };
+        if ((window.onscroll === undefined || window.onscroll === null)) {
+            window.onscroll = function () { return _this.checkScrollTop(); };
+        }
     };
     __decorate([
         aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay }),
@@ -8676,11 +9009,235 @@ function configure(config) {
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
 });
+___scope___.file("custom-attributes/jquery/float-label/at-float-label.js", function(exports, require, module, __filename, __dirname){
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var jfl = require('aureliatoolbelt-thirdparty/jquery.float-label/jquery.float-label.js');
+var AureliaToolbeltFloatLabel = (function () {
+    function AureliaToolbeltFloatLabel(element) {
+        this.element = element;
+        this.class = '';
+        this.style = '';
+        this.direction = 'auto';
+        this.text = '';
+        this.right = '';
+        this.left = '';
+        this.paddingTop = '';
+        this.color = '';
+        this.fontSize = '';
+        aurelia_framework_1.DOM.injectStyles(".at-float-label{position:relative;padding-top:18px}.at-float-label-rtl{right:0}.at-float-label-ltr{left:0}.at-float-label>.float-label{position:absolute;top:3px;-webkit-transition:top .3s ease-in-out,opacity .3s ease-in-out;transition:top .3s ease-in-out,opacity .3s ease-in-out;opacity:0;font-size:13px}.at-float-label>.float-label.show{top:-3px;opacity:1}", null, null, 'float-label');
+    }
+    AureliaToolbeltFloatLabel.prototype.isTextBox = function (element) {
+        var tagName = element.tagName.toLowerCase();
+        if (tagName === 'textarea') {
+            return true;
+        }
+        if (tagName !== 'input') {
+            return false;
+        }
+        var type = element.getAttribute('type').toLowerCase(), inputTypes = [
+            'text',
+            'password',
+            'number',
+            'email',
+            'tel',
+            'url',
+            'search',
+            'date',
+            'datetime',
+            'datetime-local',
+            'time',
+            'month',
+            'week'
+        ];
+        return inputTypes.indexOf(type) >= 0;
+    };
+    AureliaToolbeltFloatLabel.prototype.insertAfter = function (newChild, refChild) {
+        refChild.parentNode.insertBefore(newChild, refChild.nextSibling);
+    };
+    AureliaToolbeltFloatLabel.prototype.isNullOrEmpty = function (text) {
+        if (text === undefined || text === null || text === '') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    AureliaToolbeltFloatLabel.prototype.isBootstrapColor = function (text) {
+        if (text === undefined || text === null || text === '') {
+            return false;
+        }
+        var btColors = [
+            'primary',
+            'secondary',
+            'success',
+            'danger',
+            'warning',
+            'info',
+            'light',
+            'dark',
+            'muted',
+            'white',
+            'black'
+        ];
+        var result = btColors.indexOf(text) > -1;
+        return result;
+    };
+    AureliaToolbeltFloatLabel.prototype.attached = function () {
+        var _this = this;
+        console.log(' ############  attache of at-float-label');
+        console.log(this.element);
+        console.log('############ attache of at-float-label');
+        if (!this.isTextBox(this.element)) {
+            Error('at-float-label works on `input` elements.');
+        }
+        var textContent = this.text === '' ? this.element.getAttribute('placeholder') : this.text;
+        if (this.isNullOrEmpty(textContent)) {
+            return;
+        }
+        this.element.classList.add('float-input');
+        var dir = getComputedStyle(this.element).direction;
+        var textAlign = this.element.style.textAlign;
+        this.label = document.createElement('LABEL');
+        this.label.textContent = textContent;
+        this.label.htmlFor = this.element.id;
+        this.label.classList.add('float-label');
+        if (this.color === '') {
+            this.label.classList.add('text-black');
+        }
+        else {
+            if (this.isBootstrapColor(this.color)) {
+                this.label.classList.add('text-' + this.color);
+            }
+            else {
+                this.label.style.color = this.color;
+            }
+        }
+        if (this.direction === 'auto') {
+            if (dir === 'rtl' || textAlign === 'right') {
+                this.label.classList.add('at-float-label-rtl');
+            }
+            else {
+                this.label.classList.add('at-float-label-ltr');
+            }
+        }
+        else {
+            this.label.classList.add(this.direction === 'ltr' ? 'at-float-label-ltr' : 'at-float-label-rtl');
+        }
+        var parent = this.element.parentElement;
+        if (parent instanceof HTMLDivElement) {
+            this.div = parent;
+            parent.classList.add('at-float-label');
+            this.insertAfter(this.label, this.element);
+        }
+        else {
+            this.div = document.createElement('DIV');
+            this.div.setAttribute('class', 'at-float-label');
+            this.div.appendChild(this.label);
+            this.insertAfter(this.div, this.element);
+            this.div.appendChild(this.element);
+        }
+        if (!this.isNullOrEmpty(this.class)) {
+            this.class.split(' ').forEach(function (x) { return _this.label.classList.add(x); });
+        }
+        if (!this.isNullOrEmpty(this.style)) {
+            this.label.setAttribute('style', this.style);
+        }
+        if (!this.isNullOrEmpty(this.paddingTop)) {
+            this.div.style.paddingTop = this.paddingTop;
+        }
+        if (!this.isNullOrEmpty(this.right)) {
+            if (this.label.classList.contains('at-float-label-rtl')) {
+                this.label.style.right = this.right;
+            }
+        }
+        if (!this.isNullOrEmpty(this.left)) {
+            if (this.label.classList.contains('at-float-label-ltr')) {
+                this.label.style.left = this.left;
+            }
+        }
+        if (!this.isNullOrEmpty(this.fontSize)) {
+            this.label.style.fontSize = this.fontSize;
+        }
+    };
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "class", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "style", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "direction", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneWay, primaryProperty: true }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "text", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "right", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "left", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "paddingTop", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "color", void 0);
+    __decorate([
+        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.oneTime }),
+        __metadata("design:type", String)
+    ], AureliaToolbeltFloatLabel.prototype, "fontSize", void 0);
+    AureliaToolbeltFloatLabel = __decorate([
+        aurelia_framework_1.containerless(),
+        aurelia_framework_1.customAttribute('at-float-label'),
+        aurelia_framework_1.inject(Element),
+        __metadata("design:paramtypes", [Object])
+    ], AureliaToolbeltFloatLabel);
+    return AureliaToolbeltFloatLabel;
+}());
+exports.AureliaToolbeltFloatLabel = AureliaToolbeltFloatLabel;
+//# sourceMappingURL=at-float-label.js.map
+});
+___scope___.file("custom-attributes/jquery/float-label/index.js", function(exports, require, module, __filename, __dirname){
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+__export(require("./at-float-label"));
+function configure(config) {
+    config.globalResources([aurelia_framework_1.PLATFORM.moduleName('./at-float-label')]);
+}
+exports.configure = configure;
+//# sourceMappingURL=index.js.map
+});
 ___scope___.file("custom-attributes/jquery/index.js", function(exports, require, module, __filename, __dirname){
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
-    console.log(config);
+    config
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/jquery/float-label/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -8933,7 +9490,6 @@ __export(require("./services/jquery/toastr/toastr-service"));
 __export(require("./services/misc/common-css-service"));
 function configure(config) {
     config
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/binding-behaviours/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/components/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/custom-attributes/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/services/index'))
@@ -9020,7 +9576,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("jquery");
 var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
-var inject_css_1 = require("../../../decorators/inject-css");
 var ToastrService = (function () {
     function ToastrService(tr) {
         this.tr = tr;
@@ -9064,7 +9619,6 @@ var ToastrService = (function () {
     };
     ToastrService = __decorate([
         aurelia_dependency_injection_1.singleton(),
-        inject_css_1.injectCss('aurelia-toolbelt/external-resources/css/toastr.css'),
         __metadata("design:paramtypes", [Object])
     ], ToastrService);
     return ToastrService;
@@ -9640,7 +10194,6 @@ function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/array/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/datetime/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/fusejs/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/mark-down/index'))
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/index'));
 }
@@ -9709,8 +10262,7 @@ var aurelia_framework_1 = require("aurelia-framework");
 function configure(config) {
     config
         .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/latin/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/persian/index'))
-        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/numeral/index'));
+        .feature(aurelia_framework_1.PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/persian/index'));
 }
 exports.configure = configure;
 //# sourceMappingURL=index.js.map
@@ -12020,6 +12572,10 @@ ___scope___.file("components/bootstrap/listgroup/abt-listgroup-item.css", functi
 
 module.exports = "a.abt-listgroup-item-disabled {\n    pointer-events: none !important;\n}"
 });
+___scope___.file("components/bootstrap/milestone/at-milestone-container.css", function(exports, require, module, __filename, __dirname){
+
+module.exports = ".milestones {\n  list-style-type: none;\n  padding-left: 14.5px;\n}\n.milestones.milestones-bordered-top {\n  border-top: 2px solid var(--gray);\n}\n.milestones.milestones-bordered-bottom {\n  border-bottom: 2px solid var(--gray);\n}\n.milestones > li {\n  border-left: 1px dotted var(--gray);\n  border-bottom: 1px dotted var(--gray);\n  padding-top: 15px;\n  padding-bottom: 15px;\n  padding-left: 25px;\n  min-height: 50px;\n}\n.milestones > li h1,\n.milestones > li h2,\n.milestones > li h3,\n.milestones > li h4,\n.milestones > li h5,\n.milestones > li h6 {\n  margin-top: 0px;\n  margin-bottom: 5px;\n}\n.milestones > li .list-group:last-child,\n.milestones > li .panel:last-child,\n.milestones > li .well:last-child,\n.milestones > li .table:last-child,\n.milestones > li .alert:last-child,\n.milestones > li .progress:last-child,\n.milestones > li pre:last-child {\n  margin-bottom: 5px;\n}\n.milestones > li:last-child {\n  border-bottom: none;\n}\n.milestones > li > .fa:first-child,\n.milestones > li .glyphicon:first-child {\n  margin-left: -39.5px;\n  margin-top: -5px;\n  float: left;\n  position: relative;\n  border-radius: 14.5px;\n  padding: 7.5px;\n  font-size: 12px;\n  min-width: 29px;\n  text-align: center;\n}\n.milestone-secondary {\n  background-color: var(--secondary);\n  color: var(--light);\n  border: 1px solid var(--light);\n}\n.milestone-primary {\n  background-color: var(--primary);\n  color: var(--white);\n  border: 1px solid var(--primary);\n}\n.milestone-success {\n  background-color: var(--success);\n  color: var(--white);\n  border: 1px solid var(--success);\n}\n.milestone-info {\n  background-color: var(--info);\n  color: var(--white);\n  border: 1px solid var(--info);\n}\n.milestone-warning {\n  background-color: var(--warning);\n  color: var(--white);\n  border: 1px solid var(--warning);\n}\n.milestone-danger,\n.milestone-error {\n  background-color: var(--danger);\n  color: var(--white);\n  border: 1px solid var(--danger);\n}\n"
+});
 ___scope___.file("components/bootstrap/navbar/abt-navbar-brand.css", function(exports, require, module, __filename, __dirname){
 
 module.exports = "a.abt-navbar-brand-heading {\n    pointer-events: none !important;\n}"
@@ -12046,7 +12602,7 @@ module.exports = ".abt-star-rate {\n    display: inline-block;\n    position: re
 });
 ___scope___.file("components/bootstrap/toggle/abt-toggle.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = "/*! ========================================================================\n * Bootstrap Toggle: bootstrap-toggle.css v2.2.0\n * http://www.bootstraptoggle.com\n * ========================================================================\n * Copyright 2014 Min Hur, The New York Times Company\n * Licensed under MIT\n * ======================================================================== */\n\n.checkbox label .toggle, .checkbox-inline .toggle {\n    margin-left: 0px;\n    margin-right: 3px;\n}\n\n.toggle {\n    position: relative;\n    overflow: hidden;\n}\n\n.toggle input[type=\"checkbox\"] {\n    display: none;\n}\n\n.toggle-group {\n    position: absolute;\n    width: 200%;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    transition: left 0.35s;\n    -webkit-transition: left 0.35s;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n}\n\n.toggle.off .toggle-group {\n    left: -100%;\n}\n\n.toggle-on {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    right: 50%;\n    margin: 0;\n    border: 0;\n    border-radius: 0;\n}\n\n.toggle-off {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 50%;\n    right: 0;\n    margin: 0;\n    border: 0;\n    border-radius: 0;\n}\n\n.toggle-handle {\n    position: relative;\n    margin: 0 auto;\n    padding-top: 0px;\n    padding-bottom: 0px;\n    height: 100%;\n    width: 0px;\n    border-width: 0 1px;\n}\n\n.toggle.btn {\n    min-width: 59px;\n    min-height: 34px;\n}\n\n.toggle-on.btn {\n    padding-right: 24px;\n}\n\n.toggle-off.btn {\n    padding-left: 24px;\n}\n\n.toggle.btn-lg {\n    min-width: 79px;\n    min-height: 45px;\n}\n\n.toggle-on.btn-lg {\n    padding-right: 31px;\n}\n\n.toggle-off.btn-lg {\n    padding-left: 31px;\n}\n\n.toggle-handle.btn-lg {\n    width: 40px;\n}\n\n.toggle.btn-sm {\n    min-width: 50px;\n    min-height: 30px;\n}\n\n.toggle-on.btn-sm {\n    padding-right: 20px;\n}\n\n.toggle-off.btn-sm {\n    padding-left: 20px;\n}\n\n.toggle.btn-xs {\n    min-width: 35px;\n    min-height: 22px;\n}\n\n.toggle-on.btn-xs {\n    padding-right: 12px;\n}\n\n.toggle-off.btn-xs {\n    padding-left: 12px;\n}\n\n/* Toolbelt Styles */\n\n.toggle-on, .toggle-off, .checkbox-inline, .checkbox label .toggle, .checkbox-inline .toggle {\n    cursor: pointer\n}\n\n/*  **************************************************  */"
+module.exports = "/*! ========================================================================\n * Bootstrap Toggle: bootstrap-toggle.css v2.2.0\n * http://www.bootstraptoggle.com\n * ========================================================================\n * Copyright 2014 Min Hur, The New York Times Company\n * Licensed under MIT\n * ======================================================================== */\n\n.checkbox label .toggle,\n.checkbox-inline .toggle {\n  margin-left: 0px;\n  margin-right: 3px;\n}\n\n.toggle {\n  position: relative;\n  overflow: hidden;\n}\n\n.toggle input[type=\"checkbox\"] {\n  display: none;\n}\n\n.toggle-group {\n  position: absolute;\n  width: 200%;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  transition: left 0.35s;\n  -webkit-transition: left 0.35s;\n  -moz-user-select: none;\n  -webkit-user-select: none;\n}\n\n.toggle.off .toggle-group {\n  left: -100%;\n}\n\n.toggle-on {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 50%;\n  margin: 0;\n  border: 0;\n  border-radius: 0;\n}\n\n.toggle-off {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 50%;\n  right: 0;\n  margin: 0;\n  border: 0;\n  border-radius: 0;\n}\n\n.toggle-handle {\n  position: relative;\n  margin: 0 auto;\n  padding-top: 0px;\n  padding-bottom: 0px;\n  height: 100%;\n  width: 0px;\n  border-width: 0 1px;\n}\n\n.toggle.btn {\n  min-width: 59px;\n  min-height: 34px;\n}\n\n.toggle-on.btn {\n  padding-right: 24px;\n}\n\n.toggle-off.btn {\n  padding-left: 24px;\n}\n\n.toggle.btn-lg {\n  min-width: 79px;\n  min-height: 45px;\n}\n\n.toggle-on.btn-lg {\n  padding-right: 31px;\n}\n\n.toggle-off.btn-lg {\n  padding-left: 31px;\n}\n\n.toggle-handle.btn-lg {\n  width: 40px;\n}\n\n.toggle.btn-sm {\n  min-width: 50px;\n  min-height: 30px;\n}\n\n.toggle-on.btn-sm {\n  padding-right: 20px;\n}\n\n.toggle-off.btn-sm {\n  padding-left: 20px;\n}\n\n.toggle.btn-xs {\n  min-width: 35px;\n  min-height: 22px;\n}\n\n.toggle-on.btn-xs {\n  padding-right: 12px;\n}\n\n.toggle-off.btn-xs {\n  padding-left: 12px;\n}\n\n/* Toolbelt Styles */\n\n.toggle-on,\n.toggle-off,\n.checkbox-inline,\n.checkbox label .toggle,\n.checkbox-inline .toggle {\n  cursor: pointer\n}\n\n.disabled-cursor {\n  cursor: not-allowed !important;\n}\n\n\n/*  **************************************************  */\n"
 });
 ___scope___.file("components/jquery/block-ui/aut-block-ui.css", function(exports, require, module, __filename, __dirname){
 
@@ -12062,7 +12618,7 @@ module.exports = "@-webkit-keyframes spinAround{\n    from{\n        -webkit-tra
 });
 ___scope___.file("components/vanilla/scrollup/aut-scrollup.css", function(exports, require, module, __filename, __dirname){
 
-module.exports = ".aut-scrollup {\n  display: none;\n  position: fixed;\n  bottom: 20px;\n  right: 30px;\n  width:50px;\n  height:50px;\n  z-index: 9999999;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  padding: 0px;\n  border-radius: 50%;\n}\n.aut-scrollup-noselect {\n  -webkit-touch-callout: none !important;\n  -webkit-user-select: none !important;\n  -khtml-user-select: none !important;\n  -moz-user-select: none !important;\n  -ms-user-select: none !important;\n  user-select: none !important;\n}\n.aut-scrollup-noselect:focus,\n.aut-scrollup-noselect:active {\n  outline: none !important;\n  box-shadow: none !important;\n}\n"
+module.exports = ".aut-scrollup {\n  display: none;\n  position: fixed;\n  bottom: 20px;\n  right: 30px;\n  width:50px;\n  height:50px;\n  z-index: 1011;\n  border: none;\n  outline: none;\n  cursor: pointer;\n  padding: 0px;\n  border-radius: 50%;\n}\n.aut-scrollup-noselect {\n  -webkit-touch-callout: none !important;\n  -webkit-user-select: none !important;\n  -khtml-user-select: none !important;\n  -moz-user-select: none !important;\n  -ms-user-select: none !important;\n  user-select: none !important;\n}\n.aut-scrollup-noselect:focus,\n.aut-scrollup-noselect:active {\n  outline: none !important;\n  box-shadow: none !important;\n}\n"
 });
 ___scope___.file("external-resources/css/toastr.css", function(exports, require, module, __filename, __dirname){
 
